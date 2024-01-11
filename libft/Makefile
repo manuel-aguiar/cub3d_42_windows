@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/01/11 14:41:01 by marvin            #+#    #+#              #
+#    Updated: 2024/01/11 15:46:04 by marvin           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 ## BUILD DETAILS
 
@@ -199,7 +210,7 @@ $(NAME): $(OBJS)
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@if not exist $(OBJ_PATH) \
 	( \
-		powershell -File mkdir.ps1 ; \
+		powershell -File mkdir.ps1 \
 	)
 	@$(COMP) $(FLAGS) -I$(INC_PATH) -c $< -o $@
 
@@ -207,7 +218,7 @@ clean:
 	@echo Removing object files.....
 	@if exist $(OBJ_PATH) \
 	( \
-		rmdir /s /q $(OBJ_PATH) ; \
+		rmdir /s /q $(OBJ_PATH) \
 	)
 	@echo Objects successfully deleted!
 
@@ -215,7 +226,7 @@ fclean: clean
 	@echo Deleting libft.a...
 	@if exist $(NAME) \
 	( \
-		del $(NAME); \
+		del $(NAME) \
 	)
 	@echo Done!!
 
