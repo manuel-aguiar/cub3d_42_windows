@@ -55,28 +55,28 @@ $(NAME): $(LIBFT) $(OBJS)
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@if not exist $(OBJ_PATH) \
 	( \
-		powershell -File mkdir.ps1 ; \
+		powershell -File mkdir.ps1 \
 	)
 	@$(COMP) $(FLAGS) $(ALL_INCS) -c $< -o $@
 
 clean:
 	@if exist $(OBJ_PATH) \
 	( \
-		rmdir /s /q $(OBJ_PATH) ; \
+		rmdir /s /q $(OBJ_PATH) \
 	)
 	@if exist $(LIB_PATH)/$(LIBFT) \
 	( \
-		@$(MAKE) clean -C $(LIB_PATH) ; \
+		$(MAKE) clean -C $(LIB_PATH) \
 	)
 
 fclean: clean
 	@if exist $(NAME) \
 	( \
-		del $(NAME); \
+		del $(NAME) \
 	)
 	@if exist $(LIB_PATH)/$(LIBFT) \
 	( \
-		@$(MAKE) fclean -C $(LIB_PATH) ; \
+		$(MAKE) fclean -C $(LIB_PATH) \
 	)
 
 $(LIBFT):
