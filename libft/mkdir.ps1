@@ -6,7 +6,7 @@
 $srcPath = "srcs"
 $objPath = "objs"
 
-# Get a list of subdirectories in srcPath
+# Check if srcPath has subdirectories
 $subdirectories = Get-ChildItem -Path $srcPath -Directory
 
 # Loop through each subdirectory and create the corresponding directory in objPath
@@ -17,5 +17,16 @@ foreach ($subdir in $subdirectories) {
         # Write-Host "Created directory: $objSubdir"
     } else {
         # Write-Host "Directory already exists: $objSubdir"
+    }
+}
+
+# If srcPath has no subdirectories, create a single directory in objPath
+if ($subdirectories.Count -eq 0) {
+    $objSingleDir = Join-Path $objPath (Get-Item $srcPath).BaseName
+    if (-not (Test-Path -Path $objSingleDir)) {
+        New-Item -ItemType Directory -Path $objSingleDir -Force > $null
+        # Write-Host "Created directory: $objSingleDir"
+    } else {
+        # Write-Host "Directory already exists: $objSingleDir"
     }
 }
