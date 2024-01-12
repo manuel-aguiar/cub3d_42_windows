@@ -27,18 +27,24 @@ LIB_INC_P	=		incs
 ## SOURCE LIBRARIES
 LIBFT		=		libft.a
 
+## SOURCE FOLDERS
+
+DIR_PARSING	=		parsing
+
 ## SOURCE FILES ##
 
 INC_FILES	=		cub3d.h
 
 SRC_MAIN	=		main.c
 
+SRC_PARSING	=		parsing.c
+
 #SRC_FILES	=		
 
 INCS		:=		$(addprefix $(INC_PATH)/, $(INC_FILES))
 
-SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))
-##$(addprefix $(SRC_PATH)/, $(SRC_FILES))
+SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))	\
+					$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING))
 							
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
 
