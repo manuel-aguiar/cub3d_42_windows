@@ -40,6 +40,8 @@ int			vdmlist_in_head(t_vdmlist *list, void *data);
 int			vdmlist_in_tail(t_vdmlist *list, void *data);
 int			vdmlist_find(t_vdmlist *list, void *data, \
 int (*cmp)(void *, void *));
+void		vdmlist_del_node(t_vdmlist *list, t_vdmnode *delete, \
+void (*del)(void *));
 void		vdmlist_remove_if(t_vdmlist *list, void *data, \
 int (*cmp)(void *, void *), void (*del)(void *));
 void		vdmlist_del_head(t_vdmlist *list, void (*del)(void *));
