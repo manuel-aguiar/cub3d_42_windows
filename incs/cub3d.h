@@ -23,16 +23,9 @@
 
 # include "libft.h"
 
-typedef struct s_game
-{
-	char	*NO_data;
-	char	*SO_data;
-	char	*WE_data;
-	char	*EA_data;
-	char	*F_data;
-	char	*C_data;
-	
-}   t_game;
+# define TOTAL_TEXTURES 6
+
+# define VALID_MAP_CHARS "01NSWE "
 
 typedef struct s_parsing
 {
@@ -41,8 +34,11 @@ typedef struct s_parsing
 	int			file_len;
 	int			fd;
 	t_gnl_len	*gnl;
+	char		*tex_data[TOTAL_TEXTURES];
+	char		*map;
 	t_uint		map_width;
-	t_uint		map_height;	
+	t_uint		map_height;
+	bool		found_player;
 }	t_parsing;
 
 

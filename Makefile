@@ -30,6 +30,7 @@ LIBFT		=		libft.a
 ## SOURCE FOLDERS
 
 DIR_PARSING	=		parsing
+DIR_GENERIC_UTILS = generic_utils
 
 ## SOURCE FILES ##
 
@@ -39,12 +40,15 @@ SRC_MAIN	=		main.c
 
 SRC_PARSING	=		parsing.c
 
-#SRC_FILES	=		
+SRC_GENERIC_UTILS = ft_split_count_replenish.c
+
+## AGGREGATING FILES ##
 
 INCS		:=		$(addprefix $(INC_PATH)/, $(INC_FILES))
 
 SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))	\
-					$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING))
+					$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING)) \
+					$(addprefix $(SRC_PATH)/$(DIR_GENERIC_UTILS)/, $(SRC_GENERIC_UTILS))
 							
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
 
