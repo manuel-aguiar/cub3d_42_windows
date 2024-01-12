@@ -24,7 +24,6 @@ void	print_map(t_parsing *parsing)
 		if (i % parsing->map_width == 0)
 			printf("\n");
 		printf("%c", parsing->map[i]);
-
 		i++;
 	}
 }
@@ -276,3 +275,14 @@ int main(int ac, char **av)
 	}
 	return (0);
 }
+
+/*
+
+minimap
+	use xiaoulin-wu line algorithm to do antialiasing
+	use liang-barsky to filter points inside and outside of the mini-map area
+
+
+
+
+*/
