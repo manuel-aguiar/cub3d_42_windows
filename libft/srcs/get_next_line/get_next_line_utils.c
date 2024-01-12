@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:30:27 by mmaria-d          #+#    #+#             */
-/*   Updated: 2023/09/16 13:02:21 by mmaria-d         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:40:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	increase_line(char **new, char **old, int *old_size, int inc_size)
+int	increase_line(char **new, char **old, int *old_size, int inc_size)
 {
 	*new = malloc(sizeof(*new) * (*old_size + inc_size + 1));
 	if (!*new)
@@ -25,7 +25,7 @@ static int	increase_line(char **new, char **old, int *old_size, int inc_size)
 	return (1);
 }
 
-static int	gnl_strncat(char *buf, char **line, int *old_size, int inc_size)
+int	gnl_strncat(char *buf, char **line, int *old_size, int inc_size)
 {
 	char	*new_line;
 
@@ -43,7 +43,7 @@ static int	gnl_strncat(char *buf, char **line, int *old_size, int inc_size)
 	return (1);
 }
 
-static void	buffer_clean(char *buf, int pivot)
+void	buffer_clean(char *buf, int pivot)
 {
 	int	i;
 
