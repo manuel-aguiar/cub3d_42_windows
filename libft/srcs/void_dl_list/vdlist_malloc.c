@@ -79,3 +79,21 @@ int	vdmlist_in_tail(t_vdmlist *list, void *data)
 	++(list->len);
 	return (1);
 }
+
+void	vdmlist_del_node(t_vdmlist *list, t_vdmnode *delete, void (*del)(void *))
+{
+	if (!list || !(list->head) || !delete)
+		return ;
+	if (delete->prev)
+		delete->prev->next = delete->next;
+	else
+		list->head = delete->next;
+	if (delete->next)
+		delete->next->prev = delete->prev;
+	else
+		list->tail = delete->prev;
+	if (delete->data)
+		del(delete->data);
+	free(delete);
+	--(list->len);
+}
