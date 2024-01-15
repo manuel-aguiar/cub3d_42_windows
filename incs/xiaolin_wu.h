@@ -14,6 +14,13 @@
 
 # define XIAOLIN_WU_H
 
+# include "libft.h"
+# include "render_windows.h"
+
+typedef struct s_win_glfw t_win_glfw;
+
+
+
 typedef struct s_xldata
 {
 	unsigned short	err_adj;
@@ -26,5 +33,16 @@ typedef struct s_xldata
 	int				colour;
 }	t_xldata;
 
+typedef struct s_pixel
+{
+	int	x;
+	int	y;
+	int	z;
+	int	colour;
+}	t_pixel;
+
+void	swap_pixels(t_pixel *start, t_pixel *end);
+
+int	xiaolinwu_line(t_win_glfw *win, t_pixel start, t_pixel end);
 
 #endif

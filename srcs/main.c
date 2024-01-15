@@ -249,7 +249,7 @@ void	print_tex_data(t_parsing *parsing)
 		printf("%s\n", parsing->tex_data[i++]);
 }
 
-int main(int ac, char **av)
+int main2(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
@@ -273,6 +273,18 @@ int main(int ac, char **av)
 		printf("map dimensions: %dx%d\n", parsing.map_height, parsing.map_width);
 		print_map(&parsing);
 	}
+	return (0);
+}
+
+int main(void)
+{
+	t_win_glfw *win;
+
+	win = win_init_window();
+
+	win_render(win, &win_key_press);
+
+	win_free_glfw(win);
 	return (0);
 }
 

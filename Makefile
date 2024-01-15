@@ -29,27 +29,55 @@ LIBFT		=		libft.a
 
 ## SOURCE FOLDERS
 
-DIR_PARSING	=		parsing
-DIR_GENERIC_UTILS = generic_utils
+DIR_PARSING		=		parsing
+DIR_GENERIC_UTILS 	= 	generic_utils
+DIR_REN_WIN			=	render_windows
+DIR_REN_LIN			=	render_linux
+DIR_COMPASS			=	compass
+DIR_DRAWING_ALGOS	= 	drawing_algos
 
 ## SOURCE FILES ##
 
-INC_FILES	=		cub3d.h
+INC_FILES	=		cub3d.h				\
+					render_windows.h	\
+					xiaolin_wu.h		\
+					liang_barsky.h		\
+					compass.h
 
-SRC_MAIN	=		main.c
+SRC_MAIN			=	main.c
 
-SRC_PARSING	=		parsing.c
+SRC_PARSING			=	parsing.c
 
-SRC_GENERIC_UTILS = ft_split_count_replenish.c
+SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c
+
+SRC_REN_WIN			=	win_init_window.c		\
+						win_keys.c				\
+						win_pixels.c			\
+						win_render_loop.c		\
+						win_circle.c
+
+SRC_COMPASS			=	letter_north.c				\
+						letter_south.c				\
+						letter_east.c				\
+						letter_west.c
+
+SRC_DRAWING_ALGOS	=	circle_line_clipping.c		\
+						liang_barsky_clipping.c		\
+						liang_barsky_utils.c		\
+						xiaolinwu_antialiasing.c	\
+						xiaolinwu_utils.c		
 
 ## AGGREGATING FILES ##
 
 INCS		:=		$(addprefix $(INC_PATH)/, $(INC_FILES))
 
-SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))	\
-					$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING)) \
-					$(addprefix $(SRC_PATH)/$(DIR_GENERIC_UTILS)/, $(SRC_GENERIC_UTILS))
-							
+SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
+					$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING)) 				\
+					$(addprefix $(SRC_PATH)/$(DIR_GENERIC_UTILS)/, $(SRC_GENERIC_UTILS))	\
+					$(addprefix $(SRC_PATH)/$(DIR_REN_WIN)/, $(SRC_REN_WIN))				\
+					$(addprefix $(SRC_PATH)/$(DIR_COMPASS)/, $(SRC_COMPASS))				\
+					$(addprefix $(SRC_PATH)/$(DIR_DRAWING_ALGOS)/, $(SRC_DRAWING_ALGOS))
+
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
 
 ALL_INCS	= 		-I$(INC_PATH) -I$(GLFW_INC) -I$(GLEW_INC) -I$(LIB_PATH)/$(LIB_INC_P)

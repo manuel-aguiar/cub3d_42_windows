@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-#include "fdf.h"
 
-int	xiaolin_x_major(t_fdf *fdf, t_pixel *start, t_pixel *end, t_xldata *data)
+#include "xiaolin_wu.h"
+
+int	xiaolin_x_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data)
 {
 	data->err_adj = ((t_ulong)data->dy << 16) / (t_ulong)data->dx;
 	data->save = data->dx;
@@ -26,17 +26,17 @@ int	xiaolin_x_major(t_fdf *fdf, t_pixel *start, t_pixel *end, t_xldata *data)
 		start->x += data->slope;
 		data->colour = avg_colour(start->colour, end->colour, \
 					data->dx, data->save);
-		set_pixel(fdf, start->x, start->y, avg_colour(get_pixel(fdf, start->x, \
+		win->set_pixel(win, start->x, start->y, avg_colour(win->get_pixel(win, start->x, \
 					start->y), data->colour, data->err_acc, USHRT_MAX));
-		set_pixel(fdf, start->x, start->y + 1, avg_colour(get_pixel(fdf, \
+		win->set_pixel(win, start->x, start->y + 1, avg_colour(win->get_pixel(win, \
 					start->x, start->y + 1), data->colour, USHRT_MAX \
 					- data->err_acc, USHRT_MAX));
 	}
-	set_pixel(fdf, end->x, end->y, end->colour);
+	win->set_pixel(win, end->x, end->y, end->colour);
 	return (1);
 }
 
-int	xiaolin_y_major(t_fdf *fdf, t_pixel *start, t_pixel *end, t_xldata *data)
+int	xiaolin_y_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data)
 {
 	data->err_adj = ((t_ulong)data->dx << 16) / (t_ulong)data->dy;
 	data->save = data->dy;
@@ -49,14 +49,12 @@ int	xiaolin_y_major(t_fdf *fdf, t_pixel *start, t_pixel *end, t_xldata *data)
 		start->y++;
 		data->colour = avg_colour(start->colour, end->colour, \
 					data->dy, data->save);
-		set_pixel(fdf, start->x, start->y, avg_colour(get_pixel(fdf, start->x, \
+		win->set_pixel(win, start->x, start->y, avg_colour(win->get_pixel(win, start->x, \
 					start->y), data->colour, data->err_acc, USHRT_MAX));
-		set_pixel(fdf, start->x + data->slope, start->y, avg_colour \
-					(get_pixel(fdf, start->x + data->slope, start->y), \
+		win->set_pixel(win, start->x + data->slope, start->y, avg_colour \
+					(win->get_pixel(win, start->x + data->slope, start->y), \
 					data->colour, USHRT_MAX - data->err_acc, USHRT_MAX));
 	}
-	set_pixel(fdf, end->x, end->y, end->colour);
+	win->set_pixel(win, end->x, end->y, end->colour);
 	return (1);
 }
-
-*/

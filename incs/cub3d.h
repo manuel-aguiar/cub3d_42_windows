@@ -14,14 +14,12 @@
 
 # define CUB3D_H
 
-# define GLFW_DLL
-# include <GL/glew.h>
-# include <GLFW/glfw3.h>
-
 # include <unistd.h>
 # include <fcntl.h>
 
 # include "libft.h"
+# include "render_windows.h"
+
 
 # define TOTAL_TEXTURES 6
 
