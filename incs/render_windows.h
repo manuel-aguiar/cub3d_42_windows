@@ -29,7 +29,7 @@
 //RGBA - alpha channel, set to 255 for full opaque
 # define RGB_SIZE 4 
 
-# define RGBA(r, g, b, a) (((r) << 24) | ((g) << 16) | ((b) << 8) | (a))
+# define RGBA(r, g, b, a) (((a) << 24) | ((r) << 16) | ((g) << 8) | (b))
 
 typedef struct s_win_glfw t_win_glfw;
 typedef struct s_pixel t_pixel;
@@ -101,6 +101,7 @@ int		win_get_pixel(t_win_glfw *win, int x, int y);
 int		avg_colour(int start, int end, int num, int den);
 void	swap_pixels(t_pixel *start, t_pixel *end);
 
+void chatgpt_anticircle(t_win_glfw *win, t_pixel center, int radius, int color);
 
 
 #endif

@@ -20,7 +20,7 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 
 
 	t_square sqr;
-	new_init_square(&sqr, centre, 200, RGBA(0, 0, 100, 255), 45);
+	new_init_square(&sqr, centre, 200, RGBA(255, 165, 0,255), 45);
 
 	glfwSetKeyCallback(win->window, win_key_press);
 	glViewport(0, 0, (*win).win_width, (*win).win_height);
@@ -44,8 +44,8 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 
 		render_square(win, &sqr);
 		
-		t_pixel hey = {200, 200, 1000, RGBA(255, 0, 0, 255)};
-		win_full_circle(win, hey, 100, RGBA(255, 0, 0, 40));
+		t_pixel hey = {200, 200, 1000, RGBA(255, 0, 255, 0)};
+		chatgpt_anticircle(win, hey, 100, RGBA(255, 0, 255, 0));
 		//win_full_circle(win, hey, 50, RGBA(0, 255, 0, 127));
 		
 		//render_square(win, &sqr);

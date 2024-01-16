@@ -151,17 +151,19 @@ void    translate_square(t_square *sqr, int dx, int dy)
 }
 
 //xiaolin wu, há que alterar algoritmo para ter em conta inside e outside
+//antialiasing nao ta bom, paciencia
 
 void	render_square(t_win_glfw *win, t_square *sqr)
 {
 	int i;
 
-	i = 0;
-	while (i < sqr->real_z)
+	i = 1;
+	while (i < sqr->real_z - 1)
 	{
-		draw_horizontal_line(win, sqr->min_max[i], sqr->min_max[i + sqr->real_z], i + sqr->min_y, sqr->color);
+		draw_horizontal_line(win, sqr->min_max[i] + 1, sqr->min_max[i + sqr->real_z] - 1, i + sqr->min_y, sqr->color);
 		i++;
 	}
+
 	xiaolinwu_line(win, sqr->edge1, sqr->edge2);
 	xiaolinwu_line(win, sqr->edge2, sqr->edge3);
 	xiaolinwu_line(win, sqr->edge3, sqr->edge4);

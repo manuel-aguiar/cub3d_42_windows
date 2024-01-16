@@ -37,14 +37,14 @@ int	avg_colour(int start, int end, int num, int den)
 
 	if (den == 0)
 		return (start);
-	r = ((start >> 24) & 0xff) * num / den \
-		+ ((end >> 24) & 0xff) * (den - num) / den;
-	g = ((start >> 16) & 0xff) * num / den \
+	r = ((start >> 16) & 0xff) * num / den \
 		+ ((end >> 16) & 0xff) * (den - num) / den;
-	b = ((start >> 8) & 0xff) * num / den \
+	g = ((start >> 8) & 0xff) * num / den \
 		+ ((end >> 8) & 0xff) * (den - num) / den;
-	a = (start & 0xff) * num / den \
-		+ (end & 0xff) * (den - num) / den;
+	b = ((start) & 0xff) * num / den \
+		+ ((end) & 0xff) * (den - num) / den;
+	//a = (start & 0xff);
+	a = ((start >> 24) & 0xff);
 	return (RGBA(r, g, b, a));
 }
 

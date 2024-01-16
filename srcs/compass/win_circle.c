@@ -104,3 +104,96 @@ void	win_drawcircle_wo_antialiasing(t_win_glfw *win, t_pixel center, int radius,
 		count++;
 	}
 }
+
+void	win_drawcircle_wo_antialiasing_clean(t_win_glfw *win, t_pixel center, int radius, int color)
+{
+    int x;
+    int y;
+    int decision;
+
+	x = radius;
+	y = 0;
+	decision = 1 - radius;
+
+	while (y <= x)
+	{
+		win->set_pixel(win, x + center.x, y + center.y, color);
+		win->set_pixel(win, -x + center.x, y + center.y, color);
+		win->set_pixel(win, x + center.x, -y + center.y, color);
+		win->set_pixel(win, -x + center.x, -y + center.y, color);
+		win->set_pixel(win, y + center.x, x + center.y, color);
+		win->set_pixel(win, -y + center.x, x + center.y, color);
+		win->set_pixel(win, y + center.x, -x + center.y, color);
+		win->set_pixel(win, -y + center.x, -x + center.y, color);
+		y++;
+		if (decision <= 0)
+			decision += 2 * y + 1;
+		else
+		{
+			x--;
+			decision += 2 * (y - x) + 1;
+		}
+	}
+}
+
+//chatgpt xiaolin_wu circle
+
+//(t_win_glfw *win, t_pixel center, int radius, int color)
+
+void setPixel4(t_win_glfw *win, int centerX, int centerY, int deltaX, int deltaY, int color)
+{
+    win->set_pixel(win, centerX + deltaX, centerY + deltaY, color);
+    win->set_pixel(win, centerX - deltaX, centerY + deltaY, color);
+    win->set_pixel(win, centerX + deltaX, centerY - deltaY, color);
+    win->set_pixel(win, centerX - deltaX, centerY - deltaY, color);
+}
+
+void	flood_fill(t_win_glfw *win, int x, int y, int color)
+{
+	if (win->get_pixel(win, x, y) != 0)
+		return ;
+	win->set_pixel(win, x, y, color);
+	flood_fill(win, x + 1, y, color);
+	flood_fill(win, x, y + 1, color);
+	flood_fill(win, x - 1, y, color);
+	flood_fill(win, x, y - 1, color);
+}
+
+void chatgpt_anticircle(t_win_glfw *win, t_pixel centre, int radius, int color)
+{
+	//win_full_circle(win, centre, radius, color);
+
+	int centerX = centre.x;
+	int centerY = centre.y;
+    int radius2 = radius * radius;
+    static const int maxTransparency = 127;
+
+    // Upper and lower halves
+    int quarterX = round(radius2 / sqrt(radius2 + radius2));
+    for (int x = 0; x <= quarterX; x++) {
+        float y = radius * sqrt(1 - x * x / (float)radius2);
+        float error = y - floor(y);
+        int transparency = round(error * maxTransparency);
+
+		int alpha = avg_colour(0, color, transparency, maxTransparency);
+		int alpha2 = avg_colour(0, color, (maxTransparency - transparency), maxTransparency);
+
+        setPixel4(win, centerX, centerY, x, floor(y), alpha);
+        setPixel4(win, centerX, centerY, x, floor(y) + 1, alpha2);
+    }
+
+    // Right and left halves
+    int quarterY = round(radius2 / sqrt(radius2 + radius2));
+    for (int y = 0; y <= quarterY; y++) {
+        float x = radius * sqrt(1 - y * y / (float)radius2);
+        float error = x - floor(x);
+        int transparency = round(error * maxTransparency);
+
+		int alpha = avg_colour(0, color, transparency, maxTransparency);
+		int alpha2 = avg_colour(0, color, (maxTransparency - transparency), maxTransparency);
+
+        setPixel4(win, centerX, centerY, floor(x), y, alpha);
+        setPixel4(win, centerX, centerY, floor(x) + 1, y, alpha2);
+    }
+	flood_fill(win, centre.x, centre.y + radius - 1, color);
+}
