@@ -53,13 +53,15 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c
 SRC_REN_WIN			=	win_init_window.c		\
 						win_keys.c				\
 						win_pixels.c			\
-						win_render_loop.c		\
-						win_circle.c
+						win_render_loop.c
+
 
 SRC_COMPASS			=	letter_north.c				\
 						letter_south.c				\
 						letter_east.c				\
-						letter_west.c
+						letter_west.c				\
+						win_circle.c				\
+						win_square.c
 
 SRC_DRAWING_ALGOS	=	circle_line_clipping.c		\
 						liang_barsky_clipping.c		\

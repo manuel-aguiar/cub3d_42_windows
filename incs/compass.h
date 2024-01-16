@@ -16,6 +16,10 @@
 
 # include "render_windows.h"
 
+# include "math.h"
+
+# define MY_PI 3.14159
+
 //easier and more symetrical if letter height/width is an odd number
 # define LETTER_HEIGHT 9
 # define LETTER_WIDTH 5
@@ -41,6 +45,29 @@ typedef struct s_compass
 	t_west		west;
 }	t_compass;
 */
+
+typedef struct s_square
+{
+	t_pixel centre;
+	t_pixel	og_edge1;
+	t_pixel og_edge2;
+	t_pixel og_edge3;
+	t_pixel og_edge4;	
+	t_pixel	edge1;
+	t_pixel edge2;
+	t_pixel edge3;
+	t_pixel edge4;
+	int		width;
+	int		color;
+	float	radians;
+	float	cos_rad;
+	float	sen_rad;
+	int		min_y;
+	int		max_y;
+	int		biggest_z;
+	int		real_z;
+	int		*min_max;
+}	t_square;
 
 
 struct	s_circle
@@ -139,5 +166,19 @@ void	rotate_west_letter(t_west *west, int rotate);
 void	render_west_letter(t_win_glfw *win, t_west *west);
 
 
+//win_circle.c
+void	win_drawcircle_wo_antialiasing(t_win_glfw *win, t_pixel  center, int radius, int color, int width);
+void	win_full_circle(t_win_glfw *win, t_pixel center, int radius, int color);
+
+
+//win_square.c
+void	init_square(t_square *sqr, t_pixel edge1, t_pixel edge2, t_pixel edge3, t_pixel edge4);
+void    translate_square(t_square *sqr, int dx, int dy);
+void	render_square(t_win_glfw *win, t_square *sqr);
+
+void	rotate_square(t_square *sqr, float change);
+void	new_init_square(t_square *sqr, t_pixel centre, int width, int color, int degrees);
+
+void	draw_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, int color);
 
 #endif

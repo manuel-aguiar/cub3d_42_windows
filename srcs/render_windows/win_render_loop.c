@@ -13,11 +13,54 @@
 
 # include "compass.h"
 
-//GL_RGBA - rgb alpha, it is equivalent to mlx 4-byte format
 
 int		win_render(t_win_glfw *win, void (*win_key_press)())
 {
-	//t_win_point hey = {500, 500};
+	t_pixel centre = {500, 500, 0, RGBA(255, 0, 0, 255)};
+
+
+	t_square sqr;
+	new_init_square(&sqr, centre, 200, RGBA(0, 0, 100, 255), 45);
+
+	glfwSetKeyCallback(win->window, win_key_press);
+	glViewport(0, 0, (*win).win_width, (*win).win_height);
+    while (!glfwWindowShouldClose(win->window))
+	{
+		glRasterPos2f(-1, -1);
+		ft_memset(win->front_buf, 0, WIN_WIDTH * WIN_HEIGHT * RGB_SIZE * sizeof(*(win->front_buf)));
+
+		if (glfwGetKey(win->window, GLFW_KEY_S))
+        	translate_square(&sqr, 0, -1);
+		if (glfwGetKey(win->window, GLFW_KEY_W))
+        	translate_square(&sqr, 0, 1);
+		if (glfwGetKey(win->window, GLFW_KEY_A))
+        	translate_square(&sqr, -1, 0);
+		if (glfwGetKey(win->window, GLFW_KEY_D))
+        	translate_square(&sqr, 1, 0);
+		if (glfwGetKey(win->window, GLFW_KEY_Q))
+        	rotate_square(&sqr, -0.0045f);
+		if (glfwGetKey(win->window, GLFW_KEY_E))
+        	rotate_square(&sqr, 0.0045f);
+
+		render_square(win, &sqr);
+		
+		t_pixel hey = {200, 200, 1000, RGBA(255, 0, 0, 255)};
+		win_full_circle(win, hey, 100, RGBA(255, 0, 0, 40));
+		//win_full_circle(win, hey, 50, RGBA(0, 255, 0, 127));
+		
+		//render_square(win, &sqr);
+
+		glClear(GL_COLOR_BUFFER_BIT);
+        glDrawPixels(win->win_width, win->win_height, GL_RGBA, GL_UNSIGNED_BYTE, win->front_buf);
+
+		glfwSwapBuffers(win->window);
+        glfwPollEvents();
+    }
+	return (1);
+}
+
+/*
+letters
 	t_pixel center = {1000, 500, 1000, RGBA(255, 0, 0, 255)};
 	t_east east;
 	init_east_letter(&east, center, 67, 33, RGBA(255, 0, 0, 255));
@@ -35,41 +78,27 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 	t_south south;
 	init_south_letter(&south, scent, 67, 33, RGBA(255, 0, 0, 255)); 
 
-	//hey = ;
-	glfwSetKeyCallback(win->window, win_key_press);
-	glViewport(0, 0, (*win).win_width, (*win).win_height);
-    while (!glfwWindowShouldClose(win->window))
-	{
-		glRasterPos2f(-1, -1);
-		ft_memset(win->front_buf, 0, WIN_WIDTH * WIN_HEIGHT * RGB_SIZE * sizeof(*(win->front_buf)));
-		
-		//win_set_pixel(win, 1000, 1000, RGBA(0, 255, 0, 255));
-		//win_set_pixel(win, 900, 900, RGBA(255, 0, 0, 255));
-		//win_drawcircle_wo_antialiasing(win, hey, 300, RGBA(255, 0, 0, 255), 10);
-
 		render_east_letter(win, &east);
 		render_west_letter(win, &west);
 		render_north_letter(win, &north);
 		render_south_letter(win, &south);
-		//points_to_window(win);
+
+*/
+
+/*
+circle
+
+t_pixel hey = {200, 200, 1000, RGBA(255, 0, 0, 255)};
+win_drawcircle_wo_antialiasing(win, hey, 300, RGBA(255, 0, 0, 255), 10);
+
+*/
+
+//GL_RGBA - rgb alpha, it is equivalent to mlx 4-byte format
 
 		/*
-		t_pixel start1 = {255, 943, 426, 300};
-		t_pixel end1 = {255 << 16, 823, 341, 300};
-		bersenham_line(win, start1, end1);
 
-		printf("(x,y,z) =(%.3f,%.3f,%.3f) = (%.3f,%.3f,%.3f)\n", win->view.x_angle, win->view.y_angle, win->view.z_angle,
-		win->view.x_angle * 180 / MY_PI, win->view.y_angle * 180 / MY_PI, win->view.z_angle * 180 / MY_PI);
+		KEYS
 
-		printf("zoom %d\n", win->view.zoom);*/
-
-		glClear(GL_COLOR_BUFFER_BIT);
-        glDrawPixels(win->win_width, win->win_height, GL_RGBA, GL_UNSIGNED_BYTE, win->front_buf);
-
-		glfwSwapBuffers(win->window);
-        glfwPollEvents();
-
-		/*
 		if (glfwGetKey(win->window, GLFW_KEY_UP))
         	adjust_offset(win, &win->view.y_offset, 1 + (int)(win->mcols / 100));
 		if (glfwGetKey(win->window, GLFW_KEY_DOWN))
@@ -107,6 +136,3 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 		if (glfwGetKey(win->window, GLFW_KEY_L))
         	change_height(win, -0.01f);
 		*/
-    }
-	return (1);
-}

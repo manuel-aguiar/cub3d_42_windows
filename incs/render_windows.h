@@ -84,11 +84,6 @@ enum e_keys_bits
 	BIT_HELP,
 };
 
-typedef struct s_win_point
-{
-	int	x;
-	int	y;
-}	t_win_point;
 
 //win_init_window.c
 t_win_glfw	*win_init_window(void);
@@ -106,7 +101,6 @@ int		win_get_pixel(t_win_glfw *win, int x, int y);
 int		avg_colour(int start, int end, int num, int den);
 void	swap_pixels(t_pixel *start, t_pixel *end);
 
-//win_circle.cs
-void	win_drawcircle_wo_antialiasing(t_win_glfw *win, t_win_point center, int radius, int color, int width);
+
 
 #endif
