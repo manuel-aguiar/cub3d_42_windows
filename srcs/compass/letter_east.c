@@ -12,45 +12,35 @@
 
 # include "compass.h"
 
-void	init_template_east(t_compass *comp, t_east *temp_east)
+void	init_template_east(t_compass *comp)
 {
-	temp_east->centre = (t_pixel){0, 0, comp->letter_color};
-	temp_east->height = comp->letter_height;
-	temp_east->width = comp->letter_width;
-	temp_east->color = comp->letter_color;
-	temp_east->x_off = 0;
-	temp_east->y_off = comp->letter_radius;
-	temp_east->bot_left = (t_pixel){-(comp->letter_width / 2 + 1), -(comp->letter_height / 2 + 1), comp->letter_color};
-	temp_east->bot_right = (t_pixel){(comp->letter_width / 2 + 1), -(comp->letter_height / 2 + 1), comp->letter_color};
-	temp_east->top_left = (t_pixel){-(comp->letter_width / 2 + 1), (comp->letter_height / 2 + 1), comp->letter_color};
-	temp_east->top_right = (t_pixel){(comp->letter_width / 2 + 1), (comp->letter_height / 2 + 1), comp->letter_color};
-	temp_east->mid_left = (t_pixel){-(comp->letter_width / 2 + 1), 0, comp->letter_color};
-	temp_east->mid_right = (t_pixel){(comp->letter_width / 2 + 1), 0, comp->letter_color};
+	comp->east[E_BOT_LEFT] = (t_pixel){-(comp->letter_width / 2 + 1), -(comp->letter_height / 2 + 1), comp->letter_color};
+	comp->east[E_BOT_RIGHT] = (t_pixel){(comp->letter_width / 2 + 1), -(comp->letter_height / 2 + 1), comp->letter_color};
+	comp->east[E_TOP_LEFT] = (t_pixel){-(comp->letter_width / 2 + 1), (comp->letter_height / 2 + 1), comp->letter_color};
+	comp->east[E_TOP_RIGHT] = (t_pixel){(comp->letter_width / 2 + 1), (comp->letter_height / 2 + 1), comp->letter_color};
+	comp->east[E_MID_LEFT] = (t_pixel){-(comp->letter_width / 2 + 1), 0, comp->letter_color};
+	comp->east[E_MID_RIGHT] = (t_pixel){(comp->letter_width / 2 + 1), 0, comp->letter_color};
 }
 
 void	render_east_letter(t_win_glfw *win, t_compass *comp)
 {
-	t_east	east;
+	t_pixel	east[E_SIZE];
+	int		i;
 	int		dx;
 	int		dy;
 
-	east = comp->template_east;
-	dx = comp->centre.x + east.x_off;
-	dy = comp->centre.y + east.y_off;
-	translate_point(&east.bot_left, dx, dy);
-	translate_point(&east.bot_right, dx, dy);
-	translate_point(&east.top_left, dx, dy);
-	translate_point(&east.top_right, dx, dy);
-	translate_point(&east.mid_left, dx, dy);
-	translate_point(&east.mid_right, dx, dy);
-	rotate_point(&east.bot_left, comp->centre, -comp->sin_rad, comp->cos_rad);
-	rotate_point(&east.bot_right, comp->centre, -comp->sin_rad, comp->cos_rad);
-	rotate_point(&east.top_left, comp->centre, -comp->sin_rad, comp->cos_rad);
-	rotate_point(&east.top_right, comp->centre, -comp->sin_rad, comp->cos_rad);
-	rotate_point(&east.mid_left, comp->centre, -comp->sin_rad, comp->cos_rad);
-	rotate_point(&east.mid_right, comp->centre, -comp->sin_rad, comp->cos_rad);
-	xiaolinwu_line(win, east.bot_left, east.top_left);
-	xiaolinwu_line(win, east.top_left, east.top_right);
-	xiaolinwu_line(win, east.bot_left, east.bot_right);
-	xiaolinwu_line(win, east.mid_left, east.mid_right);
+	ft_memcpy(east, comp->east, sizeof(*east) * E_SIZE);
+	dx = comp->centre.x;
+	dy = comp->centre.y + comp->letter_radius;
+	i = 0;
+	while (i < E_SIZE)
+	{
+		translate_point(&east[i], dx, dy);
+		rotate_point(&east[i], comp->centre, -comp->sin_rad, comp->cos_rad);
+		i++;
+	}
+	xiaolinwu_line(win, east[E_BOT_LEFT], east[E_TOP_LEFT]);
+	xiaolinwu_line(win, east[E_TOP_LEFT], east[E_TOP_RIGHT]);
+	xiaolinwu_line(win, east[E_BOT_LEFT], east[E_BOT_RIGHT]);
+	xiaolinwu_line(win, east[E_MID_LEFT], east[E_MID_RIGHT]);
 }

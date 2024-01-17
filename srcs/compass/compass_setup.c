@@ -23,10 +23,10 @@ void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int ra
 	comp->radians = radians;
 	comp->cos_rad = cosf(radians);
 	comp->sin_rad = sinf(radians);
-	init_template_north(comp, &comp->template_north);
-	init_template_south(comp, &comp->template_south);
-	init_template_east(comp, &comp->template_east);
-	init_template_west(comp, &comp->template_west);
+	init_template_north(comp);
+	init_template_south(comp);
+	init_template_east(comp);
+	init_template_west(comp);
 }
 
 void	rotate_compass(t_compass *comp, float diff_rad)

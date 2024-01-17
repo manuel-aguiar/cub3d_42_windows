@@ -121,81 +121,45 @@ struct	s_circle
 	t_pixel	end;
 };
 
-struct s_north
+enum e_east
 {
-	t_pixel	centre;
-	int		height;
-	int		width;
-	int		color;
-	int		x_off;
-	int 	y_off;
-	t_pixel	bot_left;
-	t_pixel	bot_right;
-	t_pixel	top_left;
-	t_pixel	top_right;
+	E_BOT_LEFT,
+	E_BOT_RIGHT,
+	E_TOP_LEFT,
+	E_TOP_RIGHT,
+	E_MID_LEFT,
+	E_MID_RIGHT,
+	E_SIZE,
 };
 
-struct s_better_south
+enum e_north
 {
-	t_pixel		centre;
-	int			height;
-	int			width;
-	int			color;
-	int			x_off;
-	int 		y_off;
-	t_circle	top;
-	t_circle	bottom;
-	t_pixel		bot_left;
-	t_pixel		bot_right;
-	t_pixel		top_left;
-	t_pixel		top_right;
+	N_BOT_LEFT,
+	N_BOT_RIGHT,
+	N_TOP_LEFT,
+	N_TOP_RIGHT,
+	N_SIZE,
 };
 
-struct s_south
+enum e_south
 {
-	t_pixel	centre;
-	int		height;
-	int		width;
-	int		color;
-	int		x_off;
-	int 	y_off;
-	t_pixel	bot_left;
-	t_pixel	bot_right;
-	t_pixel	top_left;
-	t_pixel	top_right;
-	t_pixel	mid_left;
-	t_pixel	mid_right;
+	S_BOT_LEFT,
+	S_BOT_RIGHT,
+	S_TOP_LEFT,
+	S_TOP_RIGHT,
+	S_MID_LEFT,
+	S_MID_RIGHT,
+	S_SIZE,
 };
 
-struct s_east
+enum e_west
 {
-	t_pixel	centre;
-	int		height;
-	int		width;
-	int		color;
-	int		x_off;
-	int 	y_off;
-	t_pixel	bot_left;
-	t_pixel	bot_right;
-	t_pixel	top_left;
-	t_pixel	top_right;
-	t_pixel	mid_left;
-	t_pixel	mid_right;
-};
-
-struct s_west
-{
-	t_pixel	centre;
-	int		height;
-	int		width;
-	int		color;
-	int		x_off;
-	int 	y_off;
-	t_pixel	top_left;
-	t_pixel	mid_bot_left;
-	t_pixel	mid_top;
-	t_pixel	mid_bot_right;
-	t_pixel	top_right;
+	W_TOP_LEFT,
+	W_MB_LEFT,
+	W_TOP_MID,
+	W_MB_RIGHT,
+	W_TOP_RIGHT,
+	W_SIZE,
 };
 
 typedef struct s_compass
@@ -212,26 +176,26 @@ typedef struct s_compass
 	int			letter_radius;
 	int			letter_color;
 	t_square	template_square;
-	t_north		template_north;
-	t_south		template_south;
-	t_east		template_east;
-	t_west		template_west;
+	t_pixel		north[N_SIZE];
+	t_pixel		south[S_SIZE];
+	t_pixel		east[E_SIZE];
+	t_pixel		west[W_SIZE];
 }	t_compass;
 
 //letter_north.c
-void	init_template_north(t_compass *comp, t_north *temp_north);
+void	init_template_north(t_compass *comp);
 void	render_north_letter(t_win_glfw *win, t_compass *comp);
 
 //letter_south.c
-void	init_template_south(t_compass *comp, t_south *temp_south);
+void	init_template_south(t_compass *comp);
 void	render_south_letter(t_win_glfw *win, t_compass *comp);
 
 //letter_east.c
-void	init_template_east(t_compass *comp, t_east *temp_east);
+void	init_template_east(t_compass *comp);
 void	render_east_letter(t_win_glfw *win, t_compass *comp);
 
 //letter_west.c
-void	init_template_west(t_compass *comp, t_west *temp_west);
+void	init_template_west(t_compass *comp);
 void	render_west_letter(t_win_glfw *win, t_compass *comp);
 
 
@@ -252,6 +216,7 @@ void	draw_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, int colo
 
 //translate_rotate.c
 void	translate_point(t_pixel	*point, int dx, int dy);
+void	backward_rotate_point(t_pixel *point, t_pixel centre, float cos, float sin);
 void	rotate_point(t_pixel *point, t_pixel centre, float cos, float sin);
 
 void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int radians);
