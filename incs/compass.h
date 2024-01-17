@@ -162,6 +162,17 @@ enum e_west
 	W_SIZE,
 };
 
+enum e_csouth
+{
+	CS_BOT_LEFT,
+	CS_BOT_MID,
+	CS_MMB,
+	CS_MMT,
+	CS_TOP_MID,
+	CS_TOP_RIGHT,
+	CS_SIZE,
+};
+
 typedef struct s_compass
 {
 	t_pixel		centre;
@@ -178,6 +189,7 @@ typedef struct s_compass
 	t_square	template_square;
 	t_pixel		north[N_SIZE];
 	t_pixel		south[S_SIZE];
+	t_pixel		south_circle[S_SIZE];
 	t_pixel		east[E_SIZE];
 	t_pixel		west[W_SIZE];
 }	t_compass;
@@ -198,6 +210,9 @@ void	render_east_letter(t_win_glfw *win, t_compass *comp);
 void	init_template_west(t_compass *comp);
 void	render_west_letter(t_win_glfw *win, t_compass *comp);
 
+//letter_south_circle.c
+void	init_template_south_circle(t_compass *comp);
+void	render_south_letter_circle(t_win_glfw *win, t_compass *comp);
 
 //win_circle.c
 void	win_drawcircle_wo_antialiasing(t_win_glfw *win, t_pixel  centre, int radius, int color, int width);

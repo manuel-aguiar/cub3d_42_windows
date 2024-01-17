@@ -27,6 +27,8 @@ void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int ra
 	init_template_south(comp);
 	init_template_east(comp);
 	init_template_west(comp);
+
+	//init_template_south_circle(comp);
 }
 
 void	rotate_compass(t_compass *comp, float diff_rad)
@@ -50,4 +52,8 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	render_south_letter(win, comp);
 	render_east_letter(win, comp);
 	render_west_letter(win, comp);
+
+
+
+	//render_south_letter_circle(win, comp);
 }

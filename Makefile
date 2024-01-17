@@ -60,6 +60,7 @@ SRC_COMPASS			=	compass_setup.c				\
 						translate_rotate.c			\
 						letter_north.c				\
 						letter_south.c				\
+						letter_south_circle.c		\
 						letter_east.c				\
 						letter_west.c				\
 						win_circle.c				\
