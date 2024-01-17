@@ -37,7 +37,6 @@ typedef struct s_pixel
 {
 	int	x;
 	int	y;
-	int	z;
 	int	colour;
 }	t_pixel;
 

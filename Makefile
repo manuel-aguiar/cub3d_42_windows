@@ -3,7 +3,7 @@
 
 NAME 		=		cub3d
 
-COMP 		= 		gcc -g -O3
+COMP 		= 		gcc -g
 
 FLAGS 		= 		-Wall -Werror -Wextra
 ADD_LIB 	= 		-L./$(LIB_PATH) -lft
@@ -56,7 +56,9 @@ SRC_REN_WIN			=	win_init_window.c		\
 						win_render_loop.c
 
 
-SRC_COMPASS			=	letter_north.c				\
+SRC_COMPASS			=	compass_setup.c				\
+						translate_rotate.c			\
+						letter_north.c				\
 						letter_south.c				\
 						letter_east.c				\
 						letter_west.c				\
@@ -88,7 +90,7 @@ LIBS		=		$(ADD_LIB) $(LIB_PATH)/$(LIBFT) $(GLFW_LIB) $(GLEW_LIB)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(COMP) $(FLAGS) $(OBJS) $(ALL_INCS) -o $(NAME) $(LIBS)
+	$(COMP) $(FLAGS) $(OBJS) $(ALL_INCS) -o $(NAME) $(LIBS)
 	@echo Program $(NAME) ready!!
 
 
@@ -97,7 +99,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	( \
 		powershell -File mkdir.ps1 \
 	)
-	@$(COMP) $(FLAGS) $(ALL_INCS) -c $< -o $@
+	$(COMP) $(FLAGS) $(ALL_INCS) -c $< -o $@
 
 clean:
 	@if exist $(OBJ_PATH) \

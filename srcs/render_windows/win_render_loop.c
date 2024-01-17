@@ -16,11 +16,14 @@
 
 int		win_render(t_win_glfw *win, void (*win_key_press)())
 {
-	t_pixel centre = {500, 500, 0, RGBA(255, 0, 0, 255)};
-
-
+	t_pixel centre = {500, 500, RGBA(255, 0, 0, 255)};
 	t_square sqr;
-	new_init_square(&sqr, centre, 200, RGBA(255, 165, 0,255), 45);
+	new_init_square(&sqr, centre, 200, RGBA(255, 165, 0,255), 0);
+
+	t_pixel c_comp = {300, 300, RGBA(255, 0, 0, 255)};
+	t_compass comp;
+	compass_template_setup(&comp, c_comp, 200, 0);
+
 
 	glfwSetKeyCallback(win->window, win_key_press);
 	glViewport(0, 0, (*win).win_width, (*win).win_height);
@@ -38,17 +41,20 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 		if (glfwGetKey(win->window, GLFW_KEY_D))
         	translate_square(&sqr, 1, 0);
 		if (glfwGetKey(win->window, GLFW_KEY_Q))
-        	rotate_square(&sqr, -0.0045f);
+		{
+			rotate_square(&sqr, sqr.centre, -0.0045f);
+			rotate_compass(&comp, -0.0045f);
+		}
+        	
 		if (glfwGetKey(win->window, GLFW_KEY_E))
-        	rotate_square(&sqr, 0.0045f);
+		{
+			rotate_square(&sqr, sqr.centre, 0.0045f);
+			rotate_compass(&comp, 0.0045f);
+		}	
+        	
 
 		render_square(win, &sqr);
-		
-		t_pixel hey = {200, 200, 1000, RGBA(255, 0, 255, 0)};
-		chatgpt_anticircle(win, hey, 100, RGBA(255, 0, 255, 0));
-		//win_full_circle(win, hey, 50, RGBA(0, 255, 0, 127));
-		
-		//render_square(win, &sqr);
+		render_compass(win, &comp);
 
 		glClear(GL_COLOR_BUFFER_BIT);
         glDrawPixels(win->win_width, win->win_height, GL_RGBA, GL_UNSIGNED_BYTE, win->front_buf);
@@ -61,9 +67,9 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 
 /*
 letters
-	t_pixel center = {1000, 500, 1000, RGBA(255, 0, 0, 255)};
+	t_pixel centre = {1000, 500, 1000, RGBA(255, 0, 0, 255)};
 	t_east east;
-	init_east_letter(&east, center, 67, 33, RGBA(255, 0, 0, 255));
+	init_east_letter(&east, centre, 67, 33, RGBA(255, 0, 0, 255));
 
 	t_pixel wcent = {1000, 600, 1000, RGBA(255, 0, 0, 255)}; 
 

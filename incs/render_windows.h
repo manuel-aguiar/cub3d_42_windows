@@ -101,7 +101,7 @@ int		win_get_pixel(t_win_glfw *win, int x, int y);
 int		avg_colour(int start, int end, int num, int den);
 void	swap_pixels(t_pixel *start, t_pixel *end);
 
-void chatgpt_anticircle(t_win_glfw *win, t_pixel center, int radius, int color);
+void chatgpt_anticircle(t_win_glfw *win, t_pixel centre, int radius, int color);
 
 
 #endif

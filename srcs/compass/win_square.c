@@ -214,25 +214,26 @@ void	calculate_min_max(t_square *sqr)
 }
 
 
-void	rotate_square(t_square *sqr, float change)
+void	rotate_square(t_square *sqr, t_pixel centre, float change)
 {
 	t_pixel	og;
 
 	sqr->radians += change;
 	sqr->cos_rad = cosf(sqr->radians);
 	sqr->sen_rad = sinf(sqr->radians);
+	//rotate_point(&sqr->edge1, centre, sqr->cos_rad, sqr->sen_rad);
 	og = sqr->og_edge1;
-    sqr->edge1.x = sqr->cos_rad * (og.x - sqr->centre.x) - sqr->sen_rad * (og.y - sqr->centre.y) + sqr->centre.x;
-    sqr->edge1.y = sqr->sen_rad * (og.x - sqr->centre.x) + sqr->cos_rad * (og.y - sqr->centre.y) + sqr->centre.y;
+    sqr->edge1.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
+    sqr->edge1.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
 	og = sqr->og_edge2;
-    sqr->edge2.x = sqr->cos_rad * (og.x - sqr->centre.x) - sqr->sen_rad * (og.y - sqr->centre.y) + sqr->centre.x;
-    sqr->edge2.y = sqr->sen_rad * (og.x - sqr->centre.x) + sqr->cos_rad * (og.y - sqr->centre.y) + sqr->centre.y;
+    sqr->edge2.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
+    sqr->edge2.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
 	og = sqr->og_edge3;
-    sqr->edge3.x = sqr->cos_rad * (og.x - sqr->centre.x) - sqr->sen_rad * (og.y - sqr->centre.y) + sqr->centre.x;
-    sqr->edge3.y = sqr->sen_rad * (og.x - sqr->centre.x) + sqr->cos_rad * (og.y - sqr->centre.y) + sqr->centre.y;
+    sqr->edge3.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
+    sqr->edge3.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
 	og = sqr->og_edge4;
-    sqr->edge4.x = sqr->cos_rad * (og.x - sqr->centre.x) - sqr->sen_rad * (og.y - sqr->centre.y) + sqr->centre.x;
-    sqr->edge4.y = sqr->sen_rad * (og.x - sqr->centre.x) + sqr->cos_rad * (og.y - sqr->centre.y) + sqr->centre.y;
+    sqr->edge4.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
+    sqr->edge4.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
 	calculate_min_max(sqr);
 }
 
@@ -242,10 +243,10 @@ void	new_init_square(t_square *sqr, t_pixel centre, int width, int color, int de
 	sqr->width = width;
 	sqr->color = color;
 	sqr->radians = MY_PI / 180.0 * degrees;
-	sqr->og_edge1 = (t_pixel){centre.x - width / 2, centre.y - width / 2, 0, color};
-	sqr->og_edge2 = (t_pixel){centre.x - width / 2, centre.y + width / 2, 0, color};
-	sqr->og_edge3 = (t_pixel){centre.x + width / 2, centre.y + width / 2, 0, color};
-	sqr->og_edge4 = (t_pixel){centre.x + width / 2, centre.y - width / 2, 0, color};
+	sqr->og_edge1 = (t_pixel){centre.x - width / 2, centre.y - width / 2, color};
+	sqr->og_edge2 = (t_pixel){centre.x - width / 2, centre.y + width / 2, color};
+	sqr->og_edge3 = (t_pixel){centre.x + width / 2, centre.y + width / 2, color};
+	sqr->og_edge4 = (t_pixel){centre.x + width / 2, centre.y - width / 2, color};
 	sqr->edge1 = sqr->og_edge1;
 	sqr->edge2 = sqr->og_edge2;
 	sqr->edge3 = sqr->og_edge3;
@@ -255,5 +256,5 @@ void	new_init_square(t_square *sqr, t_pixel centre, int width, int color, int de
 	if (!sqr->min_max)
 		return ;
 	printf("crash?\n");
-	rotate_square(sqr, 0);
+	rotate_square(sqr, sqr->centre, 0);
 }
