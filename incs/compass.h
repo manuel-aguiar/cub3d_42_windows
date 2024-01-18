@@ -123,14 +123,6 @@ typedef struct s_square
 }	t_square;
 
 
-struct	s_circle
-{
-	t_pixel	centre;
-	int		radius;
-	t_pixel start;
-	t_pixel	end;
-};
-
 enum e_east
 {
 	E_BOT_LEFT,
@@ -183,15 +175,33 @@ enum e_csouth
 	CS_SIZE,
 };
 
+struct s_circle
+{
+	t_pixel centre;
+	int	radius;
+	int color;
+	int	max_x;
+	int min_x;
+	int	min_y;
+	int max_y;
+	int *min_max;
+};
+
 typedef struct s_compass
 {
 	t_pixel		centre;
-	//t_circle	inner;
+	t_circle	inner;
 	//t_circle	outer;
 	int			radius;
 	float		radians;
 	float		cos_rad;
 	float		sin_rad;
+	int			inner_c_rad;
+	int			*c_min_max;
+	int			max_x;
+	int			min_x;
+	int			max_y;
+	int			min_y;
 	int			letter_height;
 	int			letter_width;
 	int			letter_radius;
@@ -248,5 +258,10 @@ void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int ra
 void	rotate_compass(t_compass *comp, float diff_rad);
 void	translate_compass(t_compass *comp, int dx, int dy);
 void	render_compass(t_win_glfw *win, t_compass *comp);
+
+
+
+int 	init_inner_circle(t_compass *comp);
+void	render_inner_circle(t_win_glfw *win, t_compass *comp);
 
 #endif

@@ -16,6 +16,8 @@ void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int ra
 {
 	comp->centre = centre;
 	comp->radius = radius;
+	comp->inner.radius = (int)(radius * 0.7f);
+	comp->inner.color = RGBA(255, 255, 255, 255);
 	comp->letter_height = (int)(radius * 0.1f);
 	comp->letter_width = (int)(radius * 0.05f);
 	comp->letter_color = RGBA(255, 255, 255, 255);
@@ -25,13 +27,16 @@ void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int ra
 	comp->sin_rad = sinf(radians);
 	comp->sqr_color = RGBA(255, 165, 0,255);
 	comp->sqr_width = (int)(radius * 0.5f);
-	comp->map_centre = (t_pixel){1000,800, 0};
+	comp->map_centre = centre;			//random;
 	init_template_north(comp);
 	init_template_south(comp);
 	init_template_east(comp);
 	init_template_west(comp);
 
 	init_template_square(comp);
+
+	init_inner_circle(comp);
+
 	//init_template_south_circle(comp);
 }
 
@@ -52,6 +57,10 @@ void	translate_compass(t_compass *comp, int dx, int dy)
 
 void	render_compass(t_win_glfw *win, t_compass *comp)
 {
+	t_pixel first = {-50, 50, RGBA(255, 165, 0, 255)};
+	render_new_square(win, comp, first);
+
+
 	chatgpt_anticircle(win, comp->centre, comp->radius, RGBA(255, 0, 255, 0));
 	render_north_letter(win, comp);
 	render_south_letter(win, comp);
@@ -62,8 +71,12 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	t_pixel end = {720, 800, RGBA(255, 165, 0,255)};
 	xiaolinwu_line(win, start, end);
 
-	t_pixel first = {-50, 50, RGBA(255, 165, 0, 255)};
+	
 	t_pixel second = {50, -50, RGBA(255, 165, 0, 255)};
-	render_new_square(win, comp, first);
+	
 	render_new_square(win, comp, second);
+
+	render_inner_circle(win, comp);
+
+
 }

@@ -64,7 +64,8 @@ SRC_COMPASS			=	compass_setup.c				\
 						letter_east.c				\
 						letter_west.c				\
 						win_circle.c				\
-						win_square.c
+						win_square.c				\
+						inner_circle.c
 
 SRC_DRAWING_ALGOS	=	circle_line_clipping.c		\
 						liang_barsky_clipping.c		\
