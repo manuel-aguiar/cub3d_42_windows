@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 14:41:01 by marvin            #+#    #+#              #
-#    Updated: 2024/01/11 15:46:04 by marvin           ###   ########.fr        #
+#    Updated: 2024/01/12 13:30:18 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,7 @@ SRCS_STRING		=	ft_isalnum.c				\
 					ft_isprint.c				\
 					ft_isspace.c				\
 					ft_split.c					\
+					ft_split_count.c			\
 					ft_strchr.c					\
 					ft_strdup.c					\
 					ft_striteri.c				\
@@ -115,7 +116,9 @@ SRCS_STRING		=	ft_isalnum.c				\
 					ft_toupper.c
 
 SRCS_GNL		=	get_next_line.c				\
-					get_next_line_utils.c
+					get_next_line_utils.c		\
+					get_next_line_len.c			\
+					free_gnl_len.c
 
 SRCS_HASHTABLE	=	hashtable.c					\
 					hashtable_utils.c			\
