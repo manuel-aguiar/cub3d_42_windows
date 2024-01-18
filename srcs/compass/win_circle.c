@@ -158,7 +158,7 @@ void	flood_fill(t_win_glfw *win, int x, int y, int color)
 # define RGB_B(rgba) ((rgba) & 0xff)
 # define RGB_A(rgba) ((rgba >> 24) & 0xff)
 
-// antialiasing with gamma correction for a more pleasing view
+// gamma correction instead of linear average of pixels when antialiasing
 
 
 
@@ -196,6 +196,7 @@ float gamma22_pow(float x)
 //https://mimosa-pudica.net/fast-gamma/
 // polynomial aproximation for inversegamma
 // using quake fast inverse square root for values between 0 and 1 (this case)
+
 float inverse_gamma22_pow(float x)
 {
 	return ((1.138 * quake_fast_inverse_sqr_root(x) - 0.138) * x);
@@ -211,9 +212,9 @@ int gamma_average(int start, int end, int num, int den)
     //float gamma = 2.2f;
     //float invGamma = 1.0f / gamma;
 
-    float blendedRed = pow(gamma22_pow(RGB_R(start) / 255.0f) * circleWeight + gamma22_pow(RGB_R(end) / 255.0f) * squareWeight, 1.0f / 2.2f);
-    float blendedGreen = pow(gamma22_pow(RGB_G(start) / 255.0f) * circleWeight + gamma22_pow(RGB_G(end) / 255.0f) * squareWeight, 1.0f / 2.2f);
-    float blendedBlue = pow(gamma22_pow(RGB_B(start) / 255.0f) * circleWeight + gamma22_pow(RGB_B(end) / 255.0f) * squareWeight, 1.0f / 2.2f);
+    float blendedRed = inverse_gamma22_pow(gamma22_pow(RGB_R(start) / 255.0f) * circleWeight + gamma22_pow(RGB_R(end) / 255.0f) * squareWeight);
+    float blendedGreen = inverse_gamma22_pow(gamma22_pow(RGB_G(start) / 255.0f) * circleWeight + gamma22_pow(RGB_G(end) / 255.0f) * squareWeight);
+    float blendedBlue = inverse_gamma22_pow(gamma22_pow(RGB_B(start) / 255.0f) * circleWeight + gamma22_pow(RGB_B(end) / 255.0f) * squareWeight);
 
     // Convert back to integer values
     unsigned char blendedRedInt = (unsigned char)(blendedRed * 255.0f);

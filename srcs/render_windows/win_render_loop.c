@@ -16,9 +16,7 @@
 
 int		win_render(t_win_glfw *win, void (*win_key_press)())
 {
-	t_pixel centre = {500, 500, RGBA(255, 0, 0, 255)};
-	t_square sqr;
-	new_init_square(&sqr, centre, 200, RGBA(255, 165, 0,255), 0);
+
 
 	t_pixel c_comp = {300, 300, RGBA(255, 0, 0, 255)};
 	t_compass comp;
@@ -33,27 +31,19 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 		ft_memset(win->front_buf, 0, WIN_WIDTH * WIN_HEIGHT * RGB_SIZE * sizeof(*(win->front_buf)));
 
 		if (glfwGetKey(win->window, GLFW_KEY_S))
-        	translate_square(&sqr, 0, -1);
+        	comp.map_centre.y--;
 		if (glfwGetKey(win->window, GLFW_KEY_W))
-        	translate_square(&sqr, 0, 1);
+        	comp.map_centre.y++;
 		if (glfwGetKey(win->window, GLFW_KEY_A))
-        	translate_square(&sqr, -1, 0);
+        	comp.map_centre.x--;
 		if (glfwGetKey(win->window, GLFW_KEY_D))
-        	translate_square(&sqr, 1, 0);
+        	comp.map_centre.x++;
 		if (glfwGetKey(win->window, GLFW_KEY_Q))
-		{
-			rotate_square(&sqr, sqr.centre, -0.0045f);
 			rotate_compass(&comp, -0.0045f);
-		}
         	
 		if (glfwGetKey(win->window, GLFW_KEY_E))
-		{
-			rotate_square(&sqr, sqr.centre, 0.0045f);
 			rotate_compass(&comp, 0.0045f);
-		}	
         	
-
-		render_square(win, &sqr);
 		render_compass(win, &comp);
 
 		glClear(GL_COLOR_BUFFER_BIT);

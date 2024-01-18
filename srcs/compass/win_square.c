@@ -55,16 +55,6 @@ void bersenham_line(t_win_glfw *win, t_pixel start, t_pixel end, int color)
 	}
 }
 
-/*
-
-void drawFilledSquare(int vertices[][2], int color) {
-	int i;
-	for (i = 0; i < 3; i++) {
-		drawLine(vertices[i][0], vertices[i][1], vertices[i + 1][0], vertices[i + 1][1]);
-	}
-	drawLine(vertices[i][0], vertices[i][1], vertices[0][0], vertices[0][1]);
-}
-*/
 
 void bersenham_min_max(t_square *sqr, t_pixel start, t_pixel end)
 {
@@ -111,78 +101,23 @@ void bersenham_min_max(t_square *sqr, t_pixel start, t_pixel end)
 	}
 }
 
-void	init_square(t_square *sqr, t_pixel edge1, t_pixel edge2, t_pixel edge3, t_pixel edge4)
-{
-	sqr->edge1 = edge1;
-	sqr->edge2 = edge2;
-	sqr->edge3 = edge3;
-	sqr->edge4 = edge4;
-}
-
-void    translate_square(t_square *sqr, int dx, int dy)
-{
-	sqr->centre.x += dx;
-	sqr->centre.y += dy;
-	sqr->edge1.x += dx;
-	sqr->edge1.y += dy;
-	sqr->edge2.x += dx;
-	sqr->edge2.y += dy;
-	sqr->edge3.x += dx;
-	sqr->edge3.y += dy;
-	sqr->edge4.x += dx;
-	sqr->edge4.y += dy;
-	sqr->og_edge1.x += dx;
-	sqr->og_edge1.y += dy;
-	sqr->og_edge2.x += dx;
-	sqr->og_edge2.y += dy;
-	sqr->og_edge3.x += dx;
-	sqr->og_edge3.y += dy;
-	sqr->og_edge4.x += dx;
-	sqr->og_edge4.y += dy;
-	// inneficient BS just to show;
-	sqr->min_y += dy;
-	int i = 0;
-	while (i < sqr->real_z)
-	{
-		sqr->min_max[i] += dx;
-		sqr->min_max[i + sqr->real_z] += dx;
-		i++;
-	}
-}
 
 //xiaolin wu, há que alterar algoritmo para ter em conta inside e outside
 //antialiasing nao ta bom, paciencia
-
-void	render_square(t_win_glfw *win, t_square *sqr)
-{
-	int i;
-
-	i = 1;
-	while (i < sqr->real_z - 1)
-	{
-		draw_horizontal_line(win, sqr->min_max[i] + 1, sqr->min_max[i + sqr->real_z] - 1, i + sqr->min_y, sqr->color);
-		i++;
-	}
-
-	xiaolinwu_line(win, sqr->edge1, sqr->edge2);
-	xiaolinwu_line(win, sqr->edge2, sqr->edge3);
-	xiaolinwu_line(win, sqr->edge3, sqr->edge4);
-	xiaolinwu_line(win, sqr->edge4, sqr->edge1);
-}
 
 
 void	calculate_min_max(t_square *sqr)
 {
 	int i;
 	
-	sqr->max_y = sqr->edge1.y;
-	sqr->min_y = sqr->edge1.y;
-	sqr->max_y += (sqr->edge2.y - sqr->max_y) * (sqr->edge2.y > sqr->max_y);
-	sqr->max_y += (sqr->edge3.y - sqr->max_y) * (sqr->edge3.y > sqr->max_y);
-	sqr->max_y += (sqr->edge4.y - sqr->max_y) * (sqr->edge4.y > sqr->max_y);
-	sqr->min_y -= (sqr->min_y - sqr->edge2.y) * (sqr->edge2.y < sqr->min_y);
-	sqr->min_y -= (sqr->min_y - sqr->edge3.y) * (sqr->edge3.y < sqr->min_y);
-	sqr->min_y -= (sqr->min_y - sqr->edge4.y) * (sqr->edge4.y < sqr->min_y);
+	sqr->max_y = sqr->edges[SQR_BOT_LEFT].y;
+	sqr->min_y = sqr->edges[SQR_BOT_LEFT].y;
+	sqr->max_y += (sqr->edges[SQR_TOP_LEFT].y - sqr->max_y) * (sqr->edges[SQR_TOP_LEFT].y > sqr->max_y);
+	sqr->max_y += (sqr->edges[SQR_TOP_RIGHT].y - sqr->max_y) * (sqr->edges[SQR_TOP_RIGHT].y > sqr->max_y);
+	sqr->max_y += (sqr->edges[SQR_BOT_RIGHT].y - sqr->max_y) * (sqr->edges[SQR_BOT_RIGHT].y > sqr->max_y);
+	sqr->min_y -= (sqr->min_y - sqr->edges[SQR_TOP_LEFT].y) * (sqr->edges[SQR_TOP_LEFT].y < sqr->min_y);
+	sqr->min_y -= (sqr->min_y - sqr->edges[SQR_TOP_RIGHT].y) * (sqr->edges[SQR_TOP_RIGHT].y < sqr->min_y);
+	sqr->min_y -= (sqr->min_y - sqr->edges[SQR_BOT_RIGHT].y) * (sqr->edges[SQR_BOT_RIGHT].y < sqr->min_y);
 	sqr->real_z = sqr->max_y - sqr->min_y + 1;
 	//printf("min y, %d, max y  %d, real z %d\n", sqr->min_y, sqr->max_y, sqr->real_z);
 	i = 0;
@@ -197,11 +132,12 @@ void	calculate_min_max(t_square *sqr)
 	//	i++;
 	//}
 	//printf("checking line (%d, %d) to (%d, %d)\n", sqr->edge1.x, sqr->edge1.y, sqr->edge2.x, sqr->edge2.y);
-	
-	bersenham_min_max(sqr, sqr->edge1, sqr->edge2);
-	bersenham_min_max(sqr, sqr->edge2, sqr->edge3);
-	bersenham_min_max(sqr, sqr->edge3, sqr->edge4);
-	bersenham_min_max(sqr, sqr->edge4, sqr->edge1);
+
+
+	bersenham_min_max(sqr, sqr->edges[SQR_BOT_LEFT], sqr->edges[SQR_TOP_LEFT]);
+	bersenham_min_max(sqr, sqr->edges[SQR_TOP_LEFT], sqr->edges[SQR_TOP_RIGHT]);
+	bersenham_min_max(sqr, sqr->edges[SQR_TOP_RIGHT], sqr->edges[SQR_BOT_RIGHT]);
+	bersenham_min_max(sqr, sqr->edges[SQR_BOT_RIGHT], sqr->edges[SQR_BOT_LEFT]);
 	//i = 0;
 	//while (i < sqr->real_z)
 	//{
@@ -214,47 +150,70 @@ void	calculate_min_max(t_square *sqr)
 }
 
 
-void	rotate_square(t_square *sqr, t_pixel centre, float change)
+void	rotate_template_square(t_compass *comp, t_square *sqr)
 {
-	t_pixel	og;
+	int	i;
 
-	sqr->radians += change;
-	sqr->cos_rad = cosf(sqr->radians);
-	sqr->sen_rad = sinf(sqr->radians);
-	//rotate_point(&sqr->edge1, centre, sqr->cos_rad, sqr->sen_rad);
-	og = sqr->og_edge1;
-    sqr->edge1.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
-    sqr->edge1.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
-	og = sqr->og_edge2;
-    sqr->edge2.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
-    sqr->edge2.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
-	og = sqr->og_edge3;
-    sqr->edge3.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
-    sqr->edge3.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
-	og = sqr->og_edge4;
-    sqr->edge4.x = sqr->cos_rad * (og.x - centre.x) + sqr->sen_rad * (og.y - centre.y) + centre.x;
-    sqr->edge4.y = -sqr->sen_rad * (og.x - centre.x) + sqr->cos_rad * (og.y - centre.y) + centre.y;
+	sqr->edges[SQR_BOT_LEFT] = (t_pixel){- sqr->width / 2, - sqr->width / 2, sqr->color};
+	sqr->edges[SQR_TOP_LEFT] = (t_pixel){- sqr->width / 2, + sqr->width / 2, sqr->color};
+	sqr->edges[SQR_TOP_RIGHT] = (t_pixel){+ sqr->width / 2, + sqr->width / 2, sqr->color};
+	sqr->edges[SQR_BOT_RIGHT] = (t_pixel){+ sqr->width / 2, - sqr->width / 2, sqr->color};
+	i = 0;
+	while (i < SQR_SIZE)
+	{
+		rotate_point(&sqr->edges[i], sqr->centre, comp->cos_rad, comp->sin_rad);
+		i++;
+	}
+	//printf("pre-min_max\n");
 	calculate_min_max(sqr);
+	//printf("pos-min_max\n");
 }
 
-void	new_init_square(t_square *sqr, t_pixel centre, int width, int color, int degrees)
-{	
-	sqr->centre = centre;
-	sqr->width = width;
-	sqr->color = color;
-	sqr->radians = MY_PI / 180.0 * degrees;
-	sqr->og_edge1 = (t_pixel){centre.x - width / 2, centre.y - width / 2, color};
-	sqr->og_edge2 = (t_pixel){centre.x - width / 2, centre.y + width / 2, color};
-	sqr->og_edge3 = (t_pixel){centre.x + width / 2, centre.y + width / 2, color};
-	sqr->og_edge4 = (t_pixel){centre.x + width / 2, centre.y - width / 2, color};
-	sqr->edge1 = sqr->og_edge1;
-	sqr->edge2 = sqr->og_edge2;
-	sqr->edge3 = sqr->og_edge3;
-	sqr->edge4 = sqr->og_edge4;
-	sqr->biggest_z = 1 + sqrt(width * width * 2);
-	sqr->min_max = malloc(sizeof(*sqr->min_max) * sqr->biggest_z * 2);		//unprotected, *2 for min and max
+void	init_template_square(t_compass *comp)
+{
+	t_square	*sqr;
+
+	sqr = &comp->sqr;
+	sqr->width = 40;  //comp->sqr_width
+	sqr->centre = (t_pixel){0, 0, comp->sqr_color};
+	sqr->color = comp->sqr_color;
+	sqr->biggest_z = 1 + sqrt(sqr->width * sqr->width * 2);
+	sqr->min_max = malloc(sizeof(*sqr->min_max) * sqr->biggest_z * 2);
 	if (!sqr->min_max)
 		return ;
-	printf("crash?\n");
-	rotate_square(sqr, sqr->centre, 0);
+	
+	rotate_template_square(comp, sqr);
+	
+}
+
+
+void	render_new_square(t_win_glfw *win, t_compass *comp, t_pixel centre)
+{
+	t_pixel	edges[SQR_SIZE];
+	int i;
+	int x;
+	int y;
+
+	ft_memcpy(edges, comp->sqr.edges, sizeof(*edges) * SQR_SIZE);
+	//printf("memcpyied edges for rendering\n");
+	x = centre.x + comp->map_centre.x;
+	y = centre.y + comp->map_centre.y;
+	i = 0;
+	while (i < SQR_SIZE)
+	{
+		translate_point(&edges[i], x, y);
+		i++;
+	}
+	//printf("translated edges\n");
+	i = 1;
+	while (i < comp->sqr.real_z - 1)
+	{
+		draw_horizontal_line(win, comp->sqr.min_max[i] + 1 + x, comp->sqr.min_max[i + comp->sqr.real_z] - 1 + x, i + comp->sqr.min_y + y, comp->sqr.color);
+		i++;
+	}
+	//printf("rendered horizontal lines\n");
+	xiaolinwu_line(win, edges[SQR_BOT_LEFT], edges[SQR_TOP_LEFT]);
+	xiaolinwu_line(win, edges[SQR_TOP_LEFT], edges[SQR_TOP_RIGHT]);
+	xiaolinwu_line(win, edges[SQR_TOP_RIGHT], edges[SQR_BOT_RIGHT]);
+	xiaolinwu_line(win, edges[SQR_BOT_RIGHT], edges[SQR_BOT_LEFT]);	
 }

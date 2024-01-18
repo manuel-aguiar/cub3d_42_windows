@@ -12,6 +12,8 @@
 
 #include "xiaolin_wu.h"
 
+int gamma_average(int start, int end, int num, int den);
+
 extern int	xiaolin_x_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data);
 extern int	xiaolin_y_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data);
 

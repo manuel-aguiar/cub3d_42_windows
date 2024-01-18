@@ -89,6 +89,15 @@ typedef struct s_compass
 }	t_compass;
 */
 
+enum e_sqr
+{
+	SQR_BOT_LEFT,
+	SQR_TOP_LEFT,
+	SQR_TOP_RIGHT,
+	SQR_BOT_RIGHT,
+	SQR_SIZE,
+};
+
 typedef struct s_square
 {
 	t_pixel centre;
@@ -100,9 +109,10 @@ typedef struct s_square
 	t_pixel edge2;
 	t_pixel edge3;
 	t_pixel edge4;
-	int		width;
-	int		color;
-	float	radians;
+	t_pixel		edges[SQR_SIZE];
+	int			width;
+	int			color;
+	float		radians;
 	float	cos_rad;
 	float	sen_rad;
 	int		min_y;
@@ -186,7 +196,11 @@ typedef struct s_compass
 	int			letter_width;
 	int			letter_radius;
 	int			letter_color;
-	t_square	template_square;
+	int			sqr_color;
+	int			sqr_width;
+	t_square	sqr;
+	t_pixel		map_centre;
+
 	t_pixel		north[N_SIZE];
 	t_pixel		south[S_SIZE];
 	t_pixel		south_circle[S_SIZE];
@@ -220,13 +234,9 @@ void	win_full_circle(t_win_glfw *win, t_pixel centre, int radius, int color);
 
 
 //win_square.c
-void	init_square(t_square *sqr, t_pixel edge1, t_pixel edge2, t_pixel edge3, t_pixel edge4);
-void    translate_square(t_square *sqr, int dx, int dy);
-void	render_square(t_win_glfw *win, t_square *sqr);
-
-void	rotate_square(t_square *sqr, t_pixel centre, float change);
-void	new_init_square(t_square *sqr, t_pixel centre, int width, int color, int degrees);
-
+void	init_template_square(t_compass *comp);
+void	rotate_template_square(t_compass *comp, t_square *sqr);
+void	render_new_square(t_win_glfw *win, t_compass *comp, t_pixel centre);
 void	draw_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, int color);
 
 //translate_rotate.c
