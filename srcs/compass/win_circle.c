@@ -140,20 +140,7 @@ void	win_drawcircle_wo_antialiasing_clean(t_win_glfw *win, t_pixel centre, int r
 
 //(t_win_glfw *win, t_pixel centre, int radius, int color)
 
-void setPixel4(t_win_glfw *win, int centreX, int centreY, int deltaX, int deltaY, int color, int alphad, bool line)
-{
-    win->set_pixel(win, centreX + deltaX, centreY + deltaY, alphad);
-    win->set_pixel(win, centreX - deltaX, centreY + deltaY, alphad);
-	
-    win->set_pixel(win, centreX + deltaX, centreY - deltaY, alphad);
-    win->set_pixel(win, centreX - deltaX, centreY - deltaY, alphad);
 
-	if (line)
-	{
-		draw_horizontal_line(win, centreX - deltaX, centreX + deltaX, centreY + deltaY, color);
-		draw_horizontal_line(win, centreX - deltaX, centreX + deltaX, centreY - deltaY, color);
-	}
-}
 
 void	flood_fill(t_win_glfw *win, int x, int y, int color)
 {
@@ -164,6 +151,92 @@ void	flood_fill(t_win_glfw *win, int x, int y, int color)
 	flood_fill(win, x, y + 1, color);
 	flood_fill(win, x - 1, y, color);
 	flood_fill(win, x, y - 1, color);
+}
+
+# define RGB_R(rgba) ((rgba >> 16) & 0xff)
+# define RGB_G(rgba) ((rgba >> 8) & 0xff)
+# define RGB_B(rgba) ((rgba) & 0xff)
+# define RGB_A(rgba) ((rgba >> 24) & 0xff)
+
+// antialiasing with gamma correction for a more pleasing view
+
+
+
+// turn these into hash tables...? the inverse pow becoming 2 sqrrts.....
+
+//quake fast inverse square root of doom
+float quake_fast_inverse_sqr_root(float number)
+{
+  long i;
+  float x2, y;
+  const float threehalfs = 1.5F;
+
+  x2 = number * 0.5F;
+  y  = number;
+  i  = * ( long * ) &y;                       // evil floating point bit level hacking
+  i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+  y  = * ( float * ) &i;
+  y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+  // y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+  return (y);
+}
+
+//https://stackoverflow.com/questions/48903716/fast-image-gamma-correction
+// replace pow(float x, float 2.2f) with this
+//it is a polinomial aproximation for the function x^2.2 when 0 < x < 1
+// function is simetrical around the function y = x
+
+float gamma22_pow(float x)
+{
+	return (0.8 * x * x + 0.2 * x * x * x);
+}
+
+
+//https://mimosa-pudica.net/fast-gamma/
+// polynomial aproximation for inversegamma
+// using quake fast inverse square root for values between 0 and 1 (this case)
+float inverse_gamma22_pow(float x)
+{
+	return ((1.138 * quake_fast_inverse_sqr_root(x) - 0.138) * x);
+}
+
+int gamma_average(int start, int end, int num, int den)
+{
+    // Compute weighted average in sRGB color space
+    float circleWeight = (float)num / (float)den;
+    float squareWeight = 1.0f - circleWeight;
+
+    // Apply gamma correction to linear RGB values
+    //float gamma = 2.2f;
+    //float invGamma = 1.0f / gamma;
+
+    float blendedRed = pow(gamma22_pow(RGB_R(start) / 255.0f) * circleWeight + gamma22_pow(RGB_R(end) / 255.0f) * squareWeight, 1.0f / 2.2f);
+    float blendedGreen = pow(gamma22_pow(RGB_G(start) / 255.0f) * circleWeight + gamma22_pow(RGB_G(end) / 255.0f) * squareWeight, 1.0f / 2.2f);
+    float blendedBlue = pow(gamma22_pow(RGB_B(start) / 255.0f) * circleWeight + gamma22_pow(RGB_B(end) / 255.0f) * squareWeight, 1.0f / 2.2f);
+
+    // Convert back to integer values
+    unsigned char blendedRedInt = (unsigned char)(blendedRed * 255.0f);
+    unsigned char blendedGreenInt = (unsigned char)(blendedGreen * 255.0f);
+    unsigned char blendedBlueInt = (unsigned char)(blendedBlue * 255.0f);
+
+    // Set the pixel with the blended color
+    return (RGBA(blendedRedInt, blendedGreenInt, blendedBlueInt, 255));
+}
+
+void setPixel4(t_win_glfw *win, int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, bool line)
+{
+    win->set_pixel(win, centreX + deltaX, centreY + deltaY, gamma_average(win->get_pixel(win, centreX + deltaX, centreY + deltaY), color, num, den));
+    win->set_pixel(win, centreX - deltaX, centreY + deltaY, gamma_average(win->get_pixel(win, centreX - deltaX, centreY + deltaY), color, num, den));
+	
+    win->set_pixel(win, centreX + deltaX, centreY - deltaY, gamma_average(win->get_pixel(win, centreX + deltaX, centreY - deltaY), color, num, den));
+    win->set_pixel(win, centreX - deltaX, centreY - deltaY, gamma_average(win->get_pixel(win, centreX - deltaX, centreY - deltaY), color, num, den));
+
+	if (line)
+	{
+		draw_horizontal_line(win, centreX - deltaX, centreX + deltaX, centreY + deltaY, color);
+		draw_horizontal_line(win, centreX - deltaX, centreX + deltaX, centreY - deltaY, color);
+	}
 }
 
 void chatgpt_anticircle(t_win_glfw *win, t_pixel centre, int radius, int color)
@@ -182,13 +255,10 @@ void chatgpt_anticircle(t_win_glfw *win, t_pixel centre, int radius, int color)
         float error = y - (int)(y);
         int transparency = (int)(error * maxTransparency);
 
-		int alpha = avg_colour(0, color, transparency, maxTransparency);
-		int alpha2 = avg_colour(0, color, (maxTransparency - transparency), maxTransparency);
-
-        setPixel4(win, centreX, centreY, x, (int)(y), color, alpha, true);
-		setPixel4(win, centreX, centreY, (int)(y), x, color, alpha, true);
-        setPixel4(win, centreX, centreY, x, (int)(y) + 1, color, alpha2, false);
-		setPixel4(win, centreX, centreY, (int)(y) + 1, x, color, alpha2, false);
+        setPixel4(win, centreX, centreY, x, (int)(y), color, transparency, maxTransparency, true);
+		setPixel4(win, centreX, centreY, (int)(y), x, color, transparency, maxTransparency, true);
+        setPixel4(win, centreX, centreY, x, (int)(y) + 1, color, (maxTransparency - transparency), maxTransparency, false);
+		setPixel4(win, centreX, centreY, (int)(y) + 1, x, color, (maxTransparency - transparency), maxTransparency, false);
     }
 
    // for (int y = 0; y <= quarter; y++) {

@@ -53,7 +53,9 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	render_east_letter(win, comp);
 	render_west_letter(win, comp);
 
-
+	t_pixel start = {680, 700, RGBA(255, 0, 255, 0)};
+	t_pixel end = {720, 700, RGBA(255, 165, 0,255)};
+	xiaolinwu_line(win, start, end);
 
 	//render_south_letter_circle(win, comp);
 }
