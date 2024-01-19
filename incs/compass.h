@@ -98,28 +98,30 @@ enum e_sqr
 	SQR_SIZE,
 };
 
+enum e_min_max
+{
+	MM_MIN_X,
+	MM_MIN_Y,
+	MM_MAX_X,
+	MM_MAX_Y,
+	MM_SIZE,
+};
+
+typedef struct s_mm_pair
+{
+	int	min;
+	int	max;
+}	t_mm_pair;
+
 typedef struct s_square
 {
-	t_pixel centre;
-	t_pixel	og_edge1;
-	t_pixel og_edge2;
-	t_pixel og_edge3;
-	t_pixel og_edge4;	
-	t_pixel	edge1;
-	t_pixel edge2;
-	t_pixel edge3;
-	t_pixel edge4;
+	t_pixel		centre;
 	t_pixel		edges[SQR_SIZE];
+	int			min_max[MM_SIZE];
 	int			width;
 	int			color;
-	float		radians;
-	float	cos_rad;
-	float	sen_rad;
-	int		min_y;
-	int		max_y;
-	int		biggest_z;
-	int		real_z;
-	int		*min_max;
+	int			biggest_z;
+	int			real_z;
 }	t_square;
 
 
@@ -177,20 +179,18 @@ enum e_csouth
 
 struct s_circle
 {
-	t_pixel centre;
-	int	radius;
-	int color;
-	int	max_x;
-	int min_x;
-	int	min_y;
-	int max_y;
-	int *min_max;
+	t_pixel 	centre;
+	int			radius;
+	int 		color;
+	int			min_max[MM_SIZE];
 };
+
+
 
 typedef struct s_compass
 {
 	t_pixel		centre;
-	t_circle	inner;
+	
 	//t_circle	outer;
 	int			radius;
 	float		radians;
@@ -198,17 +198,16 @@ typedef struct s_compass
 	float		sin_rad;
 	int			inner_c_rad;
 	int			*c_min_max;
-	int			max_x;
-	int			min_x;
-	int			max_y;
-	int			min_y;
 	int			letter_height;
 	int			letter_width;
 	int			letter_radius;
 	int			letter_color;
 	int			sqr_color;
 	int			sqr_width;
+	t_circle	inner;
 	t_square	sqr;
+	t_mm_pair	*circle_x_lim;
+	t_mm_pair	*sqr_x_lim;
 	t_pixel		map_centre;
 
 	t_pixel		north[N_SIZE];
