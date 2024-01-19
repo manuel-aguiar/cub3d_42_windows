@@ -153,10 +153,7 @@ void	flood_fill(t_win_glfw *win, int x, int y, int color)
 	flood_fill(win, x, y - 1, color);
 }
 
-# define RGB_R(rgba) ((rgba >> 16) & 0xff)
-# define RGB_G(rgba) ((rgba >> 8) & 0xff)
-# define RGB_B(rgba) ((rgba) & 0xff)
-# define RGB_A(rgba) ((rgba >> 24) & 0xff)
+
 
 // gamma correction instead of linear average of pixels when antialiasing
 
@@ -185,7 +182,6 @@ float quake_fast_inverse_sqr_root(float number)
 //https://stackoverflow.com/questions/48903716/fast-image-gamma-correction
 // replace pow(float x, float 2.2f) with this
 //it is a polinomial aproximation for the function x^2.2 when 0 < x < 1
-// function is simetrical around the function y = x
 
 float gamma22_pow(float x)
 {
@@ -194,8 +190,12 @@ float gamma22_pow(float x)
 
 
 //https://mimosa-pudica.net/fast-gamma/
-// polynomial aproximation for inversegamma
+// polynomial aproximation for inversegamma. x ^ (1.0 / 2.2f)
 // using quake fast inverse square root for values between 0 and 1 (this case)
+// symetrical to x ^ 2.2f around y = x;
+// 0.8 * x ^ 1 / 2 + 0.2 * x ^ 1 / 3
+// equally bad, one square root and on cube root
+// (1.138 / x ^ 0.5 - 0.138) * x, good aprox and gets rid of the cube root
 
 float inverse_gamma22_pow(float x)
 {
@@ -261,17 +261,132 @@ void chatgpt_anticircle(t_win_glfw *win, t_pixel centre, int radius, int color)
         setPixel4(win, centreX, centreY, x, (int)(y) + 1, color, (maxTransparency - transparency), maxTransparency, false);
 		setPixel4(win, centreX, centreY, (int)(y) + 1, x, color, (maxTransparency - transparency), maxTransparency, false);
     }
+}
 
-   // for (int y = 0; y <= quarter; y++) {
-   //     float x = radius * sqrt(1 - y * y / (float)radius2);
-   //     float error = x - (int)(x);
-   //     int transparency = (int)(error * maxTransparency);
-//
-	//	int alpha = avg_colour(0, color, transparency, maxTransparency);
-	//	int alpha2 = avg_colour(0, color, (maxTransparency - transparency), maxTransparency);
-//
-   //     //setPixel4(win, centreX, centreY, (int)(x), y, color, alpha, true);
-   //     //setPixel4(win, centreX, centreY, (int)(x) + 1, y, color, alpha2, false);
-   // }
-	//flood_fill(win, centre.x, centre.y + radius - 1, color);
+void chatgpt_anticircle_empty(t_win_glfw *win, t_pixel centre, int radius, int color)
+{
+	//win_full_circle(win, centre, radius, color);
+
+	int centreX = centre.x;
+	int centreY = centre.y;
+    int radius2 = radius * radius;
+    static const int maxTransparency = 127;
+
+    // Upper and lower halves
+    int quarter = round(radius2 / sqrt(radius2 + radius2));
+    for (int x = 0; x <= quarter; x++) {
+        float y = radius * sqrt(1 - x * x / (float)radius2);
+        float error = y - (int)(y);
+        int transparency = (int)(error * maxTransparency);
+
+        setPixel4(win, centreX, centreY, x, (int)(y), color, transparency, maxTransparency, false);  //lol
+		setPixel4(win, centreX, centreY, (int)(y), x, color, transparency, maxTransparency, false);	 //lol
+        setPixel4(win, centreX, centreY, x, (int)(y) + 1, color, (maxTransparency - transparency), maxTransparency, false);
+		setPixel4(win, centreX, centreY, (int)(y) + 1, x, color, (maxTransparency - transparency), maxTransparency, false);
+    }
+}
+
+
+void	reduce_alpha_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, float factor)
+{
+	int color;
+
+	while (min_x <= max_x)
+	{
+		//printf("old color: %d, new color %d\n", color, RGBA(RGB_R(color), RGB_G(color), RGB_B(color), (int)(RGB_A(color) * factor)));
+		color = win->get_pixel(win, min_x, y);
+		win->set_pixel(win, min_x++, y, RGBA(RGB_R(color), RGB_G(color), RGB_B(color), (int)(RGB_A(color) * factor)));
+	}
+		
+}
+
+
+
+void setpixel_inner(t_win_glfw *win, t_compass *comp, int c_min_max[MM_SIZE], \
+int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, bool line)
+{
+	//int	start;
+	//int	endline;
+
+    win->set_pixel(win, centreX + deltaX, centreY + deltaY, gamma_average(win->get_pixel(win, centreX + deltaX, centreY + deltaY), color, num, den));
+    win->set_pixel(win, centreX - deltaX, centreY + deltaY, gamma_average(win->get_pixel(win, centreX - deltaX, centreY + deltaY), color, num, den));
+	
+    win->set_pixel(win, centreX + deltaX, centreY - deltaY, gamma_average(win->get_pixel(win, centreX + deltaX, centreY - deltaY), color, num, den));
+    win->set_pixel(win, centreX - deltaX, centreY - deltaY, gamma_average(win->get_pixel(win, centreX - deltaX, centreY - deltaY), color, num, den));
+
+	if (line)
+	{
+		if (centreY + deltaY > c_min_max[MM_MAX_Y])
+			draw_horizontal_line(win, centreX - deltaX, centreX + deltaX, centreY + deltaY, color);
+		else
+		{
+			
+			int	index = centreY + deltaY - comp->inner.centre.y + comp->inner.radius;
+			/*//printf("i'm in, index is %d, start %d, inner left %d inner right %d, outter %d\n", \
+			//index, \
+			//centreX - deltaX, \
+			//comp->circle_x_lim[index].min  + comp->inner.centre.x, \
+			//comp->circle_x_lim[index].max  + comp->inner.centre.x, \
+			//centreX + deltaX
+			//);*/
+			draw_horizontal_line(win, centreX - deltaX, comp->circle_x_lim[index].min + comp->inner.centre.x, centreY + deltaY, color);
+			reduce_alpha_horizontal_line(win, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY + deltaY, 0.5f);
+			draw_horizontal_line(win, comp->circle_x_lim[index].max + comp->inner.centre.x, centreX + deltaX, centreY + deltaY, color);
+		}
+		if (centreY - deltaY < c_min_max[MM_MIN_Y])
+			draw_horizontal_line(win, centreX - deltaX, centreX + deltaX, centreY - deltaY, color);
+		else if (deltaY)	//double rendering the same line
+		{
+
+			int	index = centreY - deltaY - comp->inner.centre.y + comp->inner.radius;
+			/*
+			//	printf("i'm in but below, index is %d, start %d, inner left %d inner right %d, outter %d\n", \
+			//index, \
+			//centreX - deltaX, \
+			//comp->circle_x_lim[index].min  + comp->inner.centre.x, \
+			//comp->circle_x_lim[index].max  + comp->inner.centre.x, \
+			//centreX + deltaX
+			//);*/
+			draw_horizontal_line(win, centreX - deltaX, comp->circle_x_lim[index].min + comp->inner.centre.x, centreY - deltaY, color);
+			reduce_alpha_horizontal_line(win, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY - deltaY, 0.5f);
+			draw_horizontal_line(win, comp->circle_x_lim[index].max + comp->inner.centre.x, centreX + deltaX, centreY - deltaY, color);
+		}
+	}
+}
+
+void draw_ring_to_inner_circle(t_win_glfw *win, t_compass *comp)
+{
+	//win_full_circle(win, centre, radius, color);
+	t_pixel centre;
+	int		radius;
+	int		color;
+	int		c_min_max[MM_SIZE];
+
+	ft_memcpy(&c_min_max, &comp->inner.min_max, sizeof(c_min_max));
+	c_min_max[MM_MIN_X] += comp->centre.x;
+	c_min_max[MM_MAX_X] += comp->centre.x;
+	c_min_max[MM_MIN_Y] += comp->centre.y;
+	c_min_max[MM_MAX_Y] += comp->centre.y;
+
+
+	centre = comp->centre;
+	radius = comp->radius;
+	color = comp->color;
+	int centreX = centre.x;
+	int centreY = centre.y;
+    int radius2 = radius * radius;
+    static const int maxTransparency = 127;
+
+    // Upper and lower halves
+    int quarter = round(radius2 / sqrt(radius2 + radius2));
+    for (int x = 0; x <= quarter; x++) {
+        float y = radius * sqrt(1 - x * x / (float)radius2);
+        float error = y - (int)(y);
+        int transparency = (int)(error * maxTransparency);
+
+        setpixel_inner(win, comp, c_min_max, centreX, centreY, x, (int)(y), color, transparency, maxTransparency, true);
+		setpixel_inner(win, comp, c_min_max, centreX, centreY, (int)(y), x, color, transparency, maxTransparency, true);
+        setpixel_inner(win, comp, c_min_max, centreX, centreY, x, (int)(y) + 1, color, (maxTransparency - transparency), maxTransparency, false);
+		setpixel_inner(win, comp, c_min_max, centreX, centreY, (int)(y) + 1, x, color, (maxTransparency - transparency), maxTransparency, false);
+    }
 }

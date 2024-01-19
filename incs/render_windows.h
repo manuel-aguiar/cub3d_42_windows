@@ -29,7 +29,15 @@
 //RGBA - alpha channel, set to 255 for full opaque
 # define RGB_SIZE 4 
 
-# define RGBA(r, g, b, a) (((a) << 24) | ((r) << 16) | ((g) << 8) | (b))
+# define RGBA(r, g, b, a) (((r) << 24) | ((g) << 16) | ((b) << 8) | (a))
+
+# define RGB_R(rgba) ((rgba >> 24) & 0xff)
+# define RGB_G(rgba) ((rgba >> 16) & 0xff)
+# define RGB_B(rgba) ((rgba >> 8) & 0xff)
+# define RGB_A(rgba) ((rgba) & 0xff)
+
+
+# 
 
 typedef struct s_win_glfw t_win_glfw;
 typedef struct s_pixel t_pixel;

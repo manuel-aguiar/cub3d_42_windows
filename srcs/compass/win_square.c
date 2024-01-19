@@ -274,9 +274,9 @@ void	render_inner_square(t_win_glfw *win, t_compass *comp, t_pixel centre)
 
 	i = ft_max(c_min_max[MM_MIN_Y] - sqr.min_max[MM_MIN_Y], 0);
 	int end = ft_max(sqr.min_max[MM_MAX_Y] - c_min_max[MM_MAX_Y], 0);
-	int adj_x = sqr.min_max[MM_MIN_Y] - comp->inner.centre.x + comp->inner.radius;
+	int adj_x = sqr.min_max[MM_MIN_Y] - comp->inner.centre.y + comp->inner.radius;
 
-	while (i < sqr.real_z - 1 - end)
+	while (i < sqr.real_z - end)
 	{
 		int start = ft_max(comp->sqr_x_lim[i].min + x, comp->circle_x_lim[i + adj_x].min + comp->inner.centre.x);
 		int end_line = ft_min(comp->sqr_x_lim[i].max + x, comp->circle_x_lim[i + adj_x].max + comp->inner.centre.x);

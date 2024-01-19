@@ -193,6 +193,7 @@ typedef struct s_compass
 	
 	//t_circle	outer;
 	int			radius;
+	int			color;
 	float		radians;
 	float		cos_rad;
 	float		sin_rad;
