@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 14:41:01 by marvin            #+#    #+#              #
-#    Updated: 2024/01/12 13:30:18 by marvin           ###   ########.fr        #
+#    Updated: 2024/01/21 11:46:52 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -163,7 +163,8 @@ SRCS_ISORT		=	charmat_quicksort.c			\
 					tim_sort_utils.c			\
 
 SRCS_MATH		=	bin_srch.c					\
-					ft_min_max.c
+					ft_min_max.c				\
+					ft_ternary.c
 
 SRCS_MPOOL		=	memory_pool.c				\
 					memory_pool_utils.c
