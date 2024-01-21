@@ -18,13 +18,14 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 {
 
 
-	t_pixel c_comp = {300, 300, RGBA(255, 0, 0, 255)};
+	t_pixel c_comp = {300, 300, ARGB(255, 0, 0, 255)};
 	t_compass comp;
 	compass_template_setup(&comp, c_comp, 200, 0);
 
 
 	glfwSetKeyCallback(win->window, win_key_press);
 	glViewport(0, 0, (*win).win_width, (*win).win_height);
+	set_fps_start(&win->fps);
     while (!glfwWindowShouldClose(win->window))
 	{
 		glRasterPos2f(-1, -1);
@@ -47,8 +48,9 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 		render_compass(win, &comp);
 
 		glClear(GL_COLOR_BUFFER_BIT);
+		fps_calc_print(&win->fps);
         glDrawPixels(win->win_width, win->win_height, GL_RGBA, GL_UNSIGNED_BYTE, win->front_buf);
-
+		//set_fps_start(&win->fps);
 		glfwSwapBuffers(win->window);
         glfwPollEvents();
     }
@@ -57,22 +59,22 @@ int		win_render(t_win_glfw *win, void (*win_key_press)())
 
 /*
 letters
-	t_pixel centre = {1000, 500, 1000, RGBA(255, 0, 0, 255)};
+	t_pixel centre = {1000, 500, 1000, ARGB(255, 0, 0, 255)};
 	t_east east;
-	init_east_letter(&east, centre, 67, 33, RGBA(255, 0, 0, 255));
+	init_east_letter(&east, centre, 67, 33, ARGB(255, 0, 0, 255));
 
-	t_pixel wcent = {1000, 600, 1000, RGBA(255, 0, 0, 255)}; 
+	t_pixel wcent = {1000, 600, 1000, ARGB(255, 0, 0, 255)}; 
 
 	t_west west;
-	init_west_letter(&west, wcent, 67, 67, RGBA(255, 0, 0, 255));
+	init_west_letter(&west, wcent, 67, 67, ARGB(255, 0, 0, 255));
 
-	t_pixel ncent = {1000, 800, 1000, RGBA(255, 0, 0, 255)};
+	t_pixel ncent = {1000, 800, 1000, ARGB(255, 0, 0, 255)};
 	t_north north;
-	init_north_letter(&north, ncent, 67, 33, RGBA(255, 0, 0, 255));
+	init_north_letter(&north, ncent, 67, 33, ARGB(255, 0, 0, 255));
 
-	t_pixel scent = {1000, 400, 1000, RGBA(255, 0, 0, 255)};
+	t_pixel scent = {1000, 400, 1000, ARGB(255, 0, 0, 255)};
 	t_south south;
-	init_south_letter(&south, scent, 67, 33, RGBA(255, 0, 0, 255)); 
+	init_south_letter(&south, scent, 67, 33, ARGB(255, 0, 0, 255)); 
 
 		render_east_letter(win, &east);
 		render_west_letter(win, &west);
@@ -84,12 +86,12 @@ letters
 /*
 circle
 
-t_pixel hey = {200, 200, 1000, RGBA(255, 0, 0, 255)};
-win_drawcircle_wo_antialiasing(win, hey, 300, RGBA(255, 0, 0, 255), 10);
+t_pixel hey = {200, 200, 1000, ARGB(255, 0, 0, 255)};
+win_drawcircle_wo_antialiasing(win, hey, 300, ARGB(255, 0, 0, 255), 10);
 
 */
 
-//GL_RGBA - rgb alpha, it is equivalent to mlx 4-byte format
+//GL_ARGB - rgb alpha, it is equivalent to mlx 4-byte format
 
 		/*
 

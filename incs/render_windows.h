@@ -17,6 +17,8 @@
 # define GLFW_DLL
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
+# include <windows.h>
+
 
 # include "libft.h"
 # include "xiaolin_wu.h"
@@ -26,31 +28,43 @@
 # define WIN_HEIGHT 1024
 # define WIN_NAME "Cub3d"
 
-//RGBA - alpha channel, set to 255 for full opaque
+//ARGB - alpha channel, set to 255 for full opaque
 # define RGB_SIZE 4 
 
-# define RGBA(r, g, b, a) (((r) << 24) | ((g) << 16) | ((b) << 8) | (a))
+//# define WIN_WTF(a, r, g, b) (((a) << 24) | ((b) << 16) | ((g) << 8) | (r))
+//
+//# define ARGB(a, r, g, b) WIN_WTF(a, r, g, b)
 
-# define RGB_R(rgba) ((rgba >> 24) & 0xff)
-# define RGB_G(rgba) ((rgba >> 16) & 0xff)
-# define RGB_B(rgba) ((rgba >> 8) & 0xff)
-# define RGB_A(rgba) ((rgba) & 0xff)
+# define ARGB(a, r, g, b) (((a) << 24) | ((r) << 16) | ((g) << 8) | (b))
+
+# define RGB_A(ARGB) ((ARGB >> 24) & 0xff)
+# define RGB_R(ARGB) ((ARGB >> 16) & 0xff)
+# define RGB_G(ARGB) ((ARGB >> 8) & 0xff)
+# define RGB_B(ARGB) ((ARGB) & 0xff)
 
 
-# 
 
 typedef struct s_win_glfw t_win_glfw;
 typedef struct s_pixel t_pixel;
 
 
+typedef struct s_fps_counter
+{
+    SYSTEMTIME  start;
+    SYSTEMTIME  end;
+    long int    count;
+    char        fps[12];
+}   t_fps_counter;
+
 struct s_win_glfw
 {
-	GLFWwindow	*window;
-	char		*front_buf;
-	int			win_width;
-	int			win_height;
-	void		(*set_pixel)(t_win_glfw *win, int x, int y, int color);
-	int			(*get_pixel)(t_win_glfw *win, int x, int y);
+	GLFWwindow		*window;
+	char			*front_buf;
+	int				win_width;
+	int				win_height;
+	t_fps_counter	fps;
+	void			(*set_pixel)(t_win_glfw *win, int x, int y, int color);
+	int				(*get_pixel)(t_win_glfw *win, int x, int y);
 };
 
 
@@ -93,6 +107,9 @@ enum e_keys_bits
 };
 
 
+
+
+
 //win_init_window.c
 t_win_glfw	*win_init_window(void);
 int			win_free_glfw(t_win_glfw *win);
@@ -113,5 +130,7 @@ void	swap_pixels(t_pixel *start, t_pixel *end);
 
 void chatgpt_anticircle(t_win_glfw *win, t_pixel centre, int radius, int color);
 
-
+//win_fps_counter.c
+void    set_fps_start(t_fps_counter *fps);
+void    fps_calc_print(t_fps_counter *fps);
 #endif

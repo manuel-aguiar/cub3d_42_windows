@@ -53,7 +53,8 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c
 SRC_REN_WIN			=	win_init_window.c		\
 						win_keys.c				\
 						win_pixels.c			\
-						win_render_loop.c
+						win_render_loop.c		\
+						win_fps_counter.c
 
 
 SRC_COMPASS			=	compass_setup.c				\
@@ -72,6 +73,7 @@ SRC_DRAWING_ALGOS	=	circle_line_clipping.c		\
 						liang_barsky_utils.c		\
 						xiaolinwu_antialiasing.c	\
 						xiaolinwu_utils.c		
+
 
 ## AGGREGATING FILES ##
 

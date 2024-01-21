@@ -5,6 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/21 11:48:21 by marvin            #+#    #+#             */
+/*   Updated: 2024/01/21 11:48:21 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   win_circle.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 11:32:07 by marvin            #+#    #+#             */
 /*   Updated: 2024/01/15 11:32:07 by marvin           ###   ########.fr       */
 /*                                                                            */
@@ -222,7 +234,7 @@ int gamma_average(int start, int end, int num, int den)
     unsigned char blendedBlueInt = (unsigned char)(blendedBlue * 255.0f);
 
     // Set the pixel with the blended color
-    return (RGBA(blendedRedInt, blendedGreenInt, blendedBlueInt, 255));
+    return (ARGB(255, blendedRedInt, blendedGreenInt, blendedBlueInt));
 }
 
 void setPixel4(t_win_glfw *win, int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, bool line)
@@ -293,9 +305,9 @@ void	reduce_alpha_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, 
 
 	while (min_x <= max_x)
 	{
-		//printf("old color: %d, new color %d\n", color, RGBA(RGB_R(color), RGB_G(color), RGB_B(color), (int)(RGB_A(color) * factor)));
+		//printf("old color: %d, new color %d\n", color, ARGB(RGB_R(color), RGB_G(color), RGB_B(color), (int)(RGB_A(color) * factor)));
 		color = win->get_pixel(win, min_x, y);
-		win->set_pixel(win, min_x++, y, RGBA(RGB_R(color), RGB_G(color), RGB_B(color), (int)(RGB_A(color) * factor)));
+		win->set_pixel(win, min_x++, y, ARGB((int)(RGB_A(color) * factor), RGB_R(color), RGB_G(color), RGB_B(color)));
 	}
 		
 }
