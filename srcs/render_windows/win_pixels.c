@@ -12,6 +12,10 @@
 
 # include "render_windows.h"
 
+
+# define WIN_ADJ(color) (((RGB_R(color)) << 24) | ((RGB_G(color)) << 16) | ((RGB_B(color)) << 8) | (RGB_A(color)))
+
+
 void	win_set_pixel(t_win_glfw *win, int x, int y, int color)
 {
 	char		*my_dst;

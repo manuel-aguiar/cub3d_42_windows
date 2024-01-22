@@ -39,6 +39,7 @@ DIR_DRAWING_ALGOS	= 	drawing_algos
 ## SOURCE FILES ##
 
 INC_FILES	=		cub3d.h				\
+					parsing.h			\
 					render_windows.h	\
 					xiaolin_wu.h		\
 					liang_barsky.h		\
@@ -46,7 +47,9 @@ INC_FILES	=		cub3d.h				\
 
 SRC_MAIN			=	main.c
 
-SRC_PARSING			=	parsing.c
+SRC_PARSING			=	parsing.c				\
+						textures.c				\
+						parsing_print_utils.c
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c
 
