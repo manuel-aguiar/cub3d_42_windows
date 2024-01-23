@@ -162,10 +162,10 @@ void	rotate_template_square(t_compass *comp, t_square *sqr)
 {
 	int	i;
 
-	sqr->edges[SQR_BOT_LEFT] = (t_pixel){- sqr->width / 2, - sqr->width / 2, sqr->color};
-	sqr->edges[SQR_TOP_LEFT] = (t_pixel){- sqr->width / 2, + sqr->width / 2, sqr->color};
-	sqr->edges[SQR_TOP_RIGHT] = (t_pixel){+ sqr->width / 2, + sqr->width / 2, sqr->color};
-	sqr->edges[SQR_BOT_RIGHT] = (t_pixel){+ sqr->width / 2, - sqr->width / 2, sqr->color};
+	sqr->edges[SQR_BOT_LEFT] = (t_pixel){- sqr->height / 2, - sqr->height / 2, sqr->color};
+	sqr->edges[SQR_TOP_LEFT] = (t_pixel){- sqr->height / 2, + sqr->height / 2, sqr->color};
+	sqr->edges[SQR_TOP_RIGHT] = (t_pixel){+ sqr->height / 2, + sqr->height / 2, sqr->color};
+	sqr->edges[SQR_BOT_RIGHT] = (t_pixel){+ sqr->height / 2, - sqr->height / 2, sqr->color};
 	i = 0;
 	while (i < SQR_SIZE)
 	{
@@ -182,10 +182,10 @@ void	init_template_square(t_compass *comp)
 	t_square	*sqr;
 
 	sqr = &comp->sqr;
-	sqr->width = 40;  //comp->sqr_width
+	sqr->height = comp->sqr_height;
 	sqr->centre = (t_pixel){0, 0, comp->sqr_color};
 	sqr->color = comp->sqr_color;
-	sqr->biggest_z = 1 + sqrt(sqr->width * sqr->width * 2);
+	sqr->biggest_z = 1 + sqrt(SQR_MAX_HEIGHT * SQR_MAX_HEIGHT * 2);
 	comp->sqr_x_lim = malloc(sizeof(*comp->sqr_x_lim) * sqr->biggest_z);
 	if (!comp->sqr_x_lim)
 		return ;	
@@ -293,3 +293,51 @@ void	render_inner_square(t_win_glfw *win, t_compass *comp, t_pixel centre)
 	//xiaolinwu_line(win, sqr.edges[SQR_BOT_RIGHT], sqr.edges[SQR_BOT_LEFT]);	
 }
 
+void	xlim_square_vs_rectangle(t_win_glfw *win, t_compass *comp, t_pixel centre, t_pixel low_bot, t_pixel hi_top)
+{
+	int 		i;
+	int 		x;
+	int 		y;
+	t_square	sqr;
+	int			c_min_max[MM_SIZE];
+
+	if (low_bot.x >= hi_top.y || low_bot.y >= hi_top.y)
+		return ;
+
+	sqr = comp->sqr;
+	ft_memcpy(&c_min_max, &comp->inner.min_max, sizeof(c_min_max));
+	x = centre.x;
+	y = centre.y;
+	i = 0;
+	while (i < SQR_SIZE)
+	{
+		translate_point(&sqr.edges[i], x, y);
+		i++;
+	}
+	
+
+	sqr.min_max[MM_MIN_X] += x;
+	sqr.min_max[MM_MAX_X] += x;
+	sqr.min_max[MM_MIN_Y] += y;
+	sqr.min_max[MM_MAX_Y] += y;
+
+	i = 0;
+
+	if (sqr.min_max[MM_MIN_X] > hi_top.x ||
+		sqr.min_max[MM_MAX_X] < low_bot.x ||
+		sqr.min_max[MM_MIN_Y] > hi_top.y ||
+		sqr.min_max[MM_MAX_Y] < low_bot.y)
+		return ;
+
+	i = ft_max(low_bot.y - sqr.min_max[MM_MIN_Y], 0);
+	int end = ft_max(sqr.min_max[MM_MAX_Y] - hi_top.y, 0);
+
+	while (i < sqr.real_z - end)
+	{
+		int start = ft_max(comp->sqr_x_lim[i].min + x, low_bot.x);
+		int end_line = ft_min(comp->sqr_x_lim[i].max + x, hi_top.x);
+		
+		draw_horizontal_line(win, start , end_line, i + sqr.min_max[MM_MIN_Y], comp->sqr.color);
+		i++;
+	}
+}

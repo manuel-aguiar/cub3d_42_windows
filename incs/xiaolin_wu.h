@@ -15,6 +15,7 @@
 # define XIAOLIN_WU_H
 
 # include "libft.h"
+# include "pixel.h"
 # include "render_windows.h"
 
 typedef struct s_win_glfw t_win_glfw;
@@ -32,13 +33,6 @@ typedef struct s_xldata
 	short			slope;
 	int				colour;
 }	t_xldata;
-
-typedef struct s_pixel
-{
-	int	x;
-	int	y;
-	int	colour;
-}	t_pixel;
 
 void	swap_pixels(t_pixel *start, t_pixel *end);
 

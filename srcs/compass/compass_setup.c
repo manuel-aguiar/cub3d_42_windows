@@ -15,19 +15,19 @@
 void		compass_template_setup(t_compass *comp, float radians)
 {
 	comp->centre = (t_pixel){300, 300, ARGB(255, 0, 0, 255)};
-	comp->radius = 200;
+	comp->radius = int_clamp(200, CCL_MIN_RAD, CCL_MAX_RAD);
 	comp->color = ARGB(10, 20, 10, 255);
-	comp->inner.radius = (int)(comp->radius * 0.7f);
+	comp->inner.radius = int_clamp((int)(comp->radius * 0.7f), (int)(CCL_MIN_RAD * 0.7f), (int)(CCL_MAX_RAD * 0.7f));
 	comp->inner.color = ARGB(255, 255, 255, 255);
 	comp->letter_height = (int)(comp->radius * 0.1f);
 	comp->letter_width = (int)(comp->radius * 0.05f);
 	comp->letter_color = ARGB(255, 255, 255, 255);
-	comp->letter_radius = (int)(comp->radius * 0.8f);												//manual
+	comp->letter_radius = (int)(comp->radius * 0.8f);												//manual, clamp?
 	comp->radians = radians;
 	comp->cos_rad = cosf(radians);
 	comp->sin_rad = sinf(radians);
 	comp->sqr_color = ARGB(255, 165, 0,255);
-	comp->sqr_width = (int)(comp->radius * 0.5f);
+	comp->sqr_height = int_clamp((int)(comp->radius * 0.5f), SQR_MIN_HEIGHT, SQR_MAX_HEIGHT);
 	comp->map_centre = comp->centre;			//random;
 	init_template_north(comp);
 	init_template_south(comp);

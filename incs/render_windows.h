@@ -21,8 +21,8 @@
 
 
 # include "libft.h"
-# include "xiaolin_wu.h"
 
+# include "pixel.h"
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1024

@@ -19,7 +19,7 @@
 
 # include "libft.h"
 # include "render_windows.h"
-
+# include "pixel.h"
 
 # define TOTAL_TEXTURES 6
 

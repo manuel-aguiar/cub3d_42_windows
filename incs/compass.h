@@ -15,15 +15,34 @@
 # define COMPASS_H
 
 # include "render_windows.h"
+# include "pixel.h"
+# include "xiaolin_wu.h"
 
-# include "math.h"
 
-# define MY_PI 3.14159
+# include <math.h>
+
+
+# define MY_PI 3.14159f
+
+/*
+ diagonal of a 90º triangle with sides 1 by 1
+ by pitagoras 1^2 + 1^2 = diag^2 so diag = sqrt(2)
+ div by 2 heps in getting sine and cosine at +45/-45/+135/-135 angles all
+based on one single sin/cos calculation
+used on defining character movement
+*/
+# define SQRT_OF_TWO_OVER_TWO 0.7071067f
+
 
 //easier and more symetrical if letter height/width is an odd number
 # define LETTER_HEIGHT 9
 # define LETTER_WIDTH 5
 
+# define CCL_MAX_RAD 300
+# define CCL_MIN_RAD 100
+
+# define SQR_MAX_HEIGHT 100
+# define SQR_MIN_HEIGHT 10
 
 typedef struct s_circle t_circle;
 typedef struct s_north t_north;
@@ -71,24 +90,6 @@ typedef struct s_west t_west;
 
 */
 
-/*
-typedef struct s_compass
-{
-	t_pixel		centre;
-	t_circle	inner;
-	t_circle	outer;
-	float		radians;
-	float		cos_rad;
-	float		sen_rad;
-	int			letter_height;
-	int			letter_width;
-	t_square	template_square;
-	t_north		template_north;
-	t_south		template_south;
-	t_east		template_east;
-	t_west		template_west;
-}	t_compass;
-*/
 
 enum e_sqr
 {
@@ -119,7 +120,7 @@ typedef struct s_square
 	t_pixel		centre;
 	t_pixel		edges[SQR_SIZE];
 	int			min_max[MM_SIZE];
-	int			width;
+	int			height;
 	int			color;
 	int			biggest_z;
 	int			real_z;
@@ -186,8 +187,6 @@ struct s_circle
 	int			min_max[MM_SIZE];
 };
 
-
-
 typedef struct s_compass
 {
 	t_pixel		centre;
@@ -205,7 +204,7 @@ typedef struct s_compass
 	int			letter_radius;
 	int			letter_color;
 	int			sqr_color;
-	int			sqr_width;
+	int			sqr_height;
 	t_circle	inner;
 	t_square	sqr;
 	t_mm_pair	*circle_x_lim;
@@ -267,5 +266,10 @@ void	free_compass(t_compass *comp);
 //inner_circle.c
 int 	init_inner_circle(t_compass *comp);
 void	render_inner_circle(t_win_glfw *win, t_compass *comp);
+
+// clamp.c
+int		int_clamp(int value, int min, int max);
+float	float_clamp(float value, float min, float max);
+
 
 #endif

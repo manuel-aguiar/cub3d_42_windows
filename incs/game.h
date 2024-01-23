@@ -20,6 +20,8 @@
 # include "xiaolin_wu.h"
 # include "parsing.h"
 # include "render_windows.h"
+# include "pixel.h"
+
 
 typedef struct s_posi
 {

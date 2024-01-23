@@ -40,6 +40,7 @@ DIR_DRAWING_ALGOS	= 	drawing_algos
 ## SOURCE FILES ##
 
 INC_FILES		=		game.h				\
+						pixel.h				\
 						parsing.h			\
 						render_windows.h	\
 						xiaolin_wu.h		\
@@ -52,7 +53,8 @@ SRC_GAME			=	win_render_loop.c		\
 						game.c				\
 						free_game.c			\
 						game_key_funcs.c	\
-						game_render.c
+						game_render.c		\
+						game_player_posi.c
 
 SRC_PARSING			=	parsing.c				\
 						textures.c				\
@@ -75,7 +77,8 @@ SRC_COMPASS			=	compass_setup.c				\
 						letter_west.c				\
 						win_circle.c				\
 						win_square.c				\
-						inner_circle.c
+						inner_circle.c				\
+						clamp.c
 
 SRC_DRAWING_ALGOS	=	circle_line_clipping.c		\
 						liang_barsky_clipping.c		\

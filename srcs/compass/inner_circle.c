@@ -79,7 +79,7 @@ int init_inner_circle(t_compass *comp)
 
 	inner = &comp->inner;
 	inner->centre = comp->centre;
-	comp->circle_x_lim = malloc(sizeof(*comp->circle_x_lim) * (inner->radius * 2 + 1));
+	comp->circle_x_lim = malloc(sizeof(*comp->circle_x_lim) * ((int)(CCL_MAX_RAD * 0.7f) * 2 + 1));
 	if (!comp->circle_x_lim)
 		return (0);				//mallloc failed perror
 	inner->min_max[MM_MIN_X] = - inner->radius;
