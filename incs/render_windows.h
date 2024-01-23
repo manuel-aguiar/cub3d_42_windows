@@ -112,7 +112,7 @@ enum e_keys_bits
 
 //win_init_window.c
 t_win_glfw	*win_init_window(void);
-int			win_free_glfw(t_win_glfw *win);
+int			free_win_glfw(t_win_glfw *win);
 
 //win_keys.c
 void	win_key_press(GLFWwindow* window, int key, int scancode, int action, int mods);

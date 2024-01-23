@@ -30,7 +30,7 @@ int		color_atoi(char *str, int *place_res)
 	return (1);
 }
 
-int		extract_color(t_tex	*data)
+int		extract_color(t_tex	*tex)
 {
 	char	**split;
 	int		count;
@@ -38,7 +38,7 @@ int		extract_color(t_tex	*data)
 	int		g;
 	int		b;
 
-	split = ft_split_count(data->path, ",", &count);
+	split = ft_split_count(tex->path, ",", &count);
 	if (!split)
 		return (0);						//malloc
 	if (count != 3 || !color_atoi(split[0], &r) || !color_atoi(split[1], &g) || !color_atoi(split[2], &b))
@@ -46,8 +46,8 @@ int		extract_color(t_tex	*data)
 		ft_free_charmat_null(&split, free);
 		return (0);						// color scheme is not written correctly
 	}
-	data->color = ARGB(START_ALPHA, r, g, b);
-	ft_free_set_null(&data->path);
+	tex->color = ARGB(START_ALPHA, r, g, b);
+	ft_free_set_null(&tex->path);
 	ft_free_charmat_null(&split, free);
 	return (1);
 }

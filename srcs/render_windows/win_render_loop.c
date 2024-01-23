@@ -11,16 +11,14 @@
 /* ************************************************************************** */
 
 
-# include "compass.h"
+# include "game.h"
 
 
-int		win_render(t_win_glfw *win, void (*win_key_press)())
+int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 {
+	t_compass	comp;
 
-
-	t_pixel c_comp = {300, 300, ARGB(255, 0, 0, 255)};
-	t_compass comp;
-	compass_template_setup(&comp, c_comp, 200, 0);
+	compass_template_setup(&comp, 0);
 
 
 	glfwSetKeyCallback(win->window, win_key_press);

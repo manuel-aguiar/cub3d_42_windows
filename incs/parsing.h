@@ -25,6 +25,8 @@
 
 # define VALID_MAP_CHARS "01NSWE "
 
+# define VALID_START_POSI "NSWE"
+
 # define START_ALPHA 255
 # define MAX_COLOR 255
 # define MIN_COLOR 0
@@ -62,14 +64,24 @@ typedef struct s_parsing
 	t_gnl_len	*gnl;
 	t_tex		tex_data[NUM_TEX];
 	char		*map;
-	t_uint		map_width;
-	t_uint		map_height;
+	int			map_width;
+	int			map_height;
 	bool		found_player;
 }	t_parsing;
 
+typedef struct s_map
+{
+	char		*map;
+	int			width;
+	int			height;
+	int			len;
+	t_tex		tex_data[NUM_TEX];
+}	t_map;
+
+
 //parsing.c
-int		parsing_input(t_parsing *parsing, char *av_file);
-void	free_parsing_contents(t_parsing *parsing);
+int		map_parsing(t_map *map, char *av_file);
+void	free_map(t_map *map);
 
 //textures.c
 int		analise_textures(t_parsing *parsing);

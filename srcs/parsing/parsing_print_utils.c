@@ -42,7 +42,7 @@ void	gnl_len_print_line(void	*str)
 
 void	print_map(t_parsing *parsing)
 {
-	t_uint i;
+	int i;
 
 	i = 0;
 	while (i < parsing->map_height * parsing->map_width)

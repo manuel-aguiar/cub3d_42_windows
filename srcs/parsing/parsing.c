@@ -50,7 +50,7 @@ static int	is_only_spaces(char *str)
 
 static int trim_end_space_check_chars(t_parsing *parsing, t_gnl_len *gnl, char *charset)
 {	
-	t_uint		len;
+	int		len;
 	char	*str;
 	int		i;
 
@@ -214,30 +214,62 @@ static int file_to_list(t_parsing *parsing)
 	return (1);
 }
 
-int	parsing_input(t_parsing *parsing, char *av_file)
+void		dump_parsing_to_map(t_map *map, t_parsing *parsing)
 {
-	*parsing = (t_parsing){};
-	parsing->file = av_file;
-	if (file_to_list(parsing))
+	int i;
+	*map = (t_map){};
+	map->map = parsing->map;
+	map->height = parsing->map_height;
+	map->width = parsing->map_width;
+	i = 0;
+	while (i < NUM_TEX)
+	{
+		map->tex_data[i] = parsing->tex_data[i];
+		i++;
+	}
+	map->len = map->width * map->height;	
+}
+
+int	map_parsing(t_map *map, char *av_file)
+{
+	t_parsing	parsing;
+
+	parsing = (t_parsing){};
+	parsing.file = av_file;
+	if (file_to_list(&parsing))
 	{
 		
-		if (!separate_textures(parsing))
+		if (!separate_textures(&parsing))
 			return (error_msg_int("cub3d: bad input textures\n", 2, 0));
-		if (!get_map_dimensions(parsing))
+		if (!get_map_dimensions(&parsing))
 			return (error_msg_int("cub3d: bad map characters\n", 2, 0));
-		if (!list_to_map(parsing))
+		if (!list_to_map(&parsing))
 			return (0);
-		if (!analise_textures(parsing))
+		if (!analise_textures(&parsing))
 			return (0);
-		print_tex_data(parsing);
-		free_parsing_contents(parsing);
-		printf("map dimensions: %dx%d\n", parsing->map_height, parsing->map_width);
-		print_map(parsing);
+		vdmlist_destroy(&parsing.list, free_gnl_len);
+		print_tex_data(&parsing);
+		printf("map dimensions: %dx%d\n", parsing.map_height, parsing.map_width);
+		print_map(&parsing);
 	}
+
+	dump_parsing_to_map(map, &parsing);
+
 	return (1);
 }
 
-void	free_parsing_contents(t_parsing *parsing)
+
+
+void	free_map(t_map *map)
 {
-	vdmlist_destroy(&parsing->list, free_gnl_len);
+	int	i;
+
+	free(map->map);
+	i = 0;
+	while (i < NUM_TEX)
+	{
+		if (map->tex_data[i].path)
+			free(map->tex_data[i].path);
+		i++;
+	}
 }

@@ -29,7 +29,8 @@ LIBFT		=		libft.a
 
 ## SOURCE FOLDERS
 
-DIR_PARSING		=		parsing
+DIR_GAME			=	game
+DIR_PARSING			=	parsing
 DIR_GENERIC_UTILS 	= 	generic_utils
 DIR_REN_WIN			=	render_windows
 DIR_REN_LIN			=	render_linux
@@ -38,14 +39,19 @@ DIR_DRAWING_ALGOS	= 	drawing_algos
 
 ## SOURCE FILES ##
 
-INC_FILES	=		cub3d.h				\
-					parsing.h			\
-					render_windows.h	\
-					xiaolin_wu.h		\
-					liang_barsky.h		\
-					compass.h
+INC_FILES		=		game.h				\
+						parsing.h			\
+						render_windows.h	\
+						xiaolin_wu.h		\
+						liang_barsky.h		\
+						compass.h
 
 SRC_MAIN			=	main.c
+
+SRC_GAME			=	game.c				\
+						free_game.c			\
+						game_key_funcs.c	\
+						game_render.c
 
 SRC_PARSING			=	parsing.c				\
 						textures.c				\

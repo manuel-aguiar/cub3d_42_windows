@@ -12,23 +12,23 @@
 
 # include "compass.h"
 
-void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int radians)
+void		compass_template_setup(t_compass *comp, float radians)
 {
-	comp->centre = centre;
-	comp->radius = radius;
+	comp->centre = (t_pixel){300, 300, ARGB(255, 0, 0, 255)};
+	comp->radius = 200;
 	comp->color = ARGB(10, 20, 10, 255);
-	comp->inner.radius = (int)(radius * 0.7f);
+	comp->inner.radius = (int)(comp->radius * 0.7f);
 	comp->inner.color = ARGB(255, 255, 255, 255);
-	comp->letter_height = (int)(radius * 0.1f);
-	comp->letter_width = (int)(radius * 0.05f);
+	comp->letter_height = (int)(comp->radius * 0.1f);
+	comp->letter_width = (int)(comp->radius * 0.05f);
 	comp->letter_color = ARGB(255, 255, 255, 255);
-	comp->letter_radius = (int)(radius * 0.8f);												//manual
+	comp->letter_radius = (int)(comp->radius * 0.8f);												//manual
 	comp->radians = radians;
 	comp->cos_rad = cosf(radians);
 	comp->sin_rad = sinf(radians);
 	comp->sqr_color = ARGB(255, 165, 0,255);
-	comp->sqr_width = (int)(radius * 0.5f);
-	comp->map_centre = centre;			//random;
+	comp->sqr_width = (int)(comp->radius * 0.5f);
+	comp->map_centre = comp->centre;			//random;
 	init_template_north(comp);
 	init_template_south(comp);
 	init_template_east(comp);
@@ -41,13 +41,12 @@ void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int ra
 	//init_template_south_circle(comp);
 }
 
-void	rotate_compass(t_compass *comp, float diff_rad)
+void	set_compass_angle(t_compass *comp, float new_rad)
 {
-	comp->radians += diff_rad;
+	comp->radians = new_rad;
 	comp->cos_rad = cosf(comp->radians);
 	comp->sin_rad = sinf(comp->radians);
 	rotate_template_square(comp, &comp->sqr);
-
 }
 
 void	translate_compass(t_compass *comp, int dx, int dy)
@@ -92,6 +91,10 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	chatgpt_anticircle_empty(win, comp->centre, comp->inner.radius, comp->color);
 
 	//render_inner_circle(win, comp);
+}
 
-
+void		free_compass(t_compass *comp)
+{
+	free(comp->sqr_x_lim);
+	free(comp->circle_x_lim);
 }

@@ -1,37 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   game_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 14:43:31 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/11 14:43:31 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/23 12:37:43 by marvin            #+#    #+#             */
+/*   Updated: 2024/01/23 12:37:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
+# include "game.h"
 
-int main(int ac, char **av)
+int		game_render(t_game *game)
 {
-	(void)ac;
-	(void)av;
-	
-	if (ac != 2)
-		return (0 & ft_printf_fd(STDERR_FILENO, "cub3d: invalid number of arguments\n"));
-	//if (!parsing_input(&parsing, av[1]))
-	//	return (1);
-	return (0);
-}
-
-int main2(void)
-{
-	t_win_glfw *win;
-
-	win = win_init_window();
-
-	win_render(win, &win_key_press);
-
-	free_win_glfw(win);
-	return (0);
+	//render_all_stuff
+	render_compass(&game->win, &game->compass);
 }

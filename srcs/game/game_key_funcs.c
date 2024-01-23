@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   game_key_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 14:43:31 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/11 14:43:31 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/23 12:24:38 by marvin            #+#    #+#             */
+/*   Updated: 2024/01/23 12:24:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
+# include "game.h"
 
-int main(int ac, char **av)
+float	radian_truncate(float radian)
 {
-	(void)ac;
-	(void)av;
-	
-	if (ac != 2)
-		return (0 & ft_printf_fd(STDERR_FILENO, "cub3d: invalid number of arguments\n"));
-	//if (!parsing_input(&parsing, av[1]))
-	//	return (1);
-	return (0);
+	if (radian >= 2)
+		return (0 + (float)(radian - 2));
+	if (radian < -2)
+		return (0 + (float)(radian + 2));
+	return (radian);
 }
 
-int main2(void)
+int	game_rotate_view_angle(t_game *game, float diff)
 {
-	t_win_glfw *win;
-
-	win = win_init_window();
-
-	win_render(win, &win_key_press);
-
-	free_win_glfw(win);
-	return (0);
+	game->player_angle_rad = radian_truncate(game->player_angle_rad + diff);
+	set_compass_angle(&game->compass, game->player_angle_rad);
 }

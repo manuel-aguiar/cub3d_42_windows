@@ -43,7 +43,7 @@ t_win_glfw	*win_init_window(void)
 	return (win);	
 }
 
-int	win_free_glfw(t_win_glfw *win)
+int	free_win_glfw(t_win_glfw *win)
 {
 	glfwDestroyWindow(win->window);
 	glfwTerminate();

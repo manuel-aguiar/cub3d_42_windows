@@ -24,6 +24,7 @@
 # define LETTER_HEIGHT 9
 # define LETTER_WIDTH 5
 
+
 typedef struct s_circle t_circle;
 typedef struct s_north t_north;
 typedef struct s_south t_south;
@@ -254,13 +255,16 @@ void	translate_point(t_pixel	*point, int dx, int dy);
 void	backward_rotate_point(t_pixel *point, t_pixel centre, float cos, float sin);
 void	rotate_point(t_pixel *point, t_pixel centre, float cos, float sin);
 
-void		compass_template_setup(t_compass *comp, t_pixel centre, int radius, int radians);
-void	rotate_compass(t_compass *comp, float diff_rad);
+
+//compass_setup.c
+void	compass_template_setup(t_compass *comp, float radians);
+void	set_compass_angle(t_compass *comp, float new_rad);
 void	translate_compass(t_compass *comp, int dx, int dy);
 void	render_compass(t_win_glfw *win, t_compass *comp);
+void	free_compass(t_compass *comp);
 
 
-
+//inner_circle.c
 int 	init_inner_circle(t_compass *comp);
 void	render_inner_circle(t_win_glfw *win, t_compass *comp);
 
