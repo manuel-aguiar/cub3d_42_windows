@@ -50,7 +50,7 @@ void	game_rotate_view_angle(t_game *game, float diff);
 //game_render.c
 void	game_render(t_game *game);
 
-
+float	radian_truncate(float radian);
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)());
 
