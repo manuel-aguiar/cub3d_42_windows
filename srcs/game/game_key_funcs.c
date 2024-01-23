@@ -21,7 +21,7 @@ float	radian_truncate(float radian)
 	return (radian);
 }
 
-int	game_rotate_view_angle(t_game *game, float diff)
+void	game_rotate_view_angle(t_game *game, float diff)
 {
 	game->player_angle_rad = radian_truncate(game->player_angle_rad + diff);
 	set_compass_angle(&game->compass, game->player_angle_rad);

@@ -48,7 +48,8 @@ INC_FILES		=		game.h				\
 
 SRC_MAIN			=	main.c
 
-SRC_GAME			=	game.c				\
+SRC_GAME			=	win_render_loop.c		\
+						game.c				\
 						free_game.c			\
 						game_key_funcs.c	\
 						game_render.c
@@ -62,7 +63,6 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c
 SRC_REN_WIN			=	win_init_window.c		\
 						win_keys.c				\
 						win_pixels.c			\
-						win_render_loop.c		\
 						win_fps_counter.c
 
 
@@ -93,7 +93,8 @@ SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_GENERIC_UTILS)/, $(SRC_GENERIC_UTILS))	\
 					$(addprefix $(SRC_PATH)/$(DIR_REN_WIN)/, $(SRC_REN_WIN))				\
 					$(addprefix $(SRC_PATH)/$(DIR_COMPASS)/, $(SRC_COMPASS))				\
-					$(addprefix $(SRC_PATH)/$(DIR_DRAWING_ALGOS)/, $(SRC_DRAWING_ALGOS))
+					$(addprefix $(SRC_PATH)/$(DIR_DRAWING_ALGOS)/, $(SRC_DRAWING_ALGOS))	\
+					$(addprefix $(SRC_PATH)/$(DIR_GAME)/, $(SRC_GAME))
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
 

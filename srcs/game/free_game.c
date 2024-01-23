@@ -12,7 +12,7 @@
 
 #include "game.h"
 
-int		free_game(t_game *game)
+void	free_game(t_game *game)
 {
 	free_win_glfw(&game->win);
 	free_compass(&game->compass);

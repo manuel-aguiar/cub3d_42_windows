@@ -43,11 +43,38 @@ t_win_glfw	*win_init_window(void)
 	return (win);	
 }
 
+int	new_win_init_window(t_win_glfw *win)
+{
+	if (!win)
+		return (perror_msg_int("malloc", 0));
+	win->win_width = WIN_WIDTH;
+	win->win_height = WIN_HEIGHT;
+	if (!glfwInit())
+        return (0);      // no free, potencial memleak
+	win->window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, NULL, NULL);
+	if (!win->window)
+	{
+		glfwTerminate();
+		return (0);		// no free, potencial memleak
+	}
+	glfwMakeContextCurrent(win->window);
+	if (glewInit() != GLEW_OK)
+	{
+		glfwTerminate();
+		return (0);		// no free, potencial memleak
+	}
+	win->front_buf = malloc(sizeof(*win->front_buf) * WIN_WIDTH * WIN_HEIGHT * RGB_SIZE);
+	if (!win->front_buf)
+		return (0);		// no free, potencial memleak
+	win->set_pixel = win_set_pixel;
+	win->get_pixel = win_get_pixel;
+	return (1);	
+}
+
 int	free_win_glfw(t_win_glfw *win)
 {
 	glfwDestroyWindow(win->window);
 	glfwTerminate();
 	free(win->front_buf);
-	free(win);
 	return (1);
 }

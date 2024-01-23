@@ -118,7 +118,7 @@ int			free_win_glfw(t_win_glfw *win);
 void	win_key_press(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 //win_render_loop.c
-int		win_render(t_win_glfw *win, void (*win_key_press)());
+
 
 //win_pixels.c
 void	win_set_pixel(t_win_glfw *win, int x, int y, int color);
