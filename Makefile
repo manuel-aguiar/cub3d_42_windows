@@ -36,10 +36,12 @@ DIR_REN_WIN			=	render_windows
 DIR_REN_LIN			=	render_linux
 DIR_COMPASS			=	compass
 DIR_DRAWING_ALGOS	= 	drawing_algos
+DIR_PLAYER			=	player
 
 ## SOURCE FILES ##
 
 INC_FILES		=		game.h				\
+						player.h			\
 						pixel.h				\
 						parsing.h			\
 						render_windows.h	\
@@ -55,6 +57,10 @@ SRC_GAME			=	win_render_loop.c		\
 						game_key_funcs.c	\
 						game_render.c		\
 						game_player_posi.c
+
+SRC_PLAYER			=	player.c				\
+						player_move.c			\
+						player_rotate.c
 
 SRC_PARSING			=	parsing.c				\
 						textures.c				\
@@ -97,7 +103,9 @@ SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_REN_WIN)/, $(SRC_REN_WIN))				\
 					$(addprefix $(SRC_PATH)/$(DIR_COMPASS)/, $(SRC_COMPASS))				\
 					$(addprefix $(SRC_PATH)/$(DIR_DRAWING_ALGOS)/, $(SRC_DRAWING_ALGOS))	\
-					$(addprefix $(SRC_PATH)/$(DIR_GAME)/, $(SRC_GAME))
+					$(addprefix $(SRC_PATH)/$(DIR_GAME)/, $(SRC_GAME))						\
+					$(addprefix $(SRC_PATH)/$(DIR_PLAYER)/, $(SRC_PLAYER))						
+					
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
 

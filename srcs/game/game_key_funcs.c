@@ -14,10 +14,10 @@
 
 float	radian_truncate(float radian)
 {
-	if (radian >= 2)
-		return (0 + (float)(radian - 2));
-	if (radian < -2)
-		return (0 + (float)(radian + 2));
+	if (radian >= 2 * P_MY_PI)
+		return (0 + (float)(radian - 2 * P_MY_PI));
+	if (radian < -2 * P_MY_PI)
+		return (0 + (float)(radian + 2 * P_MY_PI));
 	return (radian);
 }
 
@@ -25,4 +25,6 @@ void	game_rotate_view_angle(t_game *game, float diff)
 {
 	game->player_angle_rad = radian_truncate(game->player_angle_rad + diff);
 	set_compass_angle(&game->compass, game->player_angle_rad);
+	game->player.angle = radian_truncate(game->player.angle + diff);							//limpar
+	rotate_player(&game->player, game->player.angle);
 }

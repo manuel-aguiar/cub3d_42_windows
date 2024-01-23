@@ -16,4 +16,5 @@ void		game_render(t_game *game)
 {
 	//render_all_stuff
 	render_compass(&game->win, &game->compass);
+	render_player(&game->win, &game->player);
 }

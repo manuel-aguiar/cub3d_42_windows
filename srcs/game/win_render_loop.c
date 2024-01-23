@@ -15,15 +15,21 @@
 
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
-{
+{			
 	glfwSetKeyCallback(win->window, win_key_press);
 	glViewport(0, 0, (*win).win_width, (*win).win_height);
-	set_fps_start(&win->fps);
+	//set_fps_start(&win->fps);
     while (!glfwWindowShouldClose(win->window))
 	{
 		glRasterPos2f(-1, -1);
 		ft_memset(win->front_buf, 0, WIN_WIDTH * WIN_HEIGHT * RGB_SIZE * sizeof(*(win->front_buf)));
 
+		if (glfwGetKey(win->window, GLFW_KEY_Q))
+			game_rotate_view_angle(game, -0.045f);
+		if (glfwGetKey(win->window, GLFW_KEY_E))
+			game_rotate_view_angle(game, 0.045f);
+
+		move_player(&game->player, glfwGetKey(win->window, GLFW_KEY_W), glfwGetKey(win->window, GLFW_KEY_S), glfwGetKey(win->window, GLFW_KEY_A), glfwGetKey(win->window, GLFW_KEY_D));
 		//if (glfwGetKey(win->window, GLFW_KEY_S))
         //	game->compass.map_centre.y--;
 		//if (glfwGetKey(win->window, GLFW_KEY_W))
@@ -32,16 +38,12 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
         //	game->compass.map_centre.x--;
 		//if (glfwGetKey(win->window, GLFW_KEY_D))
         //	game->compass.map_centre.x++;
-		if (glfwGetKey(win->window, GLFW_KEY_Q))
-			game_rotate_view_angle(game, -0.0045f);
-        	
-		if (glfwGetKey(win->window, GLFW_KEY_E))
-			game_rotate_view_angle(game, 0.0045f);
+
         	
 		game_render(game);
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		fps_calc_print(&win->fps);
+		//fps_calc_print(&win->fps);
         glDrawPixels(win->win_width, win->win_height, GL_RGBA, GL_UNSIGNED_BYTE, win->front_buf);
 		//set_fps_start(&win->fps);
 		glfwSwapBuffers(win->window);

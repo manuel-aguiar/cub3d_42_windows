@@ -29,13 +29,13 @@ int		char_in_set(char c, char *charset)
 void		game_starting_angle(t_game *game, char direction)
 {
 	if (direction == 'N')
-		game->player_angle_rad = 0;
+		game->player_angle_rad = -P_MY_PI / 2;
 	if (direction == 'S')
-		game->player_angle_rad = 1;
+		game->player_angle_rad = P_MY_PI / 2;
 	if (direction == 'E')
-		game->player_angle_rad = 0.5f;
+		game->player_angle_rad = 0;
 	if (direction == 'W')
-		game->player_angle_rad = -0.5f;
+		game->player_angle_rad = P_MY_PI;
 }
 
 int		map_row(t_map *map, int index)
@@ -73,6 +73,7 @@ int		game_start(t_game *game, char *game_config)
 		return (0);									//unprotected
 	game_find_player(game);
 	compass_template_setup(&game->compass, game->player_angle_rad);
+	setup_player(&game->player, (t_pixel){300, 300, ARGB(255,255,255,255)}, 100, game->player_angle_rad);
 	new_win_init_window(&game->win);
 	return (1);
 }

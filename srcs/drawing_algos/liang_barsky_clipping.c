@@ -12,26 +12,26 @@
 
 #include "liang_barsky.h"
 
-/*
 
-static void	lb_safety(t_fdf *fdf, t_pixel *start, t_pixel *end)
+
+static void	lb_safety(t_pixel low_bot, t_pixel hi_top, t_pixel *start, t_pixel *end)
 {
-	if (start->x > fdf->win_width - 1)
-		start->x = fdf->win_width - 1;
-	if (start->x < 0)
-		start->x = 0;
-	if (start->y > fdf->win_height - 1)
-		start->y = fdf->win_height - 1;
-	if (start->y < 0)
-		start->y = 0;
-	if (end->x > fdf->win_width - 1)
-		end->x = fdf->win_width - 1;
-	if (end->x < 0)
-		end->x = 0;
-	if (end->y > fdf->win_height - 1)
-		end->y = fdf->win_height - 1;
-	if (end->y < 0)
-		end->y = 0;
+	if (start->x > hi_top.x - 1)
+		start->x = hi_top.x - 1;
+	if (start->x < low_bot.x)
+		start->x = low_bot.x;
+	if (start->y > hi_top.y - 1)
+		start->y = hi_top.y - 1;
+	if (start->y < low_bot.y)
+		start->y = low_bot.y;
+	if (end->x > hi_top.x - 1)
+		end->x = hi_top.x - 1;
+	if (end->x < low_bot.x)
+		end->x = low_bot.x;
+	if (end->y > hi_top.y - 1)
+		end->y = hi_top.y - 1;
+	if (end->y < low_bot.y)
+		end->y = low_bot.y;
 }
 
 static void	lb_ratios1(t_lbclip *lb)
@@ -72,16 +72,16 @@ static void	lb_ratios2(t_lbclip *lb)
 	}
 }
 
-static int	lb_setup(t_fdf *fdf, t_lbclip *lb, t_pixel *start, t_pixel *end)
+static int	lb_setup(t_pixel low_bot, t_pixel hi_top, t_lbclip *lb, t_pixel *start, t_pixel *end)
 {
 	lb->p1 = -(end->x - start->x);
 	lb->p2 = -lb->p1;
 	lb->p3 = -(end->y - start->y);
 	lb->p4 = -lb->p3;
-	lb->q1 = start->x - 0;
-	lb->q2 = fdf->win_width - 1 - start->x;
-	lb->q3 = start->y - 0;
-	lb->q4 = fdf->win_height - 1 - start->y;
+	lb->q1 = start->x - low_bot.x;
+	lb->q2 = hi_top.x - 1 - start->x;
+	lb->q3 = start->y - low_bot.y;
+	lb->q4 = hi_top.y - 1 - start->y;
 	lb->posind = 1;
 	lb->negind = 1;
 	lb->posarr[0] = 1;
@@ -92,11 +92,11 @@ static int	lb_setup(t_fdf *fdf, t_lbclip *lb, t_pixel *start, t_pixel *end)
 	return (1);
 }
 
-int	liang_barsky_clipper(t_fdf *fdf, t_pixel start, t_pixel end, t_pixel new[])
+int	liang_barsky_clipper(t_pixel low_bot, t_pixel hi_top, t_pixel start, t_pixel end, t_pixel new[])
 {
 	t_lbclip	lb;
 
-	if (!lb_setup(fdf, &lb, &start, &end))
+	if (!lb_setup(low_bot, hi_top, &lb, &start, &end))
 		return (0);
 	lb_ratios1(&lb);
 	lb_ratios2(&lb);
@@ -112,10 +112,9 @@ int	liang_barsky_clipper(t_fdf *fdf, t_pixel start, t_pixel end, t_pixel new[])
 	start.y = lb.yn1;
 	end.x = lb.xn2;
 	end.y = lb.yn2;
-	lb_safety(fdf, &start, &end);
+	lb_safety(low_bot, hi_top, &start, &end);
 	new[0] = start;
 	new[1] = end;
 	return (1);
 }
 
-*/

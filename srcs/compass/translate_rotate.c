@@ -23,8 +23,8 @@ void	backward_rotate_point(t_pixel *point, t_pixel centre, float cos, float sin)
 	t_pixel og;
 
 	og = *point;
-    point->x = cos * (og.x - centre.x) + sin * (og.y - centre.y) + centre.x;
-    point->y = sin * (og.x - centre.x) - cos * (og.y - centre.y) + centre.y;
+    point->x = (int)(cos * (og.x - centre.x) + sin * (og.y - centre.y) + centre.x);
+    point->y = (int)(sin * (og.x - centre.x) - cos * (og.y - centre.y) + centre.y);
 }
 
 void	rotate_point(t_pixel *point, t_pixel centre, float cos, float sin)
@@ -32,6 +32,6 @@ void	rotate_point(t_pixel *point, t_pixel centre, float cos, float sin)
 	t_pixel og;
 
 	og = *point;
-    point->x = cos * (og.x - centre.x) + sin * (og.y - centre.y) + centre.x;
-    point->y = - sin * (og.x - centre.x) + cos * (og.y - centre.y) + centre.y;
+    point->x = (int)(cos * (og.x - centre.x) + sin * (og.y - centre.y) + centre.x);
+    point->y = (int)(- sin * (og.x - centre.x) + cos * (og.y - centre.y) + centre.y);
 }

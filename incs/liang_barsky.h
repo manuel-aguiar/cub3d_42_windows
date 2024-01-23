@@ -42,6 +42,8 @@ typedef struct s_lbclip
 	float	rn2;
 }	t_lbclip;
 
-
+int	liang_barsky_clipper(t_pixel low_bot, t_pixel hi_top, t_pixel start, t_pixel end, t_pixel new[]);
+float	lb_maxi(float arr[], int n);
+float	lb_mini(float arr[], int n);
 
 #endif
