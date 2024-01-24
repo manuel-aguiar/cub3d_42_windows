@@ -40,7 +40,7 @@ DIR_PLAYER			=	player
 
 ## SOURCE FILES ##
 
-INC_FILES		=		game.h				\
+INC_FILES			=	game.h				\
 						player.h			\
 						pixel.h				\
 						parsing.h			\
@@ -48,6 +48,17 @@ INC_FILES		=		game.h				\
 						xiaolin_wu.h		\
 						liang_barsky.h		\
 						compass.h
+
+INC_GAME			=	game.h
+INC_PLAYER			=	player.h
+INC_PIXEL		 	= 	pixel.h
+INC_PARSING			=	parsing.h
+INC_REN_WIN			=	render_windows.h
+INC_LIANGB			= 	liang_barsky.h
+INC_XIAOLIN			=	xiaolin_wu.h
+INC_COMPASS			=	compass.h
+
+
 
 SRC_MAIN			=	main.c
 
@@ -94,24 +105,68 @@ SRC_DRAWING_ALGOS	=	circle_line_clipping.c		\
 						xiaolinwu_utils.c		
 
 
+
 ## AGGREGATING FILES ##
 
-INCS		:=		$(addprefix $(INC_PATH)/, $(INC_FILES))
 
-SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
-					$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING)) 				\
+P_INC_GAME				:=	$(addprefix $(INC_PATH)/, $(INC_GAME))
+P_INC_PLAYER			:=	$(addprefix $(INC_PATH)/, $(INC_PLAYER))
+P_INC_PIXEL		 		:= 	$(addprefix $(INC_PATH)/, $(INC_PIXEL))
+P_INC_PARSING			:=	$(addprefix $(INC_PATH)/, $(INC_PARSING))
+P_INC_REN_WIN			:=	$(addprefix $(INC_PATH)/, $(INC_REN_WIN))
+P_INC_LIANGB			:= 	$(addprefix $(INC_PATH)/, $(INC_LIANGB))
+P_INC_XIAOLIN			:=	$(addprefix $(INC_PATH)/, $(INC_XIAOLIN))
+P_INC_COMPASS			:=	$(addprefix $(INC_PATH)/, $(INC_COMPASS))
+
+INCS		:=			$(P_INC_GAME) $(P_INC_PLAYER) $(P_INC_PIXEL) $(P_INC_PARSING)	\
+						$(P_INC_REN_LIN) $(P_INC_LIANGB) $(P_INC_XIAOLIN) $(P_INC_COMPASS)
+					
+
+SRCS 		:=		$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING)) 				\
 					$(addprefix $(SRC_PATH)/$(DIR_GENERIC_UTILS)/, $(SRC_GENERIC_UTILS))	\
 					$(addprefix $(SRC_PATH)/$(DIR_REN_WIN)/, $(SRC_REN_WIN))				\
 					$(addprefix $(SRC_PATH)/$(DIR_COMPASS)/, $(SRC_COMPASS))				\
 					$(addprefix $(SRC_PATH)/$(DIR_DRAWING_ALGOS)/, $(SRC_DRAWING_ALGOS))	\
 					$(addprefix $(SRC_PATH)/$(DIR_GAME)/, $(SRC_GAME))						\
+					$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_PLAYER)/, $(SRC_PLAYER))						
-					
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
 
 ALL_INCS	= 		-I$(INC_PATH) -I$(GLFW_INC) -I$(GLEW_INC) -I$(LIB_PATH)/$(LIB_INC_P)
 LIBS		=		$(ADD_LIB) $(LIB_PATH)/$(LIBFT) $(GLFW_LIB) $(GLEW_LIB)
+
+## LIST OF HEADER DEPENDENCIES
+
+$(OBJ_PATH)/$(DIR_GAME)/%.o: 				$(SRC_PATH)/$(DIR_GAME)/%.c						$(INCS)
+	$(call make comp)
+
+$(OBJ_PATH)/$(DIR_PARSING)/%.o:				$(SRC_PATH)/$(DIR_PARSING)/%.c					$(P_INC_PARSING) $(P_INC_REN_WIN)
+	$(call make comp)
+
+$(OBJ_PATH)/$(DIR_REN_WIN)/%.o:				$(SRC_PATH)/$(DIR_REN_WIN)/%.c					$(P_INC_PIXEL) $(P_INC_REN_WIN)
+	$(call make comp)
+
+$(OBJ_PATH)/$(DIR_COMPASS)/%.o:				$(SRC_PATH)/$(DIR_COMPASS)/%.c					$(P_INC_COMPASS) $(P_INC_PIXEL) $(P_INC_REN_WIN) $(P_INC_XIAOLIN)
+	$(call make comp)
+
+$(OBJ_PATH)/$(DIR_GENERIC_UTILS)/%.o:		$(SRC_PATH)/$(DIR_GENERIC_UTILS)/%.c			$(P_INC_COMPASS) $(P_INC_PIXEL) $(P_INC_REN_WIN) $(P_INC_XIAOLIN)
+	$(call make comp)
+
+$(OBJ_PATH)/$(DIR_DRAWING_ALGOS)/%.o:		$(SRC_PATH)/$(DIR_DRAWING_ALGOS)/%.c			$(P_INC_PIXEL) $(P_INC_LIANGB) $(P_INC_XIAOLIN) $(P_INC_REN_WIN)
+	$(call make comp)
+
+$(OBJ_PATH)/$(DIR_PLAYER)/%.o:				$(SRC_PATH)/$(DIR_PLAYER)/%.c					$(P_INC_PLAYER) $(P_INC_PIXEL)
+	$(call make comp)
+
+$(OBJ_PATH)/main.o:							$(SRC_PATH)/main.c								$(INCS)
+	$(call make comp)
+
+
+
+
+
+
 
 all: $(NAME)
 
@@ -120,7 +175,8 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo Program $(NAME) ready!!
 
 
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
+
+comp:
 	@if not exist $(OBJ_PATH) \
 	( \
 		powershell -File mkdir.ps1 \
@@ -155,4 +211,4 @@ run: $(NAME)
 
 re: fclean all
 
-.PHONY: clean fclean re message bonus
+.PHONY: clean fclean re message bonus comp

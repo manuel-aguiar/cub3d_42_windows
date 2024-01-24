@@ -235,8 +235,8 @@ void	render_inner_square(t_win_glfw *win, t_compass *comp, t_pixel centre)
 
 	sqr = comp->sqr;
 	ft_memcpy(&c_min_max, &comp->inner.min_max, sizeof(c_min_max));
-	x = centre.x + comp->map_centre.x;
-	y = centre.y + comp->map_centre.y;
+	x = centre.x + comp->map_centre.x;											//relativos ao centro do compasso
+	y = centre.y + comp->map_centre.y;											//relativos ao centro do compasso
 	i = 0;
 	while (i < SQR_SIZE)
 	{

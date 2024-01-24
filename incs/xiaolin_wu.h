@@ -22,6 +22,7 @@ typedef struct s_win_glfw t_win_glfw;
 
 
 
+
 typedef struct s_xldata
 {
 	unsigned short	err_adj;

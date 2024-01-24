@@ -33,14 +33,7 @@ used on defining character movement
 
 typedef struct s_player
 {
-	t_pixel	st_centre;
-	t_pixel	st_left;
-	t_pixel	st_right;
-	t_pixel	st_front;
-	t_pixel	centre;
-	t_pixel	left;
-	t_pixel	right;
-	t_pixel	front;
+	t_posi	map_posi;
 	float	angle;
 	float	cos_rad;
 	float	sin_rad;

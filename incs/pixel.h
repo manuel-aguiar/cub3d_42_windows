@@ -14,6 +14,12 @@
 
 # define PIXEL_H
 
+typedef struct s_posi
+{
+	float x;
+	float y;
+}	t_posi;
+
 typedef struct s_pixel
 {
 	int	x;

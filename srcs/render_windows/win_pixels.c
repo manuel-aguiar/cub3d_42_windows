@@ -20,7 +20,7 @@ void	win_set_pixel(t_win_glfw *win, int x, int y, int color)
 {
 	char		*my_dst;
 
-	my_dst = win->front_buf + (y * win->win_width + x) * RGB_SIZE;
+	my_dst = win->front_buf + (y * win->width + x) * RGB_SIZE;
 	*(unsigned int *)my_dst = color;
 }
 
@@ -28,7 +28,7 @@ int	win_get_pixel(t_win_glfw *win, int x, int y)
 {
 	char		*my_dst;
 
-	my_dst = win->front_buf + (y * win->win_width + x) * RGB_SIZE;
+	my_dst = win->front_buf + (y * win->width + x) * RGB_SIZE;
 	return (*(unsigned int *)my_dst);
 }
 

@@ -20,10 +20,11 @@ void	comp_map_render(t_game *game)
 	int		sqr_hgt;
 	int		i;
 	int		centre_index;
+	t_pixel	centre;
 
-	t_pixel	centre = (t_pixel){1000, 500, ARGB(255,255,255,255)};
+	centre = game->compass.map_centre;
 	t_pixel	low_bot = (t_pixel){0, 0, ARGB(255,255,255,255)};
-	t_pixel	hi_top = (t_pixel){WIN_WIDTH, WIN_HEIGHT, ARGB(255,255,255,255)};
+	t_pixel	hi_top = (t_pixel){game->win.width, game->win.height, ARGB(255,255,255,255)};
 
 	
 
@@ -44,4 +45,62 @@ void	comp_map_render(t_game *game)
 		}
 		i++;
 	}
+}
+
+void	render_player_against_map(t_game *game)
+{
+	t_posi		new_position;
+	t_pixel 	centre;
+	t_pixel		pivot;
+	t_player	*player;
+	t_pixel 	low_bot = (t_pixel){0, 0, ARGB(255,255,255,255)};
+	t_pixel 	hi_top = (t_pixel){game->win.width, game->win.height, ARGB(255,255,255,255)};
+	t_pixel 	render[2];
+
+	player = &game->player;
+
+	new_position = player->map_posi;
+	new_position.x += player->total_x_diff;
+	new_position.y += player->total_y_diff;
+
+	int		sqr_hgt;
+	int		centre_index;
+
+	sqr_hgt = game->compass.sqr_height;
+	centre_index = game->map.len / 2;
+	centre = game->compass.map_centre;
+
+	centre.x += (int)((new_position.x - centre_index / game->map.height) * sqr_hgt);  //normalizing player position against square size
+	centre.y += (int)((new_position.y - centre_index / game->map.width + 1) * sqr_hgt);	//normalizing player position against square size
+
+	float cos_ray;
+	float sin_ray;	
+
+	// rendering line in front of player
+	pivot = centre;
+	pivot.x += player->pix_radius;
+	rotate_point(&pivot, centre, player->cos_rad, player->sin_rad);
+	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
+		xiaolinwu_line(&game->win, render[0], render[1]);
+
+	// rendering line to the left;
+
+	pivot = centre;
+	pivot.x += player->pix_radius;
+	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle - PI / 4)
+	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;  //sin (angle - PI / 4)
+	rotate_point(&pivot, centre, cos_ray, sin_ray);
+	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
+		xiaolinwu_line(&game->win, render[0], render[1]);
+
+	// rendering line to the right;
+
+	pivot = centre;
+	pivot.x += player->pix_radius;
+	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle + PI / 4)
+	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //sin (angle + PI / 4)
+	rotate_point(&pivot, centre, cos_ray, sin_ray);
+	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
+		xiaolinwu_line(&game->win, render[0], render[1]);
+
 }

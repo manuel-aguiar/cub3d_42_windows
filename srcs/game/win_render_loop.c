@@ -17,7 +17,7 @@
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 {			
 	glfwSetKeyCallback(win->window, win_key_press);
-	glViewport(0, 0, (*win).win_width, (*win).win_height);
+	glViewport(0, 0, win->width, win->height);
 	//set_fps_start(&win->fps);
     while (!glfwWindowShouldClose(win->window))
 	{
@@ -44,7 +44,7 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 
 		glClear(GL_COLOR_BUFFER_BIT);
 		//fps_calc_print(&win->fps);
-        glDrawPixels(win->win_width, win->win_height, GL_RGBA, GL_UNSIGNED_BYTE, win->front_buf);
+        glDrawPixels(win->width, win->height, GL_RGBA, GL_UNSIGNED_BYTE, win->front_buf);
 		//set_fps_start(&win->fps);
 		glfwSwapBuffers(win->window);
         glfwPollEvents();

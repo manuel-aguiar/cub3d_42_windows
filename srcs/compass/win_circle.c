@@ -54,7 +54,7 @@ void	win_full_circle(t_win_glfw *win, t_pixel centre, int radius, int color)
     int decision;
 
 
-	if (centre.x - radius < 0 || centre.y - radius < 0 || centre.x + radius > win->win_width || centre.y + radius > win->win_height)
+	if (centre.x - radius < 0 || centre.y - radius < 0 || centre.x + radius > win->width || centre.y + radius > win->height)
 		return ;
 	x = radius;
 	y = 0;
@@ -84,7 +84,7 @@ void	win_drawcircle_wo_antialiasing(t_win_glfw *win, t_pixel centre, int radius,
     int decision;
 	int count;
 
-	if (centre.x - radius < 0 || centre.y - radius < 0 || centre.x + radius > win->win_width || centre.y + radius > win->win_height)
+	if (centre.x - radius < 0 || centre.y - radius < 0 || centre.x + radius > win->width || centre.y + radius > win->height)
 		return ;
 
 	count = 0;

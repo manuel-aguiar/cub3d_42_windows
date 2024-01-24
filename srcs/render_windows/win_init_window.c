@@ -19,8 +19,8 @@ t_win_glfw	*win_init_window(void)
 	win = malloc(sizeof(*win));
 	if (!win)
 		return (perror_msg_ptr("malloc", NULL));
-	win->win_width = WIN_WIDTH;
-	win->win_height = WIN_HEIGHT;
+	win->width = WIN_WIDTH;
+	win->height = WIN_HEIGHT;
 	if (!glfwInit())
         return (NULL);      // no free, potencial memleak
 	win->window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, NULL, NULL);
@@ -47,8 +47,8 @@ int	new_win_init_window(t_win_glfw *win)
 {
 	if (!win)
 		return (perror_msg_int("malloc", 0));
-	win->win_width = WIN_WIDTH;
-	win->win_height = WIN_HEIGHT;
+	win->width = WIN_WIDTH;
+	win->height = WIN_HEIGHT;
 	if (!glfwInit())
         return (0);      // no free, potencial memleak
 	win->window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, WIN_NAME, NULL, NULL);

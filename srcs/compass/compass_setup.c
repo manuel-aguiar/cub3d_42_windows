@@ -28,7 +28,7 @@ void		compass_template_setup(t_compass *comp, float radians)
 	comp->sin_rad = sinf(radians);
 	comp->sqr_color = ARGB(255, 165, 0,255);
 	comp->sqr_height = int_clamp((int)(comp->radius * 0.2f), SQR_MIN_HEIGHT, SQR_MAX_HEIGHT);
-	comp->map_centre = comp->centre;			//random;
+	comp->map_centre = (t_pixel){1000, 500, ARGB(255,255,255,255)};			//para testes
 	init_template_north(comp);
 	init_template_south(comp);
 	init_template_east(comp);
@@ -75,12 +75,6 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	render_south_letter(win, comp);
 	render_east_letter(win, comp);
 	render_west_letter(win, comp);
-
-	
-
-	t_pixel start = {680, 700, ARGB(0, 0, 255, 255)};
-	t_pixel end = {720, 800, ARGB(0, 255, 0, 0)};
-	bersenham_line(win, start, end, end.colour);
 
 	t_pixel first = {-50, 50, ARGB(0, 255, 165, 255)};
 	render_inner_square(win, comp, first);

@@ -59,8 +59,8 @@ void		game_find_player(t_game *game)
 			break ;
 		i++;
 	}
-	game->player_position.x = (float)map_col(&game->map, i) + 0.5f;
-	game->player_position.y = (float)map_row(&game->map, i) + 0.5f;
+	game->player.map_posi.x = (float)map_col(&game->map, i);
+	game->player.map_posi.y = (float)map_row(&game->map, i);
 	game_starting_angle(game, game->map.map[i]);
 }
 

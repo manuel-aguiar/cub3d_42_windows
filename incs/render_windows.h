@@ -60,8 +60,8 @@ struct s_win_glfw
 {
 	GLFWwindow		*window;
 	char			*front_buf;
-	int				win_width;
-	int				win_height;
+	int				width;
+	int				height;
 	t_fps_counter	fps;
 	void			(*set_pixel)(t_win_glfw *win, int x, int y, int color);
 	int				(*get_pixel)(t_win_glfw *win, int x, int y);

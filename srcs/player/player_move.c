@@ -86,9 +86,6 @@ void    move_player_forward(t_player *player)
 
 void    move_player(t_player *player, bool w, bool s, bool a, bool d)
 {
-	float cos_ray;
-	float sin_ray;
-
 	if (w && !s)
 	{
 		if (a && !d)
@@ -111,23 +108,4 @@ void    move_player(t_player *player, bool w, bool s, bool a, bool d)
 		move_player_left(player);
 	else if (d && !a)
 		move_player_right(player);
-	player->centre = player->st_centre;
-	player->left = player->st_left;
-	player->right = player->st_right;
-	player->front = player->st_front;
-	player->centre.x += (int)(player->total_x_diff);
-	player->left.x += (int)(player->total_x_diff);
-	player->right.x += (int)(player->total_x_diff);
-	player->front.x += (int)(player->total_x_diff);
-	player->centre.y += (int)(player->total_y_diff);
-	player->left.y += (int)(player->total_y_diff);
-	player->right.y += (int)(player->total_y_diff);
-	player->front.y += (int)(player->total_y_diff);
-	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle + PI / 4)
-	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //sin (angle + PI / 4)
-	rotate_point(&player->right, player->centre, cos_ray, sin_ray);
-	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle - PI / 4)
-	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;  //sin (angle - PI / 4)
-	rotate_point(&player->left, player->centre, cos_ray, sin_ray);
-	rotate_point(&player->front, player->centre, player->cos_rad, player->sin_rad);
 }

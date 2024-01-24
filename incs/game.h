@@ -23,12 +23,6 @@
 # include "pixel.h"
 # include "player.h"
 
-typedef struct s_posi
-{
-	float x;
-	float y;
-}	t_posi;
-
 typedef struct s_game
 {
 	t_parsing	parsing;
