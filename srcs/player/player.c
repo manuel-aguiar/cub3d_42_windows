@@ -30,16 +30,12 @@ void    render_player(t_win_glfw *win, t_player *player)
 }
 */
 
-void    setup_player(t_player *player, t_pixel centre, int radius, float rad_angle)
+void    setup_player(t_player *player, float unit_size, float rad_angle)
 {
 
-	(void)centre;
-
 	player->move_sense = 0.01f;
-	player->pix_radius = radius;
+	player->unit_size = unit_size;
 	player->angle = rad_angle;
 	player->cos_rad = cosf(player->angle);
 	player->sin_rad = sinf(player->angle);
-	player->total_x_diff = 0;
-	player->total_y_diff = 0;
 }

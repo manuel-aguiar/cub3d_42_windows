@@ -20,6 +20,7 @@
 # include "xiaolin_wu.h"
 # include "liang_barsky.h"
 
+
 # define P_MY_PI 3.14159f
 
 /*
@@ -37,15 +38,12 @@ typedef struct s_player
 	float	angle;
 	float	cos_rad;
 	float	sin_rad;
-	float	total_x_diff;
-	float	total_y_diff;
-	int		pix_radius;
+	float	unit_size;
 	float	move_sense;
 }   t_player;
 
-void	setup_player(t_player *player, t_pixel centre, int radius, float rad_angle);
+void    setup_player(t_player *player, float unit_size, float rad_angle);
 void	render_player(t_win_glfw *win, t_player *player);
-void	move_player(t_player *player, bool w, bool s, bool a, bool d);
 void	rotate_player(t_player *player, float new_rad_angle);
 
 #endif

@@ -47,6 +47,8 @@ void	comp_map_render(t_game *game)
 	}
 }
 
+void chatgpt_anticircle_empty(t_win_glfw *win, t_pixel centre, int radius, int color);
+
 void	render_player_against_map(t_game *game)
 {
 	t_posi		new_position;
@@ -60,8 +62,8 @@ void	render_player_against_map(t_game *game)
 	player = &game->player;
 
 	new_position = player->map_posi;
-	new_position.x += player->total_x_diff;
-	new_position.y += player->total_y_diff;
+	//new_position.x += player->total_x_diff;
+	//new_position.y += player->total_y_diff;
 
 	int		sqr_hgt;
 	int		centre_index;
@@ -78,7 +80,7 @@ void	render_player_against_map(t_game *game)
 
 	// rendering line in front of player
 	pivot = centre;
-	pivot.x += player->pix_radius;
+	pivot.x += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
 	rotate_point(&pivot, centre, player->cos_rad, player->sin_rad);
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
@@ -86,7 +88,7 @@ void	render_player_against_map(t_game *game)
 	// rendering line to the left;
 
 	pivot = centre;
-	pivot.x += player->pix_radius;
+	pivot.x += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
 	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle - PI / 4)
 	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;  //sin (angle - PI / 4)
 	rotate_point(&pivot, centre, cos_ray, sin_ray);
@@ -96,11 +98,13 @@ void	render_player_against_map(t_game *game)
 	// rendering line to the right;
 
 	pivot = centre;
-	pivot.x += player->pix_radius;
+	pivot.x += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
 	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle + PI / 4)
 	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //sin (angle + PI / 4)
 	rotate_point(&pivot, centre, cos_ray, sin_ray);
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
+	
+	chatgpt_anticircle_empty(&game->win, centre, (int)(player->unit_size * sqr_hgt), ARGB(255,255,255,255));
 
 }

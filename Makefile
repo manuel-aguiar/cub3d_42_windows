@@ -57,7 +57,8 @@ SRC_GAME			=	win_render_loop.c		\
 						game_key_funcs.c		\
 						game_render.c			\
 						game_player_posi.c		\
-						comp_map_render.c
+						comp_map_render.c		\
+						map_player_collisions.c
 
 SRC_PLAYER			=	player.c				\
 						player_move.c			\

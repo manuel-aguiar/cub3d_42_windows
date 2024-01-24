@@ -25,11 +25,11 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		ft_memset(win->front_buf, 0, WIN_WIDTH * WIN_HEIGHT * RGB_SIZE * sizeof(*(win->front_buf)));
 
 		if (glfwGetKey(win->window, GLFW_KEY_Q))
-			game_rotate_view_angle(game, -0.045f);
+			game_rotate_view_angle(game, -0.01f);
 		if (glfwGetKey(win->window, GLFW_KEY_E))
-			game_rotate_view_angle(game, 0.045f);
+			game_rotate_view_angle(game, 0.01f);
 
-		move_player(&game->player, glfwGetKey(win->window, GLFW_KEY_W), glfwGetKey(win->window, GLFW_KEY_S), glfwGetKey(win->window, GLFW_KEY_A), glfwGetKey(win->window, GLFW_KEY_D));
+		move_player(game, glfwGetKey(win->window, GLFW_KEY_W), glfwGetKey(win->window, GLFW_KEY_S), glfwGetKey(win->window, GLFW_KEY_A), glfwGetKey(win->window, GLFW_KEY_D));
 		//if (glfwGetKey(win->window, GLFW_KEY_S))
         //	game->compass.map_centre.y--;
 		//if (glfwGetKey(win->window, GLFW_KEY_W))

@@ -70,10 +70,10 @@ int		game_start(t_game *game, char *game_config)
 {
 	*game = (t_game){};
 	if (!map_parsing(&game->map, game_config))
-		return (0);									//unprotected
+		return (0);								//unprotected
 	game_find_player(game);
 	compass_template_setup(&game->compass, radian_truncate(game->player_angle_rad + P_MY_PI / 2));								//nao tou a reciclar senos e cosenos
-	setup_player(&game->player, (t_pixel){300, 300, ARGB(255,255,255,255)}, 100, game->player_angle_rad);
+	setup_player(&game->player, 0.2f, game->player_angle_rad);
 	new_win_init_window(&game->win);
 	return (1);
 }
