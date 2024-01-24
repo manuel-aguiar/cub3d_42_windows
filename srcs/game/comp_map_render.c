@@ -71,7 +71,7 @@ void	render_player_against_map(t_game *game)
 	centre = game->compass.map_centre;
 
 	centre.x += (int)((new_position.x - centre_index / game->map.height) * sqr_hgt);  //normalizing player position against square size
-	centre.y += (int)((new_position.y - centre_index / game->map.width + 1) * sqr_hgt);	//normalizing player position against square size
+	centre.y += (int)((new_position.y - centre_index / game->map.width) * sqr_hgt);	//normalizing player position against square size
 
 	float cos_ray;
 	float sin_ray;	
