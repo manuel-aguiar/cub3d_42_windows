@@ -38,10 +38,10 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		if (glfwGetKey(win->window, GLFW_KEY_D))
         	comp.map_centre.x++;
 		if (glfwGetKey(win->window, GLFW_KEY_Q))
-			rotate_compass(&comp, -0.0045f);
+			rotate_compass(&comp, -0.00045f);
         	
 		if (glfwGetKey(win->window, GLFW_KEY_E))
-			rotate_compass(&comp, 0.0045f);
+			rotate_compass(&comp, 0.00045f);
         	
 		render_compass(win, &comp);
 

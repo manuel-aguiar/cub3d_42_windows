@@ -52,11 +52,12 @@ INC_FILES		=		game.h				\
 SRC_MAIN			=	main.c
 
 SRC_GAME			=	win_render_loop.c		\
-						game.c				\
-						free_game.c			\
-						game_key_funcs.c	\
-						game_render.c		\
-						game_player_posi.c
+						game.c					\
+						free_game.c				\
+						game_key_funcs.c		\
+						game_render.c			\
+						game_player_posi.c		\
+						comp_map_render.c
 
 SRC_PLAYER			=	player.c				\
 						player_move.c			\

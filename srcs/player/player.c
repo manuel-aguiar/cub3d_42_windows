@@ -35,7 +35,7 @@ void    setup_player(t_player *player, t_pixel centre, int radius, float rad_ang
 	float cos_ray;
 	float sin_ray;
 
-	player->move_sense = 5;
+	player->move_sense = 1;
 	player->pix_radius = radius;
 	player->st_centre = centre;
 	player->st_left = centre;

@@ -40,16 +40,22 @@ void	gnl_len_print_line(void	*str)
 		ft_putstr(new->line);
 }
 
-void	print_map(t_parsing *parsing)
+void	print_map(t_map *map)
 {
 	int i;
+	int j;
 
-	i = 0;
-	while (i < parsing->map_height * parsing->map_width)
+	i = map->len - map->width;
+	while (i >= 0)
 	{
-		if (i % parsing->map_width == 0)
-			printf("\n");
-		printf("%c", parsing->map[i]);
-		i++;
+		j = 0;
+		printf("\n");
+		while (j < map->width)
+		{
+			printf("%c", map->map[i + j]);
+			j++;
+		}
+		i -= map->width;
 	}
+	printf("\n");
 }

@@ -90,6 +90,6 @@ int		analise_textures(t_parsing *parsing);
 //parsing_print_utils.c
 void	print_tex_data(t_parsing *parsing);
 void	gnl_len_print_line(void	*str);
-void	print_map(t_parsing *parsing);
+void	print_map(t_map *map);
 
 #endif

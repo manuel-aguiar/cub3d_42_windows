@@ -299,13 +299,11 @@ void	xlim_square_vs_rectangle(t_win_glfw *win, t_compass *comp, t_pixel centre, 
 	int 		x;
 	int 		y;
 	t_square	sqr;
-	int			c_min_max[MM_SIZE];
 
-	if (low_bot.x >= hi_top.y || low_bot.y >= hi_top.y)
+	if (low_bot.x >= hi_top.x || low_bot.y >= hi_top.y)
 		return ;
 
 	sqr = comp->sqr;
-	ft_memcpy(&c_min_max, &comp->inner.min_max, sizeof(c_min_max));
 	x = centre.x;
 	y = centre.y;
 	i = 0;
@@ -321,6 +319,13 @@ void	xlim_square_vs_rectangle(t_win_glfw *win, t_compass *comp, t_pixel centre, 
 	sqr.min_max[MM_MIN_Y] += y;
 	sqr.min_max[MM_MAX_Y] += y;
 
+	//i = 0;
+	//while (i < SQR_SIZE)
+	//{
+	//	printf("%d ", sqr.min_max[i]);
+	//	i++;
+	//}
+	//printf("\n");
 	i = 0;
 
 	if (sqr.min_max[MM_MIN_X] > hi_top.x ||
@@ -332,11 +337,12 @@ void	xlim_square_vs_rectangle(t_win_glfw *win, t_compass *comp, t_pixel centre, 
 	i = ft_max(low_bot.y - sqr.min_max[MM_MIN_Y], 0);
 	int end = ft_max(sqr.min_max[MM_MAX_Y] - hi_top.y, 0);
 
+	//printf("index start %d, index end %d, sqr real.z %d\n", i, end, sqr.real_z);
 	while (i < sqr.real_z - end)
 	{
 		int start = ft_max(comp->sqr_x_lim[i].min + x, low_bot.x);
 		int end_line = ft_min(comp->sqr_x_lim[i].max + x, hi_top.x);
-		
+		//printf("index %d, end %d, start x %d, end x %d, y %d\n", i, end, start, end_line, i + sqr.min_max[MM_MIN_Y]);
 		draw_horizontal_line(win, start , end_line, i + sqr.min_max[MM_MIN_Y], comp->sqr.color);
 		i++;
 	}

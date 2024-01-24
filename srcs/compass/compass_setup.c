@@ -27,7 +27,7 @@ void		compass_template_setup(t_compass *comp, float radians)
 	comp->cos_rad = cosf(radians);
 	comp->sin_rad = sinf(radians);
 	comp->sqr_color = ARGB(255, 165, 0,255);
-	comp->sqr_height = int_clamp((int)(comp->radius * 0.5f), SQR_MIN_HEIGHT, SQR_MAX_HEIGHT);
+	comp->sqr_height = int_clamp((int)(comp->radius * 0.2f), SQR_MIN_HEIGHT, SQR_MAX_HEIGHT);
 	comp->map_centre = comp->centre;			//random;
 	init_template_north(comp);
 	init_template_south(comp);

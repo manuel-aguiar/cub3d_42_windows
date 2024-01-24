@@ -33,26 +33,26 @@ used on defining character movement
 
 typedef struct s_player
 {
-    t_pixel st_centre;
-    t_pixel st_left;
-    t_pixel st_right;
-    t_pixel st_front;
-    t_pixel centre;
-    t_pixel left;
-    t_pixel right;
-    t_pixel front;
-    float   angle;
-    float   cos_rad;
-    float   sin_rad;
-    float   total_x_diff;
-    float   total_y_diff;
-    int     pix_radius;
-    int     move_sense;
+	t_pixel	st_centre;
+	t_pixel	st_left;
+	t_pixel	st_right;
+	t_pixel	st_front;
+	t_pixel	centre;
+	t_pixel	left;
+	t_pixel	right;
+	t_pixel	front;
+	float	angle;
+	float	cos_rad;
+	float	sin_rad;
+	float	total_x_diff;
+	float	total_y_diff;
+	int		pix_radius;
+	float	move_sense;
 }   t_player;
 
-void    setup_player(t_player *player, t_pixel centre, int radius, float rad_angle);
-void    render_player(t_win_glfw *win, t_player *player);
-void    move_player(t_player *player, bool w, bool s, bool a, bool d);
-void    rotate_player(t_player *player, float new_rad_angle);
+void	setup_player(t_player *player, t_pixel centre, int radius, float rad_angle);
+void	render_player(t_win_glfw *win, t_player *player);
+void	move_player(t_player *player, bool w, bool s, bool a, bool d);
+void	rotate_player(t_player *player, float new_rad_angle);
 
 #endif

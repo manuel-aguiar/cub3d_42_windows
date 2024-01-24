@@ -23,13 +23,13 @@ static int	list_to_map(t_parsing *parsing)
 		return (perror_msg_int("malloc", 0));
 	//printf("map height %d ength %d\n", parsing->map_height, parsing->map_width);
 	i = 0;
-	while (parsing->list->head)
+	while (parsing->list->tail)
 	{
-		gnl = (t_gnl_len *)parsing->list->head->data;
+		gnl = (t_gnl_len *)parsing->list->tail->data;
 		//printf("length %d %s\n", gnl->len, gnl->line);
 		ft_memcpy(&parsing->map[i * parsing->map_width], gnl->line, gnl->len);
 		ft_memset(&parsing->map[i * parsing->map_width + gnl->len], ' ', parsing->map_width - gnl->len);
-		vdmlist_del_head(parsing->list, free_gnl_len);
+		vdmlist_del_tail(parsing->list, free_gnl_len);
 		i++;
 	}
 	vdmlist_destroy(&parsing->list, free_gnl_len);
@@ -250,10 +250,11 @@ int	map_parsing(t_map *map, char *av_file)
 		vdmlist_destroy(&parsing.list, free_gnl_len);
 		print_tex_data(&parsing);
 		printf("map dimensions: %dx%d\n", parsing.map_height, parsing.map_width);
-		print_map(&parsing);
+		
 	}
 
 	dump_parsing_to_map(map, &parsing);
+	print_map(map);
 
 	return (1);
 }

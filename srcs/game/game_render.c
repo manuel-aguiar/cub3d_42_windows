@@ -12,9 +12,13 @@
 
 # include "game.h"
 
+void	comp_map_render(t_game *game);
+
 void		game_render(t_game *game)
 {
 	//render_all_stuff
+	comp_map_render(game);
 	render_compass(&game->win, &game->compass);
+	chatgpt_anticircle(&game->win, (t_pixel){1000, 500, ARGB(255,255,255,255)}, 10, ARGB(255,255,255,255));
 	render_player(&game->win, &game->player);
 }
