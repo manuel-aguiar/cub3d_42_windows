@@ -184,6 +184,7 @@ void	init_template_square(t_compass *comp)
 	sqr = &comp->sqr;
 	sqr->height = comp->sqr_height;
 	sqr->centre = (t_pixel){0, 0, comp->sqr_color};
+	//sqr->centre = (t_pixel){- sqr->height / 2, - sqr->height / 2, comp->sqr_color};   //centre is bottom left corner, rotations all around this point
 	sqr->color = comp->sqr_color;
 	sqr->biggest_z = 1 + sqrt(SQR_MAX_HEIGHT * SQR_MAX_HEIGHT * 2);
 	comp->sqr_x_lim = malloc(sizeof(*comp->sqr_x_lim) * sqr->biggest_z);
@@ -235,8 +236,8 @@ void	render_inner_square(t_win_glfw *win, t_compass *comp, t_pixel centre)
 
 	sqr = comp->sqr;
 	ft_memcpy(&c_min_max, &comp->inner.min_max, sizeof(c_min_max));
-	x = centre.x + comp->map_centre.x;											//relativos ao centro do compasso
-	y = centre.y + comp->map_centre.y;											//relativos ao centro do compasso
+	x = centre.x;														//relativos ao centro do compasso
+	y = centre.y;														//relativos ao centro do compasso
 	i = 0;
 	while (i < SQR_SIZE)
 	{

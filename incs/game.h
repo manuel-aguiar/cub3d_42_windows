@@ -30,8 +30,6 @@ typedef struct s_game
 	t_compass	compass;
 	t_win_glfw	win;
 	t_player	player;
-	t_posi		player_position;
-	float		player_angle_rad;
 }	t_game;
 
 

@@ -64,9 +64,9 @@ void	bersenham_line(t_win_glfw *win, t_pixel start, t_pixel end, int color);
 void	render_compass(t_win_glfw *win, t_compass *comp)
 {
 
-	t_pixel c_comp = {400, 400, ARGB(255, 0, 0, 255)};
+	//t_pixel c_comp = {400, 400, ARGB(255, 0, 0, 255)};
 
-	chatgpt_anticircle(win, c_comp, comp->radius, ARGB(0, 255, 0, 0));
+	//chatgpt_anticircle(win, c_comp, comp->radius, ARGB(0, 255, 0, 0));
 
 	draw_ring_to_inner_circle(win, comp);
 	

@@ -22,7 +22,7 @@
 # include <math.h>
 
 
-# define MY_PI 3.14159f
+# define MY_PI 3.14159265f
 
 /*
  diagonal of a 90º triangle with sides 1 by 1

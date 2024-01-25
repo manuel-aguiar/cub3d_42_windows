@@ -32,10 +32,7 @@ void    render_player(t_win_glfw *win, t_player *player)
 
 void    setup_player(t_player *player, float unit_size, float rad_angle)
 {
-
 	player->move_sense = 0.01f;
 	player->unit_size = unit_size;
 	player->angle = rad_angle;
-	player->cos_rad = cosf(player->angle);
-	player->sin_rad = sinf(player->angle);
 }

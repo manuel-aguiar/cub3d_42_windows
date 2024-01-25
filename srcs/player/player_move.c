@@ -112,4 +112,5 @@ void    move_player(t_game *game, bool w, bool s, bool a, bool d)
 	else if (d && !a)
 		move_player_right(player);
 	handle_collisions(game);
+	printf("player: %.3f    %.3f\n", player->map_posi.x, player->map_posi.y);
 }

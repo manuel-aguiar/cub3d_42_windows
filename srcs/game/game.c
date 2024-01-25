@@ -29,13 +29,15 @@ int		char_in_set(char c, char *charset)
 void		game_starting_angle(t_game *game, char direction)
 {
 	if (direction == 'N')
-		game->player_angle_rad = -P_MY_PI / 2;
+		game->player.angle = - P_MY_PI / 2; 
 	if (direction == 'S')
-		game->player_angle_rad = P_MY_PI / 2;
+		game->player.angle = P_MY_PI / 2;
 	if (direction == 'E')
-		game->player_angle_rad = 0;
+		game->player.angle = 0;
 	if (direction == 'W')
-		game->player_angle_rad = P_MY_PI;
+		game->player.angle = P_MY_PI;
+	game->player.cos_rad = cosf(game->player.angle);
+	game->player.sin_rad = sinf(game->player.angle);
 }
 
 int		map_row(t_map *map, int index)
@@ -59,8 +61,8 @@ void		game_find_player(t_game *game)
 			break ;
 		i++;
 	}
-	game->player.map_posi.x = (float)map_col(&game->map, i);
-	game->player.map_posi.y = (float)map_row(&game->map, i);
+	game->player.map_posi.x = (float)map_col(&game->map, i) + 0.5f;
+	game->player.map_posi.y = (float)map_row(&game->map, i) + 0.5f;
 	game_starting_angle(game, game->map.map[i]);
 }
 
@@ -70,10 +72,10 @@ int		game_start(t_game *game, char *game_config)
 {
 	*game = (t_game){};
 	if (!map_parsing(&game->map, game_config))
-		return (0);								//unprotected
+		return (0);
 	game_find_player(game);
-	compass_template_setup(&game->compass, radian_truncate(game->player_angle_rad + P_MY_PI / 2));								//nao tou a reciclar senos e cosenos
-	setup_player(&game->player, 0.2f, game->player_angle_rad);
+	compass_template_setup(&game->compass, radian_truncate(-game->player.angle));
+	setup_player(&game->player, 0.2f, game->player.angle);
 	new_win_init_window(&game->win);
 	return (1);
 }
