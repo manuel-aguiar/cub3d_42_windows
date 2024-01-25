@@ -39,7 +39,7 @@ void	in_comp_render(t_game *game)
 			sqr_centre.x -= (int)((game->player.map_posi.x - centre_index / game->map.height -  0.5f) * sqr_hgt);
 			sqr_centre.y -= (int)((game->player.map_posi.y - centre_index / game->map.width -  0.5f) * sqr_hgt);
 
-			rotate_point(&sqr_centre, centre, game->compass.cos_rad, game->compass.sin_rad);
+			rotate_point(&sqr_centre, centre, game->compass.sin_rad, -game->compass.cos_rad);
 			//printf("sqr (%d, %d), x %d, y %d\n", i % game->map.width, i / game->map.width, sqr_centre.x, sqr_centre.y);
 			// rotate sqr_center around map center using compass angle (later change to player angle)
 			//printf("placing square at (%d, %d)\n", sqr_centre.x, sqr_centre.y);

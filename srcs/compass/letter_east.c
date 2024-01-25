@@ -36,7 +36,7 @@ void	render_east_letter(t_win_glfw *win, t_compass *comp)
 	while (i < E_SIZE)
 	{
 		translate_point(&east[i], dx, dy);
-		rotate_point(&east[i], comp->centre, -comp->sin_rad, comp->cos_rad);
+		rotate_point(&east[i], comp->centre, comp->cos_rad, comp->sin_rad);
 		i++;
 	}
 	xiaolinwu_line(win, east[E_BOT_LEFT], east[E_TOP_LEFT]);

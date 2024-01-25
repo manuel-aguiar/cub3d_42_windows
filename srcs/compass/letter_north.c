@@ -34,7 +34,7 @@ void	render_north_letter(t_win_glfw *win, t_compass *comp)
 	while (i < N_SIZE)
 	{
 		translate_point(&north[i], dx, dy);
-		rotate_point(&north[i], comp->centre, comp->cos_rad, comp->sin_rad);
+		rotate_point(&north[i], comp->centre, comp->sin_rad, -comp->cos_rad);
 		i++;
 	}
 	xiaolinwu_line(win, north[N_BOT_LEFT], north[N_TOP_LEFT]);
