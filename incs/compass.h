@@ -15,7 +15,7 @@
 # define COMPASS_H
 
 # include "render_windows.h"
-# include "pixel.h"
+# include "vector.h"
 # include "xiaolin_wu.h"
 
 
@@ -194,7 +194,7 @@ typedef struct s_compass
 	//t_circle	outer;
 	int			radius;
 	int			color;
-	float		radians;
+	float		angle;
 	float		cos_rad;
 	float		sin_rad;
 	int			inner_c_rad;
@@ -245,7 +245,7 @@ void	win_full_circle(t_win_glfw *win, t_pixel centre, int radius, int color);
 
 //win_square.c
 void	init_template_square(t_compass *comp);
-void	rotate_template_square(t_compass *comp, t_square *sqr);
+void	compass_square_xlim_rotate(t_compass *comp, t_square *sqr);
 void	render_new_square(t_win_glfw *win, t_compass *comp, t_pixel centre);
 void	draw_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, int color);
 
@@ -256,8 +256,7 @@ void	rotate_point(t_pixel *point, t_pixel centre, float cos, float sin);
 
 
 //compass_setup.c
-void	compass_template_setup(t_compass *comp, float radians);
-void	set_compass_angle(t_compass *comp, float new_rad);
+void	compass_setup(t_compass *comp);
 void	translate_compass(t_compass *comp, int dx, int dy);
 void	render_compass(t_win_glfw *win, t_compass *comp);
 void	free_compass(t_compass *comp);

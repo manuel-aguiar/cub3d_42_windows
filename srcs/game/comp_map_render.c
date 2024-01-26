@@ -49,7 +49,7 @@ void chatgpt_anticircle_empty(t_win_glfw *win, t_pixel centre, int radius, int c
 
 void	render_player_against_map(t_game *game)
 {
-	t_posi		new_position;
+	t_vector		new_position;
 	t_pixel 	centre;
 	t_pixel		pivot;
 	t_player	*player;
@@ -73,33 +73,35 @@ void	render_player_against_map(t_game *game)
 	centre.x += (int)((new_position.x - centre_index / game->map.height - 0.5f) * sqr_hgt);  //normalizing player position against square size
 	centre.y += (int)((new_position.y - centre_index / game->map.width - 0.5f) * sqr_hgt);	//normalizing player position against square size
 
-	float cos_ray;
-	float sin_ray;	
+	t_vector	ray;	
 
 	// rendering line in front of player
 	pivot = centre;
-	pivot.x += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
-	rotate_point(&pivot, centre, player->cos_rad, player->sin_rad);
+	pivot.x += (int)(player->dir_vec.x * sqr_hgt);
+	pivot.y += (int)(player->dir_vec.y * sqr_hgt);										//6 just because
+	//rotate_point(&pivot, centre, player->cos_rad, player->sin_rad);
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 
 	// rendering line to the left;
 
 	pivot = centre;
-	pivot.x += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
-	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle - PI / 4)
-	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;  //sin (angle - PI / 4)
-	rotate_point(&pivot, centre, cos_ray, sin_ray);
+													//6 just because
+	ray.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle - PI / 4)
+	ray.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;  //sin (angle - PI / 4)
+	pivot.x += (int)(ray.x * sqr_hgt);
+	pivot.y += (int)(ray.y * sqr_hgt);
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 
 	// rendering line to the right;
 
 	pivot = centre;
-	pivot.x += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
-	cos_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle + PI / 4)
-	sin_ray = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //sin (angle + PI / 4)
-	rotate_point(&pivot, centre, cos_ray, sin_ray);
+	ray.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle + PI / 4)
+	ray.y = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //sin (angle + PI / 4)
+	pivot.x += (int)(ray.x * sqr_hgt);
+	pivot.y += (int)(ray.y * sqr_hgt);	
+	
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 	

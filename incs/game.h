@@ -20,7 +20,7 @@
 # include "xiaolin_wu.h"
 # include "parsing.h"
 # include "render_windows.h"
-# include "pixel.h"
+# include "vector.h"
 # include "player.h"
 
 typedef struct s_game
@@ -32,9 +32,10 @@ typedef struct s_game
 	t_player	player;
 }	t_game;
 
-
+//game_setup.c
 int		game_start(t_game *game, char *game_config);
 void	free_game(t_game *game);
+void	setup_all_angles(t_game *game, float rad);
 
 //game_key_funcs.c
 void	game_rotate_view_angle(t_game *game, float diff);

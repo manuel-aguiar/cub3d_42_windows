@@ -14,7 +14,7 @@
 
 # define PLAYER_H
 
-# include "pixel.h"
+# include "vector.h"
 # include "compass.h"
 # include "render_windows.h"
 # include "xiaolin_wu.h"
@@ -34,7 +34,9 @@ used on defining character movement
 
 typedef struct s_player
 {
-	t_posi	map_posi;
+	t_vector	map_posi;
+	t_vector	dir_vec;
+	t_vector	plane;
 	float	angle;
 	float	cos_rad;
 	float	sin_rad;
@@ -42,8 +44,8 @@ typedef struct s_player
 	float	move_sense;
 }   t_player;
 
-void    setup_player(t_player *player, float unit_size, float rad_angle);
+
+void    player_setup(t_player *player);
 void	render_player(t_win_glfw *win, t_player *player);
-void	rotate_player(t_player *player, float new_rad_angle);
 
 #endif

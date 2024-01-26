@@ -158,7 +158,7 @@ void	calculate_sqr_x_lim(t_compass *comp, t_square *sqr)
 }
 
 
-void	rotate_template_square(t_compass *comp, t_square *sqr)
+void	compass_square_xlim_rotate(t_compass *comp, t_square *sqr)
 {
 	int	i;
 
@@ -190,7 +190,7 @@ void	init_template_square(t_compass *comp)
 	comp->sqr_x_lim = malloc(sizeof(*comp->sqr_x_lim) * sqr->biggest_z);
 	if (!comp->sqr_x_lim)
 		return ;	
-	rotate_template_square(comp, sqr);
+	compass_square_xlim_rotate(comp, sqr);
 	
 }
 

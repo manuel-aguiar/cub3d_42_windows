@@ -17,17 +17,17 @@ void	render_player_against_map(t_game *game);
 void	in_comp_render(t_game *game);
 void	in_player_render(t_game *game);
 
-
+void	raycasting(t_game *game);
 
 void		game_render(t_game *game)
 {
 	//render_all_stuff
-	
+	//raycasting(game);
 	render_compass(&game->win, &game->compass);
 	
 	//comp_map_render(game);
-	//render_player_against_map(game);
-	
+	render_player_against_map(game);
+
 	in_comp_render(game);
 	in_player_render(game);
 	//render_player_against_map(game);

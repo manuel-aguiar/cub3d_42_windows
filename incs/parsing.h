@@ -19,13 +19,13 @@
 
 # include "libft.h"
 # include "render_windows.h"
-# include "pixel.h"
+# include "vector.h"
 
 # define TOTAL_TEXTURES 6
 
 # define VALID_MAP_CHARS "01NSWE "
 
-# define VALID_START_POSI "NSWE"
+# define VALID_STARt_vector "NSWE"
 
 # define START_ALPHA 255
 # define MAX_COLOR 255

@@ -14,7 +14,7 @@
 
 # define LIANG_BARSKY_H
 
-# include "pixel.h"
+# include "vector.h"
 
 typedef struct s_lbclip
 {

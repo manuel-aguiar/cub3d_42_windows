@@ -16,71 +16,65 @@ void	handle_collisions(t_game *game);
 
 void    move_player_back_left(t_player *player)
 {
-	float cos_plus_45;
-	float sin_plus_45;
+	t_vector diagonal;
 
-	cos_plus_45 = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	sin_plus_45 = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x -= (player->move_sense * cos_plus_45);
-	player->map_posi.y += (player->move_sense * sin_plus_45);
+	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	player->map_posi.x -= (diagonal.y * player->move_sense); 
+	player->map_posi.y += (diagonal.x * player->move_sense);
 }
 
 void    move_player_back_right(t_player *player)
 {
-	float cos_minus_45;
-	float sin_minus_45;
+	t_vector diagonal;
 
-	cos_minus_45 = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	sin_minus_45 = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x -= (player->move_sense * cos_minus_45);
-	player->map_posi.y += (player->move_sense * sin_minus_45);
+	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	player->map_posi.x += (diagonal.y * player->move_sense);                   //wait till overflow maybe...?
+	player->map_posi.y -= (diagonal.x * player->move_sense);
 }
 
 void    move_player_for_left(t_player *player)
 {
-	float cos_minus_45;
-	float sin_minus_45;
+	t_vector diagonal;
 
-	cos_minus_45 = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	sin_minus_45 = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x += (player->move_sense * cos_minus_45);
-	player->map_posi.y -= (player->move_sense * sin_minus_45);
+	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	player->map_posi.x -= (diagonal.y * player->move_sense); 
+	player->map_posi.y += (diagonal.x * player->move_sense);
 }
 
 void    move_player_for_right(t_player *player)
 {
-	float cos_plus_45;
-	float sin_plus_45;
+	t_vector diagonal;
 
-	cos_plus_45 = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	sin_plus_45 = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x += (player->move_sense * cos_plus_45);                   //wait till overflow maybe...?
-	player->map_posi.y -= (player->move_sense * sin_plus_45);
+	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	player->map_posi.x += (diagonal.y * player->move_sense);                   //wait till overflow maybe...?
+	player->map_posi.y -= (diagonal.x * player->move_sense);
 }
 
 void    move_player_left(t_player *player)
 {
-	player->map_posi.x += -(player->move_sense * -player->sin_rad);
-	player->map_posi.y += -(player->move_sense * -player->cos_rad);
+	player->map_posi.x -= (player->dir_vec.y * player->move_sense);
+	player->map_posi.y += (player->dir_vec.x * player->move_sense);
 }
 
 void    move_player_right(t_player *player)
 {
-	player->map_posi.x += (player->move_sense * -player->sin_rad);
-	player->map_posi.y += (player->move_sense * -player->cos_rad);
+	player->map_posi.x += (player->dir_vec.y * player->move_sense);
+	player->map_posi.y -= (player->dir_vec.x * player->move_sense);
 }
 
 
 void    move_player_backward(t_player *player)
 {
-	player->map_posi.x -= (player->move_sense * player->cos_rad);
-	player->map_posi.y += (player->move_sense * player->sin_rad);
+	player->map_posi = vector_sub(player->map_posi, vector_multi(player->dir_vec, player->move_sense));
 }
 
 void    move_player_forward(t_player *player)
 {
-	player->map_posi.x += (player->move_sense * player->cos_rad);              
-	player->map_posi.y -= (player->move_sense * player->sin_rad);
+	player->map_posi = vector_add(player->map_posi, vector_multi(player->dir_vec, player->move_sense));
 }
 
 
@@ -112,5 +106,5 @@ void    move_player(t_game *game, bool w, bool s, bool a, bool d)
 	else if (d && !a)
 		move_player_right(player);
 	handle_collisions(game);
-	printf("player: %.3f    %.3f\n", player->map_posi.x, player->map_posi.y);
+	//printf("player: %.3f    %.3f\n", player->map_posi.x, player->map_posi.y);
 }

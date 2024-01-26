@@ -1,42 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   xiaolin_wu.h                                       :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 17:42:53 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/12 17:42:53 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/26 16:20:08 by marvin            #+#    #+#             */
+/*   Updated: 2024/01/26 16:20:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef XIAOLIN_WU_H
+#ifndef GENERIC_UTILS_H
 
-# define XIAOLIN_WU_H
+# define GENERIC_UTILS_H
 
 # include "libft.h"
-# include "vector.h"
-# include "render_windows.h"
 
-typedef struct s_win_glfw t_win_glfw;
+# define P_MY_PI 3.14159265f
 
+//clamp.c
+int		int_clamp(int value, int min, int max);
+float	float_clamp(float value, float min, float max);
 
+//radian_truncate.c
+float	radian_truncate(float radian);
 
+//ft_split_count_replenish.c
+char	**ft_split_count_replenish(t_cchar *s, t_cchar *og, \
+		char *sepset, int *place_count);
 
-typedef struct s_xldata
-{
-	unsigned short	err_adj;
-	unsigned short	err_acc;
-	unsigned short	err_temp;
-	short			dx;
-	short			dy;
-	short			save;
-	short			slope;
-	int				colour;
-}	t_xldata;
-
-void	swap_pixels(t_pixel *start, t_pixel *end);
-
-int	xiaolinwu_line(t_win_glfw *win, t_pixel start, t_pixel end);
+//fpow_2.c
+float	fpow_2(float number);
 
 #endif

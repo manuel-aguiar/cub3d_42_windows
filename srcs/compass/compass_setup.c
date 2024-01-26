@@ -12,9 +12,9 @@
 
 # include "compass.h"
 
-void		compass_template_setup(t_compass *comp, float radians)
+void		compass_setup(t_compass *comp)
 {
-	comp->centre = (t_pixel){300, 300, ARGB(255, 0, 0, 255)};
+	comp->centre = (t_pixel){300, 300, ARGB(255, 0, 0, 255)};		//change to relative
 	comp->radius = int_clamp(200, CCL_MIN_RAD, CCL_MAX_RAD);
 	comp->color = ARGB(10, 20, 10, 255);
 	comp->inner.radius = int_clamp((int)(comp->radius * 0.7f), (int)(CCL_MIN_RAD * 0.7f), (int)(CCL_MAX_RAD * 0.7f));
@@ -23,9 +23,6 @@ void		compass_template_setup(t_compass *comp, float radians)
 	comp->letter_width = (int)(comp->radius * 0.05f);
 	comp->letter_color = ARGB(255, 255, 255, 255);
 	comp->letter_radius = (int)(comp->radius * 0.8f);												//manual, clamp?
-	comp->radians = radians;
-	comp->cos_rad = cosf(radians);
-	comp->sin_rad = sinf(radians);
 	comp->sqr_color = ARGB(255, 165, 0,255);
 	comp->sqr_height = int_clamp((int)(comp->radius * 0.2f), SQR_MIN_HEIGHT, SQR_MAX_HEIGHT);
 	comp->map_centre = (t_pixel){1000, 500, ARGB(255,255,255,255)};			//para testes
@@ -39,14 +36,6 @@ void		compass_template_setup(t_compass *comp, float radians)
 	init_inner_circle(comp);
 
 	//init_template_south_circle(comp);
-}
-
-void	set_compass_angle(t_compass *comp, float new_rad)
-{
-	comp->radians = new_rad;
-	comp->cos_rad = cosf(comp->radians);
-	comp->sin_rad = sinf(comp->radians);
-	rotate_template_square(comp, &comp->sqr);
 }
 
 void	translate_compass(t_compass *comp, int dx, int dy)
