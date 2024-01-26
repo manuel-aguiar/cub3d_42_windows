@@ -33,23 +33,23 @@ DIR_GAME			=	game
 DIR_PARSING			=	parsing
 DIR_GENERIC_UTILS 	= 	generic_utils
 DIR_REN_WIN			=	render_windows
-DIR_REN_LIN			=	render_linux
 DIR_COMPASS			=	compass
 DIR_DRAWING_ALGOS	= 	drawing_algos
 DIR_PLAYER			=	player
+DIR_PIXEL_POINT		=	pixel_point
 DIR_RAYCASTING		=	raycasting
 
 ## SOURCE FILES ##
 
 INC_FILES		=		game.h				\
 						player.h			\
-						vector.h				\
+						vector.h			\
 						parsing.h			\
 						render_windows.h	\
-						xiaolin_wu.h		\
-						liang_barsky.h		\
+						drawing_algos.h		\
+						pixel_point.h		\
 						compass.h			\
-						raycasting.h
+						generic_utils.h
 
 SRC_MAIN			=	main.c
 
@@ -58,9 +58,10 @@ SRC_GAME			=	win_render_loop.c		\
 						free_game.c				\
 						game_rotate.c			\
 						game_render.c			\
-						comp_map_render.c		\
-						map_player_collisions.c	\
-						in_comp_render.c
+						render_inside_compass.c		\
+						render_outside_compass.c	\
+						map_player_collisions.c
+						
 
 SRC_PLAYER			=	player_setup.c				\
 						player_move.c
@@ -80,25 +81,28 @@ SRC_REN_WIN			=	win_init_window.c		\
 						win_fps_counter.c
 
 
-SRC_COMPASS			=	compass_setup.c				\
-						translate_rotate.c			\
+SRC_COMPASS			=	render_compass.c				\
 						letter_north.c				\
 						letter_south.c				\
-						letter_south_circle.c		\
 						letter_east.c				\
 						letter_west.c				\
-						win_circle.c				\
-						win_square.c				\
-						inner_circle.c
+						render_outter_circle.c				\
+						calculate_square_xlim.c				\
+						render_inner_circle.c				\
+						render_inner_square.c
 
-SRC_DRAWING_ALGOS	=	circle_line_clipping.c		\
+SRC_DRAWING_ALGOS	=	drawing_lines.c				\
 						liang_barsky_clipping.c		\
 						liang_barsky_utils.c		\
 						xiaolinwu_antialiasing.c	\
 						xiaolinwu_utils.c		
 
-SRC_RAYCASTING		=	raycasting.c				\
-						vector.c
+SRC_PIXEL_POINT		=	gamma_correction.c				\
+						pixels.c						\
+						translate_rotate.c
+
+SRC_RAYCASTING		=	vector.c					\
+						raycasting.c
 
 ## AGGREGATING FILES ##
 
@@ -112,7 +116,8 @@ SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_DRAWING_ALGOS)/, $(SRC_DRAWING_ALGOS))	\
 					$(addprefix $(SRC_PATH)/$(DIR_GAME)/, $(SRC_GAME))						\
 					$(addprefix $(SRC_PATH)/$(DIR_PLAYER)/, $(SRC_PLAYER))					\
-					$(addprefix $(SRC_PATH)/$(DIR_RAYCASTING)/, $(SRC_RAYCASTING))						
+					$(addprefix $(SRC_PATH)/$(DIR_RAYCASTING)/, $(SRC_RAYCASTING))					\
+					$(addprefix $(SRC_PATH)/$(DIR_PIXEL_POINT)/, $(SRC_PIXEL_POINT))						
 					
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
