@@ -36,7 +36,7 @@ void	render_south_letter(t_win_glfw *win, t_compass *comp)
 	while (i < S_SIZE)
 	{
 		translate_point(&south[i], dx, dy);
-		rotate_point(&south[i], comp->centre, -comp->sin_rad, comp->cos_rad);
+		rotate_point(&south[i], comp->centre, comp->sin_rad, comp->cos_rad);
 		i++;
 	}
 	xiaolinwu_line(win, south[S_BOT_LEFT], south[S_BOT_RIGHT]);

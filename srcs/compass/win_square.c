@@ -169,7 +169,8 @@ void	compass_square_xlim_rotate(t_compass *comp, t_square *sqr)
 	i = 0;
 	while (i < SQR_SIZE)
 	{
-		rotate_point(&sqr->edges[i], sqr->centre, comp->cos_rad, comp->sin_rad);
+		//backward_rotate_point(&sqr->edges[i], sqr->centre, comp->cos_rad, comp->sin_rad);
+		rotate_point(&sqr->edges[i], sqr->centre, -comp->cos_rad, comp->sin_rad);
 		i++;
 	}
 	//printf("pre-min_max\n");

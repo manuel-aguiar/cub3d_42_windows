@@ -15,12 +15,15 @@
 void	setup_all_angles(t_game *game, float rad)
 {
 	game->player.angle = radian_truncate(rad);
-	game->compass.angle = radian_truncate(-rad);
+	game->compass.angle = radian_truncate(-game->player.angle);
 	game->player.cos_rad = cosf(game->player.angle);
 	game->player.sin_rad = sinf(game->player.angle);
 	game->compass.cos_rad = game->player.cos_rad;
 	game->compass.sin_rad = -game->player.sin_rad;
 	game->player.dir_vec = (t_vector){game->player.cos_rad, game->player.sin_rad};
+	printf("player rads %.3f, compass rads %.3f\n", game->player.angle, game->compass.angle);
+	printf("player cos sin (%.3f, %.3f)\n", game->player.cos_rad, game->player.sin_rad);
+	printf("compas cos sin (%.3f, %.3f)\n", game->compass.cos_rad, game->compass.sin_rad);
 }
 
 int		char_in_set(char c, char *charset)

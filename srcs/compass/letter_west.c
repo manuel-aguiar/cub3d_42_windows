@@ -35,7 +35,7 @@ void	render_west_letter(t_win_glfw *win, t_compass *comp)
 	while (i < W_SIZE)
 	{
 		translate_point(&west[i], dx, dy);
-		rotate_point(&west[i], comp->centre, -comp->cos_rad, -comp->sin_rad);
+		rotate_point(&west[i], comp->centre, -comp->cos_rad, comp->sin_rad);
 		i++;
 	}
 	xiaolinwu_line(win, west[W_TOP_LEFT], west[W_MB_LEFT]);
