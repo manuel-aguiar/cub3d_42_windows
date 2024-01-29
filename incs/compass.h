@@ -205,6 +205,7 @@ typedef struct s_compass
 	int			letter_color;
 	int			sqr_color;
 	int			sqr_height;
+	int			player_rad;
 	t_circle	inner;
 	t_square	sqr;
 	t_mm_pair	*circle_x_lim;

@@ -22,6 +22,7 @@
 # include "render_windows.h"
 # include "vector.h"
 # include "player.h"
+# include "generic_utils.h"
 
 typedef struct s_game
 {
@@ -31,6 +32,9 @@ typedef struct s_game
 	t_win_glfw	win;
 	t_player	player;
 }	t_game;
+
+//settings.c
+void    apply_all_settings(t_game *game);
 
 //game_setup.c
 int		game_start(t_game *game, char *game_config);

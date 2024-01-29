@@ -164,10 +164,6 @@ void	init_template_square(t_compass *comp)
 	t_square	*sqr;
 
 	sqr = &comp->sqr;
-	sqr->height = comp->sqr_height;
-	sqr->centre = (t_pixel){0, 0, comp->sqr_color};
-	sqr->color = comp->sqr_color;
-	sqr->biggest_z = 1 + sqrt(SQR_MAX_HEIGHT * SQR_MAX_HEIGHT * 2);
 	comp->sqr_x_lim = malloc(sizeof(*comp->sqr_x_lim) * sqr->biggest_z);
 	if (!comp->sqr_x_lim)
 		return ;	

@@ -17,16 +17,12 @@
 # define GLFW_DLL
 # include <GL/glew.h>
 # include <GLFW/glfw3.h>
-# include <windows.h>
+# include <sys\timeb.h> 
 
 
 # include "libft.h"
 # include "vector.h"
 # include "pixel_point.h"
-
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
-# define WIN_NAME "Cub3d"
 
 
 # define RGB_SIZE 4 
@@ -37,11 +33,18 @@ typedef struct s_pixel t_pixel;
 
 typedef struct s_fps_counter
 {
-    SYSTEMTIME  start;
-    SYSTEMTIME  end;
+    struct timeb  start;
+    struct timeb  end;
     long int    count;
     char        fps[12];
 }   t_fps_counter;
+
+typedef struct s_clock
+{
+    struct timeb  	start;
+    struct timeb  	end;
+    size_t			elapsed;
+}   t_clock;
 
 struct s_win_glfw
 {
@@ -49,7 +52,9 @@ struct s_win_glfw
 	char			*front_buf;
 	int				width;
 	int				height;
-	t_fps_counter	fps;
+	int				rgb_size;
+	char			name[6];
+	t_clock			fps;
 	void			(*set_pixel)(t_win_glfw *win, int x, int y, int color);
 	int				(*get_pixel)(t_win_glfw *win, int x, int y);
 };

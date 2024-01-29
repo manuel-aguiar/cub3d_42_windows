@@ -31,18 +31,32 @@ used on defining character movement
 */
 # define P_SQRT_OF_TWO_OVER_TWO 0.7071067f
 
+enum e_clocks
+{
+	CLOCK_MOVE,
+	CLOCK_JUMP,
+	CLOCK_CROUCH,
+	CLOCK_SIZE,
+};
+
+
 typedef struct s_player
 {
-	t_vector	map_posi;
-	t_vector	dir_vec;
-	t_vector	plane;
-	int			pitch;
-	int			z_height;
-	float		angle;
-	float		cos_rad;
-	float		sin_rad;
-	float		unit_size;
-	float		move_sense;
+	t_vector		map_posi;
+	t_vector		dir_vec;
+	t_vector		plane;
+	int				pitch;
+	int				z_height;
+	float			angle;
+	float			cos_rad;
+	float			sin_rad;
+	float			unit_size;
+	float			forward_move;
+	float			side_move;
+	float			back_move;
+	float			rot_sense;
+	float			pitch_sense;
+	t_clock 		timer[CLOCK_SIZE];
 }   t_player;
 
 

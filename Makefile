@@ -51,7 +51,9 @@ INC_FILES		=		game.h				\
 						compass.h			\
 						generic_utils.h
 
-SRC_MAIN			=	main.c
+SRC_MAIN			=	main.c				\
+						game_settings.h		\
+						settings.c
 
 SRC_GAME			=	win_render_loop.c		\
 						game_setup.c			\
@@ -77,8 +79,7 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 
 SRC_REN_WIN			=	win_init_window.c		\
 						win_keys.c				\
-						win_pixels.c			\
-						win_fps_counter.c
+						win_pixels.c			
 
 
 SRC_COMPASS			=	render_compass.c				\
@@ -109,6 +110,7 @@ SRC_RAYCASTING		=	vector.c					\
 
 INCS		:=		$(addprefix $(INC_PATH)/, $(INC_FILES))
 
+
 SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_PARSING)/, $(SRC_PARSING)) 				\
 					$(addprefix $(SRC_PATH)/$(DIR_GENERIC_UTILS)/, $(SRC_GENERIC_UTILS))	\
@@ -132,7 +134,13 @@ $(NAME): $(LIBFT) $(OBJS)
 	$(COMP) $(FLAGS) $(OBJS) $(ALL_INCS) -o $(NAME) $(LIBS)
 	@echo Program $(NAME) ready!!
 
-
+$(OBJ_PATH)/settings.o : $(SRC_PATH)/settings.c $(SRC_PATH)/game_settings.h
+	@if not exist $(OBJ_PATH) \
+	( \
+		powershell -File mkdir.ps1 \
+	)
+	$(COMP) $(FLAGS) $(ALL_INCS) -c $< -o $@
+	
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCS)
 	@if not exist $(OBJ_PATH) \
 	( \

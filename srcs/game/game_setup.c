@@ -87,6 +87,7 @@ int		game_start(t_game *game, char *game_config)
 	if (!map_parsing(&game->map, game_config))
 		return (0);
 	game_find_player_set_angles(game);
+	apply_all_settings(game);
 	compass_setup(&game->compass);
 	player_setup(&game->player);
 	new_win_init_window(&game->win);

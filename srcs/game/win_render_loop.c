@@ -13,12 +13,40 @@
 
 # include "game.h"
 
+
 typedef struct s_mouse
 {
 	double x;
 	double y;
 }	t_mouse;
 
+void	player_start_timers(t_player *player)
+{
+	int i;
+
+	i = 0;
+	while (i < CLOCK_SIZE)
+	{
+		ftime(&player->timer[i].start);
+		i++;
+	}
+}
+
+void	player_get_timers(t_player *player)
+{
+	int i;
+
+	i = 0;
+	while (i < CLOCK_SIZE)
+	{
+		ftime(&player->timer[i].end);
+		player->timer[i].elapsed = (size_t) (1000.0 * (player->timer[i].end.time - player->timer[i].start.time)
+        + (player->timer[i].end.millitm - player->timer[i].start.millitm));
+		player->timer[i].start = player->timer[i].end;
+		i++;
+	}
+	//printf("elapsed %u\n", player->timer[CLOCK_MOVE].elapsed);
+}
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 {	
@@ -26,19 +54,21 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 	glfwSetKeyCallback(win->window, win_key_press);
 	glViewport(0, 0, win->width, win->height);
 	glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
-	
+	player_start_timers(&game->player);
 	//set_fps_start(&win->fps);
     while (!glfwWindowShouldClose(win->window))
 	{
 		glRasterPos2f(-1, -1);
-		ft_memset(win->front_buf, 0, WIN_WIDTH * WIN_HEIGHT * RGB_SIZE * sizeof(*(win->front_buf)));
+		ft_memset(win->front_buf, 0, win->width * win->height * win->rgb_size * sizeof(*(win->front_buf)));
 
+		player_get_timers(&game->player);
 		float	rotate;
 
 		glfwGetCursorPos(win->window, &mouse.x, &mouse.y);
 		rotate = win->width / 2 - mouse.x;
-		game->player.pitch += mouse.y - win->height / 2;
-		game_rotate_view_angle(game, rotate * 0.002f);
+		game->player.pitch += (int)((mouse.y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed);
+		printf("%d pitch change\n", (int)((mouse.y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed));
+		game_rotate_view_angle(game, rotate * game->player.rot_sense * game->player.timer[CLOCK_MOVE].elapsed);
 		glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
 
 		if (glfwGetKey(win->window, GLFW_KEY_X))

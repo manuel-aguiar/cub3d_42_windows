@@ -20,8 +20,8 @@ void    move_player_back_left(t_player *player)
 
 	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
 	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x -= (diagonal.y * player->move_sense); 
-	player->map_posi.y += (diagonal.x * player->move_sense);
+	player->map_posi.x -= (diagonal.y * player->back_move * player->timer[CLOCK_MOVE].elapsed); 
+	player->map_posi.y += (diagonal.x * player->back_move * player->timer[CLOCK_MOVE].elapsed);
 }
 
 void    move_player_back_right(t_player *player)
@@ -30,8 +30,8 @@ void    move_player_back_right(t_player *player)
 
 	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
 	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x += (diagonal.y * player->move_sense);                   //wait till overflow maybe...?
-	player->map_posi.y -= (diagonal.x * player->move_sense);
+	player->map_posi.x += (diagonal.y * player->back_move * player->timer[CLOCK_MOVE].elapsed);                   //wait till overflow maybe...?
+	player->map_posi.y -= (diagonal.x * player->back_move * player->timer[CLOCK_MOVE].elapsed);
 }
 
 void    move_player_for_left(t_player *player)
@@ -40,8 +40,8 @@ void    move_player_for_left(t_player *player)
 
 	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
 	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x -= (diagonal.y * player->move_sense); 
-	player->map_posi.y += (diagonal.x * player->move_sense);
+	player->map_posi.x -= (diagonal.y * player->side_move * player->timer[CLOCK_MOVE].elapsed); 
+	player->map_posi.y += (diagonal.x * player->side_move * player->timer[CLOCK_MOVE].elapsed);
 }
 
 void    move_player_for_right(t_player *player)
@@ -50,31 +50,31 @@ void    move_player_for_right(t_player *player)
 
 	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
 	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x += (diagonal.y * player->move_sense);                   //wait till overflow maybe...?
-	player->map_posi.y -= (diagonal.x * player->move_sense);
+	player->map_posi.x += (diagonal.y * player->side_move * player->timer[CLOCK_MOVE].elapsed);                   //wait till overflow maybe...?
+	player->map_posi.y -= (diagonal.x * player->side_move * player->timer[CLOCK_MOVE].elapsed);
 }
 
 void    move_player_left(t_player *player)
 {
-	player->map_posi.x -= (player->dir_vec.y * player->move_sense);
-	player->map_posi.y += (player->dir_vec.x * player->move_sense);
+	player->map_posi.x -= (player->dir_vec.y * player->side_move * player->timer[CLOCK_MOVE].elapsed);
+	player->map_posi.y += (player->dir_vec.x * player->side_move * player->timer[CLOCK_MOVE].elapsed);
 }
 
 void    move_player_right(t_player *player)
 {
-	player->map_posi.x += (player->dir_vec.y * player->move_sense);
-	player->map_posi.y -= (player->dir_vec.x * player->move_sense);
+	player->map_posi.x += (player->dir_vec.y * player->side_move * player->timer[CLOCK_MOVE].elapsed);
+	player->map_posi.y -= (player->dir_vec.x * player->side_move * player->timer[CLOCK_MOVE].elapsed);
 }
 
 
 void    move_player_backward(t_player *player)
 {
-	player->map_posi = vector_sub(player->map_posi, vector_multi(player->dir_vec, player->move_sense));
+	player->map_posi = vector_sub(player->map_posi, vector_multi(player->dir_vec, player->back_move * player->timer[CLOCK_MOVE].elapsed));
 }
 
 void    move_player_forward(t_player *player)
 {
-	player->map_posi = vector_add(player->map_posi, vector_multi(player->dir_vec, player->move_sense));
+	player->map_posi = vector_add(player->map_posi, vector_multi(player->dir_vec, player->forward_move * player->timer[CLOCK_MOVE].elapsed));
 }
 
 

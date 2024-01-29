@@ -14,18 +14,6 @@
 
 void		compass_setup(t_compass *comp)
 {
-	comp->centre = (t_pixel){WIN_WIDTH / 4, WIN_HEIGHT / 4, rgba(255,0,0,0)};		//change to relative
-	comp->radius = int_clamp(WIN_HEIGHT / 5, CCL_MIN_RAD, CCL_MAX_RAD);
-	comp->color = rgba(255,0,0,255);
-	comp->inner.radius = int_clamp((int)(comp->radius * 0.7f), (int)(CCL_MIN_RAD * 0.7f), (int)(CCL_MAX_RAD * 0.7f));
-	comp->inner.color =  rgba(255,0,0,255);
-	comp->letter_height = (int)(comp->radius * 0.1f);
-	comp->letter_width = (int)(comp->radius * 0.05f);
-	comp->letter_color =  rgba(255,255,255,255);
-	comp->letter_radius = (int)(comp->radius * 0.8f);												//manual, clamp?
-	comp->sqr_color = rgba(255,165,0,255);
-	comp->sqr_height = int_clamp((int)(comp->radius * 0.2f), SQR_MIN_HEIGHT, SQR_MAX_HEIGHT);
-	comp->map_centre = (t_pixel){WIN_WIDTH / 2, WIN_HEIGHT / 4, rgba(255,255,255,255)};			//para testes
 	init_template_north(comp);
 	init_template_south(comp);
 	init_template_east(comp);
