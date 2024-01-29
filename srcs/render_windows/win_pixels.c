@@ -26,10 +26,10 @@ void	win_set_pixel(t_win_glfw *win, int x, int y, int color)
 
 int	win_get_pixel(t_win_glfw *win, int x, int y)
 {
-	char r;
-	char g;
-	char b;
-	char a;
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+	unsigned char a;
 	int 	i;
 
 	i = (x + y * win->width) * RGB_SIZE;
@@ -37,6 +37,7 @@ int	win_get_pixel(t_win_glfw *win, int x, int y)
 	g = win->front_buf[i++];
 	b = win->front_buf[i++];
 	a = win->front_buf[i++];
+	//printf("get pixel: r %d g %d b %d a  %d\n", r, g, b, a);
 	return (rgba(r, g, b, a));
 }
 

@@ -39,10 +39,10 @@ used on defining character movement
 # define LETTER_WIDTH 5
 
 # define CCL_MAX_RAD 300
-# define CCL_MIN_RAD 100
+# define CCL_MIN_RAD 50
 
 # define SQR_MAX_HEIGHT 100
-# define SQR_MIN_HEIGHT 10
+# define SQR_MIN_HEIGHT 5
 
 typedef struct s_circle t_circle;
 typedef struct s_north t_north;

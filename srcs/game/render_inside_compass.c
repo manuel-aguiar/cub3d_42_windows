@@ -12,6 +12,8 @@
 
 # include "game.h"
 
+t_vector		dda_get_collision_posi(t_game *game, t_vector norm_dir);
+
 void	render_map_inside_compass(t_game *game)
 {
 	t_pixel	sqr_centre;
@@ -61,7 +63,7 @@ void	render_player_inside_compass(t_game *game)
 	sqr_hgt = game->compass.sqr_height;
 	centre = game->compass.centre;
 
-	centre.colour = pivot.colour = rgba(255,255,255,255);
+	centre.colour = pivot.colour = rgba(0,0,255,255);
 
 	float cos_ray;
 	float sin_ray;	
@@ -69,38 +71,44 @@ void	render_player_inside_compass(t_game *game)
 	float cos_ninety;
 	float sin_ninety;
 
+	t_vector ray;
+
 	// rendering line in front of player
 	pivot = centre;
-	pivot.colour = rgba(255,255,255,255);
-	pivot.y += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
+	pivot.colour = rgba(0,0,255,255);
+	ray = dda_get_collision_posi(game, (t_vector){0, 1});
+	pivot.x += (int)(ray.x * sqr_hgt);
+	pivot.y += (int)(ray.y * sqr_hgt);
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 
 	// rendering line to the left;
 
-	cos_ninety = 1;
-	sin_ninety = 0;
+	cos_ninety = 0;
+	sin_ninety = 1;
 
 	pivot = centre;
-	pivot.colour = rgba(255,255,255,255);
-	pivot.y += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
+	pivot.colour = rgba(0,0,255,255);
 	cos_ray = P_SQRT_OF_TWO_OVER_TWO * cos_ninety + P_SQRT_OF_TWO_OVER_TWO * sin_ninety;  //cos (angle - PI / 4)
 	sin_ray = P_SQRT_OF_TWO_OVER_TWO * sin_ninety - P_SQRT_OF_TWO_OVER_TWO * cos_ninety;  //sin (angle - PI / 4)
-	rotate_point(&pivot, centre, cos_ray, sin_ray);
+	//rotate_point(&pivot, centre, cos_ray, sin_ray);
+	ray = dda_get_collision_posi(game, (t_vector){cos_ray, sin_ray});
+	pivot.x += (int)(ray.x * sqr_hgt);
+	pivot.y += (int)(ray.y * sqr_hgt);
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 
 	// rendering line to the right;
 
 	pivot = centre;
-	pivot.colour = rgba(255,255,255,255);
-	pivot.y += (int)(player->unit_size * sqr_hgt * 6);												//6 just because
+	pivot.colour = rgba(0,0,255,255);
 	cos_ray = P_SQRT_OF_TWO_OVER_TWO * cos_ninety - P_SQRT_OF_TWO_OVER_TWO * sin_ninety;  //cos (angle + PI / 4)
 	sin_ray = P_SQRT_OF_TWO_OVER_TWO * cos_ninety + P_SQRT_OF_TWO_OVER_TWO * sin_ninety;  //sin (angle + PI / 4)
-	rotate_point(&pivot, centre, cos_ray, sin_ray);
+	ray = dda_get_collision_posi(game, (t_vector){cos_ray, sin_ray});
+	pivot.x += (int)(ray.x * sqr_hgt);
+	pivot.y += (int)(ray.y * sqr_hgt);
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 	
-	render_empty_circle_with_aa(&game->win, centre, (int)(player->unit_size * sqr_hgt), rgba(255,255,255,255));
-
+	render_empty_circle_with_aa(&game->win, centre, (int)(player->unit_size * sqr_hgt), rgba(0,0,255,255));
 }

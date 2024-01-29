@@ -24,8 +24,8 @@
 # include "vector.h"
 # include "pixel_point.h"
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1024
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
 # define WIN_NAME "Cub3d"
 
 

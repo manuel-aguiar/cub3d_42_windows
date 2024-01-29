@@ -12,7 +12,7 @@
 
 #include "game.h"
 
-
+t_vector		dda_get_collision_posi(t_game *game, t_vector norm_dir);
 
 void	render_map_outside_compass(t_game *game)
 {
@@ -71,9 +71,10 @@ void	render_player_outside_compass(t_game *game)
 
 	// rendering line in front of player
 	pivot = centre;
-	pivot.x += (int)(player->dir_vec.x * sqr_hgt);
-	pivot.y += (int)(player->dir_vec.y * sqr_hgt);										//6 just because
-	//rotate_point(&pivot, centre, player->cos_rad, player->sin_rad);
+	
+	ray = dda_get_collision_posi(game, player->dir_vec);
+	pivot.x += (int)(ray.x * sqr_hgt);
+	pivot.y += (int)(ray.y * sqr_hgt);										//6 just because
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 
@@ -83,8 +84,9 @@ void	render_player_outside_compass(t_game *game)
 													//6 just because
 	ray.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle - PI / 4)
 	ray.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;  //sin (angle - PI / 4)
+	ray = dda_get_collision_posi(game, ray);
 	pivot.x += (int)(ray.x * sqr_hgt);
-	pivot.y += (int)(ray.y * sqr_hgt);
+	pivot.y += (int)(ray.y * sqr_hgt);	
 	if (liang_barsky_clipper(low_bot, hi_top, centre, pivot, render))
 		xiaolinwu_line(&game->win, render[0], render[1]);
 
@@ -93,6 +95,7 @@ void	render_player_outside_compass(t_game *game)
 	pivot = centre;
 	ray.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //cos (angle + PI / 4)
 	ray.y = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;  //sin (angle + PI / 4)
+	ray = dda_get_collision_posi(game, ray);
 	pivot.x += (int)(ray.x * sqr_hgt);
 	pivot.y += (int)(ray.y * sqr_hgt);	
 	

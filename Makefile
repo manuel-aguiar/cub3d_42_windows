@@ -102,7 +102,8 @@ SRC_PIXEL_POINT		=	gamma_correction.c				\
 						translate_rotate.c
 
 SRC_RAYCASTING		=	vector.c					\
-						raycasting.c
+						raycasting.c				\
+						dda.c
 
 ## AGGREGATING FILES ##
 

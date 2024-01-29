@@ -16,5 +16,5 @@ void    player_setup(t_player *player)
 {
 	player->move_sense = 0.01f;
 	player->unit_size = 0.2f;
-	player->plane = (t_vector){0, 0.66f};
+	player->plane = vector_multi((t_vector){player->sin_rad, -player->cos_rad}, 0.66f);
 }

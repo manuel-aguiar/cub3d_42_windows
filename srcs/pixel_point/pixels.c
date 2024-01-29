@@ -44,14 +44,17 @@ int	avg_colour(int start, int end, int num, int den)
 	t_ulong	b;
 	t_ulong	a;
 
+
 	if (den == 0)
 		return (start);
-	r = rgb_a(start) * num / den \
-		+ rgb_a(end) * (den - num) / den;
-	g = rgb_a(start) * num / den \
-		+ rgb_a(end) * (den - num) / den;
-	b = rgb_a(start) * num / den \
-		+ rgb_a(end) * (den - num) / den;
+	r = rgb_r(start) * num / den \
+		+ rgb_r(end) * (den - num) / den;
+	g = rgb_g(start) * num / den \
+		+ rgb_g(end) * (den - num) / den;
+	b = rgb_b(start) * num / den \
+		+ rgb_b(end) * (den - num) / den;
 	a = rgb_a(start);
-	return (rgba(r, g, b, a));
+	//int final = rgba(r, g, b, a);
+	//printf("r %d g %d b %d a %d\n", (int)r, (int)g, (int)b, (int)a);
+	return (rgba((int)r, (int)g, (int)b, (int)a));
 }
