@@ -36,11 +36,13 @@ typedef struct s_player
 	t_vector	map_posi;
 	t_vector	dir_vec;
 	t_vector	plane;
-	float	angle;
-	float	cos_rad;
-	float	sin_rad;
-	float	unit_size;
-	float	move_sense;
+	int			pitch;
+	int			z_height;
+	float		angle;
+	float		cos_rad;
+	float		sin_rad;
+	float		unit_size;
+	float		move_sense;
 }   t_player;
 
 

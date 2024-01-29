@@ -13,21 +13,38 @@
 
 # include "game.h"
 
+typedef struct s_mouse
+{
+	double x;
+	double y;
+}	t_mouse;
+
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
-{			
+{	
+	t_mouse mouse;
 	glfwSetKeyCallback(win->window, win_key_press);
 	glViewport(0, 0, win->width, win->height);
+	glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
+	
 	//set_fps_start(&win->fps);
     while (!glfwWindowShouldClose(win->window))
 	{
 		glRasterPos2f(-1, -1);
 		ft_memset(win->front_buf, 0, WIN_WIDTH * WIN_HEIGHT * RGB_SIZE * sizeof(*(win->front_buf)));
 
-		if (glfwGetKey(win->window, GLFW_KEY_Q))
-			game_rotate_view_angle(game, 0.01f);
-		if (glfwGetKey(win->window, GLFW_KEY_E))
-			game_rotate_view_angle(game, -0.01f);
+		float	rotate;
+
+		glfwGetCursorPos(win->window, &mouse.x, &mouse.y);
+		rotate = win->width / 2 - mouse.x;
+		game->player.pitch += mouse.y - win->height / 2;
+		game_rotate_view_angle(game, rotate * 0.002f);
+		glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
+
+		if (glfwGetKey(win->window, GLFW_KEY_X))
+			game->player.z_height += 20;
+		if (glfwGetKey(win->window, GLFW_KEY_SPACE))
+			game->player.z_height -= 20;
 
 		move_player(game, glfwGetKey(win->window, GLFW_KEY_W), glfwGetKey(win->window, GLFW_KEY_S), glfwGetKey(win->window, GLFW_KEY_A), glfwGetKey(win->window, GLFW_KEY_D));
 		//if (glfwGetKey(win->window, GLFW_KEY_S))

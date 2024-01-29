@@ -68,11 +68,13 @@ int	new_win_init_window(t_win_glfw *win)
 		return (0);		// no free, potencial memleak
 	win->set_pixel = win_set_pixel;
 	win->get_pixel = win_get_pixel;
+	glfwSetInputMode(win->window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	return (1);	
 }
 
 int	free_win_glfw(t_win_glfw *win)
 {
+	glfwSetInputMode(win->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwDestroyWindow(win->window);
 	glfwTerminate();
 	free(win->front_buf);
