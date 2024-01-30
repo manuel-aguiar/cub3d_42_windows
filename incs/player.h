@@ -34,6 +34,7 @@ used on defining character movement
 enum e_clocks
 {
 	CLOCK_MOVE,
+	CLOCK_AIM,
 	CLOCK_JUMP,
 	CLOCK_CROUCH,
 	CLOCK_SIZE,
@@ -54,6 +55,15 @@ typedef struct s_player
 	float			forward_move;
 	float			side_move;
 	float			back_move;
+	float			max_aim_radius;
+	float			cur_dir_len;
+	float			base_dir_len;
+	float			aim_dir_len;
+	float			cur_fov;
+	float			base_fov;
+	float			aim_fov;
+	bool			is_aiming;
+	float			aim_sense;
 	float			rot_sense;
 	float			pitch_sense;
 	t_clock 		timer[CLOCK_SIZE];
@@ -62,5 +72,8 @@ typedef struct s_player
 
 void    player_setup(t_player *player);
 void	render_player(t_win_glfw *win, t_player *player);
+
+
+void	player_change_aim(t_player *player);
 
 #endif

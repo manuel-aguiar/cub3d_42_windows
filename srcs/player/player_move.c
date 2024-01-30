@@ -83,6 +83,8 @@ void    move_player(t_game *game, bool w, bool s, bool a, bool d)
 	t_player *player;
 
 	player = &game->player;
+	if (!w && !s && !a && !d)
+		return ;
 	if (w && !s)
 	{
 		if (a && !d)

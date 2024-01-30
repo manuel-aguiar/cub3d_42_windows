@@ -23,7 +23,7 @@
 # include "libft.h"
 # include "vector.h"
 # include "pixel_point.h"
-
+# include "user_inputs.h"
 
 # define RGB_SIZE 4 
 
@@ -60,54 +60,15 @@ struct s_win_glfw
 };
 
 
-enum e_keys_vals
-{
-	KEY_ESC = 65307,
-	KEY_RY_L = 'a',
-	KEY_RY_R = 'd',
-	KEY_RX_L = 's',
-	KEY_RX_R = 'w',
-	KEY_RZ_L = 'q',
-	KEY_RZ_R = 'e',
-	KEY_H_UP = 'r',
-	KEY_H_DOWN = 'f',
-	KEY_ZIN = 'z',
-	KEY_ZOUT = 'x',
-	KEY_VISO = 'b',
-	KEY_VPLL = 'n',
-	KEY_VTOP = 'm',
-	KEY_HELP = 'h',
-};
-
-enum e_keys_bits
-{
-	BIT_ESC,
-	BIT_RY_L,
-	BIT_RY_R,
-	BIT_RX_L,
-	BIT_RX_R,
-	BIT_RZ_L,
-	BIT_RZ_R,
-	BIT_H_UP,
-	BIT_H_DOWN,
-	BIT_ZIN,
-	BIT_ZOUT,
-	BIT_VISO,
-	BIT_VPLL,
-	BIT_VTOP,
-	BIT_HELP,
-};
-
-
-
-
 
 //win_init_window.c
 t_win_glfw	*win_init_window(void);
 int			free_win_glfw(t_win_glfw *win);
 
 //win_keys.c
-void	win_key_press(GLFWwindow* window, int key, int scancode, int action, int mods);
+void	win_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void 	win_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+void	win_mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 //win_render_loop.c
 

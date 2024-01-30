@@ -93,8 +93,9 @@ void	raycasting(t_game *game)
 	float cameraX;
 	int w = game->win.width;
 	int h = game->win.height;
-	t_vector	dir = game->player.dir_vec;
+	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);	//for zooming, increase direction vector
 	t_vector 	plane = game->player.plane;
+
 	int		x;
 
 	t_vector	res;

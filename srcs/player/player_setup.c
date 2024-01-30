@@ -14,5 +14,6 @@
 
 void    player_setup(t_player *player)
 {
-	player->plane = vector_multi((t_vector){player->sin_rad, -player->cos_rad}, 0.66f);
+	player->is_aiming = false;
+	player->plane = vector_multi((t_vector){player->sin_rad, -player->cos_rad}, player->cur_fov);
 }

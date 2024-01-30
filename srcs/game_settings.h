@@ -14,7 +14,7 @@
 
 # define GAME_SETTINGS_H
 
-
+# include <GLFW/glfw3.h>
 
 /* window settings */
 # define MAX_WIN_WIDTH 1920
@@ -63,6 +63,14 @@
 # define PLAY_BASE_PITCH 0
 # define PLAY_BASE_Z_HEIGHT 0
 # define PLAY_ROT_SENSE 0.00008f
-# define PLAY_PITCH_SENSE PLAY_ROT_SENSE * 1200
+# define PLAY_PITCH_SENSE (PLAY_ROT_SENSE * 1200)
+
+# define PLAY_BASE_DIR_LEN 1.0f
+# define PLAY_AIM_DIR_LEN 1.5f
+# define PLAY_AIM_SENSE 0.003f
+
+# define PLAY_BASE_FOV 0.66f
+# define PLAY_AIM_FOV 0.8f
+
 
 #endif

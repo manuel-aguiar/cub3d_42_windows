@@ -49,6 +49,7 @@ INC_FILES		=		game.h				\
 						drawing_algos.h		\
 						pixel_point.h		\
 						compass.h			\
+						user_inputs.h		\
 						generic_utils.h
 
 SRC_MAIN			=	main.c				\
@@ -57,6 +58,9 @@ SRC_MAIN			=	main.c				\
 
 SRC_GAME			=	win_render_loop.c		\
 						game_setup.c			\
+						game_keys.c				\
+						game_manager_keys.c		\
+						game_manager_mouse.c	\
 						free_game.c				\
 						game_rotate.c			\
 						game_render.c			\
@@ -66,6 +70,7 @@ SRC_GAME			=	win_render_loop.c		\
 						
 
 SRC_PLAYER			=	player_setup.c				\
+						player_aim.c				\
 						player_move.c
 
 SRC_PARSING			=	parsing.c				\
@@ -78,8 +83,9 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 						radian_truncate.c
 
 SRC_REN_WIN			=	win_init_window.c		\
-						win_keys.c				\
-						win_pixels.c			
+						win_pixels.c			\
+						win_callback_keys.c		\
+						win_callback_mouse.c		
 
 
 SRC_COMPASS			=	render_compass.c				\

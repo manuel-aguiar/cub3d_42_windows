@@ -36,11 +36,15 @@ int	new_win_init_window(t_win_glfw *win)
 	win->set_pixel = win_set_pixel;
 	win->get_pixel = win_get_pixel;
 	glfwSetInputMode(win->window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	glfwSetInputMode(win->window, GLFW_STICKY_KEYS, GLFW_FALSE);
+	glfwSetInputMode(win->window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_FALSE);
 	return (1);	
 }
 
 int	free_win_glfw(t_win_glfw *win)
 {
+	glfwSetInputMode(win->window, GLFW_STICKY_KEYS, GLFW_TRUE);
+	glfwSetInputMode(win->window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 	glfwSetInputMode(win->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwDestroyWindow(win->window);
 	glfwTerminate();

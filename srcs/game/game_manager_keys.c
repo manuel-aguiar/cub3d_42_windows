@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clamp.c                                            :+:      :+:    :+:   */
+/*   game_key_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 16:33:48 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/23 16:33:48 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/30 12:43:50 by marvin            #+#    #+#             */
+/*   Updated: 2024/01/30 12:43:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+# include "game.h"
 
-int	int_clamp(int value, int min, int max)
+void	game_key_manager(t_game *game)
 {
-	return (ft_min(max, ft_max(min, value)));
-}
+	int keys;
 
-float	float_clamp(float value, float min, float max)
-{
-	return (ft_fmin(max, ft_fmax(min, value)));
+	keys = *game->keys;
+	move_player(game, (keys >> BIT_FRONT) & 1, (keys >> BIT_BACK) & 1, (keys >> BIT_LEFT) & 1, (keys >> BIT_RIGHT) & 1);
 }

@@ -13,13 +13,6 @@
 
 # include "game.h"
 
-
-typedef struct s_mouse
-{
-	double x;
-	double y;
-}	t_mouse;
-
 void	player_start_timers(t_player *player)
 {
 	int i;
@@ -50,8 +43,10 @@ void	player_get_timers(t_player *player)
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 {	
-	t_mouse mouse;
-	glfwSetKeyCallback(win->window, win_key_press);
+	(void)win_key_press;
+	glfwSetKeyCallback(win->window, win_key_callback);
+	glfwSetMouseButtonCallback(win->window, win_mouse_button_callback);
+	glfwSetScrollCallback(win->window, win_mouse_scroll_callback);
 	glViewport(0, 0, win->width, win->height);
 	glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
 	player_start_timers(&game->player);
@@ -64,19 +59,22 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		player_get_timers(&game->player);
 		float	rotate;
 
-		glfwGetCursorPos(win->window, &mouse.x, &mouse.y);
-		rotate = win->width / 2 - mouse.x;
-		game->player.pitch += (int)((mouse.y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed);
-		printf("%d pitch change\n", (int)((mouse.y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed));
+		glfwGetCursorPos(win->window, &game->mouse->cur_x, &game->mouse->cur_y);
+		rotate = win->width / 2 - game->mouse->cur_x;
+		game->player.pitch += (int)((game->mouse->cur_y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed);
+		//printf("%d pitch change\n", (int)((mouse.y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed));
 		game_rotate_view_angle(game, rotate * game->player.rot_sense * game->player.timer[CLOCK_MOVE].elapsed);
+		//printf("rotate %.3f, rot sense %.10f, elapsed %u, res %.10f\n", rotate, game->player.rot_sense, 
+		//game->player.timer[CLOCK_MOVE].elapsed, (float)(rotate * game->player.rot_sense * game->player.timer[CLOCK_MOVE].elapsed));
 		glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
 
 		if (glfwGetKey(win->window, GLFW_KEY_X))
 			game->player.z_height += 20;
 		if (glfwGetKey(win->window, GLFW_KEY_SPACE))
 			game->player.z_height -= 20;
-
-		move_player(game, glfwGetKey(win->window, GLFW_KEY_W), glfwGetKey(win->window, GLFW_KEY_S), glfwGetKey(win->window, GLFW_KEY_A), glfwGetKey(win->window, GLFW_KEY_D));
+		player_change_aim(&game->player);
+		game_key_manager(game);
+		game_mouse_manager(game);
 		//if (glfwGetKey(win->window, GLFW_KEY_S))
         //	game->compass.map_centre.y--;
 		//if (glfwGetKey(win->window, GLFW_KEY_W))

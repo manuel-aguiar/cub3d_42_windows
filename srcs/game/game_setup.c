@@ -81,6 +81,10 @@ void		game_find_player_set_angles(t_game *game)
 
 int	new_win_init_window(t_win_glfw *win);
 
+// GLOBALS NEEDED BY GLFW
+
+
+
 int		game_start(t_game *game, char *game_config)
 {
 	*game = (t_game){};
@@ -91,6 +95,7 @@ int		game_start(t_game *game, char *game_config)
 	compass_setup(&game->compass);
 	player_setup(&game->player);
 	new_win_init_window(&game->win);
+	game_setup_keys(game);
 	return (1);
 }
 

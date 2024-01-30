@@ -13,6 +13,8 @@
 # include "game.h"
 # include "game_settings.h"
 
+int 	g_def_keys;
+
 void    apply_all_settings(t_game *game)
 {
     //window settings
@@ -52,5 +54,16 @@ void    apply_all_settings(t_game *game)
 	game->player.unit_size = PLAY_UNIT_SIZE;
 	game->player.pitch = PLAY_BASE_PITCH;
 	game->player.z_height = PLAY_BASE_Z_HEIGHT;
+
+    game->player.base_fov = PLAY_BASE_FOV;
+    game->player.aim_fov = PLAY_AIM_FOV;
+    game->player.cur_fov = game->player.base_fov;
+    game->player.base_dir_len = PLAY_BASE_DIR_LEN;
+    game->player.aim_dir_len = PLAY_AIM_DIR_LEN;
+    game->player.cur_dir_len = game->player.base_dir_len;
+    game->player.aim_sense = PLAY_AIM_SENSE;
+
+
+    // setting default keys;
 
 }

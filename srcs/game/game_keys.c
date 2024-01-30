@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clamp.c                                            :+:      :+:    :+:   */
+/*   game_keys.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 16:33:48 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/23 16:33:48 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/30 12:23:14 by marvin            #+#    #+#             */
+/*   Updated: 2024/01/30 12:23:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "libft.h"
+#include "game.h"
 
-int	int_clamp(int value, int min, int max)
-{
-	return (ft_min(max, ft_max(min, value)));
-}
+int 	g_keys;
+t_mouse g_mouse;
 
-float	float_clamp(float value, float min, float max)
+void	game_setup_keys(t_game *game)
 {
-	return (ft_fmin(max, ft_fmax(min, value)));
+	game->mouse = &g_mouse;
+	game->keys = &g_keys;
 }
