@@ -16,5 +16,6 @@ void    player_setup(t_player *player)
 {
 	player->is_aiming = false;
 	player->is_jumping = false;
+	player->hgt_state = HGT_NORMAL;
 	player->plane = vector_multi((t_vector){player->sin_rad, -player->cos_rad}, player->cur_fov);
 }

@@ -25,9 +25,38 @@ void	game_key_manager(t_game *game)
 
 	keys = *game->keys;
 	move_player(game, (keys >> BIT_FRONT) & 1, (keys >> BIT_BACK) & 1, (keys >> BIT_LEFT) & 1, (keys >> BIT_RIGHT) & 1);
-	if ((keys >> BIT_JUMP) & 1 && !game->player.is_jumping)
+	if (game->player.hgt_state == HGT_PRONE)
 	{
-		game->player.is_jumping = true;
-		player_set_timer(&game->player, CLOCK_JUMP);
+		if ((keys >> BIT_CROUCH) & 1)
+			game->player.hgt_state = HGT_CROUCH;
+		else if (((keys >> BIT_PRONE) & 1) || ((keys >> BIT_JUMP) & 1))
+		{
+			game->player.hgt_state = HGT_NORMAL;
+			printf("prone back to normal\n");
+		}		
 	}
+	else if (game->player.hgt_state == HGT_CROUCH)
+	{
+		if ((keys >> BIT_PRONE) & 1)
+			game->player.hgt_state = HGT_PRONE;
+		else if (((keys >> BIT_CROUCH) & 1) || ((keys >> BIT_JUMP) & 1))
+			game->player.hgt_state = HGT_NORMAL;
+	}
+	else if (game->player.hgt_state == HGT_NORMAL)
+	{
+		if ((keys >> BIT_PRONE) & 1)
+			game->player.hgt_state = HGT_PRONE;
+		else if (((keys >> BIT_CROUCH) & 1))
+			game->player.hgt_state = HGT_CROUCH;
+		else if (((keys >> BIT_JUMP) & 1))
+			game->player.hgt_state = HGT_JUMP;
+	}
+	else if (game->player.hgt_state == HGT_JUMP)
+	{
+		game->player.hgt_state = HGT_NORMAL;
+	}
+	*game->keys &= ~(1 << BIT_CROUCH);
+	*game->keys &= ~(1 << BIT_PRONE);
+	*game->keys &= ~(1 << BIT_CROUCH);
+	*game->keys &= ~(1 << BIT_PRONE);
 }

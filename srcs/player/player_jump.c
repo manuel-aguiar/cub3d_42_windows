@@ -13,14 +13,7 @@
 # include "game.h"
 
 
-# define JUMP_END 1000
-# define JUMP_FLIGHT 800
-# define JUMP_DIP 200
 
-# define JUMP_Z_TOP 80
-# define JUMP_Z_BOT -20
-
-# define TOTAL_JUMP_TIME
 
 size_t	calc_elapsed(t_player *player, int timer)
 {

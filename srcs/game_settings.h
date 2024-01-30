@@ -17,7 +17,7 @@
 # include <GLFW/glfw3.h>
 
 /* window settings */
-# define MAX_WIN_WIDTH 1920
+# define MAX_WIN_WIDTH 1900
 # define MIN_WIN_WIDTH 800
 # define MAX_WIN_HEIGHT 1024
 # define MIN_WIN_HEIGHT 600
@@ -61,9 +61,15 @@
 # define PLAY_BACK_MOVE_SENSE 0.0008f
 # define PLAY_SPRINT_MULTI 1.5f
 # define PLAY_BASE_PITCH 0
-# define PLAY_BASE_Z_HEIGHT 0
+
 # define PLAY_ROT_SENSE 0.00008f
 # define PLAY_PITCH_SENSE (PLAY_ROT_SENSE * 1200)
+
+
+# define PLAY_HGT_PRONE 0.1f
+# define PLAY_HGT_CROUCH 0.3f
+# define PLAY_HGT_BASE 0.5f
+# define PLAY_HGT_SENSE 0.001f
 
 # define PLAY_BASE_DIR_LEN 1.0f
 # define PLAY_AIM_DIR_LEN 1.5f
@@ -72,5 +78,13 @@
 # define PLAY_BASE_FOV 0.66f
 # define PLAY_AIM_FOV 0.8f
 
+# define JUMP_END 1000
+# define JUMP_FLIGHT 800
+# define JUMP_DIP 200
+
+# define JUMP_Z_TOP 80
+# define JUMP_Z_BOT -20
+
+# define TOTAL_JUMP_TIME
 
 #endif

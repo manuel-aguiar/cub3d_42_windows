@@ -40,6 +40,21 @@ enum e_clocks
 	CLOCK_SIZE,
 };
 
+enum e_controls
+{
+	CTR_CUR,
+	CTR_MAX,
+	CTR_MIN,
+	CTR_SIZE,
+};
+
+enum e_height_state
+{
+	HGT_NORMAL,
+	HGT_CROUCH,
+	HGT_PRONE,
+	HGT_JUMP,
+};
 
 typedef struct s_player
 {
@@ -47,7 +62,7 @@ typedef struct s_player
 	t_vector		dir_vec;
 	t_vector		plane;
 	int				pitch;
-	int				z_height;
+	
 	float			angle;
 	float			cos_rad;
 	float			sin_rad;
@@ -56,12 +71,24 @@ typedef struct s_player
 	float			side_move;
 	float			back_move;
 	float			max_aim_radius;
+	float			dir_len[CTR_SIZE];
 	float			cur_dir_len;
 	float			base_dir_len;
 	float			aim_dir_len;
+	float			new_fov[CTR_SIZE];
 	float			cur_fov;
 	float			base_fov;
 	float			aim_fov;
+	int				hgt_state;
+	float			hgt_sense;
+	int				z_height;
+	float			cur_z;
+	float			base_z;
+	float			prone_z;
+	float			crouch_z;
+	float			new_aim_sense[CTR_SIZE];
+	float			new_rot_sense[CTR_SIZE];
+	float			new_pitch_sense[CTR_SIZE];
 	bool			is_aiming;
 	float			aim_sense;
 	float			rot_sense;
@@ -78,5 +105,6 @@ void	render_player(t_win_glfw *win, t_player *player);
 void	player_change_aim(t_player *player);
 void 	player_jump_cur_z(t_player *player);
 void	player_get_timer(t_player *player, int timer);
+void    player_change_height(t_player *player);
 
 #endif

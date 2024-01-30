@@ -45,7 +45,7 @@ enum e_keys_vals
 	KEY_JUMP = GLFW_KEY_SPACE,
 	KEY_SPRINT = GLFW_KEY_LEFT_SHIFT,
 	KEY_CROUCH = GLFW_KEY_X,
-	KEY_LAYDOWN = GLFW_KEY_Z,
+	KEY_PRONE = GLFW_KEY_Z,
 	KEY_COUNT = 19,
 };
 
@@ -59,7 +59,7 @@ enum e_keys_bits
 	BIT_JUMP,
 	BIT_SPRINT,
 	BIT_CROUCH,
-	BIT_LAYDOWN,
+	BIT_PRONE,
 };
 
 enum e_button_vals

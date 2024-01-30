@@ -30,8 +30,8 @@ void	key_release(int keycode)
 		g_keys &= ~(1 << BIT_SPRINT);
 	else if (keycode == KEY_CROUCH)
 		g_keys &= ~(1 << BIT_CROUCH);
-	else if (keycode == KEY_LAYDOWN)
-		g_keys &= ~(1 << BIT_LAYDOWN);
+	else if (keycode == KEY_PRONE)
+		g_keys &= ~(1 << BIT_PRONE);
 }
 
 void	key_press(int keycode)
@@ -52,8 +52,8 @@ void	key_press(int keycode)
 		g_keys |= (1 << BIT_SPRINT);
 	else if (keycode == KEY_CROUCH)
 		g_keys |= (1 << BIT_CROUCH);
-	else if (keycode == KEY_LAYDOWN)
-		g_keys |= (1 << BIT_LAYDOWN);
+	else if (keycode == KEY_PRONE)
+		g_keys |= (1 << BIT_PRONE);
 }
 
 

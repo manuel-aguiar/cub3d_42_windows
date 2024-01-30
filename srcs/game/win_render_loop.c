@@ -68,6 +68,7 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		//if (glfwGetKey(win->window, GLFW_KEY_SPACE))
 		//	game->player.z_height -= 20;
 		player_change_aim(&game->player);
+		player_change_height(&game->player);
 		//player_jump_cur_z(&game->player);
 		game_key_manager(game);
 		game_mouse_manager(game);

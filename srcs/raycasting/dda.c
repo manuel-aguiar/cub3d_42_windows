@@ -187,9 +187,9 @@ void	raycasting(t_game *game)
 		int lineHeight = (int)(h / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + h / 2 + game->player.pitch + game->player.z_height / perpWallDist;
+		int drawStart = -lineHeight / 2 + h / 2 + game->player.pitch - (int)((game->player.cur_z * h - h / 2) / perpWallDist);
 		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + h / 2 + game->player.pitch + game->player.z_height / perpWallDist;
+		int drawEnd = lineHeight / 2 + h / 2 + game->player.pitch - (int)((game->player.cur_z * h - h / 2)/ perpWallDist);
 		if(drawEnd >= h) drawEnd = h - 1;
 
 		//choose wall color

@@ -53,7 +53,14 @@ void    apply_all_settings(t_game *game)
     game->player.pitch_sense = PLAY_PITCH_SENSE;
 	game->player.unit_size = PLAY_UNIT_SIZE;
 	game->player.pitch = PLAY_BASE_PITCH;
-	game->player.z_height = PLAY_BASE_Z_HEIGHT;
+
+    game->player.base_z = PLAY_HGT_BASE;
+    game->player.prone_z = PLAY_HGT_PRONE;
+    game->player.crouch_z = PLAY_HGT_CROUCH;
+    game->player.cur_z = game->player.base_z;
+    game->player.hgt_sense = PLAY_HGT_SENSE;
+
+	game->player.z_height = PLAY_HGT_BASE;
 
     game->player.base_fov = PLAY_BASE_FOV;
     game->player.aim_fov = PLAY_AIM_FOV;
