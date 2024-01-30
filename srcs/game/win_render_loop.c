@@ -25,20 +25,14 @@ void	player_start_timers(t_player *player)
 	}
 }
 
-void	player_get_timers(t_player *player)
+void	player_get_timer(t_player *player, int timer)
 {
-	int i;
-
-	i = 0;
-	while (i < CLOCK_SIZE)
-	{
-		ftime(&player->timer[i].end);
-		player->timer[i].elapsed = (size_t) (1000.0 * (player->timer[i].end.time - player->timer[i].start.time)
-        + (player->timer[i].end.millitm - player->timer[i].start.millitm));
-		player->timer[i].start = player->timer[i].end;
-		i++;
-	}
-	//printf("elapsed %u\n", player->timer[CLOCK_MOVE].elapsed);
+	if (timer > CLOCK_SIZE)
+		return ;
+	ftime(&player->timer[timer].end);
+	player->timer[timer].elapsed = (size_t) (1000.0 * (player->timer[timer].end.time - player->timer[timer].start.time)
+	+ (player->timer[timer].end.millitm - player->timer[timer].start.millitm));
+	player->timer[timer].start = player->timer[timer].end;
 }
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
@@ -56,7 +50,8 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		glRasterPos2f(-1, -1);
 		ft_memset(win->front_buf, 0, win->width * win->height * win->rgb_size * sizeof(*(win->front_buf)));
 
-		player_get_timers(&game->player);
+		player_get_timer(&game->player, CLOCK_MOVE);
+		player_get_timer(&game->player, CLOCK_AIM);
 		float	rotate;
 
 		glfwGetCursorPos(win->window, &game->mouse->cur_x, &game->mouse->cur_y);
@@ -68,11 +63,12 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		//game->player.timer[CLOCK_MOVE].elapsed, (float)(rotate * game->player.rot_sense * game->player.timer[CLOCK_MOVE].elapsed));
 		glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
 
-		if (glfwGetKey(win->window, GLFW_KEY_X))
-			game->player.z_height += 20;
-		if (glfwGetKey(win->window, GLFW_KEY_SPACE))
-			game->player.z_height -= 20;
+		//if (glfwGetKey(win->window, GLFW_KEY_X))
+		//	game->player.z_height += 20;
+		//if (glfwGetKey(win->window, GLFW_KEY_SPACE))
+		//	game->player.z_height -= 20;
 		player_change_aim(&game->player);
+		//player_jump_cur_z(&game->player);
 		game_key_manager(game);
 		game_mouse_manager(game);
 		//if (glfwGetKey(win->window, GLFW_KEY_S))

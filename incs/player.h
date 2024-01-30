@@ -66,6 +66,7 @@ typedef struct s_player
 	float			aim_sense;
 	float			rot_sense;
 	float			pitch_sense;
+	bool			is_jumping;
 	t_clock 		timer[CLOCK_SIZE];
 }   t_player;
 
@@ -75,5 +76,7 @@ void	render_player(t_win_glfw *win, t_player *player);
 
 
 void	player_change_aim(t_player *player);
+void 	player_jump_cur_z(t_player *player);
+void	player_get_timer(t_player *player, int timer);
 
 #endif
