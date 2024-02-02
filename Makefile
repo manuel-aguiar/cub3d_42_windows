@@ -69,10 +69,12 @@ SRC_GAME			=	win_render_loop.c		\
 						map_player_collisions.c
 						
 
-SRC_PLAYER			=	player_setup.c				\
+SRC_PLAYER			=	player_setup_and_actions.c	\
 						player_aim.c				\
 						player_move.c				\
 						player_crouch_prone.c		\
+						player_walk_height.c		\
+						player_rotate.c				\
 						player_jump.c
 
 SRC_PARSING			=	parsing.c				\

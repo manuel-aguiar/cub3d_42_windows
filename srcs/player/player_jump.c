@@ -25,24 +25,20 @@ size_t	calc_elapsed(t_player *player, int timer)
 	+ (cur.millitm - player->timer[timer].start.millitm)));
 }
 
-void	player_gravity(t_player *player)
+void	player_jump_gravity(t_player *player)
 {
 	if (player->hgt_state == HGT_JUMP)
 	{
-		player->cur_z += player->cur_jump_sense * player->timer[CLOCK_MOVE].elapsed;
-		player->cur_jump_sense -= player->gravity * player->timer[CLOCK_MOVE].elapsed;
+		player->jump_z_mod += player->cur_jump_sense * player->timer[CLOCK_MOVE].elapsed;
+		player->cur_jump_sense -= player->vertical_gravity * player->timer[CLOCK_MOVE].elapsed;
+		if (player->jump_z_mod < 0)
+		{
+			player->jump_z_mod = 0;
+			player->hgt_state = HGT_NORMAL;
+		}
 	}
 	else
-	{
-		player->cur_z = player->base_z;
 		player->cur_jump_sense = 0;
-	}
-	if (player->cur_z < player->base_z)
-	{
-		player->cur_z = player->base_z;
-		player->hgt_state = HGT_NORMAL;
-	}
-		
 }
 
 

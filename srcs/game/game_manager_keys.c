@@ -25,57 +25,62 @@ void	game_key_manager(t_game *game)
 
 	keys = *game->keys;
 	move_player(game, (keys >> BIT_FRONT) & 1, (keys >> BIT_BACK) & 1, (keys >> BIT_LEFT) & 1, (keys >> BIT_RIGHT) & 1);
-	
-	if ((keys >> BIT_JUMP) & 1)
-	{
-		if (game->player.hgt_state != HGT_JUMP)
-			game->player.cur_jump_sense = 0.003f;
-		else
-			game->player.cur_jump_sense += 0.00001f;
-		game->player.hgt_state = HGT_JUMP;
-		if(game->player.cur_jump_sense > 0.007f)
-			game->player.cur_jump_sense = 0.007f;
 
-	}
-	if (!((keys >> BIT_JUMP) & 1) && game->player.hgt_state == HGT_JUMP)
-	{
-		if(game->player.cur_jump_sense > 0.002f)
-			game->player.cur_jump_sense = 0.002f;
-	}
-	/*
+	int	new_height_state;
+	new_height_state = -1;
 	if (game->player.hgt_state == HGT_PRONE)
 	{
 		if ((keys >> BIT_CROUCH) & 1)
-			game->player.hgt_state = HGT_CROUCH;
+			new_height_state = HGT_CROUCH;
 		else if (((keys >> BIT_PRONE) & 1) || ((keys >> BIT_JUMP) & 1))
-		{
-			game->player.hgt_state = HGT_NORMAL;
-			printf("prone back to normal\n");
-		}		
+			new_height_state = HGT_NORMAL;
+		if (((keys >> BIT_JUMP) & 1))
+			*game->keys &= ~(1 << BIT_JUMP);
 	}
 	else if (game->player.hgt_state == HGT_CROUCH)
 	{
 		if ((keys >> BIT_PRONE) & 1)
-			game->player.hgt_state = HGT_PRONE;
+			new_height_state = HGT_PRONE;
 		else if (((keys >> BIT_CROUCH) & 1) || ((keys >> BIT_JUMP) & 1))
-			game->player.hgt_state = HGT_NORMAL;
+			new_height_state = HGT_NORMAL;
+		if (((keys >> BIT_JUMP) & 1))
+			*game->keys &= ~(1 << BIT_JUMP);
 	}
 	else if (game->player.hgt_state == HGT_NORMAL)
 	{
 		if ((keys >> BIT_PRONE) & 1)
-			game->player.hgt_state = HGT_PRONE;
+			new_height_state = HGT_PRONE;
 		else if (((keys >> BIT_CROUCH) & 1))
-			game->player.hgt_state = HGT_CROUCH;
+			new_height_state = HGT_CROUCH;
 		else if (((keys >> BIT_JUMP) & 1))
-			game->player.hgt_state = HGT_JUMP;
+		{
+			game->player.cur_jump_sense = game->player.jump_init;
+			new_height_state = HGT_JUMP;
+		}
 	}
 	else if (game->player.hgt_state == HGT_JUMP)
 	{
-		game->player.hgt_state = HGT_NORMAL;
+		if (((keys >> BIT_JUMP) & 1))
+		{
+			game->player.cur_jump_sense += game->player.jump_inc;
+			if(game->player.cur_jump_sense > game->player.jump_press_cap)
+				game->player.cur_jump_sense = game->player.jump_press_cap;
+		}
+		else
+		{
+			if(game->player.cur_jump_sense > game->player.jump_release_cap)
+				game->player.cur_jump_sense = game->player.jump_release_cap;
+		}
 	}
-	*/
+	if (new_height_state != -1)
+		game->player.hgt_state = new_height_state;
+	
 	*game->keys &= ~(1 << BIT_CROUCH);
 	*game->keys &= ~(1 << BIT_PRONE);
 	*game->keys &= ~(1 << BIT_CROUCH);
-	*game->keys &= ~(1 << BIT_PRONE);
+
+
+
+	game->player.is_sprinting = ((keys >> BIT_SPRINT) & 1) && !game->player.is_aiming;
+
 }

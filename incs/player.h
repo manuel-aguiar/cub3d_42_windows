@@ -54,6 +54,7 @@ enum e_height_state
 	HGT_CROUCH,
 	HGT_PRONE,
 	HGT_JUMP,
+	HGT_STATES,
 };
 
 typedef struct s_player
@@ -86,19 +87,46 @@ typedef struct s_player
 	float			base_z;
 	float			prone_z;
 	float			crouch_z;
+	float			stance_z[HGT_STATES];
 	float			new_aim_sense[CTR_SIZE];
 	float			new_rot_sense[CTR_SIZE];
 	float			new_pitch_sense[CTR_SIZE];
+
+	bool 			is_walking;
+	bool			is_sprinting;
 	bool			is_aiming;
+
 	float			aim_sense;
 	float			rot_sense;
 	float			pitch_sense;
+	float			aim_rot_multi;
 
-	float			gravity;
-	float			base_jump_sense;
+	float			vertical_gravity;
 	float			cur_jump_sense;
+	float			jump_init;
+	float			jump_inc;
+	float			jump_press_cap;
+	float			jump_release_cap;
+	float			jump_z_mod;
 
-	bool			is_jumping;
+	float			cur_move_multi;
+	float			move_multi[HGT_STATES];
+	float			normal_move_multi;
+	float			sprint_move_multi;
+	float			crouch_move_multi;
+	float			prone_move_multi;
+	float			aim_move_multi;
+
+	float			walking_gravity;
+	float			cur_walk_sense;
+	float			walk_init;
+	float			walk_inc;
+	float			walk_press_cap;
+	float			walk_release_cap;	
+	float			walk_z_mod;
+	float			walk_sway_mod;
+
+
 	t_clock 		timer[CLOCK_SIZE];
 }   t_player;
 
@@ -108,10 +136,13 @@ void	render_player(t_win_glfw *win, t_player *player);
 
 
 void	player_change_aim(t_player *player);
-void 	player_jump_cur_z(t_player *player);
 void	player_get_timer(t_player *player, int timer);
-void    player_change_height(t_player *player);
-void	player_gravity(t_player *player);
+void    player_change_stance(t_player *player);
+void	player_jump_gravity(t_player *player);
+void	player_walk_height(t_player *player);
+void	player_rotate(t_player *player);
+
+void	player_actions(t_player *player);
 
 
 #endif

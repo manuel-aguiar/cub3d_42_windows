@@ -12,18 +12,16 @@
 
 # include "player.h"
 
-void    player_change_height(t_player *player)
+void    player_change_stance(t_player *player)
 {
     float target;
     int   up_down;
 
-    target = player->base_z;
+    target = player->stance_z[HGT_NORMAL];
     if (player->hgt_state == HGT_PRONE)
-        target = player->prone_z;
+        target = player->stance_z[HGT_PRONE];
     if (player->hgt_state == HGT_CROUCH)
-        target = player->crouch_z;
-    if (player->hgt_state == HGT_JUMP)
-        target = player->base_z;    //future change;
+        target = player->stance_z[HGT_CROUCH];
     if (player->cur_z >= target)
         up_down = -1;
     else

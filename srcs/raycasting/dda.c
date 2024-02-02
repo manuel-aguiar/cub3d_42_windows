@@ -95,7 +95,6 @@ void	raycasting(t_game *game)
 	int h = game->win.height;
 	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);	//for zooming, increase direction vector
 	t_vector 	plane = game->player.plane;
-
 	int		x;
 
 	t_vector	res;
@@ -125,6 +124,13 @@ void	raycasting(t_game *game)
 		//direction.x, direction.y);
 		ray_step = (t_vector){direction.x == 0 ? FLT_MAX : ft_fabs(1.0f / direction.x), direction.y == 0 ? FLT_MAX : ft_fabs(1.0f / direction.y)};
 		player_in_map = (t_vector){(float)((int)game->player.map_posi.x), (float)((int)game->player.map_posi.y)};
+		//
+		//attempt tto add sway horizontally!!!!
+		//player_in_map = vector_add(player_in_map, vector_multi(game->player.plane, game->player.walk_z_mod / 200));
+		
+		
+		
+		
 		//printf("ray step at (%.3f, %.3f)\n", ray_step.x, ray_step.y);
 		// first step before constant multiplier, getting move in x axis and y axis
 		if (direction.x < 0)
@@ -187,9 +193,9 @@ void	raycasting(t_game *game)
 		int lineHeight = (int)(h / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + h / 2 + game->player.pitch - (int)((game->player.cur_z * h - h / 2) / perpWallDist);
+		int drawStart = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
 		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + h / 2 + game->player.pitch - (int)((game->player.cur_z * h - h / 2)/ perpWallDist);
+		int drawEnd = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
 		if(drawEnd >= h) drawEnd = h - 1;
 
 		//choose wall color

@@ -20,7 +20,7 @@
 # define MAX_WIN_WIDTH 1900
 # define MIN_WIN_WIDTH 800
 # define MAX_WIN_HEIGHT 1024
-# define MIN_WIN_HEIGHT 600
+# define MIN_WIN_HEIGHT 480
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1024
@@ -57,28 +57,49 @@
 /* player settings */
 # define PLAY_UNIT_SIZE 0.2f
 # define PLAY_FORWARD_MOVE_SENSE 0.003f
-# define PLAY_SIDE_MOVE_SENSE 0.0015f
+# define PLAY_SIDE_MOVE_SENSE 0.0018f
 # define PLAY_BACK_MOVE_SENSE 0.0008f
 # define PLAY_SPRINT_MULTI 1.5f
 # define PLAY_BASE_PITCH 0
 
+
+//rotation an pitch sensibility, aiming multiplier
 # define PLAY_ROT_SENSE 0.00008f
-# define PLAY_PITCH_SENSE (PLAY_ROT_SENSE * 1200)
+# define PLAY_PITCH_SENSE (PLAY_ROT_SENSE * 1000)
+# define PLAY_AIM_ROT_MULTI 0.5f
 
-
+# define PLAY_HGT_NORMAL 0.5f
 # define PLAY_HGT_PRONE 0.1f
 # define PLAY_HGT_CROUCH 0.3f
-# define PLAY_HGT_BASE 0.5f
 # define PLAY_HGT_SENSE 0.001f
 
 # define PLAY_BASE_DIR_LEN 1.0f
 # define PLAY_AIM_DIR_LEN 1.5f
 # define PLAY_AIM_SENSE 0.003f
 
-# define PLAY_BASE_FOV 0.66f
+# define PLAY_BASE_FOV 0.9f
 # define PLAY_AIM_FOV 0.8f
 
-# define PLAY_JUMP_SENSE 0.003f
-# define PLAY_GRAVITY 0.000005f
+
+//player jump characteristics
+# define PLAY_JUMP_INIT 0.002f
+# define PLAY_JUMP_INC 0.00001f
+# define PLAY_JUMP_PRESS_CAP 0.007f
+# define PLAY_JUMP_RELEASE_CAP 0.002f
+# define PLAY_VERTICAL_GRAVITY 0.000005f
+
+
+//player walking
+# define PLAY_WALKING_GRAVITY 0.000005f
+
+
+//player velocity multipliers
+# define PLAY_NORMAL_MOVE_MULTI 1.0f
+# define PLAY_SPRINT_MOVE_MULTI 2.0f
+# define PLAY_AIM_MOVE_MULTI 0.5f
+# define PLAY_CROUCH_MOVE_MULTI 0.5f
+# define PLAY_PRONE_MOVE_MULTI 0.2f
+# define PLAY_SPRINT_ROT_MULTI 0.7f
+
 
 #endif

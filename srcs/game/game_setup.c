@@ -21,7 +21,7 @@ void	setup_all_angles(t_game *game, float rad)
 	game->compass.cos_rad = game->player.cos_rad;
 	game->compass.sin_rad = -game->player.sin_rad;
 	game->player.dir_vec = (t_vector){game->player.cos_rad, game->player.sin_rad};
-	game->player.plane = vector_multi((t_vector){game->player.sin_rad, -game->player.cos_rad}, 0.66f);
+	game->player.plane = vector_multi((t_vector){game->player.sin_rad, -game->player.cos_rad}, game->player.cur_fov);
 	//printf("player rads %.3f, compass rads %.3f\n", game->player.angle, game->compass.angle);
 	//printf("player cos sin (%.3f, %.3f)\n", game->player.cos_rad, game->player.sin_rad);
 	//printf("compas cos sin (%.3f, %.3f)\n", game->compass.cos_rad, game->compass.sin_rad);

@@ -56,9 +56,18 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 
 		glfwGetCursorPos(win->window, &game->mouse->cur_x, &game->mouse->cur_y);
 		rotate = win->width / 2 - game->mouse->cur_x;
-		game->player.pitch += (int)((game->mouse->cur_y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed);
+		
 		//printf("%d pitch change\n", (int)((mouse.y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed));
-		game_rotate_view_angle(game, rotate * game->player.rot_sense * game->player.timer[CLOCK_MOVE].elapsed);
+
+
+		float rotate_aim_multi;
+
+		rotate_aim_multi = 1;
+		if (game->player.is_aiming)
+			rotate_aim_multi = game->player.aim_rot_multi;
+
+		game->player.pitch += (int)((game->mouse->cur_y - win->height / 2) * game->player.pitch_sense * rotate_aim_multi * game->player.timer[CLOCK_MOVE].elapsed);
+		game_rotate_view_angle(game, rotate * game->player.rot_sense * rotate_aim_multi * game->player.timer[CLOCK_MOVE].elapsed);
 		//printf("rotate %.3f, rot sense %.10f, elapsed %u, res %.10f\n", rotate, game->player.rot_sense, 
 		//game->player.timer[CLOCK_MOVE].elapsed, (float)(rotate * game->player.rot_sense * game->player.timer[CLOCK_MOVE].elapsed));
 		glfwSetCursorPos(win->window, win->width / 2, win->height / 2);
@@ -67,9 +76,11 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		//	game->player.z_height += 20;
 		//if (glfwGetKey(win->window, GLFW_KEY_SPACE))
 		//	game->player.z_height -= 20;
-		player_change_aim(&game->player);
-		player_change_height(&game->player);
-		player_gravity(&game->player);
+
+		player_actions(&game->player);
+
+
+
 		//player_jump_cur_z(&game->player);
 		game_key_manager(game);
 		game_mouse_manager(game);

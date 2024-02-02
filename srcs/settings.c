@@ -54,13 +54,15 @@ void    apply_all_settings(t_game *game)
 	game->player.unit_size = PLAY_UNIT_SIZE;
 	game->player.pitch = PLAY_BASE_PITCH;
 
-    game->player.base_z = PLAY_HGT_BASE;
-    game->player.prone_z = PLAY_HGT_PRONE;
-    game->player.crouch_z = PLAY_HGT_CROUCH;
-    game->player.cur_z = game->player.base_z;
+
+    game->player.hgt_state = HGT_NORMAL;
+    game->player.stance_z[HGT_NORMAL] = PLAY_HGT_NORMAL;
+    game->player.stance_z[HGT_PRONE] = PLAY_HGT_PRONE;
+    game->player.stance_z[HGT_CROUCH] = PLAY_HGT_CROUCH;    
+    game->player.cur_z = game->player.stance_z[HGT_NORMAL];
     game->player.hgt_sense = PLAY_HGT_SENSE;
 
-	game->player.z_height = PLAY_HGT_BASE;
+	game->player.z_height = PLAY_HGT_NORMAL;
 
     game->player.base_fov = PLAY_BASE_FOV;
     game->player.aim_fov = PLAY_AIM_FOV;
@@ -69,10 +71,37 @@ void    apply_all_settings(t_game *game)
     game->player.aim_dir_len = PLAY_AIM_DIR_LEN;
     game->player.cur_dir_len = game->player.base_dir_len;
     game->player.aim_sense = PLAY_AIM_SENSE;
+    game->player.aim_rot_multi = PLAY_AIM_ROT_MULTI;
 
-    game->player.base_jump_sense = PLAY_JUMP_SENSE;
-    game->player.cur_jump_sense = game->player.base_jump_sense;
-    game->player.gravity = PLAY_GRAVITY;
+
+    game->player.cur_jump_sense = 0;
+    game->player.vertical_gravity = PLAY_VERTICAL_GRAVITY;
+	game->player.jump_init = PLAY_JUMP_INIT;
+	game->player.jump_inc = PLAY_JUMP_INC;
+	game->player.jump_press_cap = PLAY_JUMP_PRESS_CAP;
+	game->player.jump_release_cap = PLAY_JUMP_RELEASE_CAP;
+    game->player.jump_z_mod = 0;
+
+
+	game->player.cur_move_multi = PLAY_NORMAL_MOVE_MULTI;
+	game->player.move_multi[HGT_NORMAL] = PLAY_NORMAL_MOVE_MULTI;
+	game->player.move_multi[HGT_CROUCH]= PLAY_CROUCH_MOVE_MULTI;
+	game->player.move_multi[HGT_PRONE] = PLAY_PRONE_MOVE_MULTI;
+    game->player.move_multi[HGT_JUMP] = 1.0f;
+	game->player.aim_move_multi = PLAY_AIM_MOVE_MULTI;
+    game->player.sprint_move_multi = PLAY_SPRINT_MOVE_MULTI;
+
+
+    game->player.walking_gravity = PLAY_WALKING_GRAVITY;
+
+
+
+
+    game->player.cur_walk_sense = 0;
+    game->player.walk_z_mod = 0;
+    game->player.walk_sway_mod = 0;
+
+
     // setting default keys;
 
 }
