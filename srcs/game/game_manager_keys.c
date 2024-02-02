@@ -25,6 +25,24 @@ void	game_key_manager(t_game *game)
 
 	keys = *game->keys;
 	move_player(game, (keys >> BIT_FRONT) & 1, (keys >> BIT_BACK) & 1, (keys >> BIT_LEFT) & 1, (keys >> BIT_RIGHT) & 1);
+	
+	if ((keys >> BIT_JUMP) & 1)
+	{
+		if (game->player.hgt_state != HGT_JUMP)
+			game->player.cur_jump_sense = 0.003f;
+		else
+			game->player.cur_jump_sense += 0.00001f;
+		game->player.hgt_state = HGT_JUMP;
+		if(game->player.cur_jump_sense > 0.007f)
+			game->player.cur_jump_sense = 0.007f;
+
+	}
+	if (!((keys >> BIT_JUMP) & 1) && game->player.hgt_state == HGT_JUMP)
+	{
+		if(game->player.cur_jump_sense > 0.002f)
+			game->player.cur_jump_sense = 0.002f;
+	}
+	/*
 	if (game->player.hgt_state == HGT_PRONE)
 	{
 		if ((keys >> BIT_CROUCH) & 1)
@@ -55,6 +73,7 @@ void	game_key_manager(t_game *game)
 	{
 		game->player.hgt_state = HGT_NORMAL;
 	}
+	*/
 	*game->keys &= ~(1 << BIT_CROUCH);
 	*game->keys &= ~(1 << BIT_PRONE);
 	*game->keys &= ~(1 << BIT_CROUCH);

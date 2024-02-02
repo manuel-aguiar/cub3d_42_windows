@@ -37,16 +37,16 @@
 # define COMP_MAX_RAD 300
 # define COMP_MIN_RAD 50
 # define COMP_OUTER_RAD WIN_HEIGHT / 5
-# define COMP_INNER_COLOR RGBA(255, 0, 0, 255)
+# define COMP_INNER_COLOR RGBA(50, 0, 0, 255)
 # define COMP_INNER_RAD_PERC 0.8f
 # define COMP_LETTER_RAD_PERC 0.9f
-# define COMP_COLOR RGBA(255, 0, 0, 255)
+# define COMP_COLOR RGBA(50, 0, 0, 255)
 
 # define COMP_LETTER_HGT_PERC 0.1f
 # define COMP_LETTER_WDT_PERC 0.05f
 # define COMP_LETTER_COLOR RGBA(255, 255, 255, 255)
 
-# define COMP_SQR_COLOR RGBA(255, 165, 0, 255)
+# define COMP_SQR_COLOR RGBA(50, 25, 0, 255)
 
 /* compass squares */
 # define SQR_MAX_HEIGHT_PERC 0.5f
@@ -78,13 +78,7 @@
 # define PLAY_BASE_FOV 0.66f
 # define PLAY_AIM_FOV 0.8f
 
-# define JUMP_END 1000
-# define JUMP_FLIGHT 800
-# define JUMP_DIP 200
-
-# define JUMP_Z_TOP 80
-# define JUMP_Z_BOT -20
-
-# define TOTAL_JUMP_TIME
+# define PLAY_JUMP_SENSE 0.003f
+# define PLAY_GRAVITY 0.000005f
 
 #endif

@@ -25,6 +25,27 @@ size_t	calc_elapsed(t_player *player, int timer)
 	+ (cur.millitm - player->timer[timer].start.millitm)));
 }
 
+void	player_gravity(t_player *player)
+{
+	if (player->hgt_state == HGT_JUMP)
+	{
+		player->cur_z += player->cur_jump_sense * player->timer[CLOCK_MOVE].elapsed;
+		player->cur_jump_sense -= player->gravity * player->timer[CLOCK_MOVE].elapsed;
+	}
+	else
+	{
+		player->cur_z = player->base_z;
+		player->cur_jump_sense = 0;
+	}
+	if (player->cur_z < player->base_z)
+	{
+		player->cur_z = player->base_z;
+		player->hgt_state = HGT_NORMAL;
+	}
+		
+}
+
+
 /*
 https://jsfiddle.net/LyM87/
 */

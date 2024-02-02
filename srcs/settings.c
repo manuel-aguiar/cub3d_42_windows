@@ -70,7 +70,9 @@ void    apply_all_settings(t_game *game)
     game->player.cur_dir_len = game->player.base_dir_len;
     game->player.aim_sense = PLAY_AIM_SENSE;
 
-
+    game->player.base_jump_sense = PLAY_JUMP_SENSE;
+    game->player.cur_jump_sense = game->player.base_jump_sense;
+    game->player.gravity = PLAY_GRAVITY;
     // setting default keys;
 
 }

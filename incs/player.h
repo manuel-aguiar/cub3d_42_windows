@@ -93,6 +93,11 @@ typedef struct s_player
 	float			aim_sense;
 	float			rot_sense;
 	float			pitch_sense;
+
+	float			gravity;
+	float			base_jump_sense;
+	float			cur_jump_sense;
+
 	bool			is_jumping;
 	t_clock 		timer[CLOCK_SIZE];
 }   t_player;
@@ -106,5 +111,7 @@ void	player_change_aim(t_player *player);
 void 	player_jump_cur_z(t_player *player);
 void	player_get_timer(t_player *player, int timer);
 void    player_change_height(t_player *player);
+void	player_gravity(t_player *player);
+
 
 #endif
