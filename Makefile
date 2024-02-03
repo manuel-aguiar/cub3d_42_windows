@@ -84,6 +84,7 @@ SRC_PARSING			=	parsing.c				\
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 						clamp.c							\
 						fpow_2.c						\
+						ft_fabs.c						\
 						radian_truncate.c
 
 SRC_REN_WIN			=	win_init_window.c		\
@@ -114,6 +115,7 @@ SRC_PIXEL_POINT		=	gamma_correction.c				\
 
 SRC_RAYCASTING		=	vector.c					\
 						raycasting.c				\
+						dda_hori.c					\
 						dda.c
 
 ## AGGREGATING FILES ##

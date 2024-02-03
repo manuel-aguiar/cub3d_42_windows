@@ -15,75 +15,28 @@
 #include "float.h"
 
 
-
-t_vector		dda_get_collision_posi(t_game *game, t_vector norm_dir)
+void	draw_raycast_horizontal(t_game *game)
 {
-	t_vector	res;
-	t_vector	ray_start;
-	t_vector	ray_first;
-	t_vector	ray_step;
-	t_vector	axis_move;
-	t_vector	player_in_map;
-	float		cur_dist;
-	float		max_dist;
+	int h;
+	int w;
+	int color = rgba(0,50,0,255);
 
-	max_dist = (float)game->map.len;
-	player_in_map = (t_vector){(float)((int)game->player.map_posi.x), (float)((int)game->player.map_posi.y)};
-	ray_start = game->player.map_posi;
-	ray_step = (t_vector){norm_dir.x == 0 ? FLT_MAX : ft_fabs(1.0f / norm_dir.x), norm_dir.y == 0 ? FLT_MAX : ft_fabs(1.0f / norm_dir.y)};
-
-	// first step before constant multiplier, getting move in x axis and y axis
-	if (norm_dir.x < 0)
+	h = 0;
+	while ( h < game->win.height - 1)
 	{
-		axis_move.x = -1;
-		ray_first.x = (ray_start.x - player_in_map.x) * ray_step.x;
-	}
-	else
-	{
-		axis_move.x = 1;
-		ray_first.x = ((player_in_map.x + 1) - ray_start.x) * ray_step.x;
-	}
-	if (norm_dir.y < 0)
-	{
-		axis_move.y = -1;
-		ray_first.y = (ray_start.y - player_in_map.y) * ray_step.y;
-	}
-	else
-	{
-		axis_move.y = 1;
-		ray_first.y = ((player_in_map.y + 1) - ray_start.y) * ray_step.y;
-	}
-	cur_dist = 0;
-	
-	while (cur_dist < max_dist)
-	{
-		if (ray_first.x < ray_first.y)
+		w = 0;
+		while (w < game->win.width - 1)
 		{
-			player_in_map.x += axis_move.x;
-			cur_dist += ray_first.x;
-			ray_first.x += ray_step.x;
+			if (h == int_clamp(h, game->hori_rays[w].min_x, game->hori_rays[w].max_x))
+				game->win.set_pixel(&game->win, w, h, color);
+			w++;
 		}
-		else
-		{
-			player_in_map.y += axis_move.y;
-			cur_dist += ray_first.y;
-			ray_first.y += ray_step.y;
-		}
-		//printf("checking map point (%d, %d) whose value is %c\n", (int)player_in_map.x, (int)player_in_map.y, game->map.map[(int)player_in_map.x + (int)player_in_map.y * game->map.width]);
-		if (game->map.map[(int)player_in_map.x + (int)player_in_map.y * game->map.width] == '1')
-		{
-			//printf("dda break \n");
-			break ;
-		}
-			
+		h++;
 	}
-	
-	return (res);
 }
 
-
 //not using normalized vectors
-void	raycasting(t_game *game)
+void	raycasting_horizontal(t_game *game)
 {
 	float cameraX;
 	int w = game->win.width;
@@ -188,20 +141,17 @@ void	raycasting(t_game *game)
 		int lineHeight = (int)(h / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
-		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
-		if(drawEnd >= h) drawEnd = h - 1;
+		game->hori_rays[x].min_x = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
+		if(game->hori_rays[x].min_x < 0) game->hori_rays[x].min_x = 0;
+		game->hori_rays[x].max_x = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
+		if(game->hori_rays[x].max_x >= h) game->hori_rays[x].max_x = h - 1;
 
 		//choose wall color
-		int color = rgba(0,50,0,255);
+		
 
-		//give x and y sides different brightness
-		//if(side == 1) {color = color / 2;}
-
-		//draw the pixels of the stripe as a vertical line
-		draw_vertical_line(&game->win, drawStart, drawEnd, x, color);
+		//draw_vertical_line(&game->win, drawStart, drawEnd, x, color);
 		x++;
 	}
+	draw_raycast_horizontal(game);
 	//exit (0);
 }

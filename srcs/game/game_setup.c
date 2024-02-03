@@ -96,6 +96,11 @@ int		game_start(t_game *game, char *game_config)
 	player_setup(&game->player);
 	new_win_init_window(&game->win);
 	game_setup_keys(game);
+	
+	//didn t work, went slower even if better cache
+	//game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
+	
+	
 	return (1);
 }
 

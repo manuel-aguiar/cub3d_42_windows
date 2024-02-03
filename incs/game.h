@@ -25,6 +25,12 @@
 # include "generic_utils.h"
 # include "user_inputs.h"
 
+typedef struct s_dda_hor
+{
+	int min_x;
+	int max_x;
+}	t_dda_hor;
+
 typedef struct s_game
 {
 	t_parsing	parsing;
@@ -34,7 +40,8 @@ typedef struct s_game
 	t_player	player;
 	t_mouse		*mouse;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
-	int			*key_defs;		
+	int			*key_defs;
+	t_dda_hor	*hori_rays;
 }	t_game;
 
 //settings.c
@@ -72,5 +79,9 @@ void	game_key_manager(t_game *game);
 
 //game_manager_mouse.c
 void	game_mouse_manager(t_game *game);
+
+
+void	raycasting_horizontal(t_game *game);
+
 
 #endif
