@@ -42,8 +42,8 @@ typedef struct s_game
 	t_mouse		*mouse;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*key_defs;
-	t_dda_hor	*hori_rays;
-	t_xpm_tex 	*teste;
+	t_dda_hor	*hori_rays;		//apagar eventualmente
+	t_xpm_tex	*tex[NUM_TEX];
 }	t_game;
 
 //settings.c

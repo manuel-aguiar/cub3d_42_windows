@@ -31,6 +31,11 @@ typedef struct s_xpm_tex
 }	t_xpm_tex;
 
 extern char *g_teste[];
+extern char *g_north[];
+extern char *g_south[];
+extern char *g_east[];
+extern char *g_west[];
+
 
 t_xpm_tex	*xpm_to_tex(char *xpm[]);
 void		xpm_tex_transpose(t_xpm_tex *tex);

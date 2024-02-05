@@ -182,7 +182,7 @@ void	raycasting(t_game *game)
 		}
 		float perpWallDist;
 		if(side == 0) perpWallDist = (ray_first.x - ray_step.x);
-			else          perpWallDist = (ray_first.y - ray_step.y);
+			else         perpWallDist = (ray_first.y - ray_step.y);
 		//printf("perpwalldist %.3f\n", perpWallDist);
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(h / perpWallDist);
@@ -193,14 +193,35 @@ void	raycasting(t_game *game)
 		int drawEnd = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
 		if(drawEnd >= h) drawEnd = h - 1;
 
-		//choose wall color
-		int color = rgba(0,50,0,255);
+		double wallX; //where exactly the wall was hit
+		if (side == 0) wallX = player_in_map.y + perpWallDist * direction.y;
+		else           wallX = player_in_map.x + perpWallDist * direction.x;
+		wallX -= floor((wallX));
 
-		//give x and y sides different brightness
-		//if(side == 1) {color = color / 2;}
+		//x coordinate on the texture
+		t_xpm_tex *tex;
+		if (side == 0)
+			tex = game->tex[NO_TEX];
+		else
+			tex = game->tex[SO_TEX];
 
-		//draw the pixels of the stripe as a vertical line
-		draw_vertical_line(&game->win, drawStart, drawEnd, x, color);
+		int texX = (int)(wallX * (double)(tex->height));
+		if(side == 0 && direction.x > 0) texX = (tex->width) - texX - 1;
+		if(side == 1 && direction.y < 0) texX = (tex->width) - texX - 1;
+
+		double step = 1.0f * tex->width / lineHeight;
+		double texPos = (drawStart - h / 2 + lineHeight / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist)) * step;
+
+		int y = drawStart;
+		while( y < drawEnd)
+		{
+			int texY = (int)texPos & (tex->width - 1);
+			texPos += step;
+			game->win.set_pixel(&game->win, x, y, tex->pixels[texY + texX * tex->width]);
+			y++;
+		}
+
+		//draw_vertical_line(&game->win, drawStart, drawEnd, x, color);
 		x++;
 	}
 	//exit (0);

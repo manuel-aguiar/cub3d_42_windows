@@ -180,7 +180,6 @@ t_xpm_tex	*xpm_to_tex(char *xpm[])
 		return (free_xpm_tex(&tex));
 	}
 
-	print_xpm_pair(id_color, color_count);
 
 	//translate image into pixel array
 	int index;

@@ -100,12 +100,12 @@ int		game_start(t_game *game, char *game_config)
 	//didn t work, went slower even if better cache
 	//game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
 	
-	game->teste = xpm_to_tex_transposed(g_teste);
-	if (!game->teste)
-	{
-		printf("tex failed\n");
-		return (0);
-	}
+	game->tex[NO_TEX] = xpm_to_tex_transposed(g_north);
+	game->tex[SO_TEX] = xpm_to_tex_transposed(g_south);
+	game->tex[EA_TEX] = xpm_to_tex_transposed(g_east);
+	game->tex[WE_TEX] = xpm_to_tex_transposed(g_west);
+	game->tex[F_TEX] = NULL;
+	game->tex[C_TEX] = NULL;
 	//xpm_tex_transpose(game->teste);
 	return (1);
 }

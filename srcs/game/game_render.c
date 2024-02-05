@@ -16,16 +16,16 @@ void	raycasting(t_game *game);
 
 void		game_render(t_game *game)
 {
-	t_pixel first = {300, 300, rgba(0, 0, 255, 255)};
+	//t_pixel first = {300, 300, rgba(0, 0, 255, 255)};
 
 
-	xpm_to_window(&game->win, game->teste, first, game->teste->width * 10, game->teste->height * 10);
+	//xpm_to_window(&game->win, game->teste, first, game->teste->width * 10, game->teste->height * 10);
 
 	//exit(0);
-	//raycasting(game);
-	//render_compass(&game->win, &game->compass);
-	//render_map_inside_compass(game);
-	//render_player_inside_compass(game);
+	raycasting(game);
+	render_compass(&game->win, &game->compass);
+	render_map_inside_compass(game);
+	render_player_inside_compass(game);
 
 
 
