@@ -38,6 +38,7 @@ DIR_DRAWING_ALGOS	= 	drawing_algos
 DIR_PLAYER			=	player
 DIR_PIXEL_POINT		=	pixel_point
 DIR_RAYCASTING		=	raycasting
+DIR_XPM_PARSER		=	xpm_parser
 
 ## SOURCE FILES ##
 
@@ -50,6 +51,7 @@ INC_FILES		=		game.h				\
 						pixel_point.h		\
 						compass.h			\
 						user_inputs.h		\
+						xpm_parser.h		\
 						generic_utils.h
 
 SRC_MAIN			=	main.c				\
@@ -66,7 +68,8 @@ SRC_GAME			=	win_render_loop.c		\
 						game_render.c			\
 						render_inside_compass.c		\
 						render_outside_compass.c	\
-						map_player_collisions.c
+						map_player_collisions.c		\
+						xpm_to_window.c
 						
 
 SRC_PLAYER			=	player_setup_and_actions.c	\
@@ -80,6 +83,9 @@ SRC_PLAYER			=	player_setup_and_actions.c	\
 SRC_PARSING			=	parsing.c				\
 						textures.c				\
 						parsing_print_utils.c
+
+SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
+						xpm_teste.c	
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 						clamp.c							\
@@ -132,6 +138,7 @@ SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_GAME)/, $(SRC_GAME))						\
 					$(addprefix $(SRC_PATH)/$(DIR_PLAYER)/, $(SRC_PLAYER))					\
 					$(addprefix $(SRC_PATH)/$(DIR_RAYCASTING)/, $(SRC_RAYCASTING))					\
+					$(addprefix $(SRC_PATH)/$(DIR_XPM_PARSER)/, $(SRC_XPM_PARSER))					\
 					$(addprefix $(SRC_PATH)/$(DIR_PIXEL_POINT)/, $(SRC_PIXEL_POINT))						
 					
 

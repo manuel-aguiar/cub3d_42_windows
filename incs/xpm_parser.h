@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_render.c                                      :+:      :+:    :+:   */
+/*   xpm_parser.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 12:37:43 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:37:43 by marvin           ###   ########.fr       */
+/*   Created: 2024/02/05 11:29:38 by marvin            #+#    #+#             */
+/*   Updated: 2024/02/05 11:29:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "game.h"
+#ifndef XPM_PARSER_H
 
-void	raycasting(t_game *game);
+# define XPM_PARSER_H
 
-void		game_render(t_game *game)
+# include "pixel_point.h"
+# include "libft.h"
+
+typedef struct s_xpm_pair
 {
-	t_pixel first = {200, 200, rgba(0, 0, 255, 255)};
-		
-	xpm_to_window(&game->win, game->teste, first, 200, 200);
+	char	*id;
+	int		color;
+}	t_xpm_pair;
 
-	//exit(0);
-	//raycasting(game);
-	//render_compass(&game->win, &game->compass);
-	//render_map_inside_compass(game);
-	//render_player_inside_compass(game);
+typedef struct s_xpm_tex
+{
+	int	width;
+	int	height;
+	int	*pixels;
+}	t_xpm_tex;
 
+extern char *g_teste[];
 
+t_xpm_tex	*xpm_to_tex(char *xpm[]);
 
+#endif
 
-}

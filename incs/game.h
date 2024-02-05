@@ -24,6 +24,7 @@
 # include "player.h"
 # include "generic_utils.h"
 # include "user_inputs.h"
+# include "xpm_parser.h"
 
 typedef struct s_dda_hor
 {
@@ -42,6 +43,7 @@ typedef struct s_game
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*key_defs;
 	t_dda_hor	*hori_rays;
+	t_xpm_tex 	*teste;
 }	t_game;
 
 //settings.c
@@ -83,5 +85,6 @@ void	game_mouse_manager(t_game *game);
 
 void	raycasting_horizontal(t_game *game);
 
+void	xpm_to_window(t_win_glfw *win, t_xpm_tex *tex, t_pixel corner, int pixel_wid, int pixel_hgt);
 
 #endif
