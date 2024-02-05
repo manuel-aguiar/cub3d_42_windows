@@ -33,6 +33,8 @@ typedef struct s_xpm_tex
 extern char *g_teste[];
 
 t_xpm_tex	*xpm_to_tex(char *xpm[]);
+void		xpm_tex_transpose(t_xpm_tex *tex);
+t_xpm_tex	*xpm_to_tex_transposed(char *xpm[]);
 
 #endif
 

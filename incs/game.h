@@ -86,5 +86,7 @@ void	game_mouse_manager(t_game *game);
 void	raycasting_horizontal(t_game *game);
 
 void	xpm_to_window(t_win_glfw *win, t_xpm_tex *tex, t_pixel corner, int pixel_wid, int pixel_hgt);
+void	xpm_tex_translate(t_xpm_tex *tex);
+
 
 #endif

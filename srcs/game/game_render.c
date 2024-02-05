@@ -16,9 +16,10 @@ void	raycasting(t_game *game);
 
 void		game_render(t_game *game)
 {
-	t_pixel first = {200, 200, rgba(0, 0, 255, 255)};
-		
-	xpm_to_window(&game->win, game->teste, first, 200, 200);
+	t_pixel first = {300, 300, rgba(0, 0, 255, 255)};
+
+
+	xpm_to_window(&game->win, game->teste, first, game->teste->width * 10, game->teste->height * 10);
 
 	//exit(0);
 	//raycasting(game);

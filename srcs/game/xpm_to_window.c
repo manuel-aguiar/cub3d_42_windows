@@ -25,10 +25,10 @@ void	xpm_to_window(t_win_glfw *win, t_xpm_tex *tex, t_pixel bot_left, int pixel_
 	int row;
 	int column;
 
-	i = 0;
-	while (i < pixel_hgt)
+	i = pixel_hgt - 1;
+	while (i >= 0)
 	{
-		row = (int)(i * ((float)tex->height / (float)pixel_hgt));
+		row = (int)((pixel_hgt - i - 1) * ((float)tex->height / (float)pixel_hgt));
 		j = 0;
 		while (j < pixel_wdt)
 		{
@@ -37,7 +37,7 @@ void	xpm_to_window(t_win_glfw *win, t_xpm_tex *tex, t_pixel bot_left, int pixel_
 			win->set_pixel(win, bot_left.x + j, bot_left.y + i, tex->pixels[column + row * tex->width]);
 			j++;
 		}
-		i++;
+		i--;
 	}
 	//printf("\n");
 	//exit(0);
