@@ -6,14 +6,14 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 14:41:01 by marvin            #+#    #+#              #
-#    Updated: 2024/01/21 11:46:52 by marvin           ###   ########.fr        #
+#    Updated: 2024/02/06 17:33:29 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ## BUILD DETAILS
 
 NAME 			= 	libft.a
-COMP 			= 	gcc -g -O3
+COMP 			= 	gcc -g
 FLAGS 			= 	-Wall -Wextra -Werror
 LIB 			= 	ar rcs
 
@@ -40,7 +40,7 @@ ISORT			=	int_sorting
 MATH			=	math
 MPOOL			=	memory_pool
 ERROR			=	error_handling
-
+RED_BLACK		=	red_black_tree
 
 ## SOURCE FILES ##
 
@@ -63,6 +63,7 @@ INC_FILES		=	libft.h						\
 					int_xor_list.h				\
 					linked_lists.h				\
 					memory_pool.h				\
+					red_black_tree.h			\
 					void_dl_list.h
 
 SRCS_MAIN		=	
@@ -70,6 +71,7 @@ SRCS_MAIN		=
 SRCS_ATOI		=	ft_atoi_arr.c 				\
 					ft_atoi_overf.c 			\
 					ft_atoi.c					\
+					ft_atoi_base.c				\
 					ft_itoa.c
 
 SRCS_MEMFUNC	=	ft_bzero.c					\
@@ -172,13 +174,15 @@ SRCS_MPOOL		=	memory_pool.c				\
 SRCS_ERROR		=	error_msg.c					\
 					perror_msg.c
 
+SRCS_RED_BLACK	=	rb_tree.c
+
 ## ALL SOURCE FOLDERS
 
 SRC_DIRS		=	$(ATOI)		$(MEMFUNC)	$(OUTPUT)	$(PRINTF) 	\
 					$(STRING)	$(GNL)		$(HASHINT)	$(LICIRC)	\
 					$(LIDBL)	$(LISNGL)	$(LIXOR)	$(LVDBL)	\
 					$(ISORT)	$(MATH)		$(MPOOL)	$(ERROR)	\
-					$(HASHTABLE)
+					$(HASHTABLE) $(RED_BLACK)
 
 INCS		:=		$(addprefix $(INC_PATH)/,$(INC_FILES))
 
@@ -199,7 +203,8 @@ SRCS			:=  $(addprefix $(SRC_PATH)/,$(SRCS_MAIN))					\
 					$(addprefix $(SRC_PATH)/$(MATH)/,$(SRCS_MATH)) 			\
 					$(addprefix $(SRC_PATH)/$(MPOOL)/,$(SRCS_MPOOL)) 		\
 					$(addprefix $(SRC_PATH)/$(ERROR)/,$(SRCS_ERROR))		\
-					$(addprefix $(SRC_PATH)/$(HASHTABLE)/,$(SRCS_HASHTABLE))
+					$(addprefix $(SRC_PATH)/$(HASHTABLE)/,$(SRCS_HASHTABLE))\
+					$(addprefix $(SRC_PATH)/$(RED_BLACK)/,$(SRCS_RED_BLACK))
 
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
