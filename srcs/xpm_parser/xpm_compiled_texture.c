@@ -303,7 +303,7 @@ t_xpm_tex	*xpm_to_tex_transposed(char *xpm[])
 	int row = 0;
 	int col;
 	//row + col * tex->height
-
+	
 	while (row < tex->height)
 	{
 		if (!xpm[row + offset] || ! xpm[row + offset][0])
@@ -337,6 +337,7 @@ t_xpm_tex	*xpm_to_tex_transposed(char *xpm[])
 	i = tex->width;
 	tex->width = tex->height;
 	tex->height = i;
+	//printf("crash\n");
 	//free_xpm_pair(&id_color, color_count);
 	//print_tex(tex);
 	return (tex);

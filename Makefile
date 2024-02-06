@@ -3,9 +3,9 @@
 
 NAME 		=		cub3d
 
-COMP 		= 		gcc -g
+COMP 		= 		gcc -g -O3
 
-FLAGS 		= 		-Wall -Werror -Wextra -Wuninitialized
+FLAGS 		= 		-Wall -Werror -Wextra
 ADD_LIB 	= 		-L./$(LIB_PATH) -lft
 GLFW_LIB 	= 		-Lglfw/lib-mingw-w64 -lglfw3dll -lgdi32 -lopengl32
 GLEW_LIB	=		-Lglew/lib/Release/Win32 -lglew32 -lm

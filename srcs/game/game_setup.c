@@ -85,6 +85,8 @@ int	new_win_init_window(t_win_glfw *win);
 void	player_start_timers(t_player *player);
 void	player_get_timer(t_player *player, int timer);
 
+t_xpm_tex	*xpm_to_tex_rbtree_transposed(char *xpm[]);
+
 extern char *g_coisas[];
 extern char *g_yayaya[];
 
@@ -102,30 +104,31 @@ int		game_start(t_game *game, char *game_config)
 	
 	//didn t work, went slower even if better cache
 	//game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
-	player_start_timers(&game->player);
 
 	//player_get_timer(&game->player, CLOCK_MOVE);
 
 
-	game->tex[NO_TEX] = xpm_to_tex_transposed(g_north);
-	player_get_timer(&game->player, CLOCK_MOVE);
-	printf("rbtree elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
-
-	game->tex[SO_TEX] = xpm_to_tex_transposed(g_south);
-	player_get_timer(&game->player, CLOCK_MOVE);
-	printf("hastable elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
+	game->tex[NO_TEX] = xpm_to_tex_rbtree_transposed(g_north);
 
 
+	//int i = 0;
+	//while (i < game->tex[NO_TEX]->width * game->tex[NO_TEX]->height)
+	//{
+	//	printf("tex index %d is (%d, %d, %d)\n", i, rgb_r(game->tex[NO_TEX]->pixels[i]), rgb_g(game->tex[NO_TEX]->pixels[i]), rgb_b(game->tex[NO_TEX]->pixels[i]));
+	//	i++;
+	//}
+	game->tex[SO_TEX] = xpm_to_tex_rbtree_transposed(g_south);
 	//game->tex[WE_TEX] = xpm_to_tex_rbtree(g_west);
 
 	//player_start_timers(&game->player);
 	////game->tex[F_TEX] = xpm_to_tex_hashtable(g_teste);
-//
+    //
 	//player_get_timer(&game->player, CLOCK_MOVE);
 	//printf("dementor elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
 
 	//exit(0);
 	game->tex[C_TEX] = NULL;
+	printf("ready to render\n");
 	//xpm_tex_transpose(game->teste);
 	return (1);
 }
