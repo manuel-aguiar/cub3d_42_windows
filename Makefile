@@ -5,7 +5,7 @@ NAME 		=		cub3d
 
 COMP 		= 		gcc -g
 
-FLAGS 		= 		-Wall -Werror -Wextra
+FLAGS 		= 		-Wall -Werror -Wextra -Wuninitialized
 ADD_LIB 	= 		-L./$(LIB_PATH) -lft
 GLFW_LIB 	= 		-Lglfw/lib-mingw-w64 -lglfw3dll -lgdi32 -lopengl32
 GLEW_LIB	=		-Lglew/lib/Release/Win32 -lglew32 -lm
@@ -39,6 +39,7 @@ DIR_PLAYER			=	player
 DIR_PIXEL_POINT		=	pixel_point
 DIR_RAYCASTING		=	raycasting
 DIR_XPM_PARSER		=	xpm_parser
+DIR_RB_TREE			=	red_black_tree
 
 ## SOURCE FILES ##
 
@@ -52,6 +53,7 @@ INC_FILES		=		game.h				\
 						compass.h			\
 						user_inputs.h		\
 						xpm_parser.h		\
+						red_black_tree.h	\
 						generic_utils.h
 
 SRC_MAIN			=	main.c				\
@@ -88,6 +90,7 @@ SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_textures.c				\
 						xpm_hashtable.c				\
 						rubens_dementor.c			\
+						xpm_rb_tree.c				\
 						xpm_teste.c	
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
@@ -127,6 +130,10 @@ SRC_RAYCASTING		=	vector.c					\
 						dda_hori.c					\
 						dda.c
 
+SRC_RB_TREE			=	rb_tree.c					\
+						rb_tree_delete.c
+
+
 ## AGGREGATING FILES ##
 
 INCS		:=		$(addprefix $(INC_PATH)/, $(INC_FILES))
@@ -142,7 +149,8 @@ SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_PLAYER)/, $(SRC_PLAYER))					\
 					$(addprefix $(SRC_PATH)/$(DIR_RAYCASTING)/, $(SRC_RAYCASTING))					\
 					$(addprefix $(SRC_PATH)/$(DIR_XPM_PARSER)/, $(SRC_XPM_PARSER))					\
-					$(addprefix $(SRC_PATH)/$(DIR_PIXEL_POINT)/, $(SRC_PIXEL_POINT))						
+					$(addprefix $(SRC_PATH)/$(DIR_PIXEL_POINT)/, $(SRC_PIXEL_POINT))				\
+					$(addprefix $(SRC_PATH)/$(DIR_RB_TREE)/, $(SRC_RB_TREE))					
 					
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
@@ -196,6 +204,5 @@ $(LIBFT):
 run: $(NAME)
 	@./$(NAME)
 
-re: fclean all
 
-.PHONY: clean fclean re message bonus
+.PHONY: clean fclean message bonus

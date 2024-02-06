@@ -16,6 +16,7 @@
 
 # include "pixel_point.h"
 # include "libft.h"
+# include "red_black_tree.h"
 
 typedef struct s_xpm_pair
 {
@@ -39,6 +40,9 @@ extern char *g_west[];
 
 t_xpm_tex	*xpm_to_tex(char *xpm[]);
 t_xpm_tex	*xpm_to_tex_hashtable(char *xpm[]);
+
+t_xpm_tex	*xpm_to_tex_rbtree(char *xpm[]);
+
 void		xpm_tex_transpose(t_xpm_tex *tex);
 t_xpm_tex	*xpm_to_tex_transposed(char *xpm[]);
 
