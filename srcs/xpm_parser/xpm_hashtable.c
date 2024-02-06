@@ -49,8 +49,25 @@ static int	hash_countchars(void *str)
 	here = (char *)str;
 	res = 0;
 	while (*here)
-		res += *here++;
+	{
+		res += (*here * *here);
+		here++;
+	}
+		
 	return (res);
+}
+
+void print_hash(t_hashtable *table)
+{
+	int i;
+
+	i = 0;
+	while (i < table->size)
+	{
+		if (table->collision[i])
+			printf("%d list len: %d\n", i, table->collision[i]->len);
+		i++;
+	}
 }
 
 t_xpm_tex	*xpm_to_tex_hashtable(char *xpm[])
@@ -179,6 +196,7 @@ t_xpm_tex	*xpm_to_tex_hashtable(char *xpm[])
 		i++;
 	}
 	free(id);
+	//print_hash(table);
 	hashtable_destroy(&table, free, NULL);
 	//free_xpm_pair(&id_color, color_count);
 	//print_tex(tex);

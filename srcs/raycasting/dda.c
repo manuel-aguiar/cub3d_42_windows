@@ -194,10 +194,13 @@ void	raycasting(t_game *game)
 		if(drawEnd >= h) drawEnd = h - 1;
 
 		double wallX; //where exactly the wall was hit
-		if (side == 0) wallX = player_in_map.y + perpWallDist * direction.y;
-		else           wallX = player_in_map.x + perpWallDist * direction.x;
+		if (side == 0) wallX = game->player.map_posi.y + perpWallDist * direction.y;
+		else           wallX = game->player.map_posi.x + perpWallDist * direction.x;
+		//if (x == game->win.width / 2)
+		//	printf("prefloor wallX is %.10f\n", wallX);
 		wallX -= floor((wallX));
-
+		//if (x == game->win.width / 2)
+		//	printf("wallX is %.10f, player map (%.3f,%.3f)\n", wallX, player_in_map.x, player_in_map.y);
 		//x coordinate on the texture
 		t_xpm_tex *tex;
 		if (side == 0)
@@ -205,19 +208,19 @@ void	raycasting(t_game *game)
 		else
 			tex = game->tex[SO_TEX];
 
-		int texX = (int)(wallX * (double)(tex->height));
+		int texX = (int)(wallX * (double)(tex->width));
 		if(side == 0 && direction.x > 0) texX = (tex->width) - texX - 1;
 		if(side == 1 && direction.y < 0) texX = (tex->width) - texX - 1;
 
-		double step = 1.0f * tex->width / lineHeight;
-		double texPos = (drawStart - h / 2 + lineHeight / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist)) * step;
+		double step = 1.0f * tex->height / lineHeight;
+		double texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist)) + lineHeight / 2) * step;
 
 		int y = drawStart;
 		while( y < drawEnd)
 		{
-			int texY = (int)texPos & (tex->width - 1);
+			int texY = (int)texPos;
 			texPos += step;
-			game->win.set_pixel(&game->win, x, y, tex->pixels[texY + texX * tex->width]);
+			game->win.set_pixel(&game->win, x, y, tex->pixels[texX + (tex->height - texY - 1) * tex->width]);
 			y++;
 		}
 

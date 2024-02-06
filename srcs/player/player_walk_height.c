@@ -19,7 +19,7 @@ void	player_walk_height(t_player *player)
 	if ((player->is_walking && player->hgt_state != HGT_JUMP))
 	{
 		speed = player->cur_move_multi;
-		if (player->is_sprinting && player->hgt_state == HGT_NORMAL)
+		if (player->is_sprinting && player->hgt_state == HGT_NORMAL && (g_keys >> BIT_FRONT) & 1)
 			speed *= player->sprint_move_multi;
 		player->cur_walk_sense += 0.015f * speed * player->timer[CLOCK_MOVE].elapsed;
 		//printf("walk sense %.3f\n", player->cur_walk_sense);
