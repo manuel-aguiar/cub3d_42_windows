@@ -100,8 +100,10 @@ int		game_start(t_game *game, char *game_config)
 	
 	//didn t work, went slower even if better cache
 	//game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
-	
+	player_start_timers(&game->player);
 	game->tex[NO_TEX] = xpm_to_tex_transposed(g_north);
+	player_get_timer(&game->player, CLOCK_MOVE);
+	printf("margarida elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
 	game->tex[SO_TEX] = xpm_to_tex_transposed(g_south);
 	game->tex[EA_TEX] = xpm_to_tex_transposed(g_east);
 	game->tex[WE_TEX] = xpm_to_tex_transposed(g_west);
