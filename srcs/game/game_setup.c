@@ -101,16 +101,16 @@ int		game_start(t_game *game, char *game_config)
 	//didn t work, went slower even if better cache
 	//game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
 	
-	game->tex[NO_TEX] = xpm_to_tex(g_north);
-	game->tex[SO_TEX] = xpm_to_tex(g_south);
-	game->tex[EA_TEX] = xpm_to_tex(g_east);
-	game->tex[WE_TEX] = xpm_to_tex(g_west);
+	game->tex[NO_TEX] = xpm_to_tex_transposed(g_north);
+	game->tex[SO_TEX] = xpm_to_tex_transposed(g_south);
+	game->tex[EA_TEX] = xpm_to_tex_transposed(g_east);
+	game->tex[WE_TEX] = xpm_to_tex_transposed(g_west);
 
-	player_start_timers(&game->player);
-	game->tex[F_TEX] = xpm_to_tex_hashtable(g_teste);
-
-	player_get_timer(&game->player, CLOCK_MOVE);
-	printf("dementor elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
+	//player_start_timers(&game->player);
+	////game->tex[F_TEX] = xpm_to_tex_hashtable(g_teste);
+//
+	//player_get_timer(&game->player, CLOCK_MOVE);
+	//printf("dementor elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
 
 	//exit(0);
 	game->tex[C_TEX] = NULL;

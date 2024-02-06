@@ -208,11 +208,17 @@ void	raycasting(t_game *game)
 		else
 			tex = game->tex[SO_TEX];
 
-		int texX = (int)(wallX * (double)(tex->width));
-		if(side == 0 && direction.x > 0) texX = (tex->width) - texX - 1;
-		if(side == 1 && direction.y < 0) texX = (tex->width) - texX - 1;
+		int texX = (int)(wallX * (double)(tex->height));
+		//if (x == game->win.width / 2)
+		//	printf("texX is %d\n", texX);
+		if(side == 0 && direction.x > 0) texX = (tex->height) - texX - 1;
+		if(side == 1 && direction.y < 0) texX = (tex->height) - texX - 1;
 
-		double step = 1.0f * tex->height / lineHeight;
+		//texX = (int)((float)texX / (float)tex->width * (float)tex->height);
+		//if (side == 1 && x == game->win.width / 2)
+		//	printf("texX is %d\n", texX);
+		
+		double step = 1.0f * tex->width / lineHeight;
 		double texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist)) + lineHeight / 2) * step;
 
 		int y = drawStart;
@@ -220,12 +226,88 @@ void	raycasting(t_game *game)
 		{
 			int texY = (int)texPos;
 			texPos += step;
-			game->win.set_pixel(&game->win, x, y, tex->pixels[texX + (tex->height - texY - 1) * tex->width]);
+			//if (side == 1 && x == game->win.width / 2)
+			//{
+			//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
+			//}
+			game->win.set_pixel(&game->win, x, y, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
 			y++;
 		}
-
+		//if (side == 1 && x == game->win.width / 2)
+		//{
+		//	int k = 0;
+		//	while (k < tex->width * tex->height)
+		//	{
+		//		printf("%d pixel x %d, y %d %d\n", k, k / tex->width, k % tex->width, tex->pixels[k]);
+		//		k++;
+		//	}
+		//	exit(0);
+		//}
+		
 		//draw_vertical_line(&game->win, drawStart, drawEnd, x, color);
 		x++;
 	}
 	//exit (0);
 }
+
+/*
+
+codigo para texturas transpostas, esta merda é ouro
+
+
+double wallX; //where exactly the wall was hit
+		if (side == 0) wallX = game->player.map_posi.y + perpWallDist * direction.y;
+		else           wallX = game->player.map_posi.x + perpWallDist * direction.x;
+		//if (x == game->win.width / 2)
+		//	printf("prefloor wallX is %.10f\n", wallX);
+		wallX -= floor((wallX));
+		//if (x == game->win.width / 2)
+		//	printf("wallX is %.10f, player map (%.3f,%.3f)\n", wallX, player_in_map.x, player_in_map.y);
+		//x coordinate on the texture
+		t_xpm_tex *tex;
+		if (side == 0)
+			tex = game->tex[NO_TEX];
+		else
+			tex = game->tex[SO_TEX];
+
+		int texX = (int)(wallX * (double)(tex->height));
+		if (x == game->win.width / 2)
+			printf("texX is %d\n", texX);
+		if(side == 0 && direction.x > 0) texX = (tex->height) - texX - 1;
+		if(side == 1 && direction.y < 0) texX = (tex->height) - texX - 1;
+
+		//texX = (int)((float)texX / (float)tex->width * (float)tex->height);
+		//if (side == 1 && x == game->win.width / 2)
+		//	printf("texX is %d\n", texX);
+		
+		double step = 1.0f * tex->width / lineHeight;
+		double texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist)) + lineHeight / 2) * step;
+
+		int y = drawStart;
+		while( y < drawEnd)
+		{
+			int texY = (int)texPos;
+			texPos += step;
+			//if (side == 1 && x == game->win.width / 2)
+			//{
+			//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
+			//}
+			game->win.set_pixel(&game->win, x, y, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
+			y++;
+		}
+		//if (side == 1 && x == game->win.width / 2)
+		//{
+		//	int k = 0;
+		//	while (k < tex->width * tex->height)
+		//	{
+		//		printf("%d pixel x %d, y %d %d\n", k, k / tex->width, k % tex->width, tex->pixels[k]);
+		//		k++;
+		//	}
+		//	exit(0);
+		//}
+		
+		//draw_vertical_line(&game->win, drawStart, drawEnd, x, color);
+		x++;
+
+
+*/
