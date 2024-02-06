@@ -38,6 +38,7 @@ extern char *g_west[];
 
 
 t_xpm_tex	*xpm_to_tex(char *xpm[]);
+t_xpm_tex	*xpm_to_tex_hashtable(char *xpm[]);
 void		xpm_tex_transpose(t_xpm_tex *tex);
 t_xpm_tex	*xpm_to_tex_transposed(char *xpm[]);
 

@@ -41,7 +41,7 @@ void	print_xpm_pair(t_xpm_pair *id_color, int color_count)
 	}
 }
 
-void	*free_xpm_tex(t_xpm_tex **tex)
+static void	*free_xpm_tex(t_xpm_tex **tex)
 {
 	if (((*tex)->pixels))
 		free((*tex)->pixels);
@@ -49,7 +49,7 @@ void	*free_xpm_tex(t_xpm_tex **tex)
 	return (NULL);
 }
 
-void	*free_xpm_pair(t_xpm_pair **id_color, int color_count)
+static void	*free_xpm_pair(t_xpm_pair **id_color, int color_count)
 {
 	int			i;
 	t_xpm_pair *og;
@@ -66,7 +66,7 @@ void	*free_xpm_pair(t_xpm_pair **id_color, int color_count)
 	return (NULL);
 }
 
-int		xpm_pair_has_dups(t_xpm_pair *id_color, int color_count, int id_len)
+static int		xpm_pair_has_dups(t_xpm_pair *id_color, int color_count, int id_len)
 {
 	int i;
 	int	j;
@@ -86,7 +86,7 @@ int		xpm_pair_has_dups(t_xpm_pair *id_color, int color_count, int id_len)
 	return (0);
 }
 
-int		color_at_target(t_xpm_pair *id_color, int color_count, char *target, int id_len)
+static int		color_at_target(t_xpm_pair *id_color, int color_count, char *target, int id_len)
 {
 	int	i;
 
@@ -100,7 +100,7 @@ int		color_at_target(t_xpm_pair *id_color, int color_count, char *target, int id
 	return (-1);
 }
 
-int	rgb_to_rgba(int rgb)
+static int	rgb_to_rgba(int rgb)
 {
 	return ((rgb << 8) | 0xFF);
 }
@@ -296,7 +296,7 @@ t_xpm_tex	*xpm_to_tex_transposed(char *xpm[])
 		return (free_xpm_tex(&tex));
 	}
 
-	print_xpm_pair(id_color, color_count);
+	//print_xpm_pair(id_color, color_count);
 
 	//translate image into pixel array
 	int offset = 1 + color_count;

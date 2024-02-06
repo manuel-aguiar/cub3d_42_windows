@@ -82,7 +82,8 @@ void		game_find_player_set_angles(t_game *game)
 int	new_win_init_window(t_win_glfw *win);
 
 // GLOBALS NEEDED BY GLFW
-
+void	player_start_timers(t_player *player);
+void	player_get_timer(t_player *player, int timer);
 
 
 int		game_start(t_game *game, char *game_config)
@@ -104,7 +105,14 @@ int		game_start(t_game *game, char *game_config)
 	game->tex[SO_TEX] = xpm_to_tex_transposed(g_south);
 	game->tex[EA_TEX] = xpm_to_tex_transposed(g_east);
 	game->tex[WE_TEX] = xpm_to_tex_transposed(g_west);
-	game->tex[F_TEX] = NULL;
+
+	player_start_timers(&game->player);
+	game->tex[F_TEX] = xpm_to_tex_hashtable(g_teste);
+
+	player_get_timer(&game->player, CLOCK_MOVE);
+	printf("dementor elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
+
+	//exit(0);
 	game->tex[C_TEX] = NULL;
 	//xpm_tex_transpose(game->teste);
 	return (1);

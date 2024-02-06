@@ -86,6 +86,8 @@ SRC_PARSING			=	parsing.c				\
 
 SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_textures.c				\
+						xpm_hashtable.c				\
+						rubens_dementor.c			\
 						xpm_teste.c	
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
