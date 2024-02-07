@@ -234,8 +234,6 @@ t_xpm_tex	*xpm_to_tex(char *xpm[], e_tex_type tex_type)
 {
 	t_xpm_parser	parse;
 
-
-	//get dimensions
 	if (!xpm || ! xpm[0])
 		return (NULL);
 	parse.type = tex_type;
