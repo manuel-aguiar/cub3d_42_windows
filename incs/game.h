@@ -67,7 +67,7 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)());
 
 //player....
 void    move_player(t_game *game, bool w, bool s, bool a, bool d);
-void	handle_collisions(t_game *game);
+void	handle_collisions(t_game *game, t_vector potencial);
 
 void	render_map_outside_compass(t_game *game);
 void	render_player_outside_compass(t_game *game);

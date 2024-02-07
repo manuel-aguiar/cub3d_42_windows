@@ -12,95 +12,88 @@
 
 #include "game.h"
 
-void	handle_collisions(t_game *game);
-
-void    move_player_back_left(t_player *player)
+t_vector    move_player_back_left(t_player *player)
 {
 	t_vector diagonal;
 	float		speed;
 
 	speed = player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x -= (diagonal.y * speed); 
-	player->map_posi.y += (diagonal.x * speed);
+	diagonal.x = 1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = -1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-void    move_player_back_right(t_player *player)
+t_vector    move_player_back_right(t_player *player)
 {
 	t_vector diagonal;
 	float		speed;
 
 	speed = player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x += (diagonal.y * speed);                   //wait till overflow maybe...?
-	player->map_posi.y -= (diagonal.x * speed);
+	diagonal.x = -1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = 1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-void    move_player_for_left(t_player *player)
+t_vector    move_player_for_left(t_player *player)
 {
 	t_vector diagonal;
 	float		speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x -= (diagonal.y * speed); 
-	player->map_posi.y += (diagonal.x * speed);
+	diagonal.x = 1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = -1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-void    move_player_for_right(t_player *player)
+t_vector    move_player_for_right(t_player *player)
 {
 	t_vector	diagonal;
 	float		speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
-	player->map_posi.x += (diagonal.y * speed);                   //wait till overflow maybe...?
-	player->map_posi.y -= (diagonal.x * speed);
+	diagonal.x = -1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
+	diagonal.y = 1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+
+	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-void    move_player_left(t_player *player)
+t_vector    move_player_left(t_player *player)
 {
 	float	speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-
-	player->map_posi.x -= (player->dir_vec.y * speed);
-	player->map_posi.y += (player->dir_vec.x * speed);
+	return (vector_multi((t_vector){-player->dir_vec.y, +player->dir_vec.x}, speed));
 }
 
-void    move_player_right(t_player *player)
+t_vector    move_player_right(t_player *player)
 {
 	float	speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	player->map_posi.x += (player->dir_vec.y * speed);
-	player->map_posi.y -= (player->dir_vec.x * speed);
+	return (vector_multi((t_vector){+player->dir_vec.y, -player->dir_vec.x}, speed));
 }
 
 
-void    move_player_backward(t_player *player)
+t_vector    move_player_backward(t_player *player)
 {
-	player->map_posi = vector_sub(player->map_posi, vector_multi(player->dir_vec, player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed));
+	return (vector_multi(vector_multi(player->dir_vec, player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed), -1));
 }
 
-void    move_player_forward(t_player *player)
+t_vector    move_player_forward(t_player *player)
 {
 	float speed;
 
 	speed = player->forward_move * player->cur_move_multi;
 	if (player->is_sprinting && player->hgt_state == HGT_NORMAL)
 		speed *= player->sprint_move_multi;
-	player->map_posi = vector_add(player->map_posi, vector_multi(player->dir_vec, speed * player->timer[CLOCK_MOVE].elapsed));
+	return (vector_multi(player->dir_vec, speed * player->timer[CLOCK_MOVE].elapsed));
 }
 
 
 void    move_player(t_game *game, bool w, bool s, bool a, bool d)
 {
-	t_player *player;
+	t_player 	*player;
+	t_vector	potencial;
 
 	player = &game->player;
 	player->cur_move_multi = player->move_multi[player->hgt_state];
@@ -119,24 +112,25 @@ void    move_player(t_game *game, bool w, bool s, bool a, bool d)
 	if (w && !s)
 	{
 		if (a && !d)
-			move_player_for_left(player);
+			potencial = move_player_for_left(player);
 		else if (d && !a)
-			move_player_for_right(player);
+			potencial = move_player_for_right(player);
 		else
-			move_player_forward(player);
+			potencial = move_player_forward(player);
 	}
 	else if (s && !w)
 	{
 		if (a && !d)
-			move_player_back_left(player);
+			potencial = move_player_back_left(player);
 		else if (d && !a)
-			move_player_back_right(player);
+			potencial = move_player_back_right(player);
 		else
-			move_player_backward(player);        
+			potencial = move_player_backward(player);        
 	}
 	else if (a && !d)
-		move_player_left(player);
+		potencial = move_player_left(player);
 	else if (d && !a)
-		move_player_right(player);
-	handle_collisions(game);
+		potencial = move_player_right(player);
+	//player->map_posi = vector_add(player->map_posi, potencial);
+	handle_collisions(game, potencial);
 }

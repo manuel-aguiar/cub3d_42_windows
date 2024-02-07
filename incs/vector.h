@@ -29,5 +29,6 @@ t_vector	vector_sub(t_vector plus, t_vector minus);
 t_vector	vector_multi(t_vector target, float multiplier);
 float		vector_len(t_vector vector);
 t_vector	vector_norm(t_vector target, float vector_len);
+t_vector	vector_swap_coords(t_vector target);
 
 #endif

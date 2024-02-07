@@ -105,8 +105,8 @@ int		game_start(t_game *game, char *game_config)
 	game_setup_keys(game);
 	
 
-	game->tex[SO_TEX] = xpm_to_tex(g_north, TEX_REGULAR);
-	game->tex[NO_TEX] = xpm_to_tex(g_north, TEX_TRANSPOSED);
+	game->tex[SO_TEX] = xpm_to_tex(g_south, TEX_REGULAR);
+	game->tex[NO_TEX] = xpm_to_tex(g_south, TEX_TRANSPOSED);
 
 	game->tex[C_TEX] = NULL;
 	printf("ready to render\n");

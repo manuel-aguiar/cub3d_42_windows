@@ -14,8 +14,6 @@
 
 #include "float.h"
 
-
-
 t_vector		dda_get_collision_posi(t_game *game, t_vector norm_dir)
 {
 	t_vector	res;

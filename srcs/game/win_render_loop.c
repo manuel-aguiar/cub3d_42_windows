@@ -33,8 +33,8 @@ void	player_get_timer(t_player *player, int timer)
 	player->timer[timer].elapsed = (size_t) (1000.0 * (player->timer[timer].end.time - player->timer[timer].start.time)
 	+ (player->timer[timer].end.millitm - player->timer[timer].start.millitm));
 	player->timer[timer].start = player->timer[timer].end;
-	if (timer == CLOCK_MOVE)
-		printf("fps: %u\n", (size_t)(1000 / player->timer[CLOCK_MOVE].elapsed));
+	//if (timer == CLOCK_MOVE)
+	//	printf("fps: %u\n", (size_t)(1000 / player->timer[CLOCK_MOVE].elapsed));
 }
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())

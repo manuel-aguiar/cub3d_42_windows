@@ -34,5 +34,17 @@ float		vector_len(t_vector vector)
 
 t_vector	vector_norm(t_vector target, float vector_len)
 {
+	if (vector_len == 0)
+		return ((t_vector){0, 0});
 	return ((t_vector){target.x / vector_len, target.y / vector_len});
+}
+
+t_vector	vector_swap_coords(t_vector target)
+{
+	float	swap;
+
+	swap = target.x;
+	target.x = target.y;
+	target.y = swap;
+	return (target);
 }
