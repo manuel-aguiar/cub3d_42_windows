@@ -82,6 +82,8 @@ void	game_key_manager(t_game *game);
 //game_manager_mouse.c
 void	game_mouse_manager(t_game *game);
 
+void	floorcast(t_game *game);
+void	wallcast(t_game *game);
 
 void	raycasting_horizontal(t_game *game);
 

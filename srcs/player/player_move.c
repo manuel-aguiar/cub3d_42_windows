@@ -18,8 +18,8 @@ t_vector    move_player_back_left(t_player *player)
 	float		speed;
 
 	speed = player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = 1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = -1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	diagonal.x = 1 * (P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
+	diagonal.y = -1 * (P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
@@ -29,8 +29,11 @@ t_vector    move_player_back_right(t_player *player)
 	float		speed;
 
 	speed = player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = -1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = 1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+
+
+	diagonal.x = -1 * (P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
+	diagonal.y = 1 * (P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
+
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
@@ -40,8 +43,8 @@ t_vector    move_player_for_left(t_player *player)
 	float		speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = 1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = -1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	diagonal.x = 1 * (P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
+	diagonal.y = -1 * (P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
@@ -51,8 +54,8 @@ t_vector    move_player_for_right(t_player *player)
 	float		speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	diagonal.x = -1 * P_SQRT_OF_TWO_OVER_TWO * player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad;
-	diagonal.y = 1 * P_SQRT_OF_TWO_OVER_TWO * player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad;
+	diagonal.x = -1 * (P_SQRT_OF_TWO_OVER_TWO * player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
+	diagonal.y = 1 * (P_SQRT_OF_TWO_OVER_TWO * player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
 
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }

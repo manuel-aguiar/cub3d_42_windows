@@ -56,7 +56,7 @@
 
 /* player settings */
 # define PLAY_UNIT_SIZE 0.2f
-# define PLAY_FORWARD_MOVE_SENSE 0.005f  //0.003f 
+# define PLAY_FORWARD_MOVE_SENSE 0.003f  //0.003f 
 # define PLAY_SIDE_MOVE_SENSE 0.0013f		//0.0018f 
 # define PLAY_BACK_MOVE_SENSE 0.0008f		//0.0008f 
 # define PLAY_SPRINT_MULTI 1.5f
@@ -82,7 +82,7 @@
 
 
 //player jump characteristics
-# define PLAY_JUMP_INIT 0.005f
+# define PLAY_JUMP_INIT 0.002f
 # define PLAY_JUMP_INC 0.00001f
 # define PLAY_JUMP_PRESS_CAP 0.007f
 # define PLAY_JUMP_RELEASE_CAP 0.002f

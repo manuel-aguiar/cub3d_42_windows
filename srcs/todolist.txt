@@ -12,13 +12,13 @@
 
 TO DO LIST
 
-clamping de acordo com javidx9 para todos os angulos
-controlos baseados em tempo, funciona ok inter PC, começar com controlos com base no tempo
-	jumps, etc
 
 makefile com interdependencias, fazer tudo à mão se faz falta
 
-texturas em 3d
+renderizar o chão e o tecto
+pensar em enimigos
+hit detection
+
 sprites
 
 

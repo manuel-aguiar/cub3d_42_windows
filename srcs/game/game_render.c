@@ -23,8 +23,8 @@ void		game_render(t_game *game)
 
 	//player_start_timers(&game->player);
 	//xpm_to_window(&game->win, game->tex[NO_TEX], first, game->tex[NO_TEX]->width, game->tex[NO_TEX]->height);
-
-	raycasting(game);
+	floorcast(game);
+	wallcast(game);
 	render_compass(&game->win, &game->compass);
 	render_map_inside_compass(game);
 	render_player_inside_compass(game);
