@@ -86,6 +86,8 @@ void	player_start_timers(t_player *player);
 void	player_get_timer(t_player *player, int timer);
 
 t_xpm_tex	*xpm_to_tex_rbtree_transposed(char *xpm[]);
+t_xpm_tex	*xpm_to_tex_rbtree_mpool_transposed(char *xpm[]);
+
 
 extern char *g_coisas[];
 extern char *g_yayaya[];
@@ -105,11 +107,15 @@ int		game_start(t_game *game, char *game_config)
 	//didn t work, went slower even if better cache
 	//game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
 
-	//player_get_timer(&game->player, CLOCK_MOVE);
+	player_get_timer(&game->player, CLOCK_MOVE);
 
 
-	game->tex[NO_TEX] = xpm_to_tex_rbtree_transposed(g_north);
+	//regular straight line loop is faster, deal with it
 
+	game->tex[NO_TEX] = xpm_to_tex_transposed(g_north);
+
+	player_get_timer(&game->player, CLOCK_MOVE);
+	printf("rb mpool elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
 
 	//int i = 0;
 	//while (i < game->tex[NO_TEX]->width * game->tex[NO_TEX]->height)
@@ -117,7 +123,9 @@ int		game_start(t_game *game, char *game_config)
 	//	printf("tex index %d is (%d, %d, %d)\n", i, rgb_r(game->tex[NO_TEX]->pixels[i]), rgb_g(game->tex[NO_TEX]->pixels[i]), rgb_b(game->tex[NO_TEX]->pixels[i]));
 	//	i++;
 	//}
-	game->tex[SO_TEX] = xpm_to_tex_rbtree_transposed(g_south);
+	game->tex[SO_TEX] = xpm_to_tex_transposed(g_north);
+	player_get_timer(&game->player, CLOCK_MOVE);
+	printf("rb  elapsed: %u\n", game->player.timer[CLOCK_MOVE].elapsed);
 	//game->tex[WE_TEX] = xpm_to_tex_rbtree(g_west);
 
 	//player_start_timers(&game->player);

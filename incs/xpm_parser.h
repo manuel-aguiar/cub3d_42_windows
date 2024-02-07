@@ -17,6 +17,7 @@
 # include "pixel_point.h"
 # include "libft.h"
 # include "red_black_tree.h"
+# include "red_black_tree_mpool.h"
 
 typedef struct s_xpm_pair
 {

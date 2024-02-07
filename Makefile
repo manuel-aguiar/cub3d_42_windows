@@ -54,6 +54,7 @@ INC_FILES		=		game.h				\
 						user_inputs.h		\
 						xpm_parser.h		\
 						red_black_tree.h	\
+						red_black_tree_mpool.h	\
 						generic_utils.h
 
 SRC_MAIN			=	main.c				\
@@ -91,6 +92,7 @@ SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_hashtable.c				\
 						rubens_dementor.c			\
 						xpm_rb_tree.c				\
+						xpm_rb_tree_mpool.c			\
 						xpm_teste.c	
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
@@ -131,7 +133,9 @@ SRC_RAYCASTING		=	vector.c					\
 						dda.c
 
 SRC_RB_TREE			=	rb_tree.c					\
-						rb_tree_delete.c
+						rb_tree_delete.c			\
+						mpool_rb_tree.c					\
+						mpool_rb_tree_delete.c
 
 
 ## AGGREGATING FILES ##

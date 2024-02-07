@@ -16,6 +16,8 @@
 
 # include "libft.h"
 
+# include <math.h>
+
 typedef struct s_pixel
 {
 	int	x;

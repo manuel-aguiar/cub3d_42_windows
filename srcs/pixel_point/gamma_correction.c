@@ -14,6 +14,7 @@
 
 float quake_fast_inverse_sqr_root(float number)
 {
+  /*
   long i;
   float x2, y;
   const float threehalfs = 1.5F;
@@ -25,8 +26,9 @@ float quake_fast_inverse_sqr_root(float number)
   y  = * ( float * ) &i;
   y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
   // y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+  */
 
-  return (y);
+  return (1 / sqrt(number));
 }
 
 //https://stackoverflow.com/questions/48903716/fast-image-gamma-correction

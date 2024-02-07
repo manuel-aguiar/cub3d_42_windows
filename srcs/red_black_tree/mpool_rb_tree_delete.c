@@ -18,17 +18,9 @@ https://epaperpress.com/sortsearch/txt/rbtr.txt
 
 */
 
-static void rbtree_delete_recursive(t_rb_tree *tree, t_rb_node *cur_node)
-{
-    if (cur_node == tree->root)
-        return;
-    rbtree_delete_recursive(tree, cur_node->left);
-    rbtree_delete_recursive(tree, cur_node->right);
-    free(cur_node);
-}
 
-void rbtree_delete(t_rb_tree **tree)
+void rbtree_mpool_delete(t_rb_mpool_tree **tree)
 {
-    rbtree_delete_recursive(*tree, (*tree)->root);
+    free((*tree)->all_nodes);
     ft_free_set_null(tree);
 }

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RED_BLACK_TREE_H
+#ifndef RED_BLACK_TREE_MPOOL_H
 
-# define RED_BLACK_TREE_H
+# define RED_BLACK_TREE_MPOOL_H
 
 # include <stdlib.h>
 # include <stdint.h>
@@ -23,9 +23,9 @@
 
 typedef enum
 { 
-	RB_BLACK, 
-	RB_RED,
-}	e_rb_color;
+	RB_MPOOL_BLACK, 
+	RB_MPOOL_RED,
+}	e_rb_mpool_color;
 
 
 # define MAX_KEY_LEN 12
@@ -33,28 +33,31 @@ typedef enum
 /* can use memory pool as linkedlist to guarantee locality*/
 
 
-typedef struct s_rb_node
+typedef struct s_rb_mpool_node
 {
-    
     char	key[MAX_KEY_LEN + 1];
     int		rgb;                // user data
-	e_rb_color rb_color;            // node color (BLACK, RED)
-    struct s_rb_node *left;       // left child
-    struct s_rb_node *right;      // right child
-    struct s_rb_node *parent;     // parent
+	e_rb_mpool_color rb_color;            // node color (BLACK, RED)
+    int me;
+    int left;       // left child
+    int right;      // right child
+    int parent;     // parent
 
-}	t_rb_node;
+}	t_rb_mpool_node;
 
-typedef struct s_rb_tree
+typedef struct s_rb_mpool_tree
 {
-    t_rb_node *root;   // root of red-black tree
-    t_rb_node sentinel;
+    int         root;   // root of red-black tree
+    int         sentinel;
     int (*compare)(char *a, char *b);    // compare keys
-}	t_rb_tree;
+    int         size;
+    int         used;
+    t_rb_mpool_node   *all_nodes;
+}	t_rb_mpool_tree;
 
-t_rb_tree	*rbtree_new(int (*comp)(char *, char *));
-void 		rbtree_delete(t_rb_tree **tree);
-int			rbtree_insert(t_rb_tree *tree, char *key, int color);
-int			rbtree_find(t_rb_tree *tree, char *key, int *place_val);
+t_rb_mpool_tree	*rbtree_mpool_new(int size, int (*comp)(char *, char *));
+void 		rbtree_mpool_delete(t_rb_mpool_tree **tree);
+int			rbtree_mpool_insert(t_rb_mpool_tree *tree, char *key, int color);
+int			rbtree_mpool_find(t_rb_mpool_tree *tree, char *key, int *place_val);
 
 #endif
