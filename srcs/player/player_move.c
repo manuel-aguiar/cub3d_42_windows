@@ -87,7 +87,7 @@ t_vector    move_player_forward(t_player *player)
 	float speed;
 
 	speed = player->forward_move * player->cur_move_multi;
-	if (player->is_sprinting && player->hgt_state == HGT_NORMAL)
+	if (player->is_sprinting && (player->hgt_state == HGT_NORMAL || player->hgt_state == HGT_JUMP))
 		speed *= player->sprint_move_multi;
 	return (vector_multi(player->dir_vec, speed * player->timer[CLOCK_MOVE].elapsed));
 }

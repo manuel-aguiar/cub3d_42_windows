@@ -334,7 +334,7 @@ void	floorcast_dda_visible(t_game *game)
 		//&& game->visible[(int)floorX + game->map.width * (int)floorY])
 		game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * (floor->height - ty - 1) + tx]);
 		x++;
-        while(x < w && y > game->hori_rays[x].min_y)
+        while(x < w && y >= game->hori_rays[x].min_y)
         {
             floorX += floorStepX;
             floorY += floorStepY;
@@ -411,7 +411,7 @@ void	floorcast_dda_visible(t_game *game)
             game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * ty + tx]);
 		
 		x++;
-        while(x < w && y < game->hori_rays[x].max_y)
+        while(x < w && y <= game->hori_rays[x].max_y)
         {
             floorX -= floorStepX;
             floorY -= floorStepY;
