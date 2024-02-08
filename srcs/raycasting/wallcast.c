@@ -12,14 +12,16 @@
 
 #include "game.h"
 
-#include "float.h"
 
 
+void	wallcast_dda_visible(t_game *game);
 
 
 //not using normalized vectors
 void	wallcast(t_game *game)
 {
+
+
 	float cameraX;
 	int w = game->win.width;
 	int h = game->win.height;

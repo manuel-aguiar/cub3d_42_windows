@@ -125,7 +125,8 @@ SRC_RAYCASTING		=	vector.c					\
 						raycasting.c				\
 						dda_hori.c					\
 						wallcast.c					\
-						floorcast.c
+						floorcast.c					\
+						dda_visible.c
 
 
 ## AGGREGATING FILES ##

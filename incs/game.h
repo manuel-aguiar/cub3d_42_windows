@@ -25,11 +25,15 @@
 # include "generic_utils.h"
 # include "user_inputs.h"
 # include "xpm_parser.h"
+# include "float.h"
+
 
 typedef struct s_dda_hor
 {
-	int min_x;
-	int max_x;
+	int 	min_x;
+	int 	max_x;
+	int		side;
+	float 	perpWallDist;
 }	t_dda_hor;
 
 typedef struct s_game
@@ -43,6 +47,7 @@ typedef struct s_game
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*key_defs;
 	t_dda_hor	*hori_rays;		//apagar eventualmente
+	bool		*visible;
 	t_xpm_tex	*tex[NUM_TEX];
 }	t_game;
 

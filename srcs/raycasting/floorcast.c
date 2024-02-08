@@ -12,6 +12,8 @@
 
 # include "game.h"
 
+void	dda_visible(t_game *game);
+
 void	floorcast(t_game *game)
 {
 	int	y;
@@ -26,8 +28,11 @@ void	floorcast(t_game *game)
 
 	ray_left = vector_add(dir, game->player.plane);
 	ray_right = vector_sub(dir, game->player.plane);
-
-    while (y < ft_min(h / 2 + game->player.pitch, h))		//no pitch correction
+    float posZ = (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h ;
+    int max_height = ft_min(h / 2 + game->player.pitch, h);
+    //dda_visible(game);
+    //printf("break\n");
+    while (y < max_height)		//no pitch correction
     {
       // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
 
@@ -40,7 +45,7 @@ void	floorcast(t_game *game)
       int p = y - h / 2 - game->player.pitch;
 
       // Vertical position of the camera.
-      float posZ = (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h ;   //no pitch correction
+
 
       // Horizontal distance from the camera to the floor for the current row.
       // 0.5 is the z position exactly in the middle between floor and ceiling.
@@ -60,29 +65,43 @@ void	floorcast(t_game *game)
 
 	t_xpm_tex *floor;
 		floor = game->tex[F_TEX];
+    
       while(x < w)
       {
         // the cell coord is simply got from the integer parts of floorX and floorY
         int cellX = (int)(floorX);
         int cellY = (int)(floorY);
-		
+		if ((cellX < 0 || cellX > game->map.width) || (cellY < 0 || cellY > game->map.height))
+			break ;
         // get the texture coordinate from the fractional part
         int tx = ft_abs((int)( floor->width * (floorX - cellX)) % floor->width);
         int ty = ft_abs((int)( floor->height * (floorY - cellY)) % floor->height);
 
         floorX += floorStepX;
         floorY += floorStepY;
+        //while(x < w && !game->visible[(int)floorX * game->map.width + (int)floorY])
+        //{
+        //    floorX += floorStepX;
+        //    floorY += floorStepY;
+        //    x++;
+        //}
+
 		
 		//printf("ty %d, width * ty  %d, tx %d, final tex index: %d total size %d color %d\n", ty, floor->width * ty, tx, floor->width * ty + tx, floor->width * floor->height, floor->pixels[floor->width * ty + tx]);
-		if (floor->width * (floor->height - ty - 1) + tx > floor->width * floor->height)
-		{
-			printf("x %d y %d, index %d, hiegher than total length %d\n", x, y, floor->width * (floor->height - ty - 1) + tx, floor->width * floor->height);
-			printf("tx %d, max width %d, ty %d, max height %d\n", tx, floor->width, ty, floor->height);
-		}
+		//if (floor->width * (floor->height - ty - 1) + tx > floor->width * floor->height)
+		//{
+		//	printf("x %d y %d, index %d, hiegher than total length %d\n", x, y, floor->width * (floor->height - ty - 1) + tx, floor->width * floor->height);
+		//	printf("tx %d, max width %d, ty %d, max height %d\n", tx, floor->width, ty, floor->height);
+		//}
 			
-		
-		game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * (floor->height - ty - 1) + tx]);
-
+		//if (game->visible[(int)floorX + game->map.width * (int)floorY])
+		    game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * (floor->height - ty - 1) + tx]);
+        //while(x < w && !game->visible[(int)floorY * game->map.width + (int)floorX])
+        //{
+        //    floorX += floorStepX;
+        //    floorY += floorStepY;
+        //    x++;
+        //}
         //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
         //color = texture[ceilingTexture][texWidth * ty + tx];
         //color = (color >> 1) & 8355711; // make a bit darker
@@ -92,10 +111,12 @@ void	floorcast(t_game *game)
 	  //exit(0);
 	  y++;
     }
+
 	dir = vector_multi(vector_multi(game->player.dir_vec, game->player.cur_dir_len), 1);
 	ray_left = vector_add(dir, game->player.plane);
 	ray_right = vector_sub(dir, game->player.plane);
-
+    float floorZ = (1 - (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod)) * h ;
+   // y+=200;
     while (y < h)		//no pitch correction
     {
       // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
@@ -110,11 +131,11 @@ void	floorcast(t_game *game)
       int p = y - h / 2 - game->player.pitch;
 
       // Vertical position of the camera.
-      float posZ = (1 - (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod)) * h ;   //no pitch correction
+         //no pitch correction
 
       // Horizontal distance from the camera to the floor for the current row.
       // 0.5 is the z position exactly in the middle between floor and ceiling.
-      float rowDistance = posZ / p;
+      float rowDistance = floorZ / p;
 
       // calculate the real world step vector we have to add for each x (parallel to camera plane)
       // adding step by step avoids multiplications with a weight in the inner loop
@@ -130,12 +151,14 @@ void	floorcast(t_game *game)
 
 	t_xpm_tex *floor;
 		floor = game->tex[C_TEX];
+        
       while(x < w)
       {
         // the cell coord is simply got from the integer parts of floorX and floorY
         int cellX = (int)(floorX);
         int cellY = (int)(floorY);
-		
+		if ((cellX < 0 || cellX > game->map.width) || (cellY < 0 || cellY > game->map.height))
+			break ;
         // get the texture coordinate from the fractional part
         int tx = ft_abs((int)( floor->width * (floorX - cellX)) % floor->width);
         int ty = ft_abs((int)( floor->height * (floorY - cellY)) % floor->height);
@@ -144,8 +167,15 @@ void	floorcast(t_game *game)
         floorY -= floorStepY;
 		
 		//printf("ty %d, width * ty  %d, tx %d, final tex index: %d total size %d color %d\n", ty, floor->width * ty, tx, floor->width * ty + tx, floor->width * floor->height, floor->pixels[floor->width * ty + tx]);
-		game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * ty + tx]);
-
+		
+        //if (game->visible[(int)floorX + game->map.width * (int)floorY])
+            game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * ty + tx]);
+        //while(x < w && !game->visible[(int)floorY * game->map.width + (int)floorX])
+        //{
+        //    floorX -= floorStepX;
+        //    floorY -= floorStepY;
+        //    x++;
+        //}
         //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
         //color = texture[ceilingTexture][texWidth * ty + tx];
         //color = (color >> 1) & 8355711; // make a bit darker
@@ -155,7 +185,6 @@ void	floorcast(t_game *game)
 	  //exit(0);
 	  y++;
     }
-
 	//printf("frame done\n");
 
 	//printf("current pitch %d, screen height %d\n", game->player.pitch, game->win.height);
