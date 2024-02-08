@@ -27,7 +27,7 @@ void	draw_raycast_horizontal(t_game *game)
 		w = 0;
 		while (w < game->win.width - 1)
 		{
-			if (h == int_clamp(h, game->hori_rays[w].min_x, game->hori_rays[w].max_x))
+			if (h == int_clamp(h, game->hori_rays[w].min_y, game->hori_rays[w].max_y))
 				game->win.set_pixel(&game->win, w, h, color);
 			w++;
 		}
@@ -141,10 +141,10 @@ void	raycasting_horizontal(t_game *game)
 		int lineHeight = (int)(h / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		game->hori_rays[x].min_x = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
-		if(game->hori_rays[x].min_x < 0) game->hori_rays[x].min_x = 0;
-		game->hori_rays[x].max_x = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
-		if(game->hori_rays[x].max_x >= h) game->hori_rays[x].max_x = h - 1;
+		game->hori_rays[x].min_y = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
+		if(game->hori_rays[x].min_y < 0) game->hori_rays[x].min_y = 0;
+		game->hori_rays[x].max_y = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
+		if(game->hori_rays[x].max_y >= h) game->hori_rays[x].max_y = h - 1;
 
 		//choose wall color
 		

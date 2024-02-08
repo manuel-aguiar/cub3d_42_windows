@@ -30,12 +30,13 @@ void	dda_visible(t_game *game)
 	float		cur_dist;
 	player_in_map = (t_vector){(float)((int)game->player.map_posi.x), (float)((int)game->player.map_posi.y)};
 	ray_start = game->player.map_posi;
-	ft_memset(game->visible, 0, game->map.width * game->map.height * sizeof(*game->visible));
+	//ft_memset(game->visible, 0, game->map.width * game->map.height * sizeof(*game->visible));
 	//printf("memset done\n");
-	game->visible[(int)player_in_map.x + game->map.width * (int)player_in_map.y] = true;
+	//game->visible[(int)player_in_map.x + game->map.width * (int)player_in_map.y] = true;
 	t_vector direction;
 	int side;
-
+	game->minmax_hori = game->win.height;
+	game->maxmin_hori = 0;
 	x = 0;
 	while (x < w)
 	{
@@ -109,12 +110,12 @@ void	dda_visible(t_game *game)
 				//printf("dda break \n");
 				hit = 1;
 			}
-			else
-			{
-				//printf("setting %d, %d to visible\n",(int)player_in_map.x, (int)player_in_map.y);
-				game->visible[(int)player_in_map.x + game->map.width * (int)player_in_map.y] = true;
-				//printf("done\n");
-			}
+			//else
+			//{
+			//	//printf("setting %d, %d to visible\n",(int)player_in_map.x, (int)player_in_map.y);
+			//	game->visible[(int)player_in_map.x + game->map.width * (int)player_in_map.y] = true;
+			//	//printf("done\n");
+			//}
 				
 			loop++;
 		}
@@ -129,11 +130,15 @@ void	dda_visible(t_game *game)
 		int lineHeight = (int)(h / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		game->hori_rays[x].min_x = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
-		if(game->hori_rays[x].min_x < 0) game->hori_rays[x].min_x = 0;
-		game->hori_rays[x].max_x = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
-		if(game->hori_rays[x].max_x >= h) game->hori_rays[x].max_x = h - 1;
+		game->hori_rays[x].min_y = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
+		game->hori_rays[x].min_y = int_clamp(game->hori_rays[x].min_y, 0, h);
+		game->hori_rays[x].max_y = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
+		game->hori_rays[x].max_y = int_clamp(game->hori_rays[x].max_y, 0, h);
 		
+		if (game->hori_rays[x].min_y > game->maxmin_hori)
+			game->maxmin_hori = game->hori_rays[x].min_y;
+		if (game->hori_rays[x].max_y < game->minmax_hori)
+			game->minmax_hori = game->hori_rays[x].max_y;
 		//choose wall color
 		
 
@@ -185,8 +190,8 @@ void	wallcast_dda_visible(t_game *game)
 		int lineHeight = (int)(h / game->hori_rays[x].perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = game->hori_rays[x].min_x;
-		int drawEnd = game->hori_rays[x].max_x;
+		int drawStart = game->hori_rays[x].min_y;
+		int drawEnd = game->hori_rays[x].max_y;
 
 		double wallX; //where exactly the wall was hit
 		if (game->hori_rays[x].side == 0) wallX = game->player.map_posi.y + game->hori_rays[x].perpWallDist * direction.y;
@@ -260,10 +265,10 @@ void	floorcast_dda_visible(t_game *game)
 	ray_left = vector_add(dir, game->player.plane);
 	ray_right = vector_sub(dir, game->player.plane);
     float posZ = (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h ;
-    int max_height = ft_min(h / 2 + game->player.pitch, h);
     //dda_visible(game);
-    //printf("break\n");
-    while (y < max_height)		//no pitch correction
+    //printf("break\n")
+	//printf("maxmin floor %d\n", game->maxmin_hori);
+    while (y < game->maxmin_hori)		//no pitch correction
     {
       // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
 
@@ -302,8 +307,8 @@ void	floorcast_dda_visible(t_game *game)
         // the cell coord is simply got from the integer parts of floorX and floorY
         int cellX = (int)(floorX);
         int cellY = (int)(floorY);
-		if ((cellX < 0 || cellX > game->map.width ) && (cellY < 0 || cellY > game->map.height))
-			break ;
+		//if ((cellX < 0 || cellX > game->map.width ) && (cellY < 0 || cellY > game->map.height))
+		//	break ;
         // get the texture coordinate from the fractional part
         int tx = ft_abs((int)( floor->width * (floorX - cellX)) % floor->width);
         int ty = ft_abs((int)( floor->height * (floorY - cellY)) % floor->height);
@@ -325,19 +330,21 @@ void	floorcast_dda_visible(t_game *game)
 		//	printf("tx %d, max width %d, ty %d, max height %d\n", tx, floor->width, ty, floor->height);
 		//}
 			
-		if (game->visible[(int)floorX + game->map.width * (int)floorY])
-		    game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * (floor->height - ty - 1) + tx]);
-        //while(x < w && !game->visible[(int)floorY * game->map.width + (int)floorX])
-        //{
-        //    floorX += floorStepX;
-        //    floorY += floorStepY;
-        //    x++;
-        //}
+		//if (!((cellX < 0 || cellX > game->map.width ) || (cellY < 0 || cellY > game->map.height))
+		//&& game->visible[(int)floorX + game->map.width * (int)floorY])
+		game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * (floor->height - ty - 1) + tx]);
+		x++;
+        while(x < w && y > game->hori_rays[x].min_y)
+        {
+            floorX += floorStepX;
+            floorY += floorStepY;
+            x++;
+        }
         //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
         //color = texture[ceilingTexture][texWidth * ty + tx];
         //color = (color >> 1) & 8355711; // make a bit darker
         //buffer[screenHeight - y - 1][x] = color;
-		x++;
+		
       }
 	  //exit(0);
 	  y++;
@@ -348,6 +355,8 @@ void	floorcast_dda_visible(t_game *game)
 	ray_right = vector_sub(dir, game->player.plane);
     float floorZ = (1 - (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod)) * h ;
    // y+=200;
+   y = game->minmax_hori + 1;
+   //printf("minmax ceil %d\n", game->minmax_hori);
     while (y < h)		//no pitch correction
     {
       // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
@@ -388,30 +397,31 @@ void	floorcast_dda_visible(t_game *game)
         // the cell coord is simply got from the integer parts of floorX and floorY
         int cellX = (int)(floorX);
         int cellY = (int)(floorY);
-		if ((cellX < 0 || cellX > game->map.width ) && (cellY < 0 || cellY > game->map.height))
-			break ;
+		//if ((cellX < 0 || cellX > game->map.width ) && (cellY < 0 || cellY > game->map.height))
+		//	break ;
         // get the texture coordinate from the fractional part
         int tx = ft_abs((int)( floor->width * (floorX - cellX)) % floor->width);
         int ty = ft_abs((int)( floor->height * (floorY - cellY)) % floor->height);
-
+		
         floorX -= floorStepX;
         floorY -= floorStepY;
 		
 		//printf("ty %d, width * ty  %d, tx %d, final tex index: %d total size %d color %d\n", ty, floor->width * ty, tx, floor->width * ty + tx, floor->width * floor->height, floor->pixels[floor->width * ty + tx]);
 		
-        if (game->visible[(int)floorX + game->map.width * (int)floorY])
             game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * ty + tx]);
-        //while(x < w && !game->visible[(int)floorY * game->map.width + (int)floorX])
-        //{
-        //    floorX -= floorStepX;
-        //    floorY -= floorStepY;
-        //    x++;
-        //}
+		
+		x++;
+        while(x < w && y < game->hori_rays[x].max_y)
+        {
+            floorX -= floorStepX;
+            floorY -= floorStepY;
+            x++;
+        }
         //ceiling (symmetrical, at screenHeight - y - 1 instead of y)
         //color = texture[ceilingTexture][texWidth * ty + tx];
         //color = (color >> 1) & 8355711; // make a bit darker
         //buffer[screenHeight - y - 1][x] = color;
-		x++;
+		
       }
 	  //exit(0);
 	  y++;

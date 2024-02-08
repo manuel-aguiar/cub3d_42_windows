@@ -22,8 +22,8 @@
 # define MAX_WIN_HEIGHT 1024
 # define MIN_WIN_HEIGHT 480
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1024
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
 # define WIN_NAME "Cub3d\0"
 
 # define RGB_SIZE 4

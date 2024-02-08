@@ -30,8 +30,8 @@
 
 typedef struct s_dda_hor
 {
-	int 	min_x;
-	int 	max_x;
+	int 	min_y;
+	int 	max_y;
 	int		side;
 	float 	perpWallDist;
 }	t_dda_hor;
@@ -47,6 +47,8 @@ typedef struct s_game
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*key_defs;
 	t_dda_hor	*hori_rays;		//apagar eventualmente
+	int			maxmin_hori;
+	int			minmax_hori;
 	bool		*visible;
 	t_xpm_tex	*tex[NUM_TEX];
 }	t_game;

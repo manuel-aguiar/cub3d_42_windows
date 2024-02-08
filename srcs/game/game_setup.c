@@ -104,7 +104,7 @@ int		game_start(t_game *game, char *game_config)
 	new_win_init_window(&game->win);
 	game_setup_keys(game);
 	game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
-	game->visible = malloc(sizeof(*game->visible) * game->map.width * game->map.height);
+	//game->visible = malloc(sizeof(*game->visible) * game->map.width * game->map.height);
 	game->tex[SO_TEX] = xpm_to_tex(g_north, TEX_REGULAR);
 	game->tex[NO_TEX] = xpm_to_tex(g_north, TEX_TRANSPOSED);
 
