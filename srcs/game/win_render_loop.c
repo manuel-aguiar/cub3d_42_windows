@@ -70,7 +70,7 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		game_render(game);
 
 		
-		printf("after redner\n");
+		//printf("after redner\n");
 
 		glClear(GL_COLOR_BUFFER_BIT);
 		//fps_calc_print(&win->fps);

@@ -231,7 +231,7 @@ void	wallcast_dda_visible(t_game *game)
 			//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
 			//}
 			int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-			color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist);
+			color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 			game->win.set_pixel(&game->win, x, y, color);
 			y++;
 		}
@@ -334,9 +334,14 @@ void	floorcast_dda_visible(t_game *game)
 			
 		//if (!((cellX < 0 || cellX > game->map.width ) || (cellY < 0 || cellY > game->map.height))
 		//&& game->visible[(int)floorX + game->map.width * (int)floorY])
-
+		//if (x == 400)
+		//	printf("x %d, rowDistance %.3f, shade %.3f\n", x,   rowDistance,  rowDistance / game->max_vis_dist);
+		//if (y == 250)
+		//{
+		//	printf("x %d, rowDistance %.3f, shade %.3f\n", x,   rowDistance,  rowDistance / game->max_vis_dist);
+		//}
 		int color = floor->pixels[floor->width * (floor->height - ty - 1) + tx];
-		color = add_shade(color, rowDistance / game->max_vis_dist);
+		color = add_shade(color, ft_fabs(rowDistance / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len));
 
 		game->win.set_pixel(&game->win, x, y, color);
 
@@ -353,6 +358,7 @@ void	floorcast_dda_visible(t_game *game)
         //buffer[screenHeight - y - 1][x] = color;
 		
       }
+
 	  //exit(0);
 	  y++;
     }
@@ -415,8 +421,9 @@ void	floorcast_dda_visible(t_game *game)
 		
 		//printf("ty %d, width * ty  %d, tx %d, final tex index: %d total size %d color %d\n", ty, floor->width * ty, tx, floor->width * ty + tx, floor->width * floor->height, floor->pixels[floor->width * ty + tx]);
 		
+		
 		int color = floor->pixels[floor->width * ty + tx];
-		color = add_shade(color, rowDistance / game->max_vis_dist);
+		color = add_shade(color, rowDistance / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 
         game->win.set_pixel(&game->win, x, y, color);
 		
@@ -433,6 +440,7 @@ void	floorcast_dda_visible(t_game *game)
         //buffer[screenHeight - y - 1][x] = color;
 		
       }
+
 	  //exit(0);
 	  y++;
     }
