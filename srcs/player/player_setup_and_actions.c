@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "player.h"
+# include "game.h"
 
 void    player_setup(t_player *player)
 {
@@ -20,10 +20,14 @@ void    player_setup(t_player *player)
 	player->plane = vector_multi((t_vector){player->sin_rad, -player->cos_rad}, player->cur_fov);
 }
 
-void	player_actions(t_player *player)
+void	player_actions(t_game *game)
 {
+		t_player *player;
+
+		player = &game->player;
 		player_change_aim(player);
 		player_change_stance(player);
 		player_jump_gravity(player);
 		player_walk_height(player);
+		player_rotate_and_pitch(game);
 }

@@ -101,7 +101,11 @@ void    apply_all_settings(t_game *game)
     game->player.walk_z_mod = 0;
     game->player.walk_sway_mod = 0;
 
-
+    game->player.verti_angle = PITCH_ANGLE_BASE;
+    game->player.verti_tan = 0;
+    game->player.verti_min = PITCH_ANGLE_MIN;
+    game->player.verti_max = PITCH_ANGLE_MAX;
+    game->player.verti_sense = VERTI_SENSE;
     // setting default keys;
 
 }

@@ -97,5 +97,7 @@ void	raycasting_horizontal(t_game *game);
 void	xpm_to_window(t_win_glfw *win, t_xpm_tex *tex, t_pixel corner, int pixel_wid, int pixel_hgt);
 void	xpm_tex_translate(t_xpm_tex *tex);
 
+void	player_actions(t_game *game);
+void	player_rotate_and_pitch(t_game *game);
 
 #endif

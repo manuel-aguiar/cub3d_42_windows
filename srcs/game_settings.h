@@ -102,4 +102,10 @@
 # define PLAY_SPRINT_ROT_MULTI 0.7f
 
 
+# define PITCH_ANGLE_BASE 0
+# define PITCH_ANGLE_MIN -1.0f
+# define PITCH_ANGLE_MAX 1.0f
+# define VERTI_SENSE 0.0002f
+
+
 #endif

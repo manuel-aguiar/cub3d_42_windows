@@ -65,6 +65,14 @@ typedef struct s_player
 	int				pitch;
 	
 	float			angle;
+
+	float			verti_angle;
+	float			verti_min;
+	float			verti_max;
+	float			verti_tan;
+	float			verti_sense;
+
+
 	float			cos_rad;
 	float			sin_rad;
 	float			unit_size;
@@ -142,7 +150,6 @@ void	player_jump_gravity(t_player *player);
 void	player_walk_height(t_player *player);
 void	player_rotate(t_player *player);
 
-void	player_actions(t_player *player);
 
 
 #endif
