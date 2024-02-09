@@ -16,9 +16,11 @@ void	player_start_timers(t_player *player)
 {
 	int i;
 
+	printf("entered timers\n");
 	i = 0;
 	while (i < CLOCK_SIZE)
 	{
+		player->timer[i] = (t_clock){};
 		ftime(&player->timer[i].start);
 		i++;
 	}
@@ -33,5 +35,10 @@ void	player_get_timer(t_player *player, e_clocks timer)
 	+ (player->timer[timer].end.millitm - player->timer[timer].start.millitm));
 	player->timer[timer].start = player->timer[timer].end;
 	if (timer == CLOCK_MOVE)
-		printf("fps: %u\n", (size_t)(1000 / player->timer[CLOCK_MOVE].elapsed));
+	{
+		if (player->timer[CLOCK_MOVE].elapsed == 0)
+			printf("fps infinite...? xD\n");
+		else
+			printf("fps: %d\n", (int)(1000 / player->timer[CLOCK_MOVE].elapsed));
+	}
 }

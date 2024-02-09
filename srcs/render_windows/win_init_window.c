@@ -12,7 +12,7 @@
 
 # include "render_windows.h"
 
-int	new_win_init_window(t_win_glfw *win)
+int	win_init_window(t_win_glfw *win)
 {
 	if (!win)
 		return (perror_msg_int("malloc", 0));

@@ -23,9 +23,14 @@ void		game_render(t_game *game)
 
 	//player_start_timers(&game->player);
 	//xpm_to_window(&game->win, game->tex[NO_TEX], first, game->tex[NO_TEX]->width, game->tex[NO_TEX]->height);
+	//printf("dda visible next\n");
 	dda_visible(game);
+	//super_debug_print(game);
 	floorcast_dda_visible(game);
 	wallcast_dda_visible(game);
+	
+
+	//exit(0);
 	//floorcast(game);
 	//wallcast(game);
 	render_compass(&game->win, &game->compass);

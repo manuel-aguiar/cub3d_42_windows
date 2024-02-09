@@ -62,7 +62,7 @@ struct s_win_glfw
 
 
 //win_init_window.c
-t_win_glfw	*win_init_window(void);
+int			win_init_window(t_win_glfw *win);
 int			free_win_glfw(t_win_glfw *win);
 
 //win_keys.c

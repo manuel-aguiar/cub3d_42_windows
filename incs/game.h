@@ -105,4 +105,9 @@ void    move_player(t_game *game, int keys);
 //shader.c
 int	add_shade(int color, float perc);
 
+
+//super_debug_print.c
+void	super_debug_print(t_game *game);
+
+
 #endif

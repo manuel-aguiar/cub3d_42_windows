@@ -69,7 +69,8 @@ SRC_GAME			=	win_render_loop.c		\
 						render_inside_compass.c		\
 						render_outside_compass.c	\
 						map_player_collisions.c		\
-						xpm_to_window.c
+						xpm_to_window.c				\
+						super_debug_print.c
 						
 
 SRC_PLAYER			=	player_setup_and_actions.c	\

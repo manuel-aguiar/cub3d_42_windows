@@ -78,9 +78,6 @@ void		game_find_player_set_angles(t_game *game)
 	game->player.map_posi.y = (float)map_row(&game->map, i) + 0.5f;
 	game_starting_angle(game, game->map.map[i]);
 }
-
-int	new_win_init_window(t_win_glfw *win);
-
 // GLOBALS NEEDED BY GLFW
 
 
@@ -97,7 +94,7 @@ int		game_start(t_game *game, char *game_config)
 	apply_all_settings(game);
 	compass_setup(&game->compass);
 	player_setup(&game->player);
-	new_win_init_window(&game->win);
+	win_init_window(&game->win);
 	game_setup_keys(game);
 	game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
 	//game->visible = malloc(sizeof(*game->visible) * game->map.width * game->map.height);
@@ -107,8 +104,6 @@ int		game_start(t_game *game, char *game_config)
 	game->tex[F_TEX] = xpm_to_tex(g_north, TEX_REGULAR);
 	game->tex[C_TEX] = xpm_to_tex(g_north, TEX_REGULAR);
 
-	printf("ready to render\n");
-	//xpm_tex_transpose(game->teste);
 	return (1);
 }
 

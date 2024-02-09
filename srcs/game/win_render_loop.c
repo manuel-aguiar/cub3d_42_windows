@@ -54,7 +54,6 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		player_actions(game);
 
 
-
 		//player_jump_cur_z(&game->player);
 		game_key_manager(game);
 		game_mouse_manager(game);
@@ -71,7 +70,7 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		game_render(game);
 
 		
-
+		printf("after redner\n");
 
 		glClear(GL_COLOR_BUFFER_BIT);
 		//fps_calc_print(&win->fps);
