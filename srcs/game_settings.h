@@ -107,7 +107,7 @@
 # define PITCH_ANGLE_MAX 1.0f
 # define VERTI_SENSE 0.0002f
 
-# define MAX_VISIBLE_DISTANCE 10.0f
+# define MAX_VISIBLE_DISTANCE 5.0f
 
 
 #endif

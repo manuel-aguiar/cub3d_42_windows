@@ -128,7 +128,7 @@ void	dda_visible(t_game *game)
 		//printf("perpwalldist %.3f\n", perpWallDist);
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(h / perpWallDist);
-
+		game->hori_rays[x].line_height = lineHeight;
 		//calculate lowest and highest pixel to fill in current stripe
 		game->hori_rays[x].min_y = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
 		game->hori_rays[x].min_y = int_clamp(game->hori_rays[x].min_y, 0, h);
@@ -339,6 +339,7 @@ void	floorcast_dda_visible(t_game *game)
 		color = add_shade(color, rowDistance / game->max_vis_dist);
 
 		game->win.set_pixel(&game->win, x, y, color);
+
 		x++;
         while(x < w && y >= game->hori_rays[x].min_y)
         {
@@ -417,7 +418,7 @@ void	floorcast_dda_visible(t_game *game)
 		int color = floor->pixels[floor->width * ty + tx];
 		color = add_shade(color, rowDistance / game->max_vis_dist);
 
-            game->win.set_pixel(&game->win, x, y, floor->pixels[floor->width * ty + tx]);
+        game->win.set_pixel(&game->win, x, y, color);
 		
 		x++;
         while(x < w && y <= game->hori_rays[x].max_y)

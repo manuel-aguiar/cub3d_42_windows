@@ -18,8 +18,8 @@ int	add_shade(int color, float perc)
 {
 	if (perc > 1)
 		return (0);
-	return (rgba((int)(rgb_r(color) * perc), \
-	(int)(rgb_g(color) * perc), \
-	(int)(rgb_b(color) * perc), \
+	return (rgba((int)(rgb_r(color) * ( 1 - perc)), \
+	(int)(rgb_g(color) * ( 1 - perc)), \
+	(int)(rgb_b(color) * ( 1 - perc)), \
 	rgb_a(color)));
 }

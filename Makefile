@@ -125,7 +125,6 @@ SRC_PIXEL_POINT		=	gamma_correction.c				\
 
 SRC_RAYCASTING		=	vector.c					\
 						raycasting.c				\
-						dda_hori.c					\
 						wallcast.c					\
 						floorcast.c					\
 						dda_visible.c				\
