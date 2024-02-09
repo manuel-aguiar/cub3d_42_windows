@@ -31,14 +31,16 @@ used on defining character movement
 */
 # define P_SQRT_OF_TWO_OVER_TWO 0.7071067f
 
-enum e_clocks
+typedef struct s_player t_player;
+
+typedef enum 
 {
 	CLOCK_MOVE,
 	CLOCK_AIM,
 	CLOCK_JUMP,
 	CLOCK_CROUCH,
 	CLOCK_SIZE,
-};
+}	e_clocks;
 
 enum e_controls
 {
@@ -134,6 +136,7 @@ typedef struct s_player
 	float			walk_z_mod;
 	float			walk_sway_mod;
 
+	t_vector		(*move[16])(t_player *);
 
 	t_clock 		timer[CLOCK_SIZE];
 }   t_player;
@@ -144,12 +147,22 @@ void	render_player(t_win_glfw *win, t_player *player);
 
 
 void	player_change_aim(t_player *player);
-void	player_get_timer(t_player *player, int timer);
 void    player_change_stance(t_player *player);
 void	player_jump_gravity(t_player *player);
 void	player_walk_height(t_player *player);
 void	player_rotate(t_player *player);
 
+void	player_get_timer(t_player *player, e_clocks timer);
+void	player_start_timers(t_player *player);
 
+t_vector	move_player_default(t_player *player);
+t_vector    move_player_back_left(t_player *player);
+t_vector    move_player_back_right(t_player *player);
+t_vector    move_player_for_left(t_player *player);
+t_vector    move_player_for_right(t_player *player);
+t_vector    move_player_left(t_player *player);
+t_vector    move_player_right(t_player *player);
+t_vector    move_player_backward(t_player *player);
+t_vector    move_player_forward(t_player *player);
 
 #endif

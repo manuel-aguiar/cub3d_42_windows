@@ -82,11 +82,7 @@ void		game_find_player_set_angles(t_game *game)
 int	new_win_init_window(t_win_glfw *win);
 
 // GLOBALS NEEDED BY GLFW
-void	player_start_timers(t_player *player);
-void	player_get_timer(t_player *player, int timer);
 
-t_xpm_tex	*xpm_to_tex_rbtree_transposed(char *xpm[]);
-t_xpm_tex	*xpm_to_tex_rbtree_mpool_transposed(char *xpm[]);
 
 
 extern char *g_coisas[];

@@ -34,6 +34,7 @@ typedef struct s_dda_hor
 	int 	max_y;
 	int		side;
 	float 	perpWallDist;
+	int		line_height;
 }	t_dda_hor;
 
 typedef struct s_game
@@ -46,10 +47,10 @@ typedef struct s_game
 	t_mouse		*mouse;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*key_defs;
-	t_dda_hor	*hori_rays;		//apagar eventualmente
+	t_dda_hor	*hori_rays;
 	int			maxmin_hori;
 	int			minmax_hori;
-	bool		*visible;
+	float		max_vis_dist;
 	t_xpm_tex	*tex[NUM_TEX];
 }	t_game;
 
@@ -73,7 +74,6 @@ float	radian_truncate(float radian);
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)());
 
 //player....
-void    move_player(t_game *game, bool w, bool s, bool a, bool d);
 void	handle_collisions(t_game *game, t_vector potencial);
 
 void	render_map_outside_compass(t_game *game);
@@ -99,5 +99,10 @@ void	xpm_tex_translate(t_xpm_tex *tex);
 
 void	player_actions(t_game *game);
 void	player_rotate_and_pitch(t_game *game);
+
+void    move_player(t_game *game, int keys);
+
+//shader.c
+int	add_shade(int color, float perc);
 
 #endif

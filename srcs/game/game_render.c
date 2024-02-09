@@ -12,10 +12,6 @@
 
 # include "game.h"
 
-void	raycasting(t_game *game);
-
-void	player_start_timers(t_player *player);
-void	player_get_timer(t_player *player, int timer);
 
 void	dda_visible(t_game *game);
 void	wallcast_dda_visible(t_game *game);

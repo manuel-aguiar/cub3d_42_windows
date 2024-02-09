@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_game.c                                        :+:      :+:    :+:   */
+/*   shader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 12:01:40 by marvin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:01:40 by marvin           ###   ########.fr       */
+/*   Created: 2024/02/09 19:27:45 by marvin            #+#    #+#             */
+/*   Updated: 2024/02/09 19:27:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-void	free_game(t_game *game)
+//too distance return 0, can use to reduce rendering times of floor and ceiling and even walls
+
+int	add_shade(int color, float perc)
 {
-	int i;
-	free_win_glfw(&game->win);
-	free_compass(&game->compass);
-	free_map(&game->map);
-	i = 0;
-	while (i < NUM_TEX)
-	{
-		if (game->tex[i])
-			xpm_tex_free(game->tex[i]);
-		i++;
-	}
+	if (perc > 1)
+		return (0);
+	return (rgba((int)(rgb_r(color) * perc), \
+	(int)(rgb_g(color) * perc), \
+	(int)(rgb_b(color) * perc), \
+	rgb_a(color)));
 }

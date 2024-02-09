@@ -12,6 +12,16 @@
 
 #include "game.h"
 
+
+
+
+
+t_vector	move_player_default(t_player *player)
+{
+	(void)player;
+	return((t_vector){0, 0});
+}
+
 t_vector    move_player_back_left(t_player *player)
 {
 	t_vector diagonal;
@@ -93,7 +103,7 @@ t_vector    move_player_forward(t_player *player)
 }
 
 
-void    move_player(t_game *game, bool w, bool s, bool a, bool d)
+void    move_player(t_game *game, int keys)
 {
 	t_player 	*player;
 	t_vector	potencial;
@@ -102,7 +112,7 @@ void    move_player(t_game *game, bool w, bool s, bool a, bool d)
 	player->cur_move_multi = player->move_multi[player->hgt_state];
 	if (player->is_aiming)
 		player->cur_move_multi *= player->aim_move_multi;
-	if (!w && !s && !a && !d)
+	if (!keys || keys ==3 || keys == 12 || keys ==15)
 	{
 		player->is_walking = false;
 		return ;
@@ -112,28 +122,7 @@ void    move_player(t_game *game, bool w, bool s, bool a, bool d)
 		player->cur_walk_sense = 0;
 	}
 	player->is_walking = true;
-	if (w && !s)
-	{
-		if (a && !d)
-			potencial = move_player_for_left(player);
-		else if (d && !a)
-			potencial = move_player_for_right(player);
-		else
-			potencial = move_player_forward(player);
-	}
-	else if (s && !w)
-	{
-		if (a && !d)
-			potencial = move_player_back_left(player);
-		else if (d && !a)
-			potencial = move_player_back_right(player);
-		else
-			potencial = move_player_backward(player);        
-	}
-	else if (a && !d)
-		potencial = move_player_left(player);
-	else if (d && !a)
-		potencial = move_player_right(player);
+	potencial = player->move[keys](player);
 	//player->map_posi = vector_add(player->map_posi, potencial);
 	handle_collisions(game, potencial);
 }

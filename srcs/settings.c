@@ -108,4 +108,6 @@ void    apply_all_settings(t_game *game)
     game->player.verti_sense = VERTI_SENSE;
     // setting default keys;
 
+    game->max_vis_dist = MAX_VISIBLE_DISTANCE;
+
 }

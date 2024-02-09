@@ -12,19 +12,14 @@
 
 # include "game.h"
 
-void	player_set_timer(t_player * player, int timer)
-{
-	if (timer > CLOCK_SIZE)
-		return ;
-	ftime(&player->timer[timer].start);
-}
-
 void	game_key_manager(t_game *game)
 {
 	int keys;
+	int move;
 
 	keys = *game->keys;
-	move_player(game, (keys >> BIT_FRONT) & 1, (keys >> BIT_BACK) & 1, (keys >> BIT_LEFT) & 1, (keys >> BIT_RIGHT) & 1);
+	move =  (((keys >> BIT_FRONT) & 1) << 3) | (((keys >> BIT_BACK) & 1) << 2) | (((keys >> BIT_LEFT) & 1) << 1) | (((keys >> BIT_RIGHT) & 1));
+	move_player(game, move);
 
 	int	new_height_state;
 	new_height_state = -1;
@@ -81,6 +76,6 @@ void	game_key_manager(t_game *game)
 
 
 
-	game->player.is_sprinting = ((keys >> BIT_SPRINT) & 1) && !game->player.is_aiming;
+	game->player.is_sprinting = ((keys >> BIT_SPRINT) & 1) && !game->player.is_aiming && move == (((keys >> BIT_FRONT) & 1) << 3);
 
 }

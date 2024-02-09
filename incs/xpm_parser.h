@@ -58,6 +58,6 @@ extern char *g_west[];
 
 t_xpm_tex	*xpm_to_tex(char *xpm[], e_tex_type tex_type);
 int			xpm_tex_copy_transpose(t_xpm_tex *tex);
+void		xpm_tex_free(t_xpm_tex *tex);
 
 #endif
-

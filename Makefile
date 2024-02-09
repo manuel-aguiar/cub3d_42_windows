@@ -78,7 +78,8 @@ SRC_PLAYER			=	player_setup_and_actions.c	\
 						player_crouch_prone.c		\
 						player_walk_height.c		\
 						player_rotate.c				\
-						player_jump.c
+						player_jump.c				\
+						player_timer.c
 
 SRC_PARSING			=	parsing.c				\
 						textures.c				\
@@ -87,7 +88,8 @@ SRC_PARSING			=	parsing.c				\
 SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_textures.c				\
 						rubens_dementor.c			\
-						xpm_teste.c	
+						xpm_teste.c					\
+						xpm_free.c
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 						clamp.c							\
@@ -126,7 +128,8 @@ SRC_RAYCASTING		=	vector.c					\
 						dda_hori.c					\
 						wallcast.c					\
 						floorcast.c					\
-						dda_visible.c
+						dda_visible.c				\
+						shader.c
 
 
 ## AGGREGATING FILES ##
