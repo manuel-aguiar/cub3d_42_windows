@@ -94,6 +94,7 @@ SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_mario.c					\
 						xpm_items.c					\
 						xpm_gun.c					\
+						xpm_door.c					\
 						xpm_teste.c					\
 						xpm_free.c
 

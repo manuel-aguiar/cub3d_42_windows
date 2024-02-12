@@ -21,13 +21,11 @@ void	dda_visible(t_game *game)
 	t_vector 	plane = game->player.plane;
 	int		x;
 
-	t_vector	res;
 	t_vector	ray_start;
 	t_vector	ray_first;
 	t_vector	ray_step;
 	t_vector	axis_move;
 	t_vector	player_in_map;
-	float		cur_dist;
 	player_in_map = (t_vector){(float)((int)game->player.map_posi.x), (float)((int)game->player.map_posi.y)};
 	ray_start = game->player.map_posi;
 	//ft_memset(game->visible, 0, game->map.width * game->map.height * sizeof(*game->visible));
@@ -80,23 +78,19 @@ void	dda_visible(t_game *game)
 			axis_move.y = 1;
 			ray_first.y = ((player_in_map.y + 1) - ray_start.y) * ray_step.y;
 		}
-		cur_dist = 0;
-		int hit = 0;
 		int loop = 0;
-		while (!hit)
+		while (1)
 		{
 			//printf("ray first at (%.3f, %.3f)\n", ray_first.x, ray_first.y);
 			if (ray_first.x < ray_first.y)
 			{
 				player_in_map.x += axis_move.x;
-				cur_dist += ray_first.x;
 				ray_first.x += ray_step.x;
 				side = 0;
 			}
 			else
 			{
 				player_in_map.y += axis_move.y;
-				cur_dist += ray_first.y;
 				ray_first.y += ray_step.y;
 				side = 1;
 			}
@@ -104,11 +98,9 @@ void	dda_visible(t_game *game)
 
 			if (game->map.map[(int)player_in_map.x + (int)player_in_map.y * game->map.width] == '1')
 			{
-				res = vector_multi(direction, cur_dist);
-				(void)res;
 				//printf("wall hit at (%.3f, %.3f), column %d\n", ray_first.x - game->player.map_posi.x, ray_first.y - game->player.map_posi.y, x);
 				//printf("dda break \n");
-				hit = 1;
+				break ;
 			}
 			//else
 			//{

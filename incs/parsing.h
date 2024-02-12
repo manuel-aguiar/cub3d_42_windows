@@ -24,7 +24,7 @@
 
 # define TOTAL_TEXTURES 6
 
-# define VALID_MAP_CHARS "01NSWEMAZX "
+# define VALID_MAP_CHARS "01NSWEMAZXDT "
 
 # define VALID_DIR_CHARS "NSWE"
 
@@ -48,6 +48,7 @@ typedef	enum
 	BULLET_TEX,
 	GUN_TEX,
 	EXIT_TEX,
+	DOOR_TEX,
 	NUM_TEX,
 }	e_textures;
 

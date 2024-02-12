@@ -97,20 +97,28 @@ void	sprite_cast(t_game *game)
 				(void)texX;
 				(void)texY;
 				(void)tex;
-				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)]; //get current color from the texture
+
+				int color = tex->pixels[(tex->height - texY - 1) * tex->width + texX]; //get current color from the texture
+				//if (game->sprites[i].type == MEDIKIT)
+				//{
+				//	printf("x %d y %d, color %d, width %d height %d, index %d len %d\n", 
+				//	texX, texY , color,tex->width, tex->height, texY * tex->width + (tex->width - texX - 1), tex->width* tex->height );
+				//}
+				
 				//int color = rgba(0,0,255,255);
 				if (color != 255)
 				{
 					color = add_shade(color, transform.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 					game->win.set_pixel(&game->win, x, y, color);
 				}
-				
+
 				}
 			}
 			//else
 			//	printf("not visible\n");
       	}
-
+				//if (game->sprites[i].type == MEDIKIT)
+				//	exit(0);
 		i++;
 	}
 }

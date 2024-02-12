@@ -12,7 +12,7 @@
 
 # include "xpm_parser.h"
 
-char *g_yayaya[] = {
+char *g_north[] = {
 "70 11 2 1",
 "  c #000033",
 ". c #000077",
@@ -46,7 +46,7 @@ char *g_coisas[] = {
 "           ",
 };
 
-char *g_outras_cenas[] = {
+char *g_yayaya[] = {
 "18 11 2 1",
 "  c #003300",
 ". c #AAAA00",
@@ -63,7 +63,7 @@ char *g_outras_cenas[] = {
 "                  ",
 };
 
-char *g_mais_coisas[] = {
+char *g_south[] = {
 "70 11 2 1",
 "  c #003300",
 ". c #AAAA00",
@@ -104,18 +104,18 @@ char *g_west[] = {
 "                                                                      ",
 "                                                                      ",
 "                                                                      ",
-"   .       .    . . . . .      . . . ..    . . . . .                  ",
-"   . .     .    .              .              .                       ",
-"   .   .   .    . . . . .        .            .                       ",
-"   .     . .    .                 .          .                        ",
-"   .       .    . . . . .     . . .  .       .                        ",
+"   .                       .     . . . . .      . . . ..    . . . . . ",
+"     .                   .       .              .              .      ",
+"       .       .       .         . . . . .        .            .      ",
+"         .   .   .   .           .                 .          .       ",
+"           .       .             . . . . .     . . .  .       .       ",
 "                                                                      ",
 "                                                                      ",
 "                                                                      ",
 };
 
 /* XPM */
-char *g_north[] = {
+char *g_margarida[] = {
 /* columns rows colors chars-per-pixel */
 "1000 571 256 2 ",
 "   c #010101",

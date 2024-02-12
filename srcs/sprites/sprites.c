@@ -25,6 +25,23 @@
 	float				width;
 	e_textures			tex;
 */
+static void			extract_door(t_map *map, t_sprite *sprite, int place, int map_index)
+{
+	sprite[place] = (t_sprite){};
+	sprite[place].type = DOOR;
+	sprite[place].status = NOT_VIS;
+	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
+	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
+	sprite[place].base_z = DOOR_Z;
+	sprite[place].cur_z = DOOR_Z;
+	sprite[place].z_sense = DOOR_Z_SENSE;
+	sprite[place].unit_size = DOOR_UNIT;
+	sprite[place].height = DOOR_HGT;
+	sprite[place].width = DOOR_WDT;
+	sprite[place].resource = DOOR_RESOURCE;
+	sprite[place].dist = FLT_MAX;
+	sprite[place].tex = DOOR_TEX;
+}
 
 static void			extract_exit(t_map *map, t_sprite *sprite, int place, int map_index)
 {
@@ -33,13 +50,13 @@ static void			extract_exit(t_map *map, t_sprite *sprite, int place, int map_inde
 	sprite[place].status = NOT_VIS;
 	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
 	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite[place].base_z = AMMO_Z;
-	sprite[place].cur_z = AMMO_Z;
-	sprite[place].z_sense = AMMO_Z_SENSE;
-	sprite[place].unit_size = AMMO_UNIT;
-	sprite[place].height = AMMO_HGT;
-	sprite[place].width = AMMO_WDT;
-	sprite[place].resource = AMMO_RESOURCE;
+	sprite[place].base_z = EXIT_Z;
+	sprite[place].cur_z = EXIT_Z;
+	sprite[place].z_sense = EXIT_Z_SENSE;
+	sprite[place].unit_size = EXIT_UNIT;
+	sprite[place].height = EXIT_HGT;
+	sprite[place].width = EXIT_WDT;
+	sprite[place].resource = EXIT_RESOURCE;
 	sprite[place].dist = FLT_MAX;
 	sprite[place].tex = EXIT_TEX;
 }
@@ -51,13 +68,13 @@ static void			extract_enemy(t_map *map, t_sprite *sprite, int place, int map_ind
 	sprite[place].status = NOT_VIS;
 	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
 	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite[place].base_z = AMMO_Z;
-	sprite[place].cur_z = AMMO_Z;
-	sprite[place].z_sense = AMMO_Z_SENSE;
-	sprite[place].unit_size = AMMO_UNIT;
-	sprite[place].height = AMMO_HGT;
-	sprite[place].width = AMMO_WDT;
-	sprite[place].resource = AMMO_RESOURCE;
+	sprite[place].base_z = ENEMY_Z;
+	sprite[place].cur_z = ENEMY_Z;
+	sprite[place].z_sense = ENEMY_Z_SENSE;
+	sprite[place].unit_size = ENEMY_UNIT;
+	sprite[place].height = ENEMY_HGT;
+	sprite[place].width = ENEMY_WDT;
+	sprite[place].resource = ENEMY_RESOURCE;
 	sprite[place].dist = FLT_MAX;
 	sprite[place].tex = ENEMY_TEX;
 }
@@ -107,7 +124,7 @@ void		extract_sprites(t_map *map, t_sprite *sprite, int count)
 	cur = 0;
 	while (cur < count)
 	{
-		while ((map->map[i] != MAP_MEDI && map->map[i] != MAP_AMMO && map->map[i] != MAP_ENEMY && map->map[i] != MAP_EXIT))
+		while ((map->map[i] != MAP_MEDI && map->map[i] != MAP_AMMO && map->map[i] != MAP_ENEMY && map->map[i] != MAP_EXIT && map->map[i] != MAP_DOOR))
 			i++;
 		if (map->map[i] == MAP_MEDI)
 			extract_medi(map, sprite, cur, i);
@@ -117,6 +134,8 @@ void		extract_sprites(t_map *map, t_sprite *sprite, int count)
 			extract_enemy(map, sprite, cur, i);
 		else if (map->map[i] == MAP_EXIT)
 			extract_exit(map, sprite, cur, i);
+		else if (map->map[i] == MAP_DOOR)
+			extract_door(map, sprite, cur, i);
 		i++;
 		cur++;
 	}
@@ -132,7 +151,7 @@ int		setup_sprites(t_map *map, t_sprite **place_arr, int *place_count)
 	count = 0;
 	while (i < map->len)
 	{
-		if (map->map[i] == MAP_MEDI || map->map[i] == MAP_AMMO || map->map[i] == MAP_ENEMY || map->map[i] == MAP_EXIT)
+		if (map->map[i] == MAP_MEDI || map->map[i] == MAP_AMMO || map->map[i] == MAP_ENEMY || map->map[i] == MAP_EXIT || map->map[i] == MAP_DOOR)
 			count++;
 		i++;
 	}

@@ -25,7 +25,7 @@ void	wallcast_dda_visible(t_game *game)
 
 
 	t_vector direction;
-
+	t_xpm_tex *tex;
 	x = 0;
 	while (x < w)
 	{
@@ -44,16 +44,25 @@ void	wallcast_dda_visible(t_game *game)
 		else           wallX = game->player.map_posi.x + game->hori_rays[x].perpWallDist * direction.x;
 		//if (x == game->win.width / 2)
 		//	printf("prefloor wallX is %.10f\n", wallX);
-		wallX -= floor((wallX));
+		
 		//if (x == game->win.width / 2)
 		//	printf("wallX is %.10f, player map (%.3f,%.3f)\n", wallX, player_in_map.x, player_in_map.y);
 		//x coordinate on the texture
-		t_xpm_tex *tex;
+		
 		if (game->hori_rays[x].side == 0)
-			tex = game->tex[NO_TEX];
+		{
+			tex = game->tex[EA_TEX];
+			if (game->player.map_posi.x + game->hori_rays[x].perpWallDist * direction.x < game->player.map_posi.x)
+				tex = game->tex[WE_TEX];
+		}	
 		else
-			tex = game->tex[SO_TEX];
-
+		{
+			tex = game->tex[NO_TEX];
+			if (game->player.map_posi.y + game->hori_rays[x].perpWallDist * direction.y < game->player.map_posi.y)
+				tex = game->tex[SO_TEX];
+		}
+			
+		wallX -= floor((wallX));
 		int texX = (int)(wallX * (double)(tex->height));
 		//if (x == game->win.width / 2)
 		//	printf("texX is %d\n", texX);
