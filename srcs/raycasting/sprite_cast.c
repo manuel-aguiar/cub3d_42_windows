@@ -73,36 +73,36 @@ void	sprite_cast(t_game *game)
 		if(drawEndY >= h) drawEndY = h - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = abs( (int) (h / (transform.y)));
+		int spriteWidth = abs( (int) (w * game->sprites[i].width / (transform.y)));
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if(drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
 		if(drawEndX >= w) drawEndX = w - 1;
 		//printf("first stripe let's go\n");
-		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+		for(int x = drawStartX; x < drawEndX; x++)
 		{
-			int texX = (int)((stripe - (-spriteWidth / 2 + spriteScreenX)) * tex->width / spriteWidth);
+			int texX = (int)((x - (-spriteWidth / 2 + spriteScreenX)) * tex->width / spriteWidth);
 			//the conditions in the if are:
 			//1) it's in front of camera plane so you don't see things behind you
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if(transform.y > 0 && stripe > 0 && stripe < w && transform.y < game->hori_rays[stripe].perpWallDist)
+			if(transform.y > 0 && x > 0 && x < w && transform.y < game->hori_rays[x].perpWallDist)
 			{
 				//printf("visible\n");
 				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 				{
-				int d = (y) - h + spriteHeight; //256 and 128 factors to avoid floats
+				float d = (y - game->player.pitch + (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + game->sprites[i].height - game->sprites[i].cur_z) * h - h / 2) / transform.y)) - h / 2 + spriteHeight / 2; //256 and 128 factors to avoid floats
 				int texY = ((d * tex->height) / spriteHeight);
 				(void)texX;
 				(void)texY;
 				(void)tex;
-				//int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)]; //get current color from the texture
-				int color = rgba(0,0,255,255);
+				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)]; //get current color from the texture
+				//int color = rgba(0,0,255,255);
 				if (color != 255)
 				{
 					color = add_shade(color, transform.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-					game->win.set_pixel(&game->win, stripe, y, color);
+					game->win.set_pixel(&game->win, x, y, color);
 				}
 				
 				}
