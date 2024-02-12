@@ -15,7 +15,7 @@
 char *g_mario[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 15 1 ",
-"  c black",
+"  c #000000",
 ". c #121218",
 "X c #222222",
 "o c #2E2724",
@@ -29,7 +29,7 @@ char *g_mario[] = {
 "* c #98694F",
 "= c #A9A19A",
 "- c #E0E5E7",
-"; c white",
+"; c #FFFFFF",
 /* pixels */
 "                                                                ",
 "                                                                ",

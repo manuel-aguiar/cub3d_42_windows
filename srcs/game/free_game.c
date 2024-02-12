@@ -18,6 +18,8 @@ void	free_game(t_game *game)
 	free_win_glfw(&game->win);
 	free_compass(&game->compass);
 	free_map(&game->map);
+	free(game->hori_rays);
+	free(game->sprite_index);
 	i = 0;
 	while (i < NUM_TEX)
 	{

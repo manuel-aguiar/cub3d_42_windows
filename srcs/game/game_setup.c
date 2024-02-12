@@ -61,7 +61,7 @@ void		game_find_player_set_angles(t_game *game)
 	i = 0;
 	while (i < game->map.len)
 	{
-		if (char_in_set(game->map.map[i], VALID_STARt_vector))
+		if (char_in_set(game->map.map[i], VALID_DIR_CHARS))
 			break ;
 		i++;
 	}
@@ -85,11 +85,12 @@ int		game_load_textures(t_game *game)
 	game->tex[EA_TEX] = xpm_to_tex(g_north, TEX_REGULAR);
 	game->tex[F_TEX] = xpm_to_tex(g_north, TEX_REGULAR);
 	game->tex[C_TEX] = xpm_to_tex(g_north, TEX_REGULAR);
-	game->tex[MEDI_TEX] = xpm_to_tex(g_medikit, TEX_REGULAR);
-	game->tex[AMMO_TEX] = xpm_to_tex(g_medikit, TEX_REGULAR);
-	game->tex[ENEMY_TEX] = xpm_to_tex(g_mario, TEX_REGULAR);
-	game->tex[BULLET_TEX] = xpm_to_tex(g_mario, TEX_REGULAR);
-	game->tex[GUN_TEX] = xpm_to_tex(g_medikit, TEX_REGULAR);
+	game->tex[MEDI_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
+	game->tex[AMMO_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
+	game->tex[ENEMY_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
+	game->tex[BULLET_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
+	game->tex[GUN_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
+	game->tex[EXIT_TEX] = xpm_to_tex(g_yayaya, TEX_TRANSPOSED);
 	return (1); // check for failures
 }
 
@@ -104,7 +105,8 @@ int		game_start(t_game *game, char *game_config)
 	apply_all_settings(game);
 	compass_setup(&game->compass);
 	player_setup(&game->player);
-	setup_collectibles(&game->map, &game->collect, &game->collect_count);
+	setup_sprites(&game->map, &game->sprites, &game->sprite_count);
+	game->sprite_index = malloc(sizeof(*game->sprite_index) * game->sprite_count);
 	win_init_window(&game->win);
 	game_setup_keys(game);
 	game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);

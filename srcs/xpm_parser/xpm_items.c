@@ -15,7 +15,7 @@
 char *g_medikit[] = {
 /* columns rows colors chars-per-pixel */
 "64 64 24 1 ",
-"  c black",
+"  c #000000",
 ". c #030F1F",
 "X c #08172C",
 "o c #770000",
@@ -34,11 +34,11 @@ char *g_medikit[] = {
 "> c #7B90AB",
 ", c #99ACC6",
 "< c #D3CFCF",
-"1 c gainsboro",
+"1 c #FF0000",
 "2 c #C1CEE0",
 "3 c #EAEAEA",
-"4 c gray95",
-"5 c white",
+"4 c #F9F9F9",
+"5 c #FFFFFF",
 /* pixels */
 "                                                                ",
 "                                                                ",

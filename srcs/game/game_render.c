@@ -13,9 +13,8 @@
 # include "game.h"
 
 
-void	dda_visible(t_game *game);
-void	wallcast_dda_visible(t_game *game);
-void	floorcast_dda_visible(t_game *game);
+
+
 
 void		game_render(t_game *game)
 {
@@ -28,7 +27,7 @@ void		game_render(t_game *game)
 	//super_debug_print(game);
 	floorcast_dda_visible(game);
 	wallcast_dda_visible(game);
-	
+	sprite_cast(game);
 
 	//exit(0);
 	//floorcast(game);

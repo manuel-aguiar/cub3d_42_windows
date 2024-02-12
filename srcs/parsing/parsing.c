@@ -148,7 +148,9 @@ static int	get_texture_index(char *cmp)
 	if (!ft_strncmp(cmp, "BULLET", 7))
 		return (BULLET_TEX);
 	if (!ft_strncmp(cmp, "GUN", 4))
-		return (GUN_TEX);	
+		return (GUN_TEX);
+	if (!ft_strncmp(cmp, "EXIT", 4))
+		return (EXIT_TEX);	
 	return (-1);
 }
 
