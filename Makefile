@@ -36,6 +36,7 @@ DIR_REN_WIN			=	render_windows
 DIR_COMPASS			=	compass
 DIR_DRAWING_ALGOS	= 	drawing_algos
 DIR_PLAYER			=	player
+DIR_COLLECTIBLES	=	collectibles
 DIR_PIXEL_POINT		=	pixel_point
 DIR_RAYCASTING		=	raycasting
 DIR_XPM_PARSER		=	xpm_parser
@@ -43,6 +44,7 @@ DIR_XPM_PARSER		=	xpm_parser
 ## SOURCE FILES ##
 
 INC_FILES		=		game.h				\
+						collectibles.h		\
 						player.h			\
 						vector.h			\
 						parsing.h			\
@@ -89,6 +91,9 @@ SRC_PARSING			=	parsing.c				\
 SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_textures.c				\
 						rubens_dementor.c			\
+						xpm_mario.c					\
+						xpm_items.c					\
+						xpm_gun.c					\
 						xpm_teste.c					\
 						xpm_free.c
 
@@ -131,6 +136,7 @@ SRC_RAYCASTING		=	vector.c					\
 						dda_visible.c				\
 						shader.c
 
+SRC_COLLECTIBLES	=	collectibles.c
 
 ## AGGREGATING FILES ##
 
@@ -147,7 +153,8 @@ SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_PLAYER)/, $(SRC_PLAYER))					\
 					$(addprefix $(SRC_PATH)/$(DIR_RAYCASTING)/, $(SRC_RAYCASTING))					\
 					$(addprefix $(SRC_PATH)/$(DIR_XPM_PARSER)/, $(SRC_XPM_PARSER))					\
-					$(addprefix $(SRC_PATH)/$(DIR_PIXEL_POINT)/, $(SRC_PIXEL_POINT))				
+					$(addprefix $(SRC_PATH)/$(DIR_PIXEL_POINT)/, $(SRC_PIXEL_POINT))				\
+					$(addprefix $(SRC_PATH)/$(DIR_COLLECTIBLES)/, $(SRC_COLLECTIBLES))				
 					
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))
