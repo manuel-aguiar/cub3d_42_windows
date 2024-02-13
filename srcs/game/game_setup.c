@@ -95,7 +95,7 @@ int		game_load_textures(t_game *game)
 	game->tex[BULLET_TEX] = xpm_to_tex(g_mario, TEX_REGULAR);
 	game->tex[GUN_TEX] = xpm_to_tex(g_medikit, TEX_REGULAR);
 	game->tex[EXIT_TEX] = xpm_to_tex(g_south, TEX_REGULAR);
-	game->tex[DOOR_TEX] = xpm_to_tex(g_door, TEX_REGULAR);
+	game->tex[DOOR_TEX] = xpm_to_tex(g_door, TEX_TRANSPOSED);
 	return (1); // check for failures
 }
 

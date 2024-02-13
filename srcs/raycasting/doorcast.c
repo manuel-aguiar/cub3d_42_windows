@@ -69,7 +69,7 @@ void	door_cast(t_game *game)
 	}
 	//print_sorted_sprites(game);
 	//exit(0);
-	tex = game->tex[DOOR_TEX];
+	
 
 	float invDet = 1.0 / (game->player.plane.x * dir.y - game->player.plane.y * dir.x);
 
@@ -117,28 +117,36 @@ void	door_cast(t_game *game)
 			int_swap(&max_startY, &max_endY);
 			vector_swap(&transform_start, &transform_end);
 		}
-
+		tex = game->tex[DOOR_TEX];
 		//calculate width of the sprite
 		int drawStartX = screen_start_x;
 		int drawEndX = screen_end_x;
 		
 		//draw left
-		/*
-		int y = int_clamp(min_startY, 0, h - 1);
-
+		int lineHeight = max_startY - min_startY;
+		double step_y = 1.0f * tex->width / lineHeight;
+		double tex_position_y = 0;
+		int texX = 0;
+		
 		if (drawStartX > 0 && drawStartX < w)
 		{
+			int y = min_startY;
+			while (y++ < int_clamp(min_startY, 0, h - 1))
+				tex_position_y += step_y;
 			while (y < int_clamp(max_startY, 0, h - 1))
 			{
 				float shade = ft_fabs(transform_start.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-				int color = rgba(255,0,0,255);
+				int texY = (int)tex_position_y;
+				tex_position_y += step_y;
+
+				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
 				color = add_shade(color, shade);
 				game->win.set_pixel(&game->win, drawStartX, y, color);
 				y++;
 			}
 		}
-
-
+		(void)drawEndX;
+		/*
 		y = int_clamp(min_endY, 0, h - 1);
 
 		if (drawEndX > 0 && drawEndX < w)
@@ -152,8 +160,8 @@ void	door_cast(t_game *game)
 				y++;
 			}
 		}
-		
 		*/
+		
 		
 		int x_width = drawEndX - drawStartX;
 		
@@ -167,29 +175,56 @@ void	door_cast(t_game *game)
 
 		int save_startX = drawStartX;
 
+		(void)shade_start;
+		(void)shade_end;
+		(void)save_startX;
+
 		int x = drawStartX;
 		float min_y = min_startY;
 		float max_y = max_startY;
+
+		double step_x = 1.0f * tex->height / x_width;
+		double tex_position_x = 0;
+		while (x++ < 0)
+		{
+			tex_position_x += step_x;
+			min_y += delta_min_y;
+			max_y += delta_max_y;
+		}
+			
 		while (x < drawEndX)
 		{
-			int start_y = int_clamp((int)min_y, 0, h - 1);
-			int	end_y = int_clamp((int)max_y, 0, h - 1);
-			float perc = (x - save_startX) / x_width;
+			int texX = (int)tex_position_x;
+			tex_position_x += step_x;
 
-			//float distance = transform_start.y * (1 - perc) + transform_end.y * perc;
-
-			if(x > 0 && x < w && start_y <= game->hori_rays[x].min_y)
+			
+			//float perc = (x - save_startX) / x_width;
+			int start_y = (int)min_y;
+			int	end_y = (int)max_y;
+			int lineHeight = end_y - start_y;
+			if(x > 0 && x < w && lineHeight >= game->hori_rays[x].line_height)
 			//if(x > 0 && x < w && distance > 0 && distance < game->hori_rays[drawStartX].perpWallDist)
 			{
-				while ( start_y < end_y)
+				
+				double step_y = 1.0f * tex->width / lineHeight;
+				double tex_position_y = 0;
+				
+
+				while (start_y++ < 0)
+					tex_position_y += step_y;
+				while (start_y < int_clamp(end_y, 0, h - 1))
 				{
-					//while (y > game->hori_rays[drawStartX].min_y && y < game->hori_rays[drawStartX].max_y)
-					//	y++;
-					int color = rgba(255,0,0,255);
-					
-					float shade = shade_start * (1 - perc) + shade_end * (perc);
-					color = add_shade(color, shade);
-					game->win.set_pixel(&game->win, x, start_y, color);
+					float shade = ft_fabs(transform_start.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+					int texY = (int)tex_position_y;
+					tex_position_y += step_y;
+
+					int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
+					if (color != 255)
+					{
+						color = add_shade(color, shade);
+						game->win.set_pixel(&game->win, x, start_y, color);
+					}
+
 					start_y++;
 				}
 			}
@@ -202,6 +237,7 @@ void	door_cast(t_game *game)
 			x++;
 		}
 		//printf("min max start %d %d, min max end %d %d\n", min_startY, max_startY, min_endY, max_endY);
+		
 		
 		
 		
