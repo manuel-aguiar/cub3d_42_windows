@@ -114,6 +114,39 @@
 
 # define MAX_VISIBLE_DISTANCE 5.0f
 
+//sprite settings
+# define ENEMY_HGT 1.5f
+# define ENEMY_WDT 1.5f
+# define ENEMY_Z ENEMY_HGT / 2 + ENEMY_HGT - 0.5f
+# define ENEMY_UNIT 0.2f
+# define ENEMY_Z_SENSE 0.005f
 
+# define DOOR_HGT 0.2f
+# define DOOR_WDT 0.3f
+# define DOOR_Z DOOR_HGT / 2 - DOOR_HGT + 0.5f
+# define DOOR_UNIT 0.2f
+# define DOOR_Z_SENSE 0.005f
+# define DOOR_RESOURCE 50
+
+# define EXIT_HGT 0.2f
+# define EXIT_WDT 0.3f
+# define EXIT_Z EXIT_HGT / 2 - EXIT_HGT + 0.5f
+# define EXIT_UNIT 0.2f
+# define EXIT_Z_SENSE 0.005f
+# define EXIT_RESOURCE 50
+
+# define MEDI_HGT 0.8f
+# define MEDI_WDT 0.3f
+# define MEDI_Z MEDI_HGT / 2 + MEDI_HGT - 0.5f
+# define MEDI_UNIT 0.2f
+# define MEDI_Z_SENSE 0.005f
+# define MEDI_RESOURCE 50
+
+# define AMMO_HGT 0.3f
+# define AMMO_WDT 0.8f
+# define AMMO_Z AMMO_HGT / 2 + AMMO_HGT - 0.5f
+# define AMMO_UNIT 0.2f
+# define AMMO_Z_SENSE 0.005f
+# define AMMO_RESOURCE 50
 
 #endif

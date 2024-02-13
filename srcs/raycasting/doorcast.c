@@ -39,21 +39,11 @@ void	vector_swap(t_vector *first, t_vector *second)
 	*second = swap;
 }
 
-typedef struct s_door
-{
-	t_vector	start;
-	t_vector	end;
-	float		dist_start;
-	float		dist_end;
-	int			height_left;
-	int			height_right;
-}	t_door;
-
-void	door_cast(t_game *game)
+void	doorcast(t_game *game, t_sprite *sprite)
 {
 	int w = game->win.width;
 	int h = game->win.height;
-	t_door		door;
+	t_door		*door;
 	t_xpm_tex 	*tex;
 	t_vector	rel_start;
 	t_vector	rel_end;
@@ -61,11 +51,14 @@ void	door_cast(t_game *game)
 	t_vector	transform_end;
 	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
 
-	door.start = (t_vector){4.0f, 6.5f};
-	door.end = (t_vector){5.0f, 6.5f};
-	if (game->player.map_posi.y > door.start.y)
+	bool inverted = false;
+	door = (t_door *)sprite->data;
+	door->start = (t_vector){4.0f, 6.5f};
+	door->end = (t_vector){5.0f, 6.5f};
+	if (game->player.map_posi.y > door->start.y)
 	{
-		vector_swap(&door.start, &door.end);
+		vector_swap(&door->start, &door->end);
+		inverted = true;
 	}
 	//print_sorted_sprites(game);
 	//exit(0);
@@ -73,12 +66,12 @@ void	door_cast(t_game *game)
 
 	float invDet = 1.0 / (game->player.plane.x * dir.y - game->player.plane.y * dir.x);
 
-		rel_start = vector_sub(door.start, game->player.map_posi);
+		rel_start = vector_sub(door->start, game->player.map_posi);
 		transform_start.x = (dir.y * rel_start.x - dir.x * rel_start.y);
 		transform_start.y = (-game->player.plane.y * rel_start.x + game->player.plane.x * rel_start.y);
 		transform_start = vector_multi(transform_start, invDet);
 
-		rel_end = vector_sub(door.end, game->player.map_posi);
+		rel_end = vector_sub(door->end, game->player.map_posi);
 		transform_end.x = (dir.y * rel_end.x - dir.x * rel_end.y);
 		transform_end.y = (-game->player.plane.y * rel_end.x + game->player.plane.x * rel_end.y);
 		transform_end = vector_multi(transform_end, invDet);
@@ -117,11 +110,14 @@ void	door_cast(t_game *game)
 			int_swap(&max_startY, &max_endY);
 			vector_swap(&transform_start, &transform_end);
 		}
+		//screen_end_x = int_clamp(screen_end_x, (int)(-w * 0.5f), (int)(w * 1.5f));
+		//screen_start_x = int_clamp(screen_start_x, (int)(-w * 0.5f), (int)(w * 1.5f));
 		tex = game->tex[DOOR_TEX];
 		//calculate width of the sprite
 		int drawStartX = screen_start_x;
 		int drawEndX = screen_end_x;
 		
+		/*
 		//draw left
 		int lineHeight = max_startY - min_startY;
 		double step_y = 1.0f * tex->width / lineHeight;
@@ -145,7 +141,8 @@ void	door_cast(t_game *game)
 				y++;
 			}
 		}
-		(void)drawEndX;
+		*/
+
 		/*
 		y = int_clamp(min_endY, 0, h - 1);
 
@@ -182,7 +179,7 @@ void	door_cast(t_game *game)
 		int x = drawStartX;
 		float min_y = min_startY;
 		float max_y = max_startY;
-
+		//x_width = int_clamp(x_width, -w, w);
 		double step_x = 1.0f * tex->height / x_width;
 		double tex_position_x = 0;
 		while (x++ < 0)
@@ -194,11 +191,15 @@ void	door_cast(t_game *game)
 			
 		while (x < drawEndX)
 		{
-			int texX = (int)tex_position_x;
+			int texX;
+			if (inverted)
+				texX = (tex->width - (int)tex_position_x - 1);
+			else
+				texX = (int)tex_position_x;
 			tex_position_x += step_x;
 
 			
-			//float perc = (x - save_startX) / x_width;
+			float perc = (float)(x - save_startX) / (float)x_width;
 			int start_y = (int)min_y;
 			int	end_y = (int)max_y;
 			int lineHeight = end_y - start_y;
@@ -214,7 +215,7 @@ void	door_cast(t_game *game)
 					tex_position_y += step_y;
 				while (start_y < int_clamp(end_y, 0, h - 1))
 				{
-					float shade = ft_fabs(transform_start.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+					float shade = shade_start * (1 - perc) + shade_end * perc;
 					int texY = (int)tex_position_y;
 					tex_position_y += step_y;
 

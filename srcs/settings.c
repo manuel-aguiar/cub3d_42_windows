@@ -112,4 +112,64 @@ void    apply_all_settings(t_game *game)
 
     game->max_vis_dist = MAX_VISIBLE_DISTANCE;
 
+/*
+typedef struct s_door;
+{
+	t_vector			start;
+	t_vector			end;
+	float				unit_size;
+	float				height;
+	float				width;	
+}	t_door;
+
+
+
+typedef struct s_enemy
+{
+	float				base_z;
+	float				unit_size;
+	float				height;
+	float				width;
+}	t_enemy;
+
+typedef struct s_exit
+{
+	float				base_z;
+	float				unit_size;
+	float				height;
+	float				width;
+}	t_exit;
+*/
+    game->template_door = (t_door){};
+
+    game->template_ammo = (t_ammo){};
+    game->template_ammo.ammopoints = AMMO_RESOURCE;
+    game->template_ammo.unit_size = AMMO_UNIT;
+    game->template_ammo.height = AMMO_HGT;
+    game->template_ammo.width = AMMO_WDT;
+    game->template_ammo.base_z = AMMO_HGT / 2 + AMMO_HGT - 0.5f;
+    game->template_ammo.z_sense = AMMO_Z_SENSE;
+
+    game->template_enemy = (t_enemy){};
+    game->template_enemy.unit_size = ENEMY_UNIT;
+    game->template_enemy.height = ENEMY_HGT;
+    game->template_enemy.width = ENEMY_WDT;
+    game->template_enemy.base_z = ENEMY_HGT / 2 + ENEMY_HGT - 0.5f;
+    game->template_enemy.z_sense = ENEMY_Z_SENSE;
+
+    game->template_exit = (t_exit){};
+    game->template_exit.unit_size = EXIT_UNIT;
+    game->template_exit.height = EXIT_HGT;
+    game->template_exit.width = EXIT_WDT;
+    game->template_exit.base_z = EXIT_HGT / 2 + EXIT_HGT - 0.5f;
+    game->template_exit.z_sense = EXIT_Z_SENSE;
+
+    game->template_medi = (t_medi){};
+    game->template_medi.lifepoints = MEDI_RESOURCE;
+    game->template_medi.unit_size = MEDI_UNIT;
+    game->template_medi.height = MEDI_HGT;
+    game->template_medi.width = MEDI_WDT;
+    game->template_medi.base_z = MEDI_HGT / 2 + MEDI_HGT - 0.5f;
+    game->template_medi.z_sense = MEDI_Z_SENSE;
+
 }

@@ -55,8 +55,12 @@ typedef struct s_game
 	float		max_vis_dist;
 	t_xpm_tex	*tex[NUM_TEX];
 	t_sprite	*sprites;
-	int			*sprite_index;
 	int			sprite_count;
+	t_door		template_door;
+	t_medi		template_medi;
+	t_ammo		template_ammo;
+	t_exit		template_exit;
+	t_enemy		template_enemy;
 }	t_game;
 
 //settings.c
@@ -113,9 +117,13 @@ void	dda_visible(t_game *game);
 void	wallcast_dda_visible(t_game *game);
 void	floorcast_dda_visible(t_game *game);
 void	sprite_cast(t_game *game);
+void	doorcast(t_game *game, t_sprite *sprite);
+
 
 //super_debug_print.c
 void	super_debug_print(t_game *game);
 
+//sprites
+int		setup_sprites(t_game *game);
 
 #endif

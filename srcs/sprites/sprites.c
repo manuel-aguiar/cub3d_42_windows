@@ -10,156 +10,170 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "sprites.h"
+# include "game.h"
 
-/*
-
-	e_sprite_type		type;
-	e_sprite_status	status;
-	t_vector			posi;
-	float				base_z;
-	float				cur_z;
-	float				z_sense;
-	float				unit_size;
-	float				height;
-	float				width;
-	e_textures			tex;
-*/
-static void			extract_door(t_map *map, t_sprite *sprite, int place, int map_index)
+int			extract_door(t_game *game, t_map *map, int place, int map_index)
 {
-	sprite[place] = (t_sprite){};
-	sprite[place].type = DOOR;
-	sprite[place].status = NOT_VIS;
-	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
-	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite[place].base_z = DOOR_Z;
-	sprite[place].cur_z = DOOR_Z;
-	sprite[place].z_sense = DOOR_Z_SENSE;
-	sprite[place].unit_size = DOOR_UNIT;
-	sprite[place].height = DOOR_HGT;
-	sprite[place].width = DOOR_WDT;
-	sprite[place].resource = DOOR_RESOURCE;
-	sprite[place].dist = FLT_MAX;
-	sprite[place].tex = DOOR_TEX;
+	t_door 		*data;
+	t_sprite 	*sprite;
+
+	sprite = &game->sprites[place];
+	data = malloc(sizeof(*data));
+	if (!data)
+		return (perror_msg_int("malloc", 0));
+	ft_memcpy(data, &game->template_door, sizeof(*data));
+	sprite->data = data;
+	sprite->type = DOOR;
+	sprite->status = NOT_VIS;
+	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
+	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
+	sprite->cur_z = 0;
+	sprite->height = 0;
+	sprite->width = 0;
+	sprite->dist = FLT_MAX;
+	sprite->tex = DOOR_TEX;
+	return (1);
 }
 
-static void			extract_exit(t_map *map, t_sprite *sprite, int place, int map_index)
+int			extract_exit(t_game *game, t_map *map, int place, int map_index)
 {
-	sprite[place] = (t_sprite){};
-	sprite[place].type = EXIT;
-	sprite[place].status = NOT_VIS;
-	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
-	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite[place].base_z = EXIT_Z;
-	sprite[place].cur_z = EXIT_Z;
-	sprite[place].z_sense = EXIT_Z_SENSE;
-	sprite[place].unit_size = EXIT_UNIT;
-	sprite[place].height = EXIT_HGT;
-	sprite[place].width = EXIT_WDT;
-	sprite[place].resource = EXIT_RESOURCE;
-	sprite[place].dist = FLT_MAX;
-	sprite[place].tex = EXIT_TEX;
+	t_exit 		*data;
+	t_sprite 	*sprite;
+
+	sprite = &game->sprites[place];
+	data = malloc(sizeof(*data));
+	if (!data)
+		return (perror_msg_int("malloc", 0));
+	ft_memcpy(data, &game->template_exit, sizeof(*data));
+	sprite->data = data;
+	sprite->type = EXIT;
+	sprite->status = NOT_VIS;
+	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
+	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
+	sprite->cur_z = data->base_z;
+	sprite->height = data->height;
+	sprite->width = data->width;
+	sprite->dist = FLT_MAX;
+	sprite->tex = EXIT_TEX;
+	return (1);
 }
 
-static void			extract_enemy(t_map *map, t_sprite *sprite, int place, int map_index)
+int			extract_enemy(t_game *game, t_map *map, int place, int map_index)
 {
-	sprite[place] = (t_sprite){};
-	sprite[place].type = ENEMY;
-	sprite[place].status = NOT_VIS;
-	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
-	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite[place].base_z = ENEMY_Z;
-	sprite[place].cur_z = ENEMY_Z;
-	sprite[place].z_sense = ENEMY_Z_SENSE;
-	sprite[place].unit_size = ENEMY_UNIT;
-	sprite[place].height = ENEMY_HGT;
-	sprite[place].width = ENEMY_WDT;
-	sprite[place].resource = ENEMY_RESOURCE;
-	sprite[place].dist = FLT_MAX;
-	sprite[place].tex = ENEMY_TEX;
+	t_enemy 		*data;
+	t_sprite 	*sprite;
+
+	sprite = &game->sprites[place];
+	data = malloc(sizeof(*data));
+	if (!data)
+		return (perror_msg_int("malloc", 0));
+	ft_memcpy(data, &game->template_enemy, sizeof(*data));
+	sprite->data = data;
+	sprite->type = ENEMY;
+	sprite->status = NOT_VIS;
+	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
+	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
+	sprite->cur_z = data->base_z;
+	sprite->height = data->height;
+	sprite->width = data->width;
+	sprite->dist = FLT_MAX;
+	sprite->tex = ENEMY_TEX;
+	return (1);
 }
 
-static void			extract_ammo(t_map *map, t_sprite *sprite, int place, int map_index)
+int			extract_ammo(t_game *game, t_map *map, int place, int map_index)
 {
-	sprite[place] = (t_sprite){};
-	sprite[place].type = AMMOKIT;
-	sprite[place].status = NOT_VIS;
-	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
-	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite[place].base_z = AMMO_Z;
-	sprite[place].cur_z = AMMO_Z;
-	sprite[place].z_sense = AMMO_Z_SENSE;
-	sprite[place].unit_size = AMMO_UNIT;
-	sprite[place].height = AMMO_HGT;
-	sprite[place].width = AMMO_WDT;
-	sprite[place].resource = AMMO_RESOURCE;
-	sprite[place].dist = FLT_MAX;
-	sprite[place].tex = AMMO_TEX;
+	t_ammo 		*data;
+	t_sprite 	*sprite;
+
+	sprite = &game->sprites[place];
+	data = malloc(sizeof(*data));
+	if (!data)
+		return (perror_msg_int("malloc", 0));
+	ft_memcpy(data, &game->template_ammo, sizeof(*data));
+	sprite->data = data;
+	sprite->type = AMMOKIT;
+	sprite->status = NOT_VIS;
+	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
+	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
+	sprite->cur_z = data->base_z;
+	sprite->height = data->height;
+	sprite->width = data->width;
+	sprite->dist = FLT_MAX;
+	sprite->tex = AMMO_TEX;
+	return (1);
 }
 
-static void			extract_medi(t_map *map, t_sprite *sprite, int place, int map_index)
+int			extract_medi(t_game *game, t_map *map, int place, int map_index)
 {
-	sprite[place] = (t_sprite){};
-	sprite[place].type = MEDIKIT;
-	sprite[place].status = NOT_VIS;
-	sprite[place].posi.x = (float)map_col(map, map_index) + 0.5f;
-	sprite[place].posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite[place].base_z = MEDI_Z;
-	sprite[place].cur_z = MEDI_Z;
-	sprite[place].z_sense = MEDI_Z_SENSE;
-	sprite[place].unit_size = MEDI_UNIT;
-	sprite[place].height = MEDI_HGT;
-	sprite[place].width = MEDI_WDT;
-	sprite[place].resource = MEDI_RESOURCE;
-	sprite[place].dist = FLT_MAX;
-	sprite[place].tex = MEDI_TEX;
+	t_medi 		*data;
+	t_sprite 	*sprite;
+
+	sprite = &game->sprites[place];
+	data = malloc(sizeof(*data));
+	if (!data)
+		return (perror_msg_int("malloc", 0));
+	ft_memcpy(data, &game->template_medi, sizeof(*data));
+	sprite->data = data;
+	sprite->type = MEDIKIT;
+	sprite->status = NOT_VIS;
+	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
+	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
+	sprite->cur_z = data->base_z;
+	sprite->height = data->height;
+	sprite->width = data->width;
+	sprite->dist = FLT_MAX;
+	sprite->tex = MEDI_TEX;
+	return (1);
 }
 
-void		extract_sprites(t_map *map, t_sprite *sprite, int count)
+int		extract_sprites(t_game *game, t_map *map)
 {
 	int	i;
 	int	cur;
 
 	i = 0;
 	cur = 0;
-	while (cur < count)
+	while (cur < game->sprite_count)
 	{
-		while ((map->map[i] != MAP_MEDI && map->map[i] != MAP_AMMO && map->map[i] != MAP_ENEMY && map->map[i] != MAP_EXIT && map->map[i] != MAP_DOOR))
+		while (!char_in_charset(map->map[i], SPRITES))
 			i++;
-		if (map->map[i] == MAP_MEDI)
-			extract_medi(map, sprite, cur, i);
-		else if (map->map[i] == MAP_AMMO)
-			extract_ammo(map, sprite, cur, i);
-		else if (map->map[i] == MAP_ENEMY)
-			extract_enemy(map, sprite, cur, i);
-		else if (map->map[i] == MAP_EXIT)
-			extract_exit(map, sprite, cur, i);
-		else if (map->map[i] == MAP_DOOR)
-			extract_door(map, sprite, cur, i);
+		if ((map->map[i] == MAP_MEDI && !extract_medi(game, map, cur, i)) \
+		|| (map->map[i] == MAP_AMMO && !extract_ammo(game, map, cur, i)) \
+		|| (map->map[i] == MAP_EXIT && !extract_exit(game, map, cur, i)) \
+		|| (map->map[i] == MAP_DOOR && !extract_door(game, map, cur, i)) \
+		|| (map->map[i] == MAP_ENEMY && !extract_enemy(game, map, cur, i)))
+			return (0);
 		i++;
 		cur++;
 	}
+	return (1);
 }
 
-int		setup_sprites(t_map *map, t_sprite **place_arr, int *place_count)
+
+
+int		setup_sprites(t_game *game)
 {
 	t_sprite	*sprite;
+	t_map 		*map;
 	int			count;
 	int			i;
 
+	map = &game->map;
 	i = 0;
 	count = 0;
 	while (i < map->len)
 	{
-		if (map->map[i] == MAP_MEDI || map->map[i] == MAP_AMMO || map->map[i] == MAP_ENEMY || map->map[i] == MAP_EXIT || map->map[i] == MAP_DOOR)
+		if (char_in_charset(map->map[i], SPRITES))
 			count++;
 		i++;
 	}
 	sprite = malloc(sizeof(*sprite) * count);
 	if (!sprite)
 		return (perror_msg_int("malloc", 0));
-	extract_sprites(map, sprite, count);
-	*place_arr = sprite;
-	*place_count = count;
+	game->sprites = sprite;
+	game->sprite_count = count;
+	if (!extract_sprites(game, map))
+		return (0);
 	return (1);
 }

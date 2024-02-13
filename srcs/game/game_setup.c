@@ -110,13 +110,13 @@ int		game_start(t_game *game, char *game_config)
 	apply_all_settings(game);
 	compass_setup(&game->compass);
 	player_setup(&game->player);
-	setup_sprites(&game->map, &game->sprites, &game->sprite_count);
-	game->sprite_index = malloc(sizeof(*game->sprite_index) * game->sprite_count);
+
+	
+	setup_sprites(game);
 	win_init_window(&game->win);
 	game_setup_keys(game);
 	game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
 	game_load_textures(game);
-	printf("all loaded\n");
 
 	return (1);
 }

@@ -19,7 +19,6 @@ void	free_game(t_game *game)
 	free_compass(&game->compass);
 	free_map(&game->map);
 	free(game->hori_rays);
-	free(game->sprite_index);
 	i = 0;
 	while (i < NUM_TEX)
 	{
@@ -27,4 +26,12 @@ void	free_game(t_game *game)
 			xpm_tex_free(game->tex[i]);
 		i++;
 	}
+	i = 0;
+	while ( i < game->sprite_count)
+	{
+		if (game->sprites[i].data)
+			free(game->sprites[i].data);
+		i++;
+	}
+	free(game->sprites);
 }

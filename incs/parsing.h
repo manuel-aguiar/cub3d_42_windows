@@ -28,6 +28,11 @@
 
 # define VALID_DIR_CHARS "NSWE"
 
+# define MAP_MEDI 'M'
+# define MAP_AMMO 'A'
+# define MAP_ENEMY 'Z'
+# define MAP_EXIT 'X'
+# define MAP_DOOR 'D'
 
 
 # define START_ALPHA 255
@@ -104,5 +109,7 @@ void	print_map(t_map *map);
 
 int		map_row(t_map *map, int index);
 int		map_col(t_map *map, int index);
+
+int		char_in_charset(char c, char *charset);
 
 #endif
