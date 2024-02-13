@@ -13,7 +13,7 @@
 # include "game.h"
 
 
-
+void	door_cast(t_game *game);
 
 
 void		game_render(t_game *game)
@@ -28,6 +28,7 @@ void		game_render(t_game *game)
 	floorcast_dda_visible(game);
 	wallcast_dda_visible(game);
 	sprite_cast(game);
+	door_cast(game);
 
 	//exit(0);
 	//floorcast(game);

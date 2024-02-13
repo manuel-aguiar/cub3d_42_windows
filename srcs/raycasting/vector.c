@@ -48,3 +48,8 @@ t_vector	vector_swap_coords(t_vector target)
 	target.y = swap;
 	return (target);
 }
+
+float	vector_distance(t_vector start, t_vector end)
+{
+	return (sqrt(fpow_2(end.x - start.x) + sqrt(fpow_2(end.y - start.y))));
+}

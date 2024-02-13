@@ -136,6 +136,7 @@ SRC_RAYCASTING		=	vector.c					\
 						floorcast.c					\
 						dda_visible.c				\
 						sprite_cast.c				\
+						doorcast.c					\
 						shader.c
 
 SRC_SPRITES			=	sprites.c					\
