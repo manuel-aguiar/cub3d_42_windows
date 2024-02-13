@@ -115,6 +115,8 @@
 # define MAX_VISIBLE_DISTANCE 5.0f
 
 //sprite settings
+# define GAME_FLOAT_SENSE 0.005f
+
 # define ENEMY_HGT 1.5f
 # define ENEMY_WDT 1.5f
 # define ENEMY_Z ENEMY_HGT / 2 + ENEMY_HGT - 0.5f
@@ -136,11 +138,11 @@
 # define EXIT_Z_SENSE 0.005f
 # define EXIT_RESOURCE 50
 
-# define MEDI_HGT 0.8f
-# define MEDI_WDT 0.3f
-# define MEDI_Z MEDI_HGT / 2 + MEDI_HGT - 0.5f
+# define MEDI_HGT 0.5f
+# define MEDI_WDT 0.5f
+# define MEDI_Z MEDI_HGT / 2 + MEDI_HGT  -0.2f
 # define MEDI_UNIT 0.2f
-# define MEDI_Z_SENSE 0.005f
+# define MEDI_Z_SENSE 100
 # define MEDI_RESOURCE 50
 
 # define AMMO_HGT 0.3f
@@ -149,5 +151,7 @@
 # define AMMO_UNIT 0.2f
 # define AMMO_Z_SENSE 0.005f
 # define AMMO_RESOURCE 50
+
+
 
 #endif

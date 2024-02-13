@@ -17,6 +17,8 @@ int 	g_def_keys;
 
 void    apply_all_settings(t_game *game)
 {
+    game->float_sense = GAME_FLOAT_SENSE;
+
     //window settings
     game->win.width = int_clamp(WIN_WIDTH, MIN_WIN_WIDTH, MAX_WIN_WIDTH);
     game->win.height = int_clamp(WIN_HEIGHT, MIN_WIN_HEIGHT, MAX_WIN_HEIGHT);
@@ -173,7 +175,15 @@ typedef struct s_exit
     game->template_medi.unit_size = MEDI_UNIT;
     game->template_medi.height = MEDI_HGT;
     game->template_medi.width = MEDI_WDT;
-    game->template_medi.base_z = MEDI_HGT / 2 + MEDI_HGT - 0.5f;
+    game->template_medi.base_z = MEDI_Z;
     game->template_medi.z_sense = MEDI_Z_SENSE;
+
+
+/*
+	//game->floating += 0.015f * game->player.timer[CLOCK_MOVE].elapsed;
+	//game->float_sin = sinf(game->floating);
+	//game->float_sin = 0;
+	//if (game->floating > 2 * MY_PI)
+	//	game->floating -= 2 * MY_PI;*/
 
 }

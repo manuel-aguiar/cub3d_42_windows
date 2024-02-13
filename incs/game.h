@@ -56,6 +56,9 @@ typedef struct s_game
 	t_xpm_tex	*tex[NUM_TEX];
 	t_sprite	*sprites;
 	int			sprite_count;
+	float		floating;
+	float		float_sense;
+	float		float_sin;
 	t_door		template_door;
 	t_medi		template_medi;
 	t_ammo		template_ammo;

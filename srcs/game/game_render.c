@@ -12,6 +12,26 @@
 
 # include "game.h"
 
+/*
+		speed = player->cur_move_multi;
+		if (player->is_sprinting && player->hgt_state == HGT_NORMAL && (g_keys >> BIT_FRONT) & 1)
+			speed *= player->sprint_move_multi;
+		player->cur_walk_sense += 0.015f * speed * player->timer[CLOCK_MOVE].elapsed;
+		//printf("walk sense %.3f\n", player->cur_walk_sense);
+		player->walk_z_mod += - sinf(player->cur_walk_sense) / (150 * ( 1 / speed));
+
+		if (player->cur_walk_sense > 2 * MY_PI)
+		{
+			player->is_walking = false;
+			player->walk_z_mod = 0;
+		}
+*/
+
+void		update_medikit(t_game *game, t_sprite *sprite)
+{
+	sprite->cur_z += - game->float_sin / ((t_medi *)sprite->data)->z_sense;
+}
+
 void		update_enemy(t_game *game, t_sprite *sprite)
 {
 	t_enemy *enemy;
@@ -52,6 +72,12 @@ void		update_sprites(t_game *game)
 	int i;
 	sprite_calc_dist(game);
 	sprite_qs_distance(game->sprites, game->sprite_count, sprite_qs_comp);
+
+	game->floating += game->float_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	game->float_sin = sinf(game->floating);
+	if (game->floating > 2 * MY_PI)
+		game->floating -= 2 * MY_PI;
+
 	i = 0;
 	while (i < game->sprite_count)
 	{
@@ -61,6 +87,8 @@ void		update_sprites(t_game *game)
 			update_door(game, &game->sprites[i]);
 		if (game->sprites[i].type == ENEMY)
 			update_enemy(game, &game->sprites[i]);
+		if (game->sprites[i].type == MEDIKIT)
+			update_medikit(game, &game->sprites[i]);
 		i++;
 	}
 

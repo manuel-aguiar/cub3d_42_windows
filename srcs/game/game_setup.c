@@ -89,7 +89,7 @@ int		game_load_textures(t_game *game)
 	game->tex[EA_TEX] = xpm_to_tex(g_east, TEX_TRANSPOSED);
 	game->tex[F_TEX] = xpm_to_tex(g_margarida, TEX_REGULAR);
 	game->tex[C_TEX] = xpm_to_tex(g_dementor, TEX_REGULAR);
-	game->tex[MEDI_TEX] = xpm_to_tex(g_yayaya, TEX_REGULAR);
+	game->tex[MEDI_TEX] = xpm_to_tex(g_medikit, TEX_REGULAR);
 	game->tex[AMMO_TEX] = xpm_to_tex(g_medikit, TEX_REGULAR);
 	game->tex[ENEMY_TEX] = xpm_to_tex(g_mario, TEX_REGULAR);
 	game->tex[BULLET_TEX] = xpm_to_tex(g_mario, TEX_REGULAR);
