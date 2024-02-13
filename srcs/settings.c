@@ -141,6 +141,8 @@ typedef struct s_exit
 }	t_exit;
 */
     game->template_door = (t_door){};
+    game->template_door.move_sense = DOOR_MOVE_SENSE;
+    game->template_door.dist_sense = fpow_2(DOOR_DIST_SENSE);
 
     game->template_ammo = (t_ammo){};
     game->template_ammo.ammopoints = AMMO_RESOURCE;
@@ -156,6 +158,8 @@ typedef struct s_exit
     game->template_enemy.width = ENEMY_WDT;
     game->template_enemy.base_z = ENEMY_HGT / 2 + ENEMY_HGT - 0.5f;
     game->template_enemy.z_sense = ENEMY_Z_SENSE;
+    game->template_enemy.ms_to_swap = ENEMY_MS_SWAP;
+    game->template_enemy.elapsed = 0;
 
     game->template_exit = (t_exit){};
     game->template_exit.unit_size = EXIT_UNIT;

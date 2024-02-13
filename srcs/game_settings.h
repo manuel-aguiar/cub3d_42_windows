@@ -120,13 +120,14 @@
 # define ENEMY_Z ENEMY_HGT / 2 + ENEMY_HGT - 0.5f
 # define ENEMY_UNIT 0.2f
 # define ENEMY_Z_SENSE 0.005f
+# define ENEMY_MS_SWAP 300
 
 # define DOOR_HGT 0.2f
 # define DOOR_WDT 0.3f
 # define DOOR_Z DOOR_HGT / 2 - DOOR_HGT + 0.5f
 # define DOOR_UNIT 0.2f
-# define DOOR_Z_SENSE 0.005f
-# define DOOR_RESOURCE 50
+# define DOOR_MOVE_SENSE 0.002f
+# define DOOR_DIST_SENSE 1.5f
 
 # define EXIT_HGT 0.2f
 # define EXIT_WDT 0.3f

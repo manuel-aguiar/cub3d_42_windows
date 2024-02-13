@@ -52,13 +52,13 @@ void	handle_collisions(t_game *game, t_vector potencial)
 
 		
 
-		if (map->map[(fixed_x - 1) + fixed_y * map->width] == '1')
+		if (map->map[(fixed_x - 1) + fixed_y * map->width] == MAP_WALL)
 			player->map_posi.x = ft_fmax(player->map_posi.x, fixed_x + (player->unit_size));
-		if (map->map[(fixed_x + 1) + fixed_y * map->width] == '1')
+		if (map->map[(fixed_x + 1) + fixed_y * map->width] == MAP_WALL)
 			player->map_posi.x = ft_fmin(player->map_posi.x, fixed_x + 1 - (player->unit_size));
-		if (map->map[fixed_x + (fixed_y + 1) * map->width] == '1')
+		if (map->map[fixed_x + (fixed_y + 1) * map->width] == MAP_WALL)
 			player->map_posi.y = ft_fmin(player->map_posi.y, fixed_y + 1 - (player->unit_size));
-		if (map->map[fixed_x + (fixed_y - 1) * map->width] == '1')
+		if (map->map[fixed_x + (fixed_y - 1) * map->width] == MAP_WALL)
 			player->map_posi.y = ft_fmax(player->map_posi.y, fixed_y + (player->unit_size));
 
 
@@ -70,7 +70,7 @@ void	handle_collisions(t_game *game, t_vector potencial)
 
 		//check topo left
 		//printf("fixed x %d, fixed y %d, index top left %d\n", fixed_x, fixed_y,(fixed_x - 1) + (fixed_y + 1) * map->width);
-		if (map->map[(fixed_x - 1) + (fixed_y + 1) * map->width] == '1')
+		if (map->map[(fixed_x - 1) + (fixed_y + 1) * map->width] == MAP_WALL)
 		{
 			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
 			nearest.x = ft_fmin(player->map_posi.x, (float)fixed_x);
@@ -87,7 +87,7 @@ void	handle_collisions(t_game *game, t_vector potencial)
 			//printf("posi end (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
 		}
 		//top right
-		if (map->map[(fixed_x + 1) + (fixed_y + 1) * map->width] == '1')
+		if (map->map[(fixed_x + 1) + (fixed_y + 1) * map->width] == MAP_WALL)
 		{
 			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
 			nearest.x = ft_fmax(player->map_posi.x, (float)(fixed_x + 1));
@@ -104,7 +104,7 @@ void	handle_collisions(t_game *game, t_vector potencial)
 		}
 
 		//bot left
-		if (map->map[(fixed_x - 1) + (fixed_y - 1) * map->width] == '1')
+		if (map->map[(fixed_x - 1) + (fixed_y - 1) * map->width] == MAP_WALL)
 		{
 			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
 			nearest.x = ft_fmin(player->map_posi.x, (float)(fixed_x));
@@ -121,7 +121,7 @@ void	handle_collisions(t_game *game, t_vector potencial)
 		}
 
 		//bot right
-		if (map->map[(fixed_x + 1) + (fixed_y - 1) * map->width] == '1')
+		if (map->map[(fixed_x + 1) + (fixed_y - 1) * map->width] == MAP_WALL)
 		{
 			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
 			nearest.x = ft_fmax(player->map_posi.x, (float)(fixed_x + 1));

@@ -27,11 +27,25 @@ int			extract_door(t_game *game, t_map *map, int place, int map_index)
 	sprite->status = NOT_VIS;
 	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
 	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
+	
 	sprite->cur_z = 0;
 	sprite->height = 0;
 	sprite->width = 0;
 	sprite->dist = FLT_MAX;
 	sprite->tex = DOOR_TEX;
+	if (map->map[map_index + 1] == MAP_WALL \
+	&& map->map[map_index - 1] == MAP_WALL \
+	&& map->map[map_index + map->width] != MAP_WALL \
+	&& map->map[map_index - map->width] != MAP_WALL)
+		data->orient = NS;
+	else if (map->map[map_index + 1] != MAP_WALL \
+	&& map->map[map_index - 1] != MAP_WALL \
+	&& map->map[map_index + map->width] == MAP_WALL \
+	&& map->map[map_index - map->width] == MAP_WALL)
+		data->orient = WE;
+	else
+		return (error_msg_int("cub3d: doors are missplaced\n", STDERR_FILENO, 0));
+	data->base_position = sprite->posi;
 	return (1);
 }
 

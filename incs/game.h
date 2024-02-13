@@ -78,7 +78,8 @@ void	game_rotate_view_angle(t_game *game, float diff);
 //game_render.c
 void	game_render(t_game *game);
 
-float	radian_truncate(float radian);
+void	game_actions(t_game *game);
+
 
 int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)());
 
@@ -125,5 +126,7 @@ void	super_debug_print(t_game *game);
 
 //sprites
 int		setup_sprites(t_game *game);
+void	sprite_calc_dist(t_game *game);
+
 
 #endif

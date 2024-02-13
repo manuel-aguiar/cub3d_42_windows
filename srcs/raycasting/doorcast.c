@@ -45,20 +45,33 @@ void	doorcast(t_game *game, t_sprite *sprite)
 	int h = game->win.height;
 	t_door		*door;
 	t_xpm_tex 	*tex;
+	t_vector	door_start;
+	t_vector	door_end;
 	t_vector	rel_start;
 	t_vector	rel_end;
 	t_vector	transform_start;
 	t_vector	transform_end;
 	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
 
-	bool inverted = false;
+	bool inverted;
 	door = (t_door *)sprite->data;
-	door->start = (t_vector){4.0f, 6.5f};
-	door->end = (t_vector){5.0f, 6.5f};
-	if (game->player.map_posi.y > door->start.y)
+	if (door->orient == NS)
 	{
-		vector_swap(&door->start, &door->end);
+		inverted = false;
+		door_start = (t_vector){sprite->posi.x - 0.5f, sprite->posi.y};
+		door_end = (t_vector){sprite->posi.x + 0.5f, sprite->posi.y};
+	}
+	else
+	{
 		inverted = true;
+		door_start = (t_vector){sprite->posi.x, sprite->posi.y - 0.5f};
+		door_end = (t_vector){sprite->posi.x, sprite->posi.y + 0.5f};
+	}
+	if ((door->orient == NS && game->player.map_posi.y > door_start.y) \
+	|| (door->orient == WE && game->player.map_posi.x > door_start.x))
+	{
+		vector_swap(&door_start, &door_end);
+		inverted = !inverted;
 	}
 	//print_sorted_sprites(game);
 	//exit(0);
@@ -66,12 +79,12 @@ void	doorcast(t_game *game, t_sprite *sprite)
 
 	float invDet = 1.0 / (game->player.plane.x * dir.y - game->player.plane.y * dir.x);
 
-		rel_start = vector_sub(door->start, game->player.map_posi);
+		rel_start = vector_sub(door_start, game->player.map_posi);
 		transform_start.x = (dir.y * rel_start.x - dir.x * rel_start.y);
 		transform_start.y = (-game->player.plane.y * rel_start.x + game->player.plane.x * rel_start.y);
 		transform_start = vector_multi(transform_start, invDet);
 
-		rel_end = vector_sub(door->end, game->player.map_posi);
+		rel_end = vector_sub(door_end, game->player.map_posi);
 		transform_end.x = (dir.y * rel_end.x - dir.x * rel_end.y);
 		transform_end.y = (-game->player.plane.y * rel_end.x + game->player.plane.x * rel_end.y);
 		transform_end = vector_multi(transform_end, invDet);

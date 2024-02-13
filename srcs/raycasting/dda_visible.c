@@ -96,7 +96,7 @@ void	dda_visible(t_game *game)
 			}
 			//printf("loop %d, checking map point (%d, %d) whose value is %c\n", loop, (int)player_in_map.x, (int)player_in_map.y, game->map.map[(int)player_in_map.x + (int)player_in_map.y * game->map.width]);
 
-			if (game->map.map[(int)player_in_map.x + (int)player_in_map.y * game->map.width] == '1')
+			if (game->map.map[(int)player_in_map.x + (int)player_in_map.y * game->map.width] == MAP_WALL)
 			{
 				//printf("wall hit at (%.3f, %.3f), column %d\n", ray_first.x - game->player.map_posi.x, ray_first.y - game->player.map_posi.y, x);
 				//printf("dda break \n");

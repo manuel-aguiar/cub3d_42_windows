@@ -51,8 +51,6 @@ void	sprite_cast(t_game *game)
 	t_vector	transform;
 	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
 
-	sprite_calc_dist(game);
-	sprite_qs_distance(game->sprites, game->sprite_count, sprite_qs_comp);
 	i = 0;
 	while (i < game->sprite_count)
 	{
@@ -86,6 +84,8 @@ void	sprite_cast(t_game *game)
 			for(int x = drawStartX; x < drawEndX; x++)
 			{
 				int texX = (int)((x - (-spriteWidth / 2 + spriteScreenX)) * tex->width / spriteWidth);
+				if (game->sprites[i].inverted)
+					texX = (tex->width - texX - 1);
 				//the conditions in the if are:
 				//1) it's in front of camera plane so you don't see things behind you
 				//2) it's on the screen (left)

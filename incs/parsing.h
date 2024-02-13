@@ -34,6 +34,7 @@
 # define MAP_EXIT 'X'
 # define MAP_DOOR 'D'
 
+# define MAP_WALL '1'
 
 # define START_ALPHA 255
 # define MAX_COLOR 255

@@ -47,11 +47,18 @@ typedef enum
 	WE,
 }	e_door_dir;
 
+typedef enum
+{
+	STRAIGHT,
+	INVERTED,
+}	e_rendir;
+
 typedef struct s_door
 {
-	t_vector			start;
-	t_vector			end;
+	t_vector			base_position;
 	e_door_dir			orient;
+	float				move_sense;
+	float				dist_sense;
 }	t_door;
 
 typedef struct s_ammo
@@ -76,6 +83,8 @@ typedef struct s_medi
 
 typedef struct s_enemy
 {
+	int					ms_to_swap;
+	int					elapsed;
 	float				base_z;
 	float				z_sense;
 	float				unit_size;
@@ -104,8 +113,8 @@ typedef struct s_sprite
 	t_clock				clock;
 	e_textures			tex;
 	void				*data;
+	bool				inverted;
 }	t_sprite;
-
 
 int		sprite_qs_comp(float first_dist, float second_dist);
 void	sprite_qs_distance(t_sprite *sprites, int sprite_count, int (*cmp)(float , float));

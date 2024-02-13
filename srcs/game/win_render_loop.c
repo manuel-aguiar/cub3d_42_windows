@@ -28,19 +28,13 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
     while (!glfwWindowShouldClose(win->window))
 	{
 		glRasterPos2f(-1, -1);
-		ft_memset(win->front_buf, 0, win->width * win->height * win->rgb_size * sizeof(*(win->front_buf)));
-
-		player_get_timer(&game->player, CLOCK_MOVE);
-		player_get_timer(&game->player, CLOCK_AIM);
-		
 
 		glfwGetCursorPos(win->window, &game->mouse->cur_x, &game->mouse->cur_y);
-
 		
 		//printf("%d pitch change\n", (int)((mouse.y - win->height / 2) * game->player.pitch_sense * game->player.timer[CLOCK_MOVE].elapsed));
 
-
-
+		game_actions(game);
+		glfwSetCursorPos(win->window, win->width / 2, win->height / 2);	
 		
 		//printf("rotate %.3f, rot sense %.10f, elapsed %u, res %.10f\n", rotate, game->player.rot_sense, 
 		//game->player.timer[CLOCK_MOVE].elapsed, (float)(rotate * game->player.rot_sense * game->player.timer[CLOCK_MOVE].elapsed));
@@ -51,12 +45,11 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		//if (glfwGetKey(win->window, GLFW_KEY_SPACE))
 		//	game->player.z_height -= 20;
 
-		player_actions(game);
+		
 
 
 		//player_jump_cur_z(&game->player);
-		game_key_manager(game);
-		game_mouse_manager(game);
+
 		//if (glfwGetKey(win->window, GLFW_KEY_S))
         //	game->compass.map_centre.y--;
 		//if (glfwGetKey(win->window, GLFW_KEY_W))
@@ -66,10 +59,10 @@ int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
 		//if (glfwGetKey(win->window, GLFW_KEY_D))
         //	game->compass.map_centre.x++;
 
-        glfwSetCursorPos(win->window, win->width / 2, win->height / 2);	
 		game_render(game);
-
+        
 		
+
 		//printf("after redner\n");
 
 		glClear(GL_COLOR_BUFFER_BIT);
