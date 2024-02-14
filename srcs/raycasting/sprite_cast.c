@@ -83,7 +83,7 @@ void	sprite_cast(t_game *game)
 			//printf("first stripe let's go\n");
 			for(int x = drawStartX; x < drawEndX; x++)
 			{
-				int texX = (int)((x - (-spriteWidth / 2 + spriteScreenX)) * tex->width / spriteWidth);
+				int texX = (int)((x - (-spriteWidth / 2 + spriteScreenX)) * tex->height / spriteWidth);
 				if (game->sprites[i].inverted)
 					texX = (tex->width - texX - 1);
 				//the conditions in the if are:
@@ -97,7 +97,7 @@ void	sprite_cast(t_game *game)
 					for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 					{
 					float d = (y - game->player.pitch + (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + game->sprites[i].height - game->sprites[i].cur_z) * h - h / 2) / transform.y)) - h / 2 + spriteHeight / 2; //256 and 128 factors to avoid floats
-					int texY = ((d * tex->height) / spriteHeight);
+					int texY = ((d * tex->width) / spriteHeight);
 
 					int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)]; //get current color from the texture
 					//if (game->sprites[i].type == MEDIKIT)
