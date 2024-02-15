@@ -1,0 +1,59 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    todolist.txt                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/02/15 09:53:02 by marvin            #+#    #+#              #
+#    Updated: 2024/02/15 09:53:02 by marvin           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+parsing:
+	count island, and then floodfill
+	check doors on parsing, put sprites on parsing
+
+
+
+compass, squares smaller, forget intersections and make them empty between
+		blur inside the compass, average 4 pixels from original,
+		malloc foor blur, do math, horizontal line with the malloc blur
+
+hud:
+	health bar and ammo bar, on top of each other, red life, blue ammo, grey where less than 100
+	find a weapon
+	when zooming, scale the weapon but do not change weapon position
+	introduce weapon sway, do not rotate weapon, bad performance
+	weapon tex_regular, render line by line depending on position
+	weapon swing up and down and horizontally
+	use sinf calculated for walking
+
+
+sprite rendering:
+	if !door, use unit size to determine sprite width
+	unit size will be needed for shot collision detection
+
+shot mechanics:
+	shot collision, enemies are flat against me, use position + unit size to determine their position
+	their plane is parallel to camera plane, perpdist is the same across the character
+	first:
+		if the shot hit horizontally via unit size, check vertically via player pitch angle, player height, sprite z_place and sprite z_height
+	
+
+enemies:
+	raycast to check if the enemy sees you from their center position
+	make it simple, enemies chase you if they have direct line of sight
+
+	enemy hit: distance less than (player radius + enemy radius)
+	use an overflow timer to limit the number of attacks per second, per sprite
+
+
+mlx:
+	change everything to mlx
+
+
+
+extras:
+	revise doors, store z_buffer
+	check door collisions
