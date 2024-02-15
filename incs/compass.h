@@ -223,6 +223,7 @@ typedef struct s_compass
 	t_mm_pair	*circle_x_lim;
 	t_mm_pair	*sqr_x_lim;
 	t_pixel		map_centre;
+	bool		blur_on;
 	t_blur		blur;
 
 	t_pixel		north[N_SIZE];

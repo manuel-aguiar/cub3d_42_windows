@@ -14,9 +14,8 @@ parsing:
 	count island, and then floodfill
 	check doors on parsing, put sprites on parsing
 
-
-
-compass, squares smaller, forget intersections and make them empty
+compass:
+	print a couple of dda lines
 
 hud:
 	health bar and ammo bar, on top of each other, red life, blue ammo, grey where less than 100

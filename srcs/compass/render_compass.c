@@ -68,7 +68,8 @@ void		compass_setup(t_compass *comp)
 	init_template_west(comp);
 	init_template_square(comp);
 	init_inner_circle(comp);
-	compass_blur_setup(comp);
+	if (comp->blur_on == true)
+		compass_blur_setup(comp);
 	//init_template_south_circle(comp);
 }
 
@@ -103,6 +104,13 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 
 void		free_compass(t_compass *comp)
 {
-	free(comp->sqr_x_lim);
-	free(comp->circle_x_lim);
+	if (comp->sqr_x_lim)
+		free(comp->sqr_x_lim);
+	if (comp->circle_x_lim)
+		free(comp->circle_x_lim);
+	if (comp->blur.hori_blur)
+		free(comp->blur.hori_blur);
+	if (comp->blur.verti_blur)
+		free(comp->blur.verti_blur);
+
 }

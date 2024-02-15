@@ -46,6 +46,7 @@ void    apply_all_settings(t_game *game)
     game->compass.sqr.biggest_z = 1 + sqrt((COMP_MAX_RAD * SQR_MAX_HEIGHT_PERC) * (COMP_MAX_RAD * SQR_MAX_HEIGHT_PERC) * 2);
     game->compass.player_rad = game->compass.sqr.height * COMP_PLAY_RAD;
 
+    game->compass.blur_on = BLUR_ON;
     game->compass.blur = (t_blur){};
     game->compass.blur.max_kernel = BLUR_KERNEL_MAX;
     game->compass.blur.kernel_size = BLUR_KERNEL_SIZE;

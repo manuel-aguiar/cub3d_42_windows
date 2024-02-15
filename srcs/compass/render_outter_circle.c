@@ -144,7 +144,8 @@ int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, b
 			
 			int	index = centreY + deltaY - comp->inner.centre.y + comp->inner.radius;
 			draw_horizontal_line(win, centreX - deltaX, comp->circle_x_lim[index].min + comp->inner.centre.x, centreY + deltaY, color);
-			drop_the_blur(win, comp, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY + deltaY);
+			if (comp->blur_on == true)
+				drop_the_blur(win, comp, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY + deltaY);
 			draw_horizontal_line(win, comp->circle_x_lim[index].max + comp->inner.centre.x, centreX + deltaX, centreY + deltaY, color);
 		}
 		if (centreY - deltaY < c_min_max[MM_MIN_Y])
@@ -154,7 +155,8 @@ int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, b
 
 			int	index = centreY - deltaY - comp->inner.centre.y + comp->inner.radius;
 			draw_horizontal_line(win, centreX - deltaX, comp->circle_x_lim[index].min + comp->inner.centre.x, centreY - deltaY, color);
-			drop_the_blur(win, comp, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY - deltaY);
+			if (comp->blur_on == true)
+				drop_the_blur(win, comp, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY - deltaY);
 			draw_horizontal_line(win, comp->circle_x_lim[index].max + comp->inner.centre.x, centreX + deltaX, centreY - deltaY, color);
 		}
 	}

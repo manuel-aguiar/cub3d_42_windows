@@ -154,7 +154,9 @@
 # define AMMO_RESOURCE 50
 
 # define BLUR_KERNEL_MAX 31
-# define BLUR_KERNEL_SIZE 31
+# define BLUR_KERNEL_SIZE 17
 # define BLUR_KERNEL_SIGMA 7
+
+# define BLUR_ON false
 
 #endif
