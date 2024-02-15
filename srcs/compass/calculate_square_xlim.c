@@ -141,15 +141,19 @@ void	calculate_sqr_x_lim(t_compass *comp, t_square *sqr)
 	
 }
 
+/*
 
+	hardcoded to separate squares since i can't guarantee them to be joined....
+
+*/
 void	compass_square_xlim_rotate(t_compass *comp, t_square *sqr)
 {
 	int	i;
 
-	sqr->edges[SQR_BOT_LEFT] = (t_pixel){- sqr->height / 2, - sqr->height / 2, sqr->color};
-	sqr->edges[SQR_TOP_LEFT] = (t_pixel){- sqr->height / 2, + sqr->height / 2, sqr->color};
-	sqr->edges[SQR_TOP_RIGHT] = (t_pixel){+ sqr->height / 2, + sqr->height / 2, sqr->color};
-	sqr->edges[SQR_BOT_RIGHT] = (t_pixel){+ sqr->height / 2, - sqr->height / 2, sqr->color};
+	sqr->edges[SQR_BOT_LEFT] = (t_pixel){- sqr->height / 2 + 1, - sqr->height / 2 + 1, sqr->color};
+	sqr->edges[SQR_TOP_LEFT] = (t_pixel){- sqr->height / 2 + 1, + sqr->height / 2 - 1, sqr->color};
+	sqr->edges[SQR_TOP_RIGHT] = (t_pixel){+ sqr->height / 2 - 1, + sqr->height / 2 - 1, sqr->color};
+	sqr->edges[SQR_BOT_RIGHT] = (t_pixel){+ sqr->height / 2 - 1, - sqr->height / 2 + 1, sqr->color};
 	i = 0;
 	while (i < SQR_SIZE)
 	{

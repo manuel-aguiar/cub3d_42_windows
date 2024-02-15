@@ -48,8 +48,8 @@ void	blur_compass(t_win_glfw *win, t_compass *comp)
 
 	blur = &comp->blur;
 	height = blur->blur_height;
-	img_x = (comp->centre.x - comp->inner.radius);
-	img_y = (comp->centre.y - comp->inner.radius);
+	img_x = (comp->centre.x - comp->radius);
+	img_y = (comp->centre.y - comp->radius);
 	y = 0;
 	while (y < height)
 	{
@@ -119,7 +119,19 @@ void	blur_compass(t_win_glfw *win, t_compass *comp)
 	}
 	
 	transpose(blur->verti_blur, height);
-
+	/*
+	y = blur->kernel_size / 2;
+	while ( y < height - blur->kernel_size / 2)
+	{
+		x = blur->kernel_size / 2;
+		while (x < height - blur->kernel_size / 2)
+		{
+			win->set_pixel(win, (x + img_x), (y + img_y), blur->verti_blur[y * height + x]);
+			x++;
+		}
+		y++;
+	}
+	*/
 }
 
 

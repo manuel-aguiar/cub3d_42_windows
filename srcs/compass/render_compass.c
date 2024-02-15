@@ -96,8 +96,8 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	render_west_letter(win, comp);
 
 
-
-	render_empty_circle_with_aa(win, comp->centre, comp->inner.radius, comp->color);
+	//render_empty_circle_with_aa(win, comp->centre, comp->radius, comp->color);
+	//render_empty_circle_with_aa(win, comp->centre, comp->inner.radius, comp->color);
 
 }
 

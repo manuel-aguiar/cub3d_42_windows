@@ -115,10 +115,10 @@ void	drop_the_blur(t_win_glfw *win, t_compass *comp, int min_x, int max_x, int y
 	int	blur_x;
 
 	blur = &comp->blur;
-	blur_y = comp->inner.radius + y - comp->centre.y;
+	blur_y = comp->radius + y - comp->centre.y;
 	while (min_x < max_x)
 	{
-		blur_x = comp->inner.radius + min_x - comp->centre.x;
+		blur_x = comp->radius + min_x - comp->centre.x;
 		win->set_pixel(win, min_x++, y, blur->verti_blur[blur_y * blur->blur_height + blur_x]);
 	}
 	
@@ -194,4 +194,5 @@ void draw_ring_to_inner_circle(t_win_glfw *win, t_compass *comp)
         setpixel_inner(win, comp, c_min_max, centreX, centreY, x, (int)(y) + 1, color, (maxTransparency - transparency), maxTransparency, false);
 		setpixel_inner(win, comp, c_min_max, centreX, centreY, (int)(y) + 1, x, color, (maxTransparency - transparency), maxTransparency, false);
     }
+	
 }

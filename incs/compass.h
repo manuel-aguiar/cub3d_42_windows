@@ -189,8 +189,8 @@ struct s_circle
 
 typedef	struct s_blur
 {
-	float	kernel[30];
-	int		save_pixels[30];
+	float	kernel[31];
+	int		save_pixels[31];
 	int		kernel_size;
 	int		max_kernel;
 	int		sigma;
