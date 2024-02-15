@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 parsing:
-	count island, and then floodfill
+	count_island that calls flood fill, if caller is !=1 and i am ' ', bad map. if after flood fill i find another not checked to fill, bad map
 	check doors on parsing, put sprites on parsing
 
 compass:
