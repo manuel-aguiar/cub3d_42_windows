@@ -187,6 +187,18 @@ struct s_circle
 	int			min_max[MM_SIZE];
 };
 
+typedef	struct s_blur
+{
+	float	kernel[30];
+	int		save_pixels[30];
+	int		kernel_size;
+	int		max_kernel;
+	int		sigma;
+	int		*hori_blur;
+	int		*verti_blur;
+	int		blur_height;
+}	t_blur;
+
 typedef struct s_compass
 {
 	t_pixel		centre;
@@ -211,6 +223,7 @@ typedef struct s_compass
 	t_mm_pair	*circle_x_lim;
 	t_mm_pair	*sqr_x_lim;
 	t_pixel		map_centre;
+	t_blur		blur;
 
 	t_pixel		north[N_SIZE];
 	t_pixel		south[S_SIZE];
@@ -267,5 +280,7 @@ void	render_square_vs_rect(t_win_glfw *win, t_compass *comp, t_pixel centre, t_p
 void 	render_empty_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, int color);
 void 	render_full_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, int color);
 void 	draw_ring_to_inner_circle(t_win_glfw *win, t_compass *comp);
+
+void	blur_compass(t_win_glfw *win, t_compass *comp);
 
 #endif

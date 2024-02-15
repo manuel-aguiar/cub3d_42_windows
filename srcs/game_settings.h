@@ -19,7 +19,7 @@
 /* window settings */
 # define MAX_WIN_WIDTH 1900
 # define MIN_WIN_WIDTH 800
-# define MAX_WIN_HEIGHT 1024
+# define MAX_WIN_HEIGHT 1080
 # define MIN_WIN_HEIGHT 480
 
 # define WIN_WIDTH 800
@@ -96,7 +96,7 @@
 
 //player walking
 # define PLAY_WALKING_GRAVITY 0.000005f
-
+# define PLAY_WALK_RADIUS	0.04f
 
 //player velocity multipliers
 # define PLAY_NORMAL_MOVE_MULTI 1.0f
@@ -144,6 +144,7 @@
 # define MEDI_UNIT 0.2f
 # define MEDI_Z_SENSE 100
 # define MEDI_RESOURCE 50
+# define MEDI_FLOAT_RADIUS 0.1f
 
 # define AMMO_HGT 0.3f
 # define AMMO_WDT 0.8f
@@ -152,6 +153,8 @@
 # define AMMO_Z_SENSE 0.005f
 # define AMMO_RESOURCE 50
 
-
+# define BLUR_KERNEL_MAX 31
+# define BLUR_KERNEL_SIZE 21
+# define BLUR_KERNEL_SIGMA 7
 
 #endif

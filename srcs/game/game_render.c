@@ -29,7 +29,10 @@
 
 void		update_medikit(t_game *game, t_sprite *sprite)
 {
-	sprite->cur_z += - game->float_sin / ((t_medi *)sprite->data)->z_sense;
+	t_medi *medi;
+
+	medi = (t_medi *)sprite->data;
+	sprite->cur_z = medi->base_z - game->float_sin * medi->float_radius;
 }
 
 void		update_enemy(t_game *game, t_sprite *sprite)

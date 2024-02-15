@@ -46,6 +46,11 @@ void    apply_all_settings(t_game *game)
     game->compass.sqr.biggest_z = 1 + sqrt((COMP_MAX_RAD * SQR_MAX_HEIGHT_PERC) * (COMP_MAX_RAD * SQR_MAX_HEIGHT_PERC) * 2);
     game->compass.player_rad = game->compass.sqr.height * COMP_PLAY_RAD;
 
+    game->compass.blur = (t_blur){};
+    game->compass.blur.max_kernel = BLUR_KERNEL_MAX;
+    game->compass.blur.kernel_size = BLUR_KERNEL_SIZE;
+    game->compass.blur.sigma = BLUR_KERNEL_SIGMA;
+
     //player settings
 
     game->player.health = PLAYER_HEALTH;
@@ -97,7 +102,7 @@ void    apply_all_settings(t_game *game)
 
 
     game->player.walking_gravity = PLAY_WALKING_GRAVITY;
-
+    game->player.walk_radius = PLAY_WALK_RADIUS;
 
 
 
@@ -175,6 +180,7 @@ typedef struct s_exit
     game->template_medi.unit_size = MEDI_UNIT;
     game->template_medi.height = MEDI_HGT;
     game->template_medi.width = MEDI_WDT;
+    game->template_medi.float_radius = MEDI_FLOAT_RADIUS;
     game->template_medi.base_z = MEDI_Z;
     game->template_medi.z_sense = MEDI_Z_SENSE;
 

@@ -32,14 +32,14 @@ void	handle_collisions(t_game *game, t_vector potencial)
 	fixed_x = (int)player->map_posi.x;
 	fixed_y = (int)player->map_posi.y;
 	
-	float pot_len;
-	pot_len = vector_len(potencial);
-	if (pot_len > player->unit_size)
-	{
-		potencial = vector_multi(vector_norm(potencial, pot_len), player->unit_size - 0.001f);
-	}
+	float potential_len;
 
-	player->map_posi = vector_add(player->map_posi, potencial);
+	int divide_potential;
+
+	potential_len = vector_len(potencial);
+	divide_potential = 1 + (int)(potential_len / player->unit_size);
+
+	
 
 
 	
@@ -48,10 +48,15 @@ void	handle_collisions(t_game *game, t_vector potencial)
 
 	//printf("i am at (%.3f, %.3f), my square is %c\n", player->map_posi.x, player->map_posi.y, map->map[fixed_x + fixed_y * map->width]);
 	//check left
+	int i;
 
+	t_vector	add;
 
-		
-
+	add = vector_multi(potencial, (1 / (float)divide_potential));
+	i = 0;
+	while (i < divide_potential)
+	{
+		player->map_posi = vector_add(player->map_posi, add);
 		if (map->map[(fixed_x - 1) + fixed_y * map->width] == MAP_WALL)
 			player->map_posi.x = ft_fmax(player->map_posi.x, fixed_x + (player->unit_size));
 		if (map->map[(fixed_x + 1) + fixed_y * map->width] == MAP_WALL)
@@ -136,6 +141,10 @@ void	handle_collisions(t_game *game, t_vector potencial)
 				player->map_posi = vector_sub(player->map_posi, vector_multi(ray_to_nearest, overlap));
 			}
 		}
+		i++;
+	}
+		//player->map_posi = vector_add(player->map_posi, potencial);
+
 
 
 

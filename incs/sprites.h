@@ -74,6 +74,7 @@ typedef struct s_ammo
 typedef struct s_medi
 {
 	int					lifepoints;
+	float				float_radius;
 	float				base_z;
 	float				z_sense;
 	float				unit_size;

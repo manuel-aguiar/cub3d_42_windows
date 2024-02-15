@@ -12,17 +12,63 @@
 
 # include "compass.h"
 
+float gaussian(float x, float sigma) {
+    return exp(-(x * x) / (2 * sigma * sigma)) / (sqrt(2 * MY_PI) * sigma);
+}
+
+// Function to create a Gaussian kernel of size N with standard deviation sigma
+void setup_kernel(t_blur *blur)
+{
+	int 	centre;
+	int 	i;
+	float 	sum;
+
+	centre = blur->kernel_size / 2;
+	sum = 0;
+
+	i = 0;
+	while (i < blur->kernel_size)
+	{
+        blur->kernel[i] = gaussian(i - centre, blur->sigma);
+        sum += blur->kernel[i];	
+		i++;	
+	}
+	i = 0;
+	while (i < blur->kernel_size)
+	{
+		blur->kernel[i] /= sum;
+		i++;
+	}
+}
+
+int		compass_blur_setup(t_compass *comp)
+{
+	t_blur *blur;
+
+	blur = &comp->blur;
+	
+	if (blur->kernel_size > blur->max_kernel ||  blur->kernel_size % 2 == 0)
+		return (0);
+
+	blur->blur_height = (comp->radius * 2 + 1);
+	blur->hori_blur = malloc(sizeof(*blur->hori_blur) * (blur->blur_height * blur->blur_height));
+	blur->verti_blur = malloc(sizeof(*blur->verti_blur) * (blur->blur_height * blur->blur_height));
+	if (!blur->hori_blur || !blur->verti_blur)
+		return (perror_msg_int("malloc",0));
+	setup_kernel(blur);
+	return (1);
+}
+
+
 void		compass_setup(t_compass *comp)
 {
 	init_template_north(comp);
 	init_template_south(comp);
 	init_template_east(comp);
 	init_template_west(comp);
-
 	init_template_square(comp);
-
 	init_inner_circle(comp);
-
+	compass_blur_setup(comp);
 	//init_template_south_circle(comp);
 }
 
@@ -39,6 +85,8 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 //
 	//render_full_circle_with_aa(win, c_comp, comp->radius, rgba(0,255,0,255));
 
+	blur_compass(win, comp);
+
 	draw_ring_to_inner_circle(win, comp);
 	
 
@@ -48,11 +96,9 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	render_west_letter(win, comp);
 
 
-	//render_inner_square(win, comp, second);
 
 	render_empty_circle_with_aa(win, comp->centre, comp->inner.radius, comp->color);
 
-	//render_inner_circle(win, comp);
 }
 
 void		free_compass(t_compass *comp)

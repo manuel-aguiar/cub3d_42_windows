@@ -16,9 +16,7 @@ parsing:
 
 
 
-compass, squares smaller, forget intersections and make them empty between
-		blur inside the compass, average 4 pixels from original,
-		malloc foor blur, do math, horizontal line with the malloc blur
+compass, squares smaller, forget intersections and make them empty
 
 hud:
 	health bar and ammo bar, on top of each other, red life, blue ammo, grey where less than 100

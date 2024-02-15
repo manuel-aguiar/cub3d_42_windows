@@ -108,6 +108,21 @@ void	reduce_alpha_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, 
 	}
 }
 
+void	drop_the_blur(t_win_glfw *win, t_compass *comp, int min_x, int max_x, int y)
+{
+	t_blur *blur;
+	int blur_y;
+	int	blur_x;
+
+	blur = &comp->blur;
+	blur_y = comp->inner.radius + y - comp->centre.y;
+	while (min_x < max_x)
+	{
+		blur_x = comp->inner.radius + min_x - comp->centre.x;
+		win->set_pixel(win, min_x++, y, blur->verti_blur[blur_y * blur->blur_height + blur_x]);
+	}
+	
+}
 
 
 void setpixel_inner(t_win_glfw *win, t_compass *comp, int c_min_max[MM_SIZE], \
@@ -129,7 +144,7 @@ int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, b
 			
 			int	index = centreY + deltaY - comp->inner.centre.y + comp->inner.radius;
 			draw_horizontal_line(win, centreX - deltaX, comp->circle_x_lim[index].min + comp->inner.centre.x, centreY + deltaY, color);
-			reduce_alpha_horizontal_line(win, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY + deltaY, 0.5f);
+			drop_the_blur(win, comp, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY + deltaY);
 			draw_horizontal_line(win, comp->circle_x_lim[index].max + comp->inner.centre.x, centreX + deltaX, centreY + deltaY, color);
 		}
 		if (centreY - deltaY < c_min_max[MM_MIN_Y])
@@ -139,7 +154,7 @@ int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, b
 
 			int	index = centreY - deltaY - comp->inner.centre.y + comp->inner.radius;
 			draw_horizontal_line(win, centreX - deltaX, comp->circle_x_lim[index].min + comp->inner.centre.x, centreY - deltaY, color);
-			reduce_alpha_horizontal_line(win, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY - deltaY, 0.5f);
+			drop_the_blur(win, comp, comp->circle_x_lim[index].min + comp->inner.centre.x, comp->circle_x_lim[index].max + comp->inner.centre.x, centreY - deltaY);
 			draw_horizontal_line(win, comp->circle_x_lim[index].max + comp->inner.centre.x, centreX + deltaX, centreY - deltaY, color);
 		}
 	}

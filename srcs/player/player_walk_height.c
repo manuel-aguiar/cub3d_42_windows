@@ -23,7 +23,7 @@ void	player_walk_height(t_player *player)
 			speed *= player->sprint_move_multi;
 		player->cur_walk_sense += 0.015f * speed * player->timer[CLOCK_MOVE].elapsed;
 		//printf("walk sense %.3f\n", player->cur_walk_sense);
-		player->walk_z_mod += - sinf(player->cur_walk_sense) / (150 * ( 1 / speed));
+		player->walk_z_mod = - sinf(player->cur_walk_sense) / (speed) * player->walk_radius;
 
 		if (player->cur_walk_sense > 2 * MY_PI)
 		{
