@@ -14,6 +14,11 @@
 
 void	win_set_pixel(t_win_glfw *win, int x, int y, int color)
 {
+	char *dest;
+	
+	dest = win->front_buf + (x + y * win->width) * win->rgb_size;
+	*(unsigned int *)dest = argb(color);
+	/*
 	int i;
 
 	i = (x + y * win->width) * win->rgb_size;
@@ -22,10 +27,16 @@ void	win_set_pixel(t_win_glfw *win, int x, int y, int color)
 	win->front_buf[i++] = rgb_g(color);
 	win->front_buf[i++] = rgb_b(color);
 	win->front_buf[i] = rgb_a(color);
+	*/
 }
 
 int	win_get_pixel(t_win_glfw *win, int x, int y)
 {
+	int new;
+
+	new = *(int *)(win->front_buf + (x + y * win->width) * win->rgb_size);
+	return (argb(new));
+	/*
 	unsigned char r;
 	unsigned char g;
 	unsigned char b;
@@ -38,6 +49,7 @@ int	win_get_pixel(t_win_glfw *win, int x, int y)
 	b = win->front_buf[i++];
 	a = win->front_buf[i++];
 	return (rgba(r, g, b, a));
+	*/
 }
 
 

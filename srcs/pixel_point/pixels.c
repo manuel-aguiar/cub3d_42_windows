@@ -37,6 +37,17 @@ int		rgba(int r, int g, int b, int a)
 	return ((r << 24) | (g << 16) | (b << 8) | (a));
 }
 
+int		argb(int color)
+{
+	int new;
+
+	new = ((color & 0xff) << 24) \
+	| (((color >> 8) & 0xff) << 16) \
+	| (((color >> 16) & 0xff) << 8) \
+	| ((color >> 24) & 0xff);
+	return (new);
+}
+
 int	avg_colour(int start, int end, int num, int den)
 {
 	t_ulong	r;
