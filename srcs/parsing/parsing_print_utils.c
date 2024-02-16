@@ -61,6 +61,26 @@ void	print_map(t_map *map)
 	printf("\n");
 }
 
+void	print_flood_fill(char *map, int height, int width)
+{
+	int i;
+	int j;
+
+	i = height * width - width;
+	while (i >= 0)
+	{
+		j = 0;
+		printf("\n");
+		while (j < width)
+		{
+			printf("%c", map[i + j]);
+			j++;
+		}
+		i -= width;
+	}
+	printf("\n");
+}
+
 int		char_in_charset(char c, char *charset)
 {
 	int i;

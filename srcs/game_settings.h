@@ -157,6 +157,6 @@
 # define BLUR_KERNEL_SIZE 17
 # define BLUR_KERNEL_SIGMA 7
 
-# define BLUR_ON false
+# define BLUR_ON true
 
 #endif

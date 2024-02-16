@@ -261,6 +261,8 @@ int	map_parsing(t_map *map, char *av_file)
 			return (error_msg_int("cub3d: bad map characters\n", 2, 0));
 		if (!list_to_map(&parsing))
 			return (0);
+		if (!flood_count_island(&parsing))
+			return (0);
 		if (!analise_textures(&parsing))
 			return (0);
 		vdmlist_destroy(&parsing.list, free_gnl_len);

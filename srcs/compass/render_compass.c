@@ -87,7 +87,7 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	//render_full_circle_with_aa(win, c_comp, comp->radius, rgba(0,255,0,255));
 
 	blur_compass(win, comp);
-
+	
 	draw_ring_to_inner_circle(win, comp);
 	
 
@@ -95,7 +95,7 @@ void	render_compass(t_win_glfw *win, t_compass *comp)
 	render_south_letter(win, comp);
 	render_east_letter(win, comp);
 	render_west_letter(win, comp);
-
+	
 
 	//render_empty_circle_with_aa(win, comp->centre, comp->radius, comp->color);
 	//render_empty_circle_with_aa(win, comp->centre, comp->inner.radius, comp->color);

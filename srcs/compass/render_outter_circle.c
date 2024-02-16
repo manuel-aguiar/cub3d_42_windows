@@ -116,6 +116,14 @@ void	drop_the_blur(t_win_glfw *win, t_compass *comp, int min_x, int max_x, int y
 
 	blur = &comp->blur;
 	blur_y = comp->radius + y - comp->centre.y;
+	blur_x = comp->radius + min_x - comp->centre.x;
+	int blur_index = blur->verti_blur[blur_y * blur->blur_height + blur_x];
+	int screen_index = (min_x + y * win->width) * win->rgb_size;
+	//ft_memcpy(&win->front_buf[screen_index], &blur[blur_index], (max_x - min_x) * sizeof(blur[blur_index]));
+
+	(void)blur_index;
+	(void)screen_index;
+
 	while (min_x < max_x)
 	{
 		blur_x = comp->radius + min_x - comp->centre.x;
