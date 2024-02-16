@@ -86,7 +86,8 @@ SRC_PLAYER			=	player_setup_and_actions.c	\
 
 SRC_PARSING			=	parsing.c				\
 						textures.c				\
-						parsing_print_utils.c
+						parsing_print_utils.c	\
+						flood_count.c
 
 SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_textures.c				\
@@ -118,7 +119,8 @@ SRC_COMPASS			=	render_compass.c				\
 						render_outter_circle.c				\
 						calculate_square_xlim.c				\
 						render_inner_circle.c				\
-						render_inner_square.c
+						render_inner_square.c				\
+						compass_blur.c
 
 SRC_DRAWING_ALGOS	=	drawing_lines.c				\
 						liang_barsky_clipping.c		\

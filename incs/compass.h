@@ -210,7 +210,6 @@ typedef struct s_compass
 	float		cos_rad;
 	float		sin_rad;
 	int			inner_c_rad;
-	int			*c_min_max;
 	int			letter_height;
 	int			letter_width;
 	int			letter_radius;
@@ -283,5 +282,7 @@ void 	render_full_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, in
 void 	draw_ring_to_inner_circle(t_win_glfw *win, t_compass *comp);
 
 void	blur_compass(t_win_glfw *win, t_compass *comp);
+void	blur_compass_hori_verti(t_win_glfw *win, t_compass *comp);
+
 
 #endif

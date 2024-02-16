@@ -33,8 +33,11 @@
 # define MAP_ENEMY 'Z'
 # define MAP_EXIT 'X'
 # define MAP_DOOR 'D'
+# define MAP_EMPTY ' '
 
 # define MAP_WALL '1'
+
+# define FLOOD_CHAR '.'
 
 # define START_ALPHA 255
 # define MAX_COLOR 255
@@ -83,6 +86,9 @@ typedef struct s_parsing
 	int			map_width;
 	int			map_height;
 	bool		found_player;
+	char		*map_copy;
+	bool		ff_found;
+	int			ff_count;
 }	t_parsing;
 
 typedef struct s_map
@@ -107,10 +113,14 @@ int		analise_textures(t_parsing *parsing);
 void	print_tex_data(t_parsing *parsing);
 void	gnl_len_print_line(void	*str);
 void	print_map(t_map *map);
+void	print_flood_fill(char *map, int height, int width);
 
 int		map_row(t_map *map, int index);
 int		map_col(t_map *map, int index);
 
 int		char_in_charset(char c, char *charset);
+
+//flood fill count island
+int		flood_count_island(t_parsing *parse);
 
 #endif
