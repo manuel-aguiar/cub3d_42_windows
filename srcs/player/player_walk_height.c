@@ -15,6 +15,7 @@
 void	player_walk_height(t_player *player)
 {
 	float speed;
+	float	radius;
 
 	if ((player->is_walking && player->hgt_state != HGT_JUMP))
 	{
@@ -23,7 +24,12 @@ void	player_walk_height(t_player *player)
 			speed *= player->sprint_move_multi;
 		player->cur_walk_sense += 0.015f * speed * player->timer[CLOCK_MOVE].elapsed;
 		//printf("walk sense %.3f\n", player->cur_walk_sense);
-		player->walk_z_mod = - sinf(player->cur_walk_sense) / (speed) * player->walk_radius;
+		radius = player->walk_radius;
+		if (player->hgt_state == HGT_CROUCH)
+			radius = player->crouch_radius;
+		if (player->hgt_state == HGT_PRONE)
+			radius = player->prone_radius;
+		player->walk_z_mod = - sinf(player->cur_walk_sense) / (speed) * radius;
 
 		if (player->cur_walk_sense > 2 * MY_PI)
 		{

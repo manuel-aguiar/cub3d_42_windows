@@ -17,6 +17,7 @@ int 	g_def_keys;
 
 void    apply_all_settings(t_game *game)
 {
+    game->wall_reflection = GAME_WALL_REFLECTION;
     game->float_sense = GAME_FLOAT_SENSE;
 
     //window settings
@@ -100,6 +101,8 @@ void    apply_all_settings(t_game *game)
 
     game->player.walking_gravity = PLAY_WALKING_GRAVITY;
     game->player.walk_radius = PLAY_WALK_RADIUS;
+    game->player.crouch_radius = PLAY_CROUCH_RADIUS;
+    game->player.prone_radius = PLAY_PRONE_RADIUS;
 
 
 

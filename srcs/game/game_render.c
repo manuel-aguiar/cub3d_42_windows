@@ -111,6 +111,9 @@ void		game_actions(t_game *game)
 	update_sprites(game);
 }
 
+void	dda_visible_and_wallcast(t_game *game);
+void	wallcast_reflection(t_game *game);
+
 void		game_render(t_game *game)
 {
 	//t_pixel first = {300, 300, rgba(0, 0, 255, 255)};
@@ -121,9 +124,14 @@ void		game_render(t_game *game)
 
 
 	dda_visible(game);
+	
+
+
+	//dda_visible_and_wallcast(game);
+
 	//super_debug_print(game);
 	floorcast_dda_visible(game);
-	wallcast_dda_visible(game);
+	wallcast_reflection(game);
 	sprite_cast(game);
 
 	//exit(0);

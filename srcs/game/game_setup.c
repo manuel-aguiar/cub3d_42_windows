@@ -88,7 +88,7 @@ int		game_load_textures(t_game *game)
 	game->tex[WE_TEX] = xpm_to_tex(g_west, TEX_TRANSPOSED);
 	game->tex[EA_TEX] = xpm_to_tex(g_east, TEX_TRANSPOSED);
 	game->tex[F_TEX] = xpm_to_tex(g_margarida, TEX_REGULAR);
-	game->tex[C_TEX] = xpm_to_tex(g_dementor, TEX_REGULAR);
+	game->tex[C_TEX] = xpm_to_tex(g_margarida, TEX_REGULAR);
 	game->tex[MEDI_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
 	game->tex[AMMO_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
 	game->tex[ENEMY_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
@@ -118,6 +118,9 @@ int		game_start(t_game *game, char *game_config)
 	game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
 	game_load_textures(game);
 
+
+
+	//exit(0);
 	return (1);
 }
 

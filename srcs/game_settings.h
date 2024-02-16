@@ -101,6 +101,8 @@
 //player walking
 # define PLAY_WALKING_GRAVITY 0.000005f
 # define PLAY_WALK_RADIUS	0.04f
+# define PLAY_CROUCH_RADIUS 0.015f
+# define PLAY_PRONE_RADIUS 0.005f
 
 //player velocity multipliers
 # define PLAY_NORMAL_MOVE_MULTI 1.0f
@@ -129,7 +131,7 @@
 
 
 //sprite settings
-# define GAME_FLOAT_SENSE 0.005f
+# define GAME_FLOAT_SENSE 0.003f
 
 # define ENEMY_HGT 1.5f
 # define ENEMY_WDT 1.5f
@@ -171,6 +173,8 @@
 # define BLUR_KERNEL_SIZE 17
 # define BLUR_KERNEL_SIGMA 7
 
-# define BLUR_ON false
+# define BLUR_ON true
+
+# define GAME_WALL_REFLECTION 0.5f
 
 #endif
