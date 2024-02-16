@@ -24,7 +24,9 @@ hud:
 	weapon swing up and down and horizontally
 	use sinf calculated for walking
 
-
+rendering:
+	reflexions are not correct due to clamping on dda
+	can find closed formula to not clamp, add the step difference to start
 
 shot mechanics:
 	shot collision, enemies are flat against me, use position + unit size to determine their position

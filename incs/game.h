@@ -60,6 +60,7 @@ typedef struct s_game
 	int			maxmin_hori;
 	int			minmax_hori;
 	float		max_vis_dist;
+	float		wall_reflection;
 	t_xpm_tex	*tex[NUM_TEX];
 	t_sprite	*sprites;
 	int			sprite_count;
@@ -125,6 +126,7 @@ void    move_player(t_game *game, int keys);
 //shader.c
 int		add_shade(int color, float perc);
 void	dda_visible(t_game *game);
+void	dda_visible_and_wallcast(t_game *game);
 void	wallcast_dda_visible(t_game *game);
 void	floorcast_dda_visible(t_game *game);
 void	sprite_cast(t_game *game);
