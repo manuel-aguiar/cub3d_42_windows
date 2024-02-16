@@ -62,6 +62,7 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t len);
 void	*ft_memmove(void *dest, const void *src, size_t len);
 void	*ft_calloc(size_t nmemb, size_t bytes);
+void	*ft_memdup(void *src, int bytes);
 
 /*functions to free, ft_free_misc.c*/
 void	*ft_free_charmat(void *table, void (*del)(void *));

@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/11 14:41:01 by marvin            #+#    #+#              #
-#    Updated: 2024/02/06 17:33:29 by marvin           ###   ########.fr        #
+#    Updated: 2024/02/16 09:40:38 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,8 @@ SRCS_MEMFUNC	=	ft_bzero.c					\
 					ft_memcmp.c					\
 					ft_memcpy.c					\
 					ft_memmove.c				\
-					ft_memset.c
+					ft_memset.c					\
+					ft_memdup.c
 
 SRCS_OUTPUT		=	ft_print_arr.c				\
 					ft_putchar_fd.c				\
