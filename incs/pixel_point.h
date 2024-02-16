@@ -36,6 +36,8 @@ int	rgb_g(int color);
 int	rgb_b(int color);
 int	rgb_a(int color);
 int		rgba(int r, int g, int b, int a);
+int		argb(int color);
+
 
 int gamma_average(int start, int end, int num, int den);
 int	avg_colour(int start, int end, int num, int den);
