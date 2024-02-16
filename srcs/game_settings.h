@@ -48,6 +48,10 @@
 
 # define COMP_SQR_COLOR RGBA(50, 25, 0, 255)
 
+# define HEALTH_BAR_COLOR RGBA(255, 0, 0, 255)
+# define AMMO_BAR_COLOR RGBA(0, 0, 255, 255)
+# define BAR_EMPTY_COLOR RGBA(25, 25, 25, 255)
+
 /* compass squares */
 # define SQR_MAX_HEIGHT_PERC 0.5f
 # define SQR_MIN_HEIGHT_PERC 0.005f
@@ -114,13 +118,23 @@
 
 # define MAX_VISIBLE_DISTANCE 5.0f
 
+# define PLAY_HEALTH_MIN 0
+# define PLAY_HEALTH_MAX 100
+# define PLAY_HEALTH_START 100
+# define PLAY_AMMO_MIN 0
+# define PLAY_AMMO_MAX 100
+# define PLAY_AMMO_START 100
+# define PLAY_BULLET_DAMAGE 10
+
+
+
 //sprite settings
 # define GAME_FLOAT_SENSE 0.005f
 
 # define ENEMY_HGT 1.5f
 # define ENEMY_WDT 1.5f
 # define ENEMY_Z ENEMY_HGT / 2 + ENEMY_HGT - 0.5f
-# define ENEMY_UNIT 0.2f
+# define ENEMY_UNIT 0.8f
 # define ENEMY_Z_SENSE 0.005f
 # define ENEMY_MS_SWAP 300
 
@@ -157,6 +171,6 @@
 # define BLUR_KERNEL_SIZE 17
 # define BLUR_KERNEL_SIGMA 7
 
-# define BLUR_ON true
+# define BLUR_ON false
 
 #endif

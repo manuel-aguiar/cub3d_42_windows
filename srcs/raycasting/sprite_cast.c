@@ -75,7 +75,7 @@ void	sprite_cast(t_game *game)
 			if(drawEndY >= h) drawEndY = h - 1;
 
 			//calculate width of the sprite
-			int spriteWidth = abs( (int) (w * game->sprites[i].width / (transform.y)));
+			int spriteWidth = abs( (int) (w * game->sprites[i].unit_size * 2 / (transform.y)));
 			int drawStartX = -spriteWidth / 2 + spriteScreenX;
 			if(drawStartX < 0) drawStartX = 0;
 			int drawEndX = spriteWidth / 2 + spriteScreenX;

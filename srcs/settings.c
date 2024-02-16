@@ -54,10 +54,6 @@ void    apply_all_settings(t_game *game)
 
     //player settings
 
-    game->player.health = PLAYER_HEALTH;
-    game->player.ammo = PLAYER_AMMO;
-    game->player.attack_val = PLAYER_ATTACK_VAL;
-
 	game->player.forward_move = PLAY_FORWARD_MOVE_SENSE;
     game->player.side_move = PLAY_SIDE_MOVE_SENSE;
     game->player.back_move = PLAY_BACK_MOVE_SENSE;
@@ -119,6 +115,14 @@ void    apply_all_settings(t_game *game)
     // setting default keys;
 
     game->max_vis_dist = MAX_VISIBLE_DISTANCE;
+
+    game->player.health[CTR_CUR] = PLAY_HEALTH_START;
+    game->player.health[CTR_MIN] = PLAY_HEALTH_MIN;
+    game->player.health[CTR_MAX] = PLAY_HEALTH_MAX;
+    game->player.ammo[CTR_CUR] = PLAY_AMMO_START;
+    game->player.ammo[CTR_MIN] = PLAY_AMMO_MIN;
+    game->player.ammo[CTR_MAX] = PLAY_AMMO_MAX;
+    game->player.attack = PLAY_BULLET_DAMAGE;
 
 /*
 typedef struct s_door;

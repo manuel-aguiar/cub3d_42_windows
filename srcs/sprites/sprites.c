@@ -67,6 +67,7 @@ int			extract_exit(t_game *game, t_map *map, int place, int map_index)
 	sprite->cur_z = data->base_z;
 	sprite->height = data->height;
 	sprite->width = data->width;
+	sprite->unit_size = data->unit_size;
 	sprite->dist = FLT_MAX;
 	sprite->tex = EXIT_TEX;
 	return (1);
@@ -90,6 +91,7 @@ int			extract_enemy(t_game *game, t_map *map, int place, int map_index)
 	sprite->cur_z = data->base_z;
 	sprite->height = data->height;
 	sprite->width = data->width;
+	sprite->unit_size = data->unit_size;
 	sprite->dist = FLT_MAX;
 	sprite->tex = ENEMY_TEX;
 	return (1);
@@ -113,6 +115,7 @@ int			extract_ammo(t_game *game, t_map *map, int place, int map_index)
 	sprite->cur_z = data->base_z;
 	sprite->height = data->height;
 	sprite->width = data->width;
+	sprite->unit_size = data->unit_size;
 	sprite->dist = FLT_MAX;
 	sprite->tex = AMMO_TEX;
 	return (1);
@@ -136,6 +139,7 @@ int			extract_medi(t_game *game, t_map *map, int place, int map_index)
 	sprite->cur_z = data->base_z;
 	sprite->height = data->height;
 	sprite->width = data->width;
+	sprite->unit_size = data->unit_size;
 	sprite->dist = FLT_MAX;
 	sprite->tex = MEDI_TEX;
 	return (1);

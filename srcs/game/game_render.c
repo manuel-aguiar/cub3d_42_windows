@@ -133,4 +133,5 @@ void		game_render(t_game *game)
 	render_map_inside_compass(game);
 	render_player_inside_compass(game);
 
+	render_stats_bars(game);
 }
