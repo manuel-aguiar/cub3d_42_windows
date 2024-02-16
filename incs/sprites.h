@@ -111,6 +111,7 @@ typedef struct s_sprite
 	float				dist;
 	float				height;
 	float				width;
+	float				unit_size;
 	t_clock				clock;
 	e_textures			tex;
 	void				*data;

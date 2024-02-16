@@ -30,6 +30,13 @@
 # include "sprites.h"
 
 
+typedef struct s_hud
+{
+	t_pixel bar_bot_left;
+	t_pixel bar_top_left;
+
+}	t_hud;
+
 typedef struct s_dda_hor
 {
 	int 	min_y;
@@ -131,5 +138,7 @@ void	super_debug_print(t_game *game);
 int		setup_sprites(t_game *game);
 void	sprite_calc_dist(t_game *game);
 
+
+void	render_stats_bars(t_game *game);
 
 #endif

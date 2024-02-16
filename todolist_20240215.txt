@@ -11,14 +11,12 @@
 # **************************************************************************** #
 
 parsing:
-	count_island that calls flood fill, if caller is !=1 and i am ' ', bad map. if after flood fill i find another not checked to fill, bad map
 	check doors on parsing, put sprites on parsing
 
 compass:
 	print a couple of dda lines
 
 hud:
-	health bar and ammo bar, on top of each other, red life, blue ammo, grey where less than 100
 	find a weapon
 	when zooming, scale the weapon but do not change weapon position
 	introduce weapon sway, do not rotate weapon, bad performance
@@ -27,9 +25,6 @@ hud:
 	use sinf calculated for walking
 
 
-sprite rendering:
-	if !door, use unit size to determine sprite width
-	unit size will be needed for shot collision detection
 
 shot mechanics:
 	shot collision, enemies are flat against me, use position + unit size to determine their position
@@ -54,3 +49,4 @@ mlx:
 extras:
 	revise doors, store z_buffer
 	check door collisions
+	iluminação

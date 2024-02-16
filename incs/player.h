@@ -65,9 +65,9 @@ typedef struct s_player
 	t_vector		dir_vec;
 	t_vector		plane;
 
-	int				health;
-	int				ammo;
-	int				attack_val;
+	int				health[CTR_SIZE];
+	int				ammo[CTR_SIZE];
+	int				attack;
 
 	int				pitch;
 	

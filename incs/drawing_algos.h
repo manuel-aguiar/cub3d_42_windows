@@ -70,4 +70,6 @@ int		xiaolinwu_line(t_win_glfw *win, t_pixel start, t_pixel end);
 void	draw_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, int color);
 void	draw_vertical_line(t_win_glfw *win, int start_y, int end_y, int x, int color);
 
+void 	bersenham_line(t_win_glfw *win, t_pixel start, t_pixel end, int color);
+
 #endif
