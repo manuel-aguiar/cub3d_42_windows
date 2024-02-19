@@ -73,9 +73,10 @@ void	wallcast_reflection(t_game *game)
 		
 		double step = 1.0f * tex->width / lineHeight;
 		double texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
-
-		int y = drawStart;
-		while( y < drawEnd)
+		texPos += step * (0 - drawStart) * (drawStart < 0);
+		int y = ft_max(0, 0 - drawStart);
+		int end = ft_min(h, drawEnd);
+		while( y < end)
 		{
 			int texY = (int)texPos;
 			texPos += step;
@@ -93,12 +94,8 @@ void	wallcast_reflection(t_game *game)
 			texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
 			y = drawStart;
 			int	limit_down = ft_max(drawStart - lineHeight, 0);
-			while (y >= h)
-			{
-
-				texPos += step;
-				y--;
-			}
+			texPos += step * (drawStart - h) * (drawStart > h);
+			y = ft_min(h, drawStart);
 			while( y > limit_down)
 			{
 				int texY = (int)texPos;
@@ -116,13 +113,9 @@ void	wallcast_reflection(t_game *game)
 			}
 			
 			texPos = (drawEnd - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
-			y = drawEnd;
+			texPos += step * (0 - drawEnd) * (drawEnd < 0);
+			y = ft_max(drawEnd, 0);
 			int	limit_up = ft_min(drawEnd + lineHeight, h);
-			while (y < 0)
-			{
-				texPos -= step;
-				y++;
-			}
 			while( y < limit_up)
 			{
 				int texY = (int)texPos;
