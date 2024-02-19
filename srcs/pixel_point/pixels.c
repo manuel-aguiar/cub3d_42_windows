@@ -48,6 +48,11 @@ int		argb(int color)
 	return (new);
 }
 
+int		abgr_inversion(int r, int g, int b, int a)
+{
+	return ((a << 24) | (b << 16) | (g << 8) | (r));
+}
+
 int	avg_colour(int start, int end, int num, int den)
 {
 	t_ulong	r;

@@ -100,10 +100,10 @@ void		update_sprites(t_game *game)
 void		game_actions(t_game *game)
 {
 	//ft_memset(win->front_buf, 0, win->width * win->height * win->rgb_size * sizeof(*(win->front_buf)));
-	if ((*(game->keys) >> BIT_PAUSE_T) & 1 || (!((*(game->keys) >> BIT_PAUSE_T) & 1) && game->win.blur.elapsed > 0))
-		return ;
 	player_get_timer(&game->player, CLOCK_MOVE);
 	player_get_timer(&game->player, CLOCK_AIM);
+	if ((*(game->keys) >> BIT_PAUSE_T) & 1 || (!((*(game->keys) >> BIT_PAUSE_T) & 1) && game->win.blur.elapsed > 0))
+		return ;
 	game_key_manager(game);
 	game_mouse_manager(game);
 	player_actions(game);
@@ -146,7 +146,6 @@ void		game_render(t_game *game)
 		render_player_inside_compass(game);
 
 		render_stats_bars(game);
-		window_pause_manager(&game->win, PAUSE_ON);
 	}
 
 }

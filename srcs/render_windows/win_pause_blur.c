@@ -12,6 +12,8 @@
 
 # include "render_windows.h"
 
+int		abgr_inversion(int r, int g, int b, int a);
+
 void	window_transpose(char *dest, char *src, int width, int height, int rgb_size)
 {
 	int	row;
@@ -38,7 +40,7 @@ void	window_transpose(char *dest, char *src, int width, int height, int rgb_size
 	}
 }
 
-void	dump_blur_to_front_buf(t_win *win, t_pause_blur *blur)
+void	dump_blur_to_front_buf(t_win *win, t_pause_blur *blur, char *dump)
 {
 	int y;
 	int index;
@@ -49,7 +51,7 @@ void	dump_blur_to_front_buf(t_win *win, t_pause_blur *blur)
 	{
 		index = (blur->kernel_size / 2 + y * win->width) * win->rgb_size;
 		size = (win->width - (int)(blur->kernel_size / 2) * 2) * win->rgb_size;
-		ft_memcpy(&win->front_buf[index], &blur->second[index], size);
+		ft_memcpy(&win->front_buf[index], &dump[index], size);
 		y++;
 	}
 }
@@ -76,17 +78,24 @@ void	blur_horizontal(t_pause_blur *blur, char *dest, char *src, int width, int h
 			i = 0;					
 			while (i < blur->kernel_size)
 			{
-				posi = &src[(y * width + x - centre + i) * blur->rgb_size];
-				colors[0] += *(posi + 0) * blur->kernel[i];
-				colors[1] += *(posi + 1) * blur->kernel[i];
-				colors[2] += *(posi + 2) * blur->kernel[i];
-				colors[3] += *(posi + 3) * blur->kernel[i];
+				blur->save_pixels[i] = *(int *)&src[(y * width + x - centre + i) * blur->rgb_size];
+				colors[0] += rgb_r(blur->save_pixels[i]) * blur->kernel[i];
+				colors[1] += rgb_g(blur->save_pixels[i]) * blur->kernel[i];
+				colors[2] += rgb_b(blur->save_pixels[i]) * blur->kernel[i];
+				colors[3] += rgb_a(blur->save_pixels[i]) * blur->kernel[i];
+				(void)posi;
+				//posi = &src[(y * width + x - centre + i) * blur->rgb_size];
+				//colors[0] += (float)*(posi + 0) * blur->kernel[i];
+				//colors[1] += (float)*(posi + 1) * blur->kernel[i];
+				//colors[2] += (float)*(posi + 2) * blur->kernel[i];
+				//colors[3] += (float)*(posi + 3) * blur->kernel[i];
 				i++;
 			}
-			dest[blur_index + 0] = (char)(colors[0]);
-			dest[blur_index + 1] = (char)(colors[1]);
-			dest[blur_index + 2] = (char)(colors[2]);
-			dest[blur_index + 3] = (char)(colors[3]);
+			*(int *)&dest[blur_index] = rgba((int)colors[0], (int)colors[1], (int)colors[2], (int)colors[3]);
+			//dest[blur_index + 0] = (char)(colors[0]);
+			//dest[blur_index + 1] = (char)(colors[1]);
+			//dest[blur_index + 2] = (char)(colors[2]);
+			//dest[blur_index + 3] = (char)(colors[3]);
 			x++;
 		}
 		y++;
@@ -147,7 +156,7 @@ void	blur_pause(t_win *win, t_pause_blur *blur, bool increase_blur)
 	window_transpose(blur->second, blur->first, blur->width, blur->height, blur->rgb_size);
 	blur_horizontal(blur, blur->first, blur->second, blur->height, blur->width);
 	window_transpose(blur->second, blur->first, blur->height, blur->width, blur->rgb_size);
-	dump_blur_to_front_buf(win, blur);
+	dump_blur_to_front_buf(win, blur, blur->second);
 }
 
 void	window_pause_manager(t_win *win, e_pause_state state)
