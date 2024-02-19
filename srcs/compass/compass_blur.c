@@ -35,7 +35,7 @@ void transpose(int mat[], int size) {
     }
 }
 
-void	blur_compass(t_win_glfw *win, t_compass *comp)
+void	blur_compass(t_win *win, t_compass *comp)
 {
 	int		height;
 	int		blur_index;
@@ -142,7 +142,7 @@ void	blur_compass(t_win_glfw *win, t_compass *comp)
 	//exit(0);
 }
 
-void	blur_compass_hori_verti(t_win_glfw *win, t_compass *comp)
+void	blur_compass_hori_verti(t_win *win, t_compass *comp)
 {
 	int		height;
 	int		blur_index;

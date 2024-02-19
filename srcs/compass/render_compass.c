@@ -79,7 +79,7 @@ void	translate_compass(t_compass *comp, int dx, int dy)
 	comp->centre.y += dy;
 }
 
-void	render_compass(t_win_glfw *win, t_compass *comp)
+void	render_compass(t_win *win, t_compass *comp)
 {
 
 	//t_pixel c_comp = {400, 400, rgba(255,255,255,255)};

@@ -21,7 +21,7 @@ void	init_template_west(t_compass *comp)
 	comp->west[W_TOP_RIGHT] = (t_pixel){(comp->letter_width + 1),(comp->letter_height / 2 + 1), comp->letter_color};
 }
 
-void	render_west_letter(t_win_glfw *win, t_compass *comp)
+void	render_west_letter(t_win *win, t_compass *comp)
 {
 	t_pixel	west[W_SIZE];
 	int		i;

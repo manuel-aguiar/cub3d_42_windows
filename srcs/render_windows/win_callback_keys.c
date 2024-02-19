@@ -34,6 +34,19 @@ void	key_release(int keycode)
 		g_keys &= ~(1 << BIT_PRONE);
 }
 
+/*
+	BIT_BLUR_T,
+	BIT_REFLECT_T,
+	BIT_SHADE_T,
+	BIT_PAUSE_T,
+
+*/
+
+void	key_press_toggle(int keycode)
+{
+	(void)keycode;
+}
+
 void	key_press(int keycode)
 {
 	if (keycode == KEY_ESC)
@@ -54,6 +67,7 @@ void	key_press(int keycode)
 		g_keys |= (1 << BIT_CROUCH);
 	else if (keycode == KEY_PRONE)
 		g_keys |= (1 << BIT_PRONE);
+	key_press_toggle(keycode);
 }
 
 

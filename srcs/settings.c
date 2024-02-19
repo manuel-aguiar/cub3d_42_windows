@@ -53,6 +53,16 @@ void    apply_all_settings(t_game *game)
     game->compass.blur.kernel_size = BLUR_KERNEL_SIZE;
     game->compass.blur.sigma = BLUR_KERNEL_SIGMA;
 
+    game->win.blur = (t_pause_blur){};
+    game->win.blur.max_kernel = BLUR_KERNEL_MAX;
+    game->win.blur.kernel_size = BLUR_KERNEL_SIZE;
+    game->win.blur.cur_sigma = WIN_MIN_SIGMA;
+    game->win.blur.min_sigma = WIN_MIN_SIGMA;
+    game->win.blur.max_sigma = WIN_MAX_SIGMA;
+    game->win.blur.pause_time = WIN_PAUSE_TIME;
+    game->win.blur.rgb_size = game->win.rgb_size;
+    game->win.blur.height = game->win.height;
+    game->win.blur.width = game->win.width;
     //player settings
 
 	game->player.forward_move = PLAY_FORWARD_MOVE_SENSE;

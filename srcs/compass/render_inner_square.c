@@ -12,7 +12,7 @@
 
 # include "compass.h"
 
-void	render_square_vs_circle(t_win_glfw *win, t_compass *comp, t_pixel centre)
+void	render_square_vs_circle(t_win *win, t_compass *comp, t_pixel centre)
 {
 	int 		i;
 	int 		x;
@@ -61,7 +61,7 @@ void	render_square_vs_circle(t_win_glfw *win, t_compass *comp, t_pixel centre)
 	}
 }
 
-void	render_square_vs_rect(t_win_glfw *win, t_compass *comp, t_pixel centre, t_pixel low_bot, t_pixel hi_top)
+void	render_square_vs_rect(t_win *win, t_compass *comp, t_pixel centre, t_pixel low_bot, t_pixel hi_top)
 {
 	int 		i;
 	int 		x;

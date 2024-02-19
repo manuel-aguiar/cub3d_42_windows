@@ -17,7 +17,7 @@ endianess issues here, should place pixels char by char....
 performance looks to be exactly the same, optimized by the compiler
 
 */
-void	win_set_pixel(t_win_glfw *win, int x, int y, int color)
+void	win_set_pixel(t_win *win, int x, int y, int color)
 {
 	/*
 	char *dest;
@@ -36,7 +36,7 @@ void	win_set_pixel(t_win_glfw *win, int x, int y, int color)
 	
 }
 
-int	win_get_pixel(t_win_glfw *win, int x, int y)
+int	win_get_pixel(t_win *win, int x, int y)
 {
 	/*
 	int new;

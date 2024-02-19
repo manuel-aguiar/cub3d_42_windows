@@ -15,7 +15,7 @@
 
 
 
-int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)())
+int		win_render(t_game *game, t_win *win, void (*win_key_press)())
 {	
 	(void)win_key_press;
 	glfwSetKeyCallback(win->window, win_key_callback);

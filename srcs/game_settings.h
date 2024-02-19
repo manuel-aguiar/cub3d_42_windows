@@ -28,6 +28,10 @@
 
 # define RGB_SIZE 4
 
+# define WIN_MIN_SIGMA 1
+# define WIN_MAX_SIGMA 50
+# define WIN_PAUSE_TIME 3000
+
 # define RGBA(r, g, b, a) (((r) << 24) | ((g) << 16) | ((b) << 8) | (a))
 
 /* compass settings */

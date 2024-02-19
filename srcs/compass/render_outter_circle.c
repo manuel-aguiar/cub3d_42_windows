@@ -37,7 +37,7 @@ each scanline and print only what is needed
 //quake fast inverse square root of doom
 
 
-void setPixel4(t_win_glfw *win, int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, bool line)
+void setPixel4(t_win *win, int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, bool line)
 {
     win->set_pixel(win, centreX + deltaX, centreY + deltaY, gamma_average(win->get_pixel(win, centreX + deltaX, centreY + deltaY), color, num, den));
     win->set_pixel(win, centreX - deltaX, centreY + deltaY, gamma_average(win->get_pixel(win, centreX - deltaX, centreY + deltaY), color, num, den));
@@ -52,7 +52,7 @@ void setPixel4(t_win_glfw *win, int centreX, int centreY, int deltaX, int deltaY
 	}
 }
 
-void render_full_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, int color)
+void render_full_circle_with_aa(t_win *win, t_pixel centre, int radius, int color)
 {
 
 	int centreX = centre.x;
@@ -74,7 +74,7 @@ void render_full_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, int
     }
 }
 
-void render_empty_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, int color)
+void render_empty_circle_with_aa(t_win *win, t_pixel centre, int radius, int color)
 {
 	int centreX = centre.x;
 	int centreY = centre.y;
@@ -96,7 +96,7 @@ void render_empty_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, in
 }
 
 
-void	reduce_alpha_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, float factor)
+void	reduce_alpha_horizontal_line(t_win *win, int min_x, int max_x, int y, float factor)
 {
 	int color;
 
@@ -108,7 +108,7 @@ void	reduce_alpha_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, 
 	}
 }
 
-void	drop_the_blur(t_win_glfw *win, t_compass *comp, int min_x, int max_x, int y)
+void	drop_the_blur(t_win *win, t_compass *comp, int min_x, int max_x, int y)
 {
 	t_blur *blur;
 	int blur_y;
@@ -133,7 +133,7 @@ void	drop_the_blur(t_win_glfw *win, t_compass *comp, int min_x, int max_x, int y
 }
 
 
-void setpixel_inner(t_win_glfw *win, t_compass *comp, int c_min_max[MM_SIZE], \
+void setpixel_inner(t_win *win, t_compass *comp, int c_min_max[MM_SIZE], \
 int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, bool line)
 {
 
@@ -170,7 +170,7 @@ int centreX, int centreY, int deltaX, int deltaY, int color, int num, int den, b
 	}
 }
 
-void draw_ring_to_inner_circle(t_win_glfw *win, t_compass *comp)
+void draw_ring_to_inner_circle(t_win *win, t_compass *comp)
 {
 	t_pixel centre;
 	int		radius;

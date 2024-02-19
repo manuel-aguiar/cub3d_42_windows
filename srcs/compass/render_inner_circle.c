@@ -12,7 +12,7 @@
 
 # include "compass.h"
 
-void	render_inner_circle(t_win_glfw *win, t_compass *comp)
+void	render_inner_circle(t_win *win, t_compass *comp)
 {
 	t_circle	*inner;
 	int	y_adj;

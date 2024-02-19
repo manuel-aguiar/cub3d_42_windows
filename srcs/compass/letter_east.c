@@ -22,7 +22,7 @@ void	init_template_east(t_compass *comp)
 	comp->east[E_MID_RIGHT] = (t_pixel){(comp->letter_width / 2 + 1), 0, comp->letter_color};
 }
 
-void	render_east_letter(t_win_glfw *win, t_compass *comp)
+void	render_east_letter(t_win *win, t_compass *comp)
 {
 	t_pixel	east[E_SIZE];
 	int		i;

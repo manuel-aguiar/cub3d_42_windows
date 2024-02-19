@@ -12,7 +12,7 @@
 
 # include "render_windows.h"
 
-int	win_init_window(t_win_glfw *win)
+int	win_init_window(t_win *win)
 {
 	if (!win)
 		return (perror_msg_int("malloc", 0));
@@ -31,7 +31,11 @@ int	win_init_window(t_win_glfw *win)
 		return (0);		// no free, potencial memleak
 	}
 	win->front_buf = malloc(sizeof(*win->front_buf) * win->width * win->height * win->rgb_size);
-	if (!win->front_buf)
+	win->blur.first = malloc(sizeof(*win->blur.first) * win->width * win->height * win->rgb_size);
+	win->blur.second = malloc(sizeof(*win->blur.second) * win->width * win->height * win->rgb_size);
+	win->blur.save_front = malloc(sizeof(*win->blur.save_front) * win->width * win->height * win->rgb_size);
+	win->blur.clock = (t_clock){};
+	if (!win->front_buf || !win->blur.first || !win->blur.second || !win->blur.save_front)
 		return (0);		// no free, potencial memleak
 	win->set_pixel = win_set_pixel;
 	win->get_pixel = win_get_pixel;
@@ -41,13 +45,20 @@ int	win_init_window(t_win_glfw *win)
 	return (1);	
 }
 
-int	free_win_glfw(t_win_glfw *win)
+int	free_win_glfw(t_win *win)
 {
 	glfwSetInputMode(win->window, GLFW_STICKY_KEYS, GLFW_TRUE);
 	glfwSetInputMode(win->window, GLFW_STICKY_MOUSE_BUTTONS, GLFW_TRUE);
 	glfwSetInputMode(win->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	glfwDestroyWindow(win->window);
 	glfwTerminate();
-	free(win->front_buf);
+	if (win->front_buf)
+		free(win->front_buf);
+	if (win->blur.first)
+		free(win->blur.first);
+	if (win->blur.second)
+		free(win->blur.second);
+	if (win->blur.save_front)
+		free(win->blur.save_front);
 	return (1);
 }

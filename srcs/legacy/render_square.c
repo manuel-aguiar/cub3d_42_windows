@@ -14,7 +14,7 @@
 
 
 
-void	render_new_square(t_win_glfw *win, t_compass *comp, t_pixel centre)
+void	render_new_square(t_win *win, t_compass *comp, t_pixel centre)
 {
 	int i;
 	int x;

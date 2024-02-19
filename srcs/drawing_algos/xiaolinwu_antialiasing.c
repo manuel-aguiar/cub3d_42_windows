@@ -14,10 +14,10 @@
 
 int gamma_average(int start, int end, int num, int den);
 
-extern int	xiaolin_x_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data);
-extern int	xiaolin_y_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data);
+extern int	xiaolin_x_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data);
+extern int	xiaolin_y_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data);
 
-static int	xiaolin_diagonal(t_win_glfw *win, t_pixel *start, \
+static int	xiaolin_diagonal(t_win *win, t_pixel *start, \
 t_pixel *end, t_xldata *data)
 {
 	data->save = data->dy;
@@ -32,7 +32,7 @@ t_pixel *end, t_xldata *data)
 	return (1);
 }
 
-static int	xiaolin_vertical(t_win_glfw *win, t_pixel *start, \
+static int	xiaolin_vertical(t_win *win, t_pixel *start, \
 t_pixel *end, t_xldata *data)
 {
 	data->save = data->dy;
@@ -46,7 +46,7 @@ t_pixel *end, t_xldata *data)
 	return (1);
 }
 
-static int	xiaolin_horizontal(t_win_glfw *win, t_pixel *start, \
+static int	xiaolin_horizontal(t_win *win, t_pixel *start, \
 t_pixel *end, t_xldata *data)
 {
 	data->save = data->dx;
@@ -60,7 +60,7 @@ t_pixel *end, t_xldata *data)
 	return (1);
 }
 
-int	xiaolinwu_line(t_win_glfw *win, t_pixel start, t_pixel end)
+int	xiaolinwu_line(t_win *win, t_pixel start, t_pixel end)
 {
 	t_xldata	data;
 

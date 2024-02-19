@@ -13,7 +13,7 @@
 
 # include "game.h"
 
-void	win_full_circle(t_win_glfw *win, t_pixel centre, int radius, int color)
+void	win_full_circle(t_win *win, t_pixel centre, int radius, int color)
 {
     int x;
     int y;
@@ -44,7 +44,7 @@ void	win_full_circle(t_win_glfw *win, t_pixel centre, int radius, int color)
 
 
 
-void	win_drawcircle_wo_antialiasing(t_win_glfw *win, t_pixel centre, int radius, int color, int width)
+void	win_drawcircle_wo_antialiasing(t_win *win, t_pixel centre, int radius, int color, int width)
 {
     int x;
     int y;
@@ -84,7 +84,7 @@ void	win_drawcircle_wo_antialiasing(t_win_glfw *win, t_pixel centre, int radius,
 	}
 }
 
-void	win_drawcircle_wo_antialiasing_clean(t_win_glfw *win, t_pixel centre, int radius, int color)
+void	win_drawcircle_wo_antialiasing_clean(t_win *win, t_pixel centre, int radius, int color)
 {
     int x;
     int y;

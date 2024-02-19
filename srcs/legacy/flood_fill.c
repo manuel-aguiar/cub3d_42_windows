@@ -12,7 +12,7 @@
 
 #include "render_windows.h"
 
-void	flood_fill(t_win_glfw *win, int x, int y, int color)
+void	flood_fill(t_win *win, int x, int y, int color)
 {
 	if (win->get_pixel(win, x, y) != 0)
 		return ;

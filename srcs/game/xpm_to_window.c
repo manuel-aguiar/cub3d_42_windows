@@ -15,7 +15,7 @@
 
 
 
-void	xpm_to_window(t_win_glfw *win, t_xpm_tex *tex, t_pixel bot_left, int pixel_wdt, int pixel_hgt)
+void	xpm_to_window(t_win *win, t_xpm_tex *tex, t_pixel bot_left, int pixel_wdt, int pixel_hgt)
 {
 	if (bot_left.x + pixel_wdt > win->width || bot_left.y + pixel_hgt > win->height)
 		return ;

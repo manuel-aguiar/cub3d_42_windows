@@ -22,7 +22,7 @@ void	init_template_south(t_compass *comp)
 	comp->south[S_MID_RIGHT] = (t_pixel){(comp->letter_width / 2 + 1), 0, comp->letter_color};
 }
 
-void	render_south_letter(t_win_glfw *win, t_compass *comp)
+void	render_south_letter(t_win *win, t_compass *comp)
 {
 	t_pixel	south[S_SIZE];
 	int		i;

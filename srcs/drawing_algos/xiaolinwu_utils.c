@@ -14,7 +14,7 @@
 
 int gamma_average(int start, int end, int num, int den);
 
-int	xiaolin_x_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data)
+int	xiaolin_x_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data)
 {
 	data->err_adj = ((t_ulong)data->dy << 16) / (t_ulong)data->dx;
 	data->save = data->dx;
@@ -37,7 +37,7 @@ int	xiaolin_x_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *dat
 	return (1);
 }
 
-int	xiaolin_y_major(t_win_glfw *win, t_pixel *start, t_pixel *end, t_xldata *data)
+int	xiaolin_y_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data)
 {
 	data->err_adj = ((t_ulong)data->dx << 16) / (t_ulong)data->dy;
 	data->save = data->dy;
