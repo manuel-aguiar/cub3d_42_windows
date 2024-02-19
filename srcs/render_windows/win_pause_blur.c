@@ -28,10 +28,10 @@ void	window_transpose(char *dest, char *src, int width, int height)
 			src_index = (col + row * width) * 4;
 			dest_index = (row + col * height) * 4;
 			*(int *)(&dest[dest_index]) = *(int *)(&src[src_index]);
-			dest[dest_index + 0] = src[src_index + 0];
-			dest[dest_index + 1] = src[src_index + 1];
-			dest[dest_index + 2] = src[src_index + 2];
-			dest[dest_index + 3] = src[src_index + 3];
+			//dest[dest_index + 0] = src[src_index + 0];
+			//dest[dest_index + 1] = src[src_index + 1];
+			//dest[dest_index + 2] = src[src_index + 2];
+			//dest[dest_index + 3] = src[src_index + 3];
 			col++;
 		}
 		row++;
