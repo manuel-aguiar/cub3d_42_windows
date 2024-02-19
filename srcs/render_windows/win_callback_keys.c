@@ -72,6 +72,13 @@ void	key_press_toggle(int keycode)
 		else
 			g_keys &= ~(1 << BIT_PAUSE_T);			
 	}
+	else if (keycode == KEY_HUD_T)
+	{
+		if (!((g_keys >> BIT_HUD_T) & 1))
+			g_keys |= (1 << BIT_HUD_T);
+		else
+			g_keys &= ~(1 << BIT_HUD_T);			
+	}
 }
 
 void	key_press(int keycode)

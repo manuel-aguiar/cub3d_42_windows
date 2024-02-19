@@ -120,11 +120,11 @@ void		game_render(t_game *game)
 	//player_start_timers(&game->player);
 	//xpm_to_window(&game->win, game->tex[NO_TEX], first, game->tex[NO_TEX]->width, game->tex[NO_TEX]->height);
 	//printf("dda visible next\n");
-
+	game->compass.blur_on = (((*game->keys) >> BIT_BLUR_T) & 1);
 	if ((*(game->keys) >> BIT_PAUSE_T) & 0xff)
-		window_pause_manager(&game->win, PAUSE_ON);
+		window_pause_manager(game, &game->win, PAUSE_ON);
 	else if (game->win.blur.elapsed > 0)
-		window_pause_manager(&game->win, PAUSE_OFF);
+		window_pause_manager(game, &game->win, PAUSE_OFF);
 	else
 	{
 		dda_visible(game);
@@ -141,10 +141,12 @@ void		game_render(t_game *game)
 		//exit(0);
 		//floorcast(game);
 		//wallcast(game);
-		render_compass(&game->win, &game->compass);
-		render_map_inside_compass(game);
-		render_player_inside_compass(game);
-
+		if (((*game->keys) >> BIT_HUD_T) & 1)
+		{
+			render_compass(&game->win, &game->compass);
+			render_map_inside_compass(game);
+			render_player_inside_compass(game);
+		}
 		render_stats_bars(game);
 	}
 

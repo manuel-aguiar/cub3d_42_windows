@@ -60,6 +60,7 @@ void    apply_all_settings(t_game *game)
     game->win.blur.min_sigma = WIN_MIN_SIGMA;
     game->win.blur.max_sigma = WIN_MAX_SIGMA;
     game->win.blur.pause_time = WIN_PAUSE_TIME;
+    game->win.blur.elapsed = 0;
     game->win.blur.rgb_size = game->win.rgb_size;
     game->win.blur.height = game->win.height;
     game->win.blur.width = game->win.width;

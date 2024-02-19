@@ -85,8 +85,9 @@ void	render_compass(t_win *win, t_compass *comp)
 	//t_pixel c_comp = {400, 400, rgba(255,255,255,255)};
 //
 	//render_full_circle_with_aa(win, c_comp, comp->radius, rgba(0,255,0,255));
-
-	blur_compass(win, comp);
+	
+	if (comp->blur_on)
+		blur_compass(win, comp);
 	
 	draw_ring_to_inner_circle(win, comp);
 	

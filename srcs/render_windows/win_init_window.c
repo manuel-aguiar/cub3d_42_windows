@@ -35,6 +35,7 @@ int	win_init_window(t_win *win)
 	win->blur.second = malloc(sizeof(*win->blur.second) * win->width * win->height * win->rgb_size);
 	win->blur.save_front = malloc(sizeof(*win->blur.save_front) * win->width * win->height * win->rgb_size);
 	win->blur.clock = (t_clock){};
+	ftime(&win->blur.clock.start);
 	if (!win->front_buf || !win->blur.first || !win->blur.second || !win->blur.save_front)
 		return (0);		// no free, potencial memleak
 	win->set_pixel = win_set_pixel;

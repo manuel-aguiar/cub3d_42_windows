@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "render_windows.h"
+# include "game.h"
 
 int		abgr_inversion(int r, int g, int b, int a);
 
@@ -109,7 +109,8 @@ int	window_update_clock(t_win *win)
 	win->blur.clock.elapsed = (size_t) (1000.0 * (win->blur.clock.end.time - win->blur.clock.start.time)
 	+ (win->blur.clock.end.millitm - win->blur.clock.start.millitm));
 	win->blur.clock.start = win->blur.clock.end;
-	return (win->blur.clock.elapsed);
+	//printf("clock says %u elapsed\n", win->blur.clock.elapsed);
+	return (win->blur.clock.elapsed + 1);
 }
 
 
@@ -131,7 +132,7 @@ static void pause_setup_kernel(t_pause_blur *blur)
 	i = 0;
 	while (i < blur->kernel_size)
 	{
-        blur->kernel[i] = pause_gaussian(i - centre, blur->cur_sigma);
+        blur->kernel[i] = pause_gaussian(i - centre, sqrt(blur->cur_sigma));
         sum += blur->kernel[i];	
 		i++;	
 	}
@@ -150,7 +151,7 @@ void	blur_pause(t_win *win, t_pause_blur *blur, bool increase_blur)
 	else
 		blur->elapsed = int_clamp(blur->elapsed - window_update_clock(win), 0, blur->pause_time);
 	blur->cur_sigma = blur->min_sigma + (int)(((float)blur->elapsed / (float)blur->pause_time) * (blur->max_sigma - blur->min_sigma));
-	printf("sigma is %d\n", blur->cur_sigma);
+	//printf("sigma is %d, elapsed is %ld\n", blur->cur_sigma, blur->elapsed);
 	pause_setup_kernel(blur);
 	blur_horizontal(blur, blur->first, blur->save_front, blur->width, blur->height);
 	window_transpose(blur->second, blur->first, blur->width, blur->height, blur->rgb_size);
@@ -159,7 +160,7 @@ void	blur_pause(t_win *win, t_pause_blur *blur, bool increase_blur)
 	dump_blur_to_front_buf(win, blur, blur->second);
 }
 
-void	window_pause_manager(t_win *win, e_pause_state state)
+void	window_pause_manager(t_game *game, t_win *win, e_pause_state state)
 {
 	t_pause_blur *blur;
 
@@ -169,20 +170,39 @@ void	window_pause_manager(t_win *win, e_pause_state state)
 		if (blur->elapsed >= blur->pause_time)
 		{
 			blur->elapsed = blur->pause_time;
+			//printf("hello?\n");
 			return ;
 		}
-		if (blur->elapsed == 0)
+		if (blur->elapsed <= 0)
+		{
 			ft_memcpy(blur->save_front, win->front_buf, win->height * win->width * win->rgb_size);
-		blur_pause(win, blur, true);	
+			window_update_clock(win);
+			blur->elapsed = 1;
+		}
+		//printf("blur elapsed on %d\n", blur->elapsed);
+		if (((*game->keys) >> BIT_BLUR_T) & 1)
+			blur_pause(win, blur, true);
+		else
+			blur->elapsed = int_clamp(blur->elapsed + window_update_clock(win), 0, blur->pause_time);;
 	}
 	else if (state == PAUSE_OFF)
 	{
+		//printf("elapsed off is %d\n", blur->elapsed);
 		if (blur->elapsed <= 0)
 		{
 			blur->elapsed = 0;
 			return ;
 		}
-		blur_pause(win, blur, false);
+		if (blur->elapsed >= blur->pause_time)
+		{
+			blur->elapsed = blur->pause_time;
+			window_update_clock(win);
+		}
+			
+		//printf("blur elapsed off %d\n", blur->elapsed);
+		if (((*game->keys) >> BIT_BLUR_T) & 1)
+			blur_pause(win, blur, false);
+		else
+			blur->elapsed = int_clamp(blur->elapsed - window_update_clock(win), 0, blur->pause_time);
 	}
-
 }

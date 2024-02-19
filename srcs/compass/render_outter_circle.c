@@ -114,6 +114,8 @@ void	drop_the_blur(t_win *win, t_compass *comp, int min_x, int max_x, int y)
 	int blur_y;
 	int	blur_x;
 
+	if (!comp->blur_on)
+		return ; 
 	blur = &comp->blur;
 	blur_y = comp->radius + y - comp->centre.y;
 	blur_x = comp->radius + min_x - comp->centre.x;
