@@ -46,7 +46,12 @@ enum e_keys_vals
 	KEY_SPRINT = GLFW_KEY_LEFT_SHIFT,
 	KEY_CROUCH = GLFW_KEY_X,
 	KEY_PRONE = GLFW_KEY_Z,
+	KEY_BLUR_T = GLFW_KEY_1,
+	KEY_REFLECT_T = GLFW_KEY_2,
+	KEY_SHADE_T = GLFW_KEY_2,
+	KEY_PAUSE_T = GLFW_KEY_P,
 	KEY_COUNT = 19,
+	
 };
 
 enum e_keys_bits
@@ -60,6 +65,10 @@ enum e_keys_bits
 	BIT_SPRINT,
 	BIT_CROUCH,
 	BIT_PRONE,
+	BIT_BLUR_T,
+	BIT_REFLECT_T,
+	BIT_SHADE_T,
+	BIT_PAUSE_T,
 };
 
 enum e_button_vals

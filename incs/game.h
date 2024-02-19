@@ -51,7 +51,7 @@ typedef struct s_game
 	t_parsing	parsing;
 	t_map		map;
 	t_compass	compass;
-	t_win_glfw	win;
+	t_win	win;
 	t_player	player;
 	t_mouse		*mouse;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
@@ -92,7 +92,7 @@ void	game_render(t_game *game);
 void	game_actions(t_game *game);
 
 
-int		win_render(t_game *game, t_win_glfw *win, void (*win_key_press)());
+int		win_render(t_game *game, t_win *win, void (*win_key_press)());
 
 //player....
 void	handle_collisions(t_game *game, t_vector potencial);
@@ -115,7 +115,7 @@ void	wallcast(t_game *game);
 
 void	raycasting_horizontal(t_game *game);
 
-void	xpm_to_window(t_win_glfw *win, t_xpm_tex *tex, t_pixel corner, int pixel_wid, int pixel_hgt);
+void	xpm_to_window(t_win *win, t_xpm_tex *tex, t_pixel corner, int pixel_wid, int pixel_hgt);
 void	xpm_tex_translate(t_xpm_tex *tex);
 
 void	player_actions(t_game *game);

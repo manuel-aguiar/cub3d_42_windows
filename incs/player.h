@@ -149,7 +149,7 @@ typedef struct s_player
 
 
 void    player_setup(t_player *player);
-void	render_player(t_win_glfw *win, t_player *player);
+void	render_player(t_win *win, t_player *player);
 
 
 void	player_change_aim(t_player *player);

@@ -109,7 +109,8 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 SRC_REN_WIN			=	win_init_window.c		\
 						win_pixels.c			\
 						win_callback_keys.c		\
-						win_callback_mouse.c		
+						win_callback_mouse.c	\
+						win_pause_blur.c	
 
 
 SRC_COMPASS			=	render_compass.c				\

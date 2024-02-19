@@ -234,28 +234,28 @@ typedef struct s_compass
 
 //letter_north.c
 void	init_template_north(t_compass *comp);
-void	render_north_letter(t_win_glfw *win, t_compass *comp);
+void	render_north_letter(t_win *win, t_compass *comp);
 
 //letter_south.c
 void	init_template_south(t_compass *comp);
-void	render_south_letter(t_win_glfw *win, t_compass *comp);
+void	render_south_letter(t_win *win, t_compass *comp);
 
 //letter_east.c
 void	init_template_east(t_compass *comp);
-void	render_east_letter(t_win_glfw *win, t_compass *comp);
+void	render_east_letter(t_win *win, t_compass *comp);
 
 //letter_west.c
 void	init_template_west(t_compass *comp);
-void	render_west_letter(t_win_glfw *win, t_compass *comp);
+void	render_west_letter(t_win *win, t_compass *comp);
 
 //letter_south_circle.c
 void	init_template_south_circle(t_compass *comp);
-void	render_south_letter_circle(t_win_glfw *win, t_compass *comp);
+void	render_south_letter_circle(t_win *win, t_compass *comp);
 
 //win_square.c
 void	init_template_square(t_compass *comp);
 void	compass_square_xlim_rotate(t_compass *comp, t_square *sqr);
-void	draw_horizontal_line(t_win_glfw *win, int min_x, int max_x, int y, int color);
+void	draw_horizontal_line(t_win *win, int min_x, int max_x, int y, int color);
 
 //translate_rotate.c
 void	translate_point(t_pixel	*point, int dx, int dy);
@@ -265,24 +265,24 @@ void	rotate_point(t_pixel *point, t_pixel centre, float cos, float sin);
 //compass_setup.c
 void	compass_setup(t_compass *comp);
 void	translate_compass(t_compass *comp, int dx, int dy);
-void	render_compass(t_win_glfw *win, t_compass *comp);
+void	render_compass(t_win *win, t_compass *comp);
 void	free_compass(t_compass *comp);
 
 //render_inner_circle.c
 int 	init_inner_circle(t_compass *comp);
-void	render_inner_circle(t_win_glfw *win, t_compass *comp);
+void	render_inner_circle(t_win *win, t_compass *comp);
 
 //render_inner_square.c
-void	render_square_vs_circle(t_win_glfw *win, t_compass *comp, t_pixel centre);
-void	render_square_vs_rect(t_win_glfw *win, t_compass *comp, t_pixel centre, t_pixel low_bot, t_pixel hi_top);
+void	render_square_vs_circle(t_win *win, t_compass *comp, t_pixel centre);
+void	render_square_vs_rect(t_win *win, t_compass *comp, t_pixel centre, t_pixel low_bot, t_pixel hi_top);
 
 //render_outter_circle.c
-void 	render_empty_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, int color);
-void 	render_full_circle_with_aa(t_win_glfw *win, t_pixel centre, int radius, int color);
-void 	draw_ring_to_inner_circle(t_win_glfw *win, t_compass *comp);
+void 	render_empty_circle_with_aa(t_win *win, t_pixel centre, int radius, int color);
+void 	render_full_circle_with_aa(t_win *win, t_pixel centre, int radius, int color);
+void 	draw_ring_to_inner_circle(t_win *win, t_compass *comp);
 
-void	blur_compass(t_win_glfw *win, t_compass *comp);
-void	blur_compass_hori_verti(t_win_glfw *win, t_compass *comp);
+void	blur_compass(t_win *win, t_compass *comp);
+void	blur_compass_hori_verti(t_win *win, t_compass *comp);
 
 
 #endif

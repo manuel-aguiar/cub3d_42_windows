@@ -19,6 +19,7 @@
 # include <GLFW/glfw3.h>
 # include <sys\timeb.h> 
 
+# define MY_PI 3.14159265f
 
 # include "libft.h"
 # include "vector.h"
@@ -27,7 +28,7 @@
 
 # define RGB_SIZE 4 
 
-typedef struct s_win_glfw t_win_glfw;
+typedef struct s_win t_win;
 typedef struct s_pixel t_pixel;
 
 
@@ -46,7 +47,33 @@ typedef struct s_clock
     size_t			elapsed;
 }   t_clock;
 
-struct s_win_glfw
+typedef struct s_pause_blur
+{
+	float	kernel[31];
+	int		save_pixels[31];
+	int		kernel_size;
+	int		max_kernel;
+	int		cur_sigma;
+	int		min_sigma;
+	int		max_sigma;
+	int		pause_time;
+	t_clock	clock;
+	int		elapsed;
+	char	*first;
+	char	*second;
+	char	*save_front;
+	int		rgb_size;
+	int		height;
+	int		width;
+}	t_pause_blur;
+
+typedef enum
+{
+	PAUSE_OFF,
+	PAUSE_ON,
+}	e_pause_state;
+
+struct s_win
 {
 	GLFWwindow		*window;
 	char			*front_buf;
@@ -55,15 +82,16 @@ struct s_win_glfw
 	int				rgb_size;
 	char			name[6];
 	t_clock			fps;
-	void			(*set_pixel)(t_win_glfw *win, int x, int y, int color);
-	int				(*get_pixel)(t_win_glfw *win, int x, int y);
+	t_pause_blur	blur;
+	void			(*set_pixel)(t_win *win, int x, int y, int color);
+	int				(*get_pixel)(t_win *win, int x, int y);
 };
 
 
 
 //win_init_window.c
-int			win_init_window(t_win_glfw *win);
-int			free_win_glfw(t_win_glfw *win);
+int			win_init_window(t_win *win);
+int			free_win_glfw(t_win *win);
 
 //win_keys.c
 void	win_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -74,16 +102,23 @@ void	win_mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffse
 
 
 //win_pixels.c
-void	win_set_pixel(t_win_glfw *win, int x, int y, int color);
-int		win_get_pixel(t_win_glfw *win, int x, int y);
+void	win_set_pixel(t_win *win, int x, int y, int color);
+int		win_get_pixel(t_win *win, int x, int y);
 int		avg_colour(int start, int end, int num, int den);
 void	swap_pixels(t_pixel *start, t_pixel *end);
 
 
 
-void chatgpt_anticircle(t_win_glfw *win, t_pixel centre, int radius, int color);
+void chatgpt_anticircle(t_win *win, t_pixel centre, int radius, int color);
 
 //win_fps_counter.c
 void    set_fps_start(t_fps_counter *fps);
 void    fps_calc_print(t_fps_counter *fps);
+
+
+
+//win_pause_blur.c
+
+void	window_pause_manager(t_win *win, e_pause_state state);
+
 #endif
