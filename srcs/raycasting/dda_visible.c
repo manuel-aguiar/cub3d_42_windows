@@ -123,9 +123,9 @@ void	dda_visible(t_game *game)
 		game->hori_rays[x].line_height = lineHeight;
 		//calculate lowest and highest pixel to fill in current stripe
 		game->hori_rays[x].min_y = -lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / perpWallDist);
-		game->hori_rays[x].min_y = int_clamp(game->hori_rays[x].min_y, 0, h);
+		//game->hori_rays[x].min_y = int_clamp(game->hori_rays[x].min_y, 0, h);
 		game->hori_rays[x].max_y = lineHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ perpWallDist);
-		game->hori_rays[x].max_y = int_clamp(game->hori_rays[x].max_y, 0, h);
+		//game->hori_rays[x].max_y = int_clamp(game->hori_rays[x].max_y, 0, h);
 		
 		if (game->hori_rays[x].min_y > game->maxmin_hori)
 			game->maxmin_hori = game->hori_rays[x].min_y;

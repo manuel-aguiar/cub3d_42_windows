@@ -30,7 +30,8 @@ void	floorcast_dda_visible(t_game *game)
     //dda_visible(game);
     //printf("break\n")
 	//printf("maxmin floor %d\n", game->maxmin_hori);
-    while (y < game->maxmin_hori)		//no pitch correction
+    int end = ft_min(game->maxmin_hori, h - 1);
+    while (y < end)		//no pitch correction
     {
       // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
 
@@ -122,13 +123,13 @@ void	floorcast_dda_visible(t_game *game)
 	  //exit(0);
 	  y++;
     }
-
+    
 	dir = vector_multi(vector_multi(game->player.dir_vec, game->player.cur_dir_len), 1);
 	ray_left = vector_add(dir, game->player.plane);
 	ray_right = vector_sub(dir, game->player.plane);
     float floorZ = (1 - (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod)) * h ;
    // y+=200;
-   y = game->minmax_hori + 1;
+   y = ft_max(game->minmax_hori + 1, 0);
    //printf("minmax ceil %d\n", game->minmax_hori);
     while (y < h)		//no pitch correction
     {
