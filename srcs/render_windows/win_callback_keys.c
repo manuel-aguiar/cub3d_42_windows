@@ -44,7 +44,34 @@ void	key_release(int keycode)
 
 void	key_press_toggle(int keycode)
 {
-	(void)keycode;
+	if (keycode == KEY_BLUR_T)
+	{
+		if (!((g_keys >> BIT_BLUR_T) & 1))
+			g_keys |= (1 << BIT_BLUR_T);
+		else
+			g_keys &= ~(1 << BIT_BLUR_T);			
+	}
+	else if (keycode == KEY_REFLECT_T)
+	{
+		if (!((g_keys >> BIT_REFLECT_T) & 1))
+			g_keys |= (1 << BIT_REFLECT_T);
+		else
+			g_keys &= ~(1 << BIT_REFLECT_T);			
+	}
+	else if (keycode == KEY_SHADE_T)
+	{
+		if (!((g_keys >> BIT_SHADE_T) & 1))
+			g_keys |= (1 << BIT_SHADE_T);
+		else
+			g_keys &= ~(1 << BIT_SHADE_T);			
+	}
+	else if (keycode == KEY_PAUSE_T)
+	{
+		if (!((g_keys >> BIT_PAUSE_T) & 1))
+			g_keys |= (1 << BIT_PAUSE_T);
+		else
+			g_keys &= ~(1 << BIT_PAUSE_T);			
+	}
 }
 
 void	key_press(int keycode)

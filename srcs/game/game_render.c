@@ -100,6 +100,8 @@ void		update_sprites(t_game *game)
 void		game_actions(t_game *game)
 {
 	//ft_memset(win->front_buf, 0, win->width * win->height * win->rgb_size * sizeof(*(win->front_buf)));
+	if ((*(game->keys) >> BIT_PAUSE_T) & 1)
+		return ;
 	player_get_timer(&game->player, CLOCK_MOVE);
 	player_get_timer(&game->player, CLOCK_AIM);
 	game_key_manager(game);
@@ -118,32 +120,25 @@ void		game_render(t_game *game)
 	//player_start_timers(&game->player);
 	//xpm_to_window(&game->win, game->tex[NO_TEX], first, game->tex[NO_TEX]->width, game->tex[NO_TEX]->height);
 	//printf("dda visible next\n");
-	static int test;
 
-	if (test == 0)
-	{
-		dda_visible(game);
-		
+	dda_visible(game);
+	
 
 
-		//dda_visible_and_wallcast(game);
+	//dda_visible_and_wallcast(game);
 
-		//super_debug_print(game);
-		floorcast_dda_visible(game);
-		wallcast_reflection(game);
-		sprite_cast(game);
+	//super_debug_print(game);
+	floorcast_dda_visible(game);
+	wallcast_reflection(game);
+	sprite_cast(game);
 
-		//exit(0);
-		//floorcast(game);
-		//wallcast(game);
-		render_compass(&game->win, &game->compass);
-		render_map_inside_compass(game);
-		render_player_inside_compass(game);
+	//exit(0);
+	//floorcast(game);
+	//wallcast(game);
+	render_compass(&game->win, &game->compass);
+	render_map_inside_compass(game);
+	render_player_inside_compass(game);
 
-		render_stats_bars(game);
-		test++;
-	}
-	else
-		window_pause_manager(&game->win, PAUSE_ON);
-
+	render_stats_bars(game);
+	window_pause_manager(&game->win, PAUSE_ON);
 }
