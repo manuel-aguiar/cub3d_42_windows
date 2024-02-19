@@ -58,7 +58,7 @@ typedef struct s_pause_blur
 	int		max_sigma;
 	int		pause_time;
 	t_clock	clock;
-	int		elapsed;
+	long int		elapsed;
 	char	*first;
 	char	*second;
 	char	*save_front;
@@ -117,8 +117,6 @@ void    fps_calc_print(t_fps_counter *fps);
 
 
 
-//win_pause_blur.c
 
-void	window_pause_manager(t_win *win, e_pause_state state);
 
 #endif

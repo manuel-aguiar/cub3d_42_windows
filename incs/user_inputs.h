@@ -49,6 +49,7 @@ enum e_keys_vals
 	KEY_BLUR_T = GLFW_KEY_1,
 	KEY_REFLECT_T = GLFW_KEY_2,
 	KEY_SHADE_T = GLFW_KEY_2,
+	KEY_HUD_T = GLFW_KEY_3,
 	KEY_PAUSE_T = GLFW_KEY_P,
 	KEY_COUNT = 19,
 	
@@ -68,6 +69,7 @@ enum e_keys_bits
 	BIT_BLUR_T,
 	BIT_REFLECT_T,
 	BIT_SHADE_T,
+	BIT_HUD_T,
 	BIT_PAUSE_T,
 };
 

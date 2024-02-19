@@ -143,4 +143,6 @@ void	sprite_calc_dist(t_game *game);
 
 void	render_stats_bars(t_game *game);
 
+void	window_pause_manager(t_game *game, t_win *win, e_pause_state state);
+
 #endif
