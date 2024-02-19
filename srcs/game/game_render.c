@@ -100,7 +100,7 @@ void		update_sprites(t_game *game)
 void		game_actions(t_game *game)
 {
 	//ft_memset(win->front_buf, 0, win->width * win->height * win->rgb_size * sizeof(*(win->front_buf)));
-	if ((*(game->keys) >> BIT_PAUSE_T) & 1)
+	if ((*(game->keys) >> BIT_PAUSE_T) & 1 || (!((*(game->keys) >> BIT_PAUSE_T) & 1) && game->win.blur.elapsed > 0))
 		return ;
 	player_get_timer(&game->player, CLOCK_MOVE);
 	player_get_timer(&game->player, CLOCK_AIM);
@@ -121,24 +121,32 @@ void		game_render(t_game *game)
 	//xpm_to_window(&game->win, game->tex[NO_TEX], first, game->tex[NO_TEX]->width, game->tex[NO_TEX]->height);
 	//printf("dda visible next\n");
 
-	dda_visible(game);
-	
+	if ((*(game->keys) >> BIT_PAUSE_T) & 0xff)
+		window_pause_manager(&game->win, PAUSE_ON);
+	else if (game->win.blur.elapsed > 0)
+		window_pause_manager(&game->win, PAUSE_OFF);
+	else
+	{
+		dda_visible(game);
+		
 
 
-	//dda_visible_and_wallcast(game);
+		//dda_visible_and_wallcast(game);
 
-	//super_debug_print(game);
-	floorcast_dda_visible(game);
-	wallcast_reflection(game);
-	sprite_cast(game);
+		//super_debug_print(game);
+		floorcast_dda_visible(game);
+		wallcast_reflection(game);
+		sprite_cast(game);
 
-	//exit(0);
-	//floorcast(game);
-	//wallcast(game);
-	render_compass(&game->win, &game->compass);
-	render_map_inside_compass(game);
-	render_player_inside_compass(game);
+		//exit(0);
+		//floorcast(game);
+		//wallcast(game);
+		render_compass(&game->win, &game->compass);
+		render_map_inside_compass(game);
+		render_player_inside_compass(game);
 
-	render_stats_bars(game);
-	window_pause_manager(&game->win, PAUSE_ON);
+		render_stats_bars(game);
+		window_pause_manager(&game->win, PAUSE_ON);
+	}
+
 }
