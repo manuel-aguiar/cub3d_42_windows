@@ -12,7 +12,7 @@
 
 # include "render_windows.h"
 
-void	window_transpose(char *src, char *dest, int width, int height)
+void	window_transpose(char *dest, char *src, int width, int height)
 {
 	int	row;
 	int	col;
@@ -144,8 +144,8 @@ void	blur_pause(t_win *win, t_pause_blur *blur, bool increase_blur)
 	pause_setup_kernel(blur);
 	blur_horizontal(blur, blur->first, blur->save_front, blur->width, blur->height);
 	window_transpose(blur->second, blur->first, blur->width, blur->height);
-	//blur_horizontal(blur, blur->first, blur->second, blur->height, blur->width);
-	//window_transpose(blur->second, blur->first, blur->height, blur->width);
+	blur_horizontal(blur, blur->first, blur->second, blur->height, blur->width);
+	window_transpose(blur->second, blur->first, blur->height, blur->width);
 	dump_blur_to_front_buf(win, blur);
 }
 
