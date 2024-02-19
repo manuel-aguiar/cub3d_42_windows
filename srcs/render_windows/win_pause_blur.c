@@ -12,7 +12,7 @@
 
 # include "render_windows.h"
 
-void	window_transpose(char *dest, char *src, int width, int height)
+void	window_transpose(char *dest, char *src, int width, int height, int rgb_size)
 {
 	int	row;
 	int	col;
@@ -25,8 +25,8 @@ void	window_transpose(char *dest, char *src, int width, int height)
 		col = 0;
 		while(col < width)
 		{
-			src_index = (col + row * width) * 4;
-			dest_index = (row + col * height) * 4;
+			src_index = (col + row * width) * rgb_size;
+			dest_index = (row + col * height) * rgb_size;
 			*(int *)(&dest[dest_index]) = *(int *)(&src[src_index]);
 			//dest[dest_index + 0] = src[src_index + 0];
 			//dest[dest_index + 1] = src[src_index + 1];
@@ -62,7 +62,7 @@ void	blur_horizontal(t_pause_blur *blur, char *dest, char *src, int width, int h
 	float	colors[4];
 	int 	centre;
 	char	*posi;
-	int i;
+	int 	i;
 	
 	centre = blur->kernel_size / 2;
 	y = blur->kernel_size / 2;
@@ -144,9 +144,9 @@ void	blur_pause(t_win *win, t_pause_blur *blur, bool increase_blur)
 	printf("sigma is %d\n", blur->cur_sigma);
 	pause_setup_kernel(blur);
 	blur_horizontal(blur, blur->first, blur->save_front, blur->width, blur->height);
-	window_transpose(blur->second, blur->first, blur->width, blur->height);
+	window_transpose(blur->second, blur->first, blur->width, blur->height, blur->rgb_size);
 	blur_horizontal(blur, blur->first, blur->second, blur->height, blur->width);
-	window_transpose(blur->second, blur->first, blur->height, blur->width);
+	window_transpose(blur->second, blur->first, blur->height, blur->width, blur->rgb_size);
 	dump_blur_to_front_buf(win, blur);
 }
 
