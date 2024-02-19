@@ -7,7 +7,7 @@ $srcPath = "srcs"
 $objPath = "objs"
 
 # Check if srcPath has subdirectories
-$subdirectories = Get-ChildItem -Path $srcPath -Directory
+$subdirectories = Get-ChildItem -Path $srcPath | Where-Object { $_.PSIsContainer }
 
 # Loop through each subdirectory and create the corresponding directory in objPath
 foreach ($subdir in $subdirectories) {
