@@ -43,12 +43,17 @@ enemies:
 	use an overflow timer to limit the number of attacks per second, per sprite
 
 
+blur:
+	pause screen blur, variable sigma, recalculate kernel
+
 mlx:
 	change everything to mlx
 
-
+keys:
+	key presses and releases for the various graphic addons to test performance
 
 extras:
 	revise doors, store z_buffer
 	check door collisions
+	bullet holes
 	iluminação
