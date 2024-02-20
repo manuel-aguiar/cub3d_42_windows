@@ -46,6 +46,11 @@ typedef struct s_dda_hor
 	int		line_height;
 }	t_dda_hor;
 
+typedef struct s_dda_ver
+{
+	float row_distance;
+}	t_dda_ver;
+
 typedef struct s_game
 {
 	t_parsing	parsing;
@@ -57,6 +62,7 @@ typedef struct s_game
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*key_defs;
 	t_dda_hor	*hori_rays;
+	t_dda_ver	*verti_rays;
 	int			maxmin_hori;
 	int			minmax_hori;
 	float		max_vis_dist;
