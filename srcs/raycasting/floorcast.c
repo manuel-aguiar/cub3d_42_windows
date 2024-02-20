@@ -23,7 +23,7 @@ void	floorcast_dda_visible(t_game *game)
 	y = 0;
 	h = game->win.height;
 	w = game->win.width;
-
+  ft_memset(game->verti_rays, 0, game->win.height);
 	ray_left = vector_add(dir, game->player.plane);
 	ray_right = vector_sub(dir, game->player.plane);
     float posZ = (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h ;
@@ -49,7 +49,9 @@ void	floorcast_dda_visible(t_game *game)
       // Horizontal distance from the camera to the floor for the current row.
       // 0.5 is the z position exactly in the middle between floor and ceiling.
       float rowDistance = posZ / p;
-
+      if (ft_fabs(p) < 0.0001f)
+        rowDistance = 2000;
+    game->verti_rays[y].row_distance = rowDistance;
       // calculate the real world step vector we have to add for each x (parallel to camera plane)
       // adding step by step avoids multiplications with a weight in the inner loop
       float floorStepX = rowDistance * (ray_right.x - ray_left.x) / w;
@@ -102,7 +104,7 @@ void	floorcast_dda_visible(t_game *game)
 		//	printf("x %d, rowDistance %.3f, shade %.3f\n", x,   rowDistance,  rowDistance / game->max_vis_dist);
 		//}
 		int color = floor->pixels[floor->width * (floor->height - ty - 1) + tx];
-		color = add_shade(color, ft_fabs(rowDistance / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len));
+		color = add_shade(color, float_clamp(ft_fabs(rowDistance / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len),0.0f, 1.0f));
 
 		game->win.set_pixel(&game->win, x, y, color);
 
@@ -150,7 +152,9 @@ void	floorcast_dda_visible(t_game *game)
       // Horizontal distance from the camera to the floor for the current row.
       // 0.5 is the z position exactly in the middle between floor and ceiling.
       float rowDistance = floorZ / p;
-
+      if (ft_fabs(p) < 0.0001f)
+        rowDistance = 2000;
+       game->verti_rays[y].row_distance = rowDistance;
       // calculate the real world step vector we have to add for each x (parallel to camera plane)
       // adding step by step avoids multiplications with a weight in the inner loop
       float floorStepX = rowDistance * (ray_right.x - ray_left.x) / w;
@@ -184,7 +188,7 @@ void	floorcast_dda_visible(t_game *game)
 		
 		
 		int color = floor->pixels[floor->width * ty + tx];
-		color = add_shade(color, rowDistance / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+		color = add_shade(color, float_clamp(ft_fabs(rowDistance / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len), 0.0f, 1.0f));
 
         game->win.set_pixel(&game->win, x, y, color);
 		

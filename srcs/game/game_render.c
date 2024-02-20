@@ -127,6 +127,7 @@ void		game_render(t_game *game)
 		window_pause_manager(game, &game->win, PAUSE_OFF);
 	else
 	{
+		//ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);
 		dda_visible(game);
 		
 

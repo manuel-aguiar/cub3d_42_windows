@@ -91,27 +91,6 @@ void	wallcast_reflection(t_game *game)
 		}
 		if (((*game->keys) >> BIT_REFLECT_T) & 1)
 		{
-			texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
-			y = drawStart;
-			int	limit_down = ft_max(drawStart - lineHeight, 0);
-			texPos += step * (drawStart - h - 1) * (drawStart > h - 1);
-			y = ft_min(h - 1, drawStart);
-			while( y > limit_down)
-			{
-				int texY = (int)texPos;
-				texPos += step;
-				//if (side == 1 && x == game->win.width / 2)
-				//{
-				//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
-				//}
-				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-				color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-				int old_color = game->win.get_pixel(&game->win, x, y);
-				color = avg_colour(color, old_color, (int)(game->wall_reflection * 100), 100);
-				game->win.set_pixel(&game->win, x, y, color);
-				y--;
-			}
-			
 			texPos = (drawEnd - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
 			y = drawEnd;
 			int	limit_up = ft_min(drawEnd + lineHeight, h);
@@ -128,12 +107,59 @@ void	wallcast_reflection(t_game *game)
 				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
 				//color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 				int old_color = game->win.get_pixel(&game->win, x, y);
-				color = avg_colour(color, old_color, (int)(game->wall_reflection * 100), 100);
 				color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+				int num = ft_abs((int)(game->verti_rays[y].row_distance * game->wall_reflection * 100));
+				int den = ft_abs((int)(game->hori_rays[x].perpWallDist * 100));
+				
+				/*
+				if (y ==  h / 2 + game->player.pitch)
+				{
+					printf("y is %d, min max %d %d\n", y, game->minmax_hori, game->maxmin_hori);
+					printf("verti at %d is %.3f\n", y, game->verti_rays[y].row_distance);
+					printf("num %d, den %d\n prev (%d, %d, %d, %d), new (%d, %d, %d, %d), average (%d, %d, %d, %d)\n",
+					num, den, rgb_r(old_color), rgb_g(old_color), rgb_b(old_color), rgb_a(old_color),
+					rgb_r(color), rgb_g(color), rgb_b(color), rgb_a(color),
+					rgb_r(avg_colour(color, old_color, ft_min(num, den), den)), rgb_g(avg_colour(color, old_color, ft_min(num, den), den)), rgb_b(avg_colour(color, old_color, ft_min(num, den), den)), rgb_a(avg_colour(color, old_color, ft_min(num, den), den))
+					);
+				}
+				*/
+				num = ft_min(num, den);
+				color = avg_colour(color, old_color, num, den);
 				game->win.set_pixel(&game->win, x, y, color);
 				y++;
 			}
 		}
+		if (((*game->keys) >> BIT_REFLECT_T) & 1)
+		{
+			texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
+			y = drawStart;
+			int	limit_down = ft_max(drawStart - lineHeight, 0);
+			texPos += step * (drawStart - h - 1) * (drawStart > h - 1);
+			y = ft_min(h - 1, drawStart);
+			while( y > limit_down)
+			{
+				int texY = (int)texPos;
+				texPos += step;
+				//if (side == 1 && x == game->win.width / 2)
+				//{
+				//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
+				//}
+				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
+				color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+				int old_color = game->win.get_pixel(&game->win, x, y);
+				/*
+				float perc = float_clamp(ft_abs(game->verti_rays[y].row_distance * game->wall_reflection) / ft_abs(game->hori_rays[x].perpWallDist), 0.0f, 1.0f);
+				color = avg_colour(color, old_color, (int)(perc * 100), 100);
+				*/
+				int num = ft_abs((int)(game->verti_rays[y].row_distance * game->wall_reflection * 100));
+				int den = ft_abs((int)(game->hori_rays[x].perpWallDist * 100));
+				num = ft_min(num, den);
+				color = avg_colour(color, old_color, num, den);
+				game->win.set_pixel(&game->win, x, y, color);
+				y--;
+			}
+		}
+
 
 		
 		//if (side == 1 && x == game->win.width / 2)

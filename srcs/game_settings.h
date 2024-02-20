@@ -95,7 +95,7 @@
 
 
 //player jump characteristics
-# define PLAY_JUMP_INIT 0.002f
+# define PLAY_JUMP_INIT 0.0019f
 # define PLAY_JUMP_INC 0.00001f
 # define PLAY_JUMP_PRESS_CAP 0.007f
 # define PLAY_JUMP_RELEASE_CAP 0.002f
@@ -179,6 +179,6 @@
 
 # define BLUR_ON true
 
-# define GAME_WALL_REFLECTION 0.5f
+# define GAME_WALL_REFLECTION 0.7f
 
 #endif

@@ -203,7 +203,6 @@ typedef struct s_exit
     game->template_medi.base_z = MEDI_Z;
     game->template_medi.z_sense = MEDI_Z_SENSE;
 
-
 /*
 	//game->floating += 0.015f * game->player.timer[CLOCK_MOVE].elapsed;
 	//game->float_sin = sinf(game->floating);
