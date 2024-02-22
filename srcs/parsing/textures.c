@@ -40,11 +40,11 @@ int		extract_color(t_tex	*tex)
 
 	split = ft_split_count(tex->path, ",", &count);
 	if (!split)
-		return (0);						//malloc
+		return (perror_msg_int("malloc", 0));
 	if (count != 3 || !color_atoi(split[0], &r) || !color_atoi(split[1], &g) || !color_atoi(split[2], &b))
 	{
 		ft_free_charmat_null(&split, free);
-		return (0);						// color scheme is not written correctly
+		return (0);
 	}
 	tex->color = rgba(r, g, b, START_ALPHA);
 	ft_free_set_null(&tex->path);

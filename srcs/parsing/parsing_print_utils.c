@@ -81,16 +81,4 @@ void	print_flood_fill(char *map, int height, int width)
 	printf("\n");
 }
 
-int		char_in_charset(char c, char *charset)
-{
-	int i;
 
-	i = 0;
-	while (charset[i])
-	{
-		if (c == charset[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}

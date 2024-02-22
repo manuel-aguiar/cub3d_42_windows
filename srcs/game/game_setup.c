@@ -113,15 +113,14 @@ int		game_start(t_game *game, char *game_config)
 
 	
 	setup_sprites(game);
-	win_init_window(&game->win);
+	
 	game_setup_keys(game);
 	game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
 	game->verti_rays = malloc(sizeof(*game->verti_rays) * game->win.height);
-	game_load_textures(game);
-
-
-
-	//exit(0);
+	if(!game_load_textures(game))
+		return (0);
+	if(!win_init_window(&game->win))
+		return (0);
 	return (1);
 }
 

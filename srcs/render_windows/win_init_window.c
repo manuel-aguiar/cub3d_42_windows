@@ -14,8 +14,6 @@
 
 int	win_init_window(t_win *win)
 {
-	if (!win)
-		return (perror_msg_int("malloc", 0));
 	if (!glfwInit())
         return (0);      // no free, potencial memleak
 	win->window = glfwCreateWindow(win->width, win->height, win->name, NULL, NULL);
@@ -37,7 +35,7 @@ int	win_init_window(t_win *win)
 	win->blur.clock = (t_clock){};
 	ftime(&win->blur.clock.start);
 	if (!win->front_buf || !win->blur.first || !win->blur.second || !win->blur.save_front)
-		return (0);		// no free, potencial memleak
+		return (perror_msg_int("malloc", 0));		// no free, potencial memleak
 	win->set_pixel = win_set_pixel;
 	win->get_pixel = win_get_pixel;
 	glfwSetInputMode(win->window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);

@@ -46,6 +46,8 @@ void    apply_all_settings(t_game *game)
     game->compass.sqr.color = game->compass.sqr_color;
     game->compass.sqr.biggest_z = 1 + sqrt((COMP_MAX_RAD * SQR_MAX_HEIGHT_PERC) * (COMP_MAX_RAD * SQR_MAX_HEIGHT_PERC) * 2);
     game->compass.player_rad = game->compass.sqr.height * COMP_PLAY_RAD;
+    game->compass.player_colour = COMP_PLAYER_COLOR;
+
 
     game->compass.blur_on = BLUR_ON;
     game->compass.blur = (t_blur){};

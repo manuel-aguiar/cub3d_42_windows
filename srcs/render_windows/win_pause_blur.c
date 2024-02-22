@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "game.h"
+# include "render_windows.h"
 
 int		abgr_inversion(int r, int g, int b, int a);
 
@@ -160,7 +160,7 @@ void	blur_pause(t_win *win, t_pause_blur *blur, bool increase_blur)
 	dump_blur_to_front_buf(win, blur, blur->second);
 }
 
-void	window_pause_manager(t_game *game, t_win *win, e_pause_state state)
+void	window_pause_manager(t_win *win, e_pause_state state, bool blur_on)
 {
 	t_pause_blur *blur;
 
@@ -180,7 +180,7 @@ void	window_pause_manager(t_game *game, t_win *win, e_pause_state state)
 			blur->elapsed = 1;
 		}
 		//printf("blur elapsed on %d\n", blur->elapsed);
-		if (((*game->keys) >> BIT_BLUR_T) & 1)
+		if (blur_on)
 			blur_pause(win, blur, true);
 		else
 			blur->elapsed = int_clamp(blur->elapsed + window_update_clock(win), 0, blur->pause_time);;
@@ -200,7 +200,7 @@ void	window_pause_manager(t_game *game, t_win *win, e_pause_state state)
 		}
 			
 		//printf("blur elapsed off %d\n", blur->elapsed);
-		if (((*game->keys) >> BIT_BLUR_T) & 1)
+		if (blur_on)
 			blur_pause(win, blur, false);
 		else
 			blur->elapsed = int_clamp(blur->elapsed - window_update_clock(win), 0, blur->pause_time);

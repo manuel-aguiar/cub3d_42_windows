@@ -21,16 +21,19 @@ void win_mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffse
 
 void    mouse_release(int keycode)
 {
-	if (keycode == BUT_AIM)
-		g_mouse.buttons &= ~(1 << BIT_AIM);
-	else if (keycode == BUT_SHOOT)
+	if (keycode == BUT_SHOOT)
 		g_mouse.buttons &= ~(1 << BIT_SHOOT);
 }
 
 void    mouse_press(int keycode)
 {
 	if (keycode == BUT_AIM)
-		g_mouse.buttons |= (1 << BIT_AIM);
+	{
+		if (!((g_mouse.buttons >> BIT_AIM) & 1))
+			g_mouse.buttons |= (1 << BIT_AIM);
+		else
+			g_mouse.buttons &= ~(1 << BIT_AIM);	
+	}
 	else if (keycode == BUT_SHOOT)
 		g_mouse.buttons |= (1 << BIT_SHOOT); 
 }

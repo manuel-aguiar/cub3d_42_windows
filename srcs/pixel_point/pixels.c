@@ -60,7 +60,6 @@ int	avg_colour(int start, int end, int num, int den)
 	t_ulong	b;
 	t_ulong	a;
 
-
 	if (den == 0)
 		return (start);
 	r = rgb_r(start) * num / den \
@@ -70,7 +69,5 @@ int	avg_colour(int start, int end, int num, int den)
 	b = rgb_b(start) * num / den \
 		+ rgb_b(end) * (den - num) / den;
 	a = rgb_a(start);
-	//int final = rgba(r, g, b, a);
-	//printf("r %d g %d b %d a %d\n", (int)r, (int)g, (int)b, (int)a);
 	return (rgba((int)r, (int)g, (int)b, (int)a));
 }

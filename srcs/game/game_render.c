@@ -120,11 +120,10 @@ void		game_render(t_game *game)
 	//player_start_timers(&game->player);
 	//xpm_to_window(&game->win, game->tex[NO_TEX], first, game->tex[NO_TEX]->width, game->tex[NO_TEX]->height);
 	//printf("dda visible next\n");
-	game->compass.blur_on = (((*game->keys) >> BIT_BLUR_T) & 1);
 	if ((*(game->keys) >> BIT_PAUSE_T) & 0xff)
-		window_pause_manager(game, &game->win, PAUSE_ON);
+		window_pause_manager(&game->win, PAUSE_ON, (*(game->keys) >> BIT_BLUR_T) & 1);
 	else if (game->win.blur.elapsed > 0)
-		window_pause_manager(game, &game->win, PAUSE_OFF);
+		window_pause_manager(&game->win, PAUSE_OFF, (*(game->keys) >> BIT_BLUR_T) & 1);
 	else
 	{
 		//ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);

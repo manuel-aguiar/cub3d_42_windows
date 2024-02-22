@@ -12,6 +12,19 @@
 
 #include "parsing.h"
 
+int		char_in_charset(char c, char *charset)
+{
+	int i;
+
+	i = 0;
+	while (charset[i])
+	{
+		if (c == charset[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static int	list_to_map(t_parsing *parsing)
 {
