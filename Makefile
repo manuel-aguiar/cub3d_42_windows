@@ -69,7 +69,6 @@ SRC_GAME			=	win_render_loop.c		\
 						game_rotate.c			\
 						game_render.c			\
 						render_inside_compass.c		\
-						render_outside_compass.c	\
 						map_player_collisions.c		\
 						xpm_to_window.c				\
 						super_debug_print.c			\
@@ -113,15 +112,15 @@ SRC_REN_WIN			=	win_init_window.c		\
 						win_pause_blur.c	
 
 
-SRC_COMPASS			=	render_compass.c				\
+SRC_COMPASS			=	compass_setup_render.c		\
 						letter_north.c				\
 						letter_south.c				\
 						letter_east.c				\
 						letter_west.c				\
-						render_outter_circle.c				\
-						calculate_square_xlim.c				\
-						render_inner_circle.c				\
-						render_inner_square.c				\
+						render_ring.c				\
+						xlim_map_square.c				\
+						xlim_inner_circle.c				\
+						render_map_square.c				\
 						compass_blur.c
 
 SRC_DRAWING_ALGOS	=	drawing_lines.c				\

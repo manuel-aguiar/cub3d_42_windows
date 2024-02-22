@@ -24,10 +24,6 @@ hud:
 	weapon swing up and down and horizontally
 	use sinf calculated for walking
 
-rendering:
-	reflexions are not correct due to clamping on dda
-	can find closed formula to not clamp, add the step difference to start
-
 shot mechanics:
 	shot collision, enemies are flat against me, use position + unit size to determine their position
 	their plane is parallel to camera plane, perpdist is the same across the character
@@ -42,15 +38,8 @@ enemies:
 	enemy hit: distance less than (player radius + enemy radius)
 	use an overflow timer to limit the number of attacks per second, per sprite
 
-
-blur:
-	pause screen blur, variable sigma, recalculate kernel
-
 mlx:
 	change everything to mlx
-
-keys:
-	key presses and releases for the various graphic addons to test performance
 
 extras:
 	revise doors, store z_buffer

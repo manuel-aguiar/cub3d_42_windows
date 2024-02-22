@@ -56,7 +56,7 @@ typedef struct s_game
 	t_parsing	parsing;
 	t_map		map;
 	t_compass	compass;
-	t_win	win;
+	t_win		win;
 	t_player	player;
 	t_mouse		*mouse;			//pointers because GLFW requires globals, change to stack with MLX;
 	int			*keys;			//pointers because GLFW requires globals, change to stack with MLX;
@@ -149,6 +149,5 @@ void	sprite_calc_dist(t_game *game);
 
 void	render_stats_bars(t_game *game);
 
-void	window_pause_manager(t_game *game, t_win *win, e_pause_state state);
 
 #endif

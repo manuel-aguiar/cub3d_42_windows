@@ -31,6 +31,18 @@ typedef struct t_wpoint
 	int	y;
 }	t_wpoint;
 
+typedef struct s_gamma_avg
+{
+	float 	start_weight;
+	float	end_weight;
+	float	r_blend;
+	float	g_blend;
+	float	b_blend;
+	t_uchar	r_final;
+	t_uchar	g_final;
+	t_uchar	b_final;
+}	t_gamma_avg;
+
 int	rgb_r(int color);
 int	rgb_g(int color);
 int	rgb_b(int color);

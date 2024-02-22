@@ -57,6 +57,19 @@ typedef struct s_xldata
 	int				colour;
 }	t_xldata;
 
+typedef struct s_bh_line
+{
+	int x1;
+	int x2;
+	int y1;
+	int y2;
+	int dx;
+	int dy;
+	int sx;
+	int sy;
+	int err;
+	int	err_2;
+}	t_bh_line;
 
 //liang barsky
 int		liang_barsky_clipper(t_pixel low_bot, t_pixel hi_top, t_pixel start, t_pixel end, t_pixel new[]);

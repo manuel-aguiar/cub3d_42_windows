@@ -115,7 +115,7 @@ void chatgpt_anticircle(t_win *win, t_pixel centre, int radius, int color);
 void    set_fps_start(t_fps_counter *fps);
 void    fps_calc_print(t_fps_counter *fps);
 
-
+void	window_pause_manager(t_win *win, e_pause_state state, bool blur_on);
 
 
 

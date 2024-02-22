@@ -217,6 +217,7 @@ typedef struct s_compass
 	int			sqr_color;
 	int			sqr_height;
 	int			player_rad;
+	int			player_colour;
 	t_circle	inner;
 	t_square	sqr;
 	t_mm_pair	*circle_x_lim;
@@ -253,7 +254,7 @@ void	init_template_south_circle(t_compass *comp);
 void	render_south_letter_circle(t_win *win, t_compass *comp);
 
 //win_square.c
-void	init_template_square(t_compass *comp);
+int		init_template_square(t_compass *comp);
 void	compass_square_xlim_rotate(t_compass *comp, t_square *sqr);
 void	draw_horizontal_line(t_win *win, int min_x, int max_x, int y, int color);
 
@@ -263,7 +264,7 @@ void	backward_rotate_point(t_pixel *point, t_pixel centre, float cos, float sin)
 void	rotate_point(t_pixel *point, t_pixel centre, float cos, float sin);
 
 //compass_setup.c
-void	compass_setup(t_compass *comp);
+int		compass_setup(t_compass *comp);
 void	translate_compass(t_compass *comp, int dx, int dy);
 void	render_compass(t_win *win, t_compass *comp);
 void	free_compass(t_compass *comp);
