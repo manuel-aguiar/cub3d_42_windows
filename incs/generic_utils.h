@@ -35,4 +35,7 @@ float	fpow_2(float number);
 
 float	ft_fabs(float number);
 
+int		char_in_charset(char c, char *charset);
+int		is_only_spaces(char *str);
+
 #endif

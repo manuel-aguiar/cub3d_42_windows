@@ -50,6 +50,7 @@ int	rgb_a(int color);
 int		rgba(int r, int g, int b, int a);
 int		argb(int color);
 
+int		pack_color_channels(int fst, int snd, int trd, int fth);
 
 int gamma_average(int start, int end, int num, int den);
 int	avg_colour(int start, int end, int num, int den);

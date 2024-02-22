@@ -84,10 +84,15 @@ SRC_PLAYER			=	player_setup_and_actions.c	\
 						player_jump.c				\
 						player_timer.c
 
-SRC_PARSING			=	parsing.c				\
-						textures.c				\
-						parsing_print_utils.c	\
-						flood_count.c
+SRC_PARSING			=	parsing_main.c						\
+						parsing_textures_get.c				\
+						parsing_textures_analise.c			\
+						parsing_file_to_list.c				\
+						parsing_print_utils.c				\
+						map_flood_count.c					\
+						map_funcs.c							\
+						map_dimensions.c		
+						
 
 SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_textures.c				\
@@ -103,7 +108,8 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 						clamp.c							\
 						fpow_2.c						\
 						ft_fabs.c						\
-						radian_truncate.c
+						radian_truncate.c				\
+						cubed_string_funcs.c
 
 SRC_REN_WIN			=	win_init_window.c		\
 						win_pixels.c			\

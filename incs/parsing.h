@@ -35,7 +35,13 @@
 # define MAP_DOOR 'D'
 # define MAP_EMPTY ' '
 
+# define MAP_FLOOR '0'
 # define MAP_WALL '1'
+# define MAP_NORTH 'N'
+# define MAP_SOUTH 'S'
+# define MAP_EAST 'E'
+# define MAP_WEST 'W'
+
 
 # define FLOOD_CHAR '.'
 
@@ -81,6 +87,10 @@ typedef struct s_parsing
 	int			file_len;
 	int			fd;
 	t_gnl_len	*gnl;
+	int			nbr_tex;
+	int			index_tex;
+	char		**split;
+	int			split_count;	
 	t_tex		tex_data[NUM_TEX];
 	char		*map;
 	int			map_width;
@@ -101,12 +111,8 @@ typedef struct s_map
 }	t_map;
 
 
-//parsing.c
+//parsing_main.c
 int		map_parsing(t_map *map, char *av_file);
-void	free_map(t_map *map);
-
-//textures.c
-int		analise_textures(t_parsing *parsing);
 
 
 //parsing_print_utils.c
@@ -115,12 +121,25 @@ void	gnl_len_print_line(void	*str);
 void	print_map(t_map *map);
 void	print_flood_fill(char *map, int height, int width);
 
+//map_funcs.c
+void	free_map(t_map *map);
 int		map_row(t_map *map, int index);
 int		map_col(t_map *map, int index);
 
-int		char_in_charset(char c, char *charset);
+//map_dimensions.c
+int		get_map_dimensions(t_parsing *parsing);
 
-//flood fill count island
+//map_flood_count.c
 int		flood_count_island(t_parsing *parse);
+
+//parsing_textures_get.c
+int		separate_textures(t_parsing *parsing);
+
+//parsing_textures_analise.c
+int		analise_textures(t_parsing *parsing);
+
+//parsing_file_to_list.c
+int 	file_to_list(t_parsing *parsing);
+int		list_to_map(t_parsing *parsing);
 
 #endif
