@@ -53,6 +53,11 @@ int		abgr_inversion(int r, int g, int b, int a)
 	return ((a << 24) | (b << 16) | (g << 8) | (r));
 }
 
+int		pack_color_channels(int fst, int snd, int trd, int fth)
+{
+	return ((fst << 24) | (snd << 16) | (trd << 8) | (fth));
+}
+
 int	avg_colour(int start, int end, int num, int den)
 {
 	t_ulong	r;
@@ -69,5 +74,5 @@ int	avg_colour(int start, int end, int num, int den)
 	b = rgb_b(start) * num / den \
 		+ rgb_b(end) * (den - num) / den;
 	a = rgb_a(start);
-	return (rgba((int)r, (int)g, (int)b, (int)a));
+	return (pack_color_channels((int)r, (int)g, (int)b, (int)a));
 }

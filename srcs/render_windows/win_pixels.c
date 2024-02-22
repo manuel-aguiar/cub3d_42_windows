@@ -55,7 +55,7 @@ int	win_get_pixel(t_win *win, int x, int y)
 	g = win->front_buf[i++];
 	b = win->front_buf[i++];
 	a = win->front_buf[i++];
-	return (rgba(r, g, b, a));
+	return (pack_color_channels(r, g, b, a));
 
 }
 
