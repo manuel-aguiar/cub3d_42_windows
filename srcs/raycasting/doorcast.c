@@ -221,8 +221,8 @@ void	doorcast(t_game *game, t_sprite *sprite)
 			int start_y = (int)min_y;
 			int	end_y = (int)max_y;
 			int lineHeight = end_y - start_y;
-			if(x > 0 && x < w && lineHeight >= game->hori_rays[x].line_height)
-			//if(x > 0 && x < w && distance > 0 && distance < game->hori_rays[drawStartX].perpWallDist)
+			if(x > 0 && x < w && lineHeight >= game->hori_rays[x].line_h)
+			//if(x > 0 && x < w && distance > 0 && distance < game->hori_rays[drawStartX].wall_dist)
 			{
 				
 				double step_y = 1.0f * tex->width / lineHeight;

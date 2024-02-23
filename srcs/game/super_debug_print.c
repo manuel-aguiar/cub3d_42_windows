@@ -27,9 +27,9 @@ void	print_hori_rays(t_game *game)
 		i,
 		game->hori_rays[i].min_y,
 		game->hori_rays[i].max_y,
-		game->hori_rays[i].perpWallDist,
+		game->hori_rays[i].wall_dist,
 		game->hori_rays[i].side,
-		game->hori_rays[i].line_height
+		game->hori_rays[i].line_h
 		);
 		i++;
 	}

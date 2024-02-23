@@ -25,6 +25,7 @@ void	game_setup_keys(t_game *game)
 	*(game->keys) |= (1 << BIT_HUD_T);
 	*(game->keys) |= (1 << BIT_BLUR_T);
 	*(game->keys) |= (1 << BIT_SHADE_T);
-	*(game->keys) &= ~(1 << BIT_REFLECT_T);
-	//*(game->keys) |= (1 << BIT_REFLECT_T);
+	*(game->keys) &= ~(1 << BIT_FLOOR_REFL_T);
+	*(game->keys) &= ~(1 << BIT_CEIL_REFL_T);
+	//*(game->keys) |= (1 << BIT_FLOOR_REFL_T);
 }

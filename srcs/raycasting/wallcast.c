@@ -12,169 +12,141 @@
 
 # include "game.h"
 
-void	wallcast_reflection(t_game *game)
+
+static inline float	float_ternary(bool cond, float yes, float no)
 {
-	float cameraX;
-	int w = game->win.width;
-	int h = game->win.height;
-	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);	//for zooming, increase direction vector
-	t_vector 	plane = game->player.plane;
-	int		x;
+	if (cond)
+		return (yes);
+	return (no);
+}
 
+static inline void *ptr_ternary(bool cond, void *yes, void *no)
+{
+	if (cond)
+		return (yes);
+	return (no);
+}
 
-	t_vector direction;
-	t_xpm_tex *tex;
-	x = 0;
-	while (x < w)
+static inline void	setup_wall_line(t_game *game, t_ray *ray, t_dda_hor *hori, t_wall_line *line)
+{
+	line->line_start = hori->min_y;
+	line->line_end = hori->max_y;
+	line->x_hit = float_ternary(hori->side == 0, \
+		game->player.map_posi.y + hori->wall_dist * ray->ray_dir.y,
+		game->player.map_posi.x + hori->wall_dist * ray->ray_dir.x);
+
+	line->tex = ptr_ternary(hori->side == 0, \
+		ptr_ternary(game->player.map_posi.x + hori->wall_dist \
+		* ray->ray_dir.x < game->player.map_posi.x, game->tex[WE_TEX], game->tex[EA_TEX]),
+		ptr_ternary(game->player.map_posi.y + hori->wall_dist \
+		* ray->ray_dir.y < game->player.map_posi.y, game->tex[SO_TEX], game->tex[WE_TEX]));
+		
+	line->x_hit -= (int)(line->x_hit);
+	line->tex_pix_x = (int)(line->x_hit * (float)(line->tex->height));
+	if(hori->side == 0 && ray->ray_dir.x > 0)
+		line->tex_pix_x = (line->tex->height) - line->tex_pix_x - 1;
+	if(hori->side == 1 && ray->ray_dir.y < 0)
+		line->tex_pix_x = (line->tex->height) - line->tex_pix_x - 1;
+
+	line->step = 1.0f * line->tex->width / hori->line_h;
+	line->tex_exact_y_save = (line->line_start - ray->hgt_mod + hori->line_h / 2) * line->step;
+	line->shade_wgt = hori->wall_dist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len;
+}
+
+void	wallcast(t_game *game, t_ray *ray, t_dda_hor *hori, int x)
+{
+	t_wall_line	line;
+
+	setup_wall_line(game, ray, hori, &line);
+
+	line.tex_exact_y = line.tex_exact_y_save;
+	line.tex_exact_y += line.step * (0 - line.line_start) * (line.line_start < 0);
+	line.y_start = ft_max(line.line_start, 0);
+	line.y_end = ft_min(line.line_end, ray->h - 1);
+	while( line.y_start < line.y_end)
 	{
-		cameraX = 2 * x / (float)w - 1;
-		direction = (t_vector){dir.x + plane.x * cameraX, dir.y + plane.y * cameraX};
-		//printf("perpwalldist %.3f\n", perpWallDist);
-		//Calculate height of line to draw on screen
-		int lineHeight = (int)(h / game->hori_rays[x].perpWallDist);
-
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = game->hori_rays[x].min_y;
-		int drawEnd = game->hori_rays[x].max_y;
-
-		double wallX; //where exactly the wall was hit
-		if (game->hori_rays[x].side == 0) wallX = game->player.map_posi.y + game->hori_rays[x].perpWallDist * direction.y;
-		else           wallX = game->player.map_posi.x + game->hori_rays[x].perpWallDist * direction.x;
-		//if (x == game->win.width / 2)
-		//	printf("prefloor wallX is %.10f\n", wallX);
-		
-		//if (x == game->win.width / 2)
-		//	printf("wallX is %.10f, player map (%.3f,%.3f)\n", wallX, player_in_map.x, player_in_map.y);
-		//x coordinate on the texture
-		
-		if (game->hori_rays[x].side == 0)
-		{
-			tex = game->tex[EA_TEX];
-			if (game->player.map_posi.x + game->hori_rays[x].perpWallDist * direction.x < game->player.map_posi.x)
-				tex = game->tex[WE_TEX];
-		}	
-		else
-		{
-			tex = game->tex[NO_TEX];
-			if (game->player.map_posi.y + game->hori_rays[x].perpWallDist * direction.y < game->player.map_posi.y)
-				tex = game->tex[SO_TEX];
-		}
-			
-		wallX -= floor((wallX));
-		int texX = (int)(wallX * (double)(tex->height));
-		//if (x == game->win.width / 2)
-		//	printf("texX is %d\n", texX);
-		if(game->hori_rays[x].side == 0 && direction.x > 0) texX = (tex->height) - texX - 1;
-		if(game->hori_rays[x].side == 1 && direction.y < 0) texX = (tex->height) - texX - 1;
-
-		//texX = (int)((float)texX / (float)tex->width * (float)tex->height);
-		//if (side == 1 && x == game->win.width / 2)
-		//	printf("texX is %d\n", texX);
-		
-		double step = 1.0f * tex->width / lineHeight;
-		double texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
-		texPos += step * (0 - drawStart) * (drawStart < 0);
-		int y = ft_max(drawStart, 0);
-		int end = ft_min(drawEnd, h - 1);
-		while( y < end)
-		{
-			int texY = (int)texPos;
-			texPos += step;
-			//if (side == 1 && x == game->win.width / 2)
-			//{
-			//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
-			//}
-			int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-			color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-			game->win.set_pixel(&game->win, x, y, color);
-			y++;
-		}
-		if (((*game->keys) >> BIT_REFLECT_T) & 1)
-		{
-			texPos = (drawEnd - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
-			y = drawEnd;
-			int	limit_up = ft_min(drawEnd + lineHeight, h);
-			texPos -= step * (0 - drawEnd) * (drawEnd < 0);
-			y = ft_max(drawEnd, 0);
-			while( y < limit_up)
-			{
-				int texY = (int)texPos;
-				texPos -= step;
-				//if (side == 1 && x == game->win.width / 2)
-				//{
-				//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
-				//}
-				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-				//color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-				int old_color = game->win.get_pixel(&game->win, x, y);
-				color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-				int num = ft_abs((int)(game->verti_rays[y].row_distance * game->wall_reflection * 100));
-				int den = ft_abs((int)(game->hori_rays[x].perpWallDist * 100));
-				
-				/*
-				if (y ==  h / 2 + game->player.pitch)
-				{
-					printf("y is %d, min max %d %d\n", y, game->minmax_hori, game->maxmin_hori);
-					printf("verti at %d is %.3f\n", y, game->verti_rays[y].row_distance);
-					printf("num %d, den %d\n prev (%d, %d, %d, %d), new (%d, %d, %d, %d), average (%d, %d, %d, %d)\n",
-					num, den, rgb_r(old_color), rgb_g(old_color), rgb_b(old_color), rgb_a(old_color),
-					rgb_r(color), rgb_g(color), rgb_b(color), rgb_a(color),
-					rgb_r(avg_colour(color, old_color, ft_min(num, den), den)), rgb_g(avg_colour(color, old_color, ft_min(num, den), den)), rgb_b(avg_colour(color, old_color, ft_min(num, den), den)), rgb_a(avg_colour(color, old_color, ft_min(num, den), den))
-					);
-				}
-				*/
-				num = ft_min(num, den);
-				color = avg_colour(color, old_color, num, den);
-				game->win.set_pixel(&game->win, x, y, color);
-				y++;
-			}
-		}
-		if (((*game->keys) >> BIT_REFLECT_T) & 1)
-		{
-			texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
-			y = drawStart;
-			int	limit_down = ft_max(drawStart - lineHeight, 0);
-			texPos += step * (drawStart - h - 1) * (drawStart > h - 1);
-			y = ft_min(h - 1, drawStart);
-			while( y > limit_down)
-			{
-				int texY = (int)texPos;
-				texPos += step;
-				//if (side == 1 && x == game->win.width / 2)
-				//{
-				//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
-				//}
-				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-				color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-				int old_color = game->win.get_pixel(&game->win, x, y);
-				/*
-				float perc = float_clamp(ft_abs(game->verti_rays[y].row_distance * game->wall_reflection) / ft_abs(game->hori_rays[x].perpWallDist), 0.0f, 1.0f);
-				color = avg_colour(color, old_color, (int)(perc * 100), 100);
-				*/
-				int num = ft_abs((int)(game->verti_rays[y].row_distance * game->wall_reflection * 100));
-				int den = ft_abs((int)(game->hori_rays[x].perpWallDist * 100));
-				num = ft_min(num, den);
-				color = avg_colour(color, old_color, num, den);
-				game->win.set_pixel(&game->win, x, y, color);
-				y--;
-			}
-		}
-
-
-		
+		line.tex_pix_y = (int)line.tex_exact_y;
+		line.tex_exact_y += line.step;
 		//if (side == 1 && x == game->win.width / 2)
 		//{
-		//	int k = 0;
-		//	while (k < tex->width * tex->height)
-		//	{
-		//		printf("%d pixel x %d, y %d %d\n", k, k / tex->width, k % tex->width, tex->pixels[k]);
-		//		k++;
-		//	}
-		//	exit(0);
+		//	printf("x %d y %d pixel %d\n", line.tex_pix_x, line.tex_pix_y, tex->pixels[line.tex_pix_x * tex->width + (tex->width - line.tex_pix_y - 1)]);
 		//}
+		line.color = line.tex->pixels[line.tex_pix_x * line.tex->width + (line.tex->width - line.tex_pix_y - 1)];
+		line.color = add_shade(line.color, line.shade_wgt);
+		game->win.set_pixel(&game->win, x, line.y_start, line.color);
+		line.y_start++;
+	}
+	if (((*game->keys) >> BIT_CEIL_REFL_T) & 1)
+	{
+		line.tex_exact_y = line.tex_exact_y_save + (-line.line_start + line.line_end) * line.step;
+		line.tex_exact_y -= line.step * (0 - line.line_end) * (line.line_end < 0);
+		//line.y_start = line.line_end;
 		
-		//draw_vertical_line(&game->win, drawStart, drawEnd, x, color);
-		x++;
+		line.y_start = ft_max(line.line_end, 0);
+		line.y_end = ft_min(line.line_end + hori->line_h, ray->h);
+		while (line.y_start < line.y_end)
+		{
+			line.tex_pix_y = (int)line.tex_exact_y;
+			line.tex_exact_y -= line.step;
+			//if (side == 1 && x == game->win.width / 2)
+			//{
+			//	printf("x %d y %d pixel %d\n", line.tex_pix_x, line.tex_pix_y, tex->pixels[line.tex_pix_x * tex->width + (tex->width - line.tex_pix_y - 1)]);
+			//}
+			line.color = line.tex->pixels[line.tex_pix_x * line.tex->width + (line.tex->width - line.tex_pix_y - 1)];
+			//color = add_shade(color, hori->wall_dist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+			//int old_color = game->win.get_pixel(&game->win, x, line.y_start);
+			line.color = add_shade(line.color, line.shade_wgt);
+			//int num = ft_abs((int)(game->verti_rays[line.y_start].row_distance * game->wall_reflection * 100));
+			//int den = ft_abs((int)(hori->wall_dist * 100));
+			
+			/*
+			if (y ==  h / 2 + game->player.pitch)
+			{
+				printf("y is %d, min max %d %d\n", y, game->minmax_hori, game->maxmin_hori);
+				printf("verti at %d is %.3f\n", y, game->verti_rays[y].row_distance);
+				printf("num %d, den %d\n prev (%d, %d, %d, %d), new (%d, %d, %d, %d), average (%d, %d, %d, %d)\n",
+				num, den, rgb_r(old_color), rgb_g(old_color), rgb_b(old_color), rgb_a(old_color),
+				rgb_r(color), rgb_g(color), rgb_b(color), rgb_a(color),
+				rgb_r(avg_colour(color, old_color, ft_min(num, den), den)), rgb_g(avg_colour(color, old_color, ft_min(num, den), den)), rgb_b(avg_colour(color, old_color, ft_min(num, den), den)), rgb_a(avg_colour(color, old_color, ft_min(num, den), den))
+				);
+			}
+			*/
+			//num = ft_min(num, den);
+			//line.color = avg_colour(line.color, old_color, num, den);
+			game->win.set_pixel(&game->win, x, line.y_start, line.color);
+			line.y_start++;
+		}
+	}
+	if (((*game->keys) >> BIT_FLOOR_REFL_T) & 1)
+	{
+		line.tex_exact_y = line.tex_exact_y_save;
+		line.tex_exact_y += line.step * (line.line_start - ray->h - 1) * (line.line_start > ray->h - 1);
+		//line.y_start = line.line_start;
+		
+		line.y_start = ft_min(ray->h - 1, line.line_start);
+		line.y_end = ft_max(line.line_start - hori->line_h, 0);
+		while (line.y_start > line.y_end)
+		{
+			line.tex_pix_y = (int)line.tex_exact_y;
+			line.tex_exact_y += line.step;
+			//if (side == 1 && x == game->win.width / 2)
+			//{
+			//	printf("x %d y %d pixel %d\n", line.tex_pix_x, line.tex_pix_y, tex->pixels[line.tex_pix_x * tex->width + (tex->width - line.tex_pix_y - 1)]);
+			//}
+			line.color = line.tex->pixels[line.tex_pix_x * line.tex->width + (line.tex->width - line.tex_pix_y - 1)];
+			line.color = add_shade(line.color, line.shade_wgt);
+			//int old_color = game->win.get_pixel(&game->win, x, line.y_start);
+			/*
+			float perc = float_clamp(ft_abs(game->verti_rays[y].row_distance * game->wall_reflection) / ft_abs(hori->wall_dist), 0.0f, 1.0f);
+			color = avg_colour(color, old_color, (int)(perc * 100), 100);
+			*/
+			//int num = ft_abs((int)(game->verti_rays[line.y_start].row_distance * game->wall_reflection * 100));
+			//int den = ft_abs((int)(hori->wall_dist * 100));
+			//num = ft_min(num, den);
+			//line.color = avg_colour(line.color, old_color, num, den);
+			game->win.set_pixel(&game->win, x, line.y_start, line.color);
+			line.y_start--;
+		}
 	}
 	//exit (0);
 }

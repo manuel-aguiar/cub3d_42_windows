@@ -31,15 +31,15 @@ void	wallcast_reflection(t_game *game)
 		direction = (t_vector){dir.x + plane.x * cameraX, dir.y + plane.y * cameraX};
 		//printf("perpwalldist %.3f\n", perpWallDist);
 		//Calculate height of line to draw on screen
-		int lineHeight = (int)(h / game->hori_rays[x].perpWallDist);
+		int lineHeight = (int)(h / game->hori_rays[x].wall_dist);
 
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStart = game->hori_rays[x].min_y;
 		int drawEnd = game->hori_rays[x].max_y;
 
 		double wallX; //where exactly the wall was hit
-		if (game->hori_rays[x].side == 0) wallX = game->player.map_posi.y + game->hori_rays[x].perpWallDist * direction.y;
-		else           wallX = game->player.map_posi.x + game->hori_rays[x].perpWallDist * direction.x;
+		if (game->hori_rays[x].side == 0) wallX = game->player.map_posi.y + game->hori_rays[x].wall_dist * direction.y;
+		else           wallX = game->player.map_posi.x + game->hori_rays[x].wall_dist * direction.x;
 		//if (x == game->win.width / 2)
 		//	printf("prefloor wallX is %.10f\n", wallX);
 		
@@ -50,13 +50,13 @@ void	wallcast_reflection(t_game *game)
 		if (game->hori_rays[x].side == 0)
 		{
 			tex = game->tex[EA_TEX];
-			if (game->player.map_posi.x + game->hori_rays[x].perpWallDist * direction.x < game->player.map_posi.x)
+			if (game->player.map_posi.x + game->hori_rays[x].wall_dist * direction.x < game->player.map_posi.x)
 				tex = game->tex[WE_TEX];
 		}	
 		else
 		{
 			tex = game->tex[NO_TEX];
-			if (game->player.map_posi.y + game->hori_rays[x].perpWallDist * direction.y < game->player.map_posi.y)
+			if (game->player.map_posi.y + game->hori_rays[x].wall_dist * direction.y < game->player.map_posi.y)
 				tex = game->tex[SO_TEX];
 		}
 			
@@ -72,7 +72,7 @@ void	wallcast_reflection(t_game *game)
 		//	printf("texX is %d\n", texX);
 		
 		double step = 1.0f * tex->width / lineHeight;
-		double texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
+		double texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].wall_dist)) + lineHeight / 2) * step;
 		texPos += step * (0 - drawStart) * (drawStart < 0);
 		int y = ft_max(0, 0 - drawStart);
 		int end = ft_min(h, drawEnd);
@@ -85,13 +85,13 @@ void	wallcast_reflection(t_game *game)
 			//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
 			//}
 			int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-			color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+			color = add_shade(color, game->hori_rays[x].wall_dist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 			game->win.set_pixel(&game->win, x, y, color);
 			y++;
 		}
-		if (((*game->keys) >> BIT_REFLECT_T) & 1)
+		if (((*game->keys) >> BIT_FLOOR_REFL_T) & 1)
 		{
-			texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
+			texPos = (drawStart - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].wall_dist)) + lineHeight / 2) * step;
 			y = drawStart;
 			int	limit_down = ft_max(drawStart - lineHeight, 0);
 			texPos += step * (drawStart - h) * (drawStart > h);
@@ -105,14 +105,14 @@ void	wallcast_reflection(t_game *game)
 				//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
 				//}
 				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-				color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+				color = add_shade(color, game->hori_rays[x].wall_dist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 				int old_color = game->win.get_pixel(&game->win, x, y);
 				color = avg_colour(color, old_color, (int)(game->wall_reflection * 100), 100);
 				game->win.set_pixel(&game->win, x, y, color);
 				y--;
 			}
 			
-			texPos = (drawEnd - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].perpWallDist)) + lineHeight / 2) * step;
+			texPos = (drawEnd - h / 2 - game->player.pitch + ((int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2)/ game->hori_rays[x].wall_dist)) + lineHeight / 2) * step;
 			texPos += step * (0 - drawEnd) * (drawEnd < 0);
 			y = ft_max(drawEnd, 0);
 			int	limit_up = ft_min(drawEnd + lineHeight, h);
@@ -125,10 +125,10 @@ void	wallcast_reflection(t_game *game)
 				//	printf("x %d y %d pixel %d\n", texX, texY, tex->pixels[texX * tex->width + (tex->width - texY - 1)]);
 				//}
 				int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
-				//color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+				//color = add_shade(color, game->hori_rays[x].wall_dist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 				int old_color = game->win.get_pixel(&game->win, x, y);
 				color = avg_colour(color, old_color, (int)(game->wall_reflection * 100), 100);
-				color = add_shade(color, game->hori_rays[x].perpWallDist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+				color = add_shade(color, game->hori_rays[x].wall_dist / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 				game->win.set_pixel(&game->win, x, y, color);
 				y++;
 			}

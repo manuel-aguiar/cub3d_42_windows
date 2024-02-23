@@ -111,7 +111,6 @@ void		game_actions(t_game *game)
 }
 
 void	dda_visible_and_wallcast(t_game *game);
-void	wallcast_reflection(t_game *game);
 
 void		game_render(t_game *game)
 {
@@ -126,17 +125,17 @@ void		game_render(t_game *game)
 		window_pause_manager(&game->win, PAUSE_OFF, (*(game->keys) >> BIT_BLUR_T) & 1);
 	else
 	{
-		//ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);
-		dda_visible(game);
-		
+		ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);
+		hori_raycasting(game);
+		floorcast(game);
 
 
 		//dda_visible_and_wallcast(game);
 
 		//super_debug_print(game);
-		floorcast_dda_visible(game);
-		wallcast_reflection(game);
-		sprite_cast(game);
+		//floorcast_dda_visible(game);
+		//wallcast_reflection(game);
+		//sprite_cast(game);
 
 		//exit(0);
 		//floorcast(game);

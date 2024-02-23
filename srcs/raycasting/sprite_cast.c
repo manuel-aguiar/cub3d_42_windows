@@ -91,7 +91,7 @@ void	sprite_cast(t_game *game)
 				//2) it's on the screen (left)
 				//3) it's on the screen (right)
 				//4) ZBuffer, with perpendicular distance
-				if(transform.y > 0 && x > 0 && x < w && transform.y < game->hori_rays[x].perpWallDist)
+				if(transform.y > 0 && x > 0 && x < w && transform.y < game->hori_rays[x].wall_dist)
 				{
 					//printf("visible\n");
 					for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe

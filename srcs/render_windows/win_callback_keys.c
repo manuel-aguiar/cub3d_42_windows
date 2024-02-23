@@ -36,7 +36,7 @@ void	key_release(int keycode)
 
 /*
 	BIT_BLUR_T,
-	BIT_REFLECT_T,
+	BIT_FLOOR_REFL_T,
 	BIT_SHADE_T,
 	BIT_PAUSE_T,
 
@@ -51,12 +51,19 @@ void	key_press_toggle(int keycode)
 		else
 			g_keys &= ~(1 << BIT_BLUR_T);			
 	}
-	else if (keycode == KEY_REFLECT_T)
+	else if (keycode == KEY_FLOOR_REFL_T)
 	{
-		if (!((g_keys >> BIT_REFLECT_T) & 1))
-			g_keys |= (1 << BIT_REFLECT_T);
+		if (!((g_keys >> BIT_FLOOR_REFL_T) & 1))
+			g_keys |= (1 << BIT_FLOOR_REFL_T);
 		else
-			g_keys &= ~(1 << BIT_REFLECT_T);			
+			g_keys &= ~(1 << BIT_FLOOR_REFL_T);			
+	}
+	else if (keycode == KEY_CEIL_REFL_T)
+	{
+		if (!((g_keys >> BIT_CEIL_REFL_T) & 1))
+			g_keys |= (1 << BIT_CEIL_REFL_T);
+		else
+			g_keys &= ~(1 << BIT_CEIL_REFL_T);			
 	}
 	else if (keycode == KEY_SHADE_T)
 	{
