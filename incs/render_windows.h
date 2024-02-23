@@ -52,6 +52,7 @@ typedef struct s_pause_blur
 	float	kernel[31];
 	int		save_pixels[31];
 	int		kernel_size;
+	int		kernel_centre;
 	int		max_kernel;
 	int		cur_sigma;
 	int		min_sigma;

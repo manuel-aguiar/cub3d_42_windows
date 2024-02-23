@@ -95,7 +95,7 @@ SRC_PARSING			=	parsing_main.c						\
 						
 
 SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
-						xpm_NSWE.c				\
+						xpm_NSWE.c					\
 						rubens_dementor.c			\
 						xpm_mario.c					\
 						xpm_items.c					\
