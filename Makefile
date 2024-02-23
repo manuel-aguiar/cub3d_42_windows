@@ -101,7 +101,6 @@ SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_items.c					\
 						xpm_gun.c					\
 						xpm_door.c					\
-						xpm_teste.c					\
 						xpm_free.c
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
@@ -143,7 +142,6 @@ SRC_RAYCASTING		=	vector.c					\
 						raycasting.c				\
 						wallcast.c					\
 						floorcast.c					\
-						dda_visible.c				\
 						sprite_cast.c				\
 						doorcast.c					\
 						shader.c

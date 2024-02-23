@@ -42,14 +42,50 @@ typedef struct s_dda_hor
 	int 	min_y;
 	int 	max_y;
 	int		side;
-	float 	perpWallDist;
-	int		line_height;
+	float 	wall_dist;
+	int		line_h;
 }	t_dda_hor;
 
 typedef struct s_dda_ver
 {
 	float row_distance;
 }	t_dda_ver;
+
+typedef struct t_wall_line
+{
+	int			line_start;
+	int			line_end;
+	float		x_hit;
+	int			tex_pix_x;
+	int			tex_pix_y;
+	float		step;
+	float		tex_exact_y_save;
+	float		tex_exact_y;
+	int			y_start;
+	int			y_end;
+	int			color;
+	float		shade_wgt;
+	t_xpm_tex 	*tex;
+}	t_wall_line;
+
+typedef struct s_ray
+{
+	int			w;
+	int			h;
+	float 		cam_x;
+	t_vector	dir_vec;
+	t_vector	plane;
+	t_vector	player_sqr;
+	t_vector	start;
+	t_vector	first;
+	t_vector	step;
+	t_vector	axis_move;
+	t_vector	ray_dir;
+	int			side;
+	int			pitch_mod;
+	float		z_mod;
+	int			hgt_mod;
+}	t_ray;
 
 typedef struct s_game
 {
@@ -117,7 +153,6 @@ void	game_key_manager(t_game *game);
 void	game_mouse_manager(t_game *game);
 
 void	floorcast(t_game *game);
-void	wallcast(t_game *game);
 
 void	raycasting_horizontal(t_game *game);
 
@@ -131,13 +166,13 @@ void    move_player(t_game *game, int keys);
 
 //shader.c
 int		add_shade(int color, float perc);
-void	dda_visible(t_game *game);
-void	dda_visible_and_wallcast(t_game *game);
-void	wallcast_dda_visible(t_game *game);
-void	floorcast_dda_visible(t_game *game);
+void	hori_raycasting(t_game *game);
+
 void	sprite_cast(t_game *game);
 void	doorcast(t_game *game, t_sprite *sprite);
 
+void	floorcast(t_game *game);
+void	wallcast(t_game *game, t_ray *ray, t_dda_hor *hori, int x);
 
 //super_debug_print.c
 void	super_debug_print(t_game *game);
