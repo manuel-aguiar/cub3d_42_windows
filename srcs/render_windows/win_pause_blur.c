@@ -12,8 +12,6 @@
 
 # include "render_windows.h"
 
-int		abgr_inversion(int r, int g, int b, int a);
-
 void	window_transpose(char *dest, char *src, int width, int height, int rgb_size)
 {
 	int	row;
@@ -30,10 +28,6 @@ void	window_transpose(char *dest, char *src, int width, int height, int rgb_size
 			src_index = (col + row * width) * rgb_size;
 			dest_index = (row + col * height) * rgb_size;
 			*(int *)(&dest[dest_index]) = *(int *)(&src[src_index]);
-			//dest[dest_index + 0] = src[src_index + 0];
-			//dest[dest_index + 1] = src[src_index + 1];
-			//dest[dest_index + 2] = src[src_index + 2];
-			//dest[dest_index + 3] = src[src_index + 3];
 			col++;
 		}
 		row++;
@@ -46,14 +40,22 @@ void	dump_blur_to_front_buf(t_win *win, t_pause_blur *blur, char *dump)
 	int index;
 	int size;
 
-	y = blur->kernel_size / 2;
-	while (y < win->height - blur->kernel_size / 2)
+	y = blur->kernel_centre;
+	while (y < win->height - blur->kernel_centre)
 	{
-		index = (blur->kernel_size / 2 + y * win->width) * win->rgb_size;
+		index = (blur->kernel_centre + y * win->width) * win->rgb_size;
 		size = (win->width - (int)(blur->kernel_size / 2) * 2) * win->rgb_size;
 		ft_memcpy(&win->front_buf[index], &dump[index], size);
 		y++;
 	}
+}
+
+static inline void	fill_kernel_colors(t_pause_blur *blur, float colors[4], int index)
+{
+	colors[0] += ((blur->save_pixels[index] >> 24) & 0xff) * blur->kernel[index];
+	colors[1] += ((blur->save_pixels[index] >> 16) & 0xff) * blur->kernel[index];
+	colors[2] += ((blur->save_pixels[index] >> 8) & 0xff) * blur->kernel[index];
+	colors[3] += ((blur->save_pixels[index] >> 0) & 0xff) * blur->kernel[index];
 }
 
 void	blur_horizontal(t_pause_blur *blur, char *dest, char *src, int width, int height)
@@ -62,11 +64,8 @@ void	blur_horizontal(t_pause_blur *blur, char *dest, char *src, int width, int h
 	int		y;
 	int		x;
 	float	colors[4];
-	int 	centre;
-	char	*posi;
 	int 	i;
 	
-	centre = blur->kernel_size / 2;
 	y = blur->kernel_size / 2;
 	while (y < height - blur->kernel_size / 2)
 	{
@@ -78,24 +77,11 @@ void	blur_horizontal(t_pause_blur *blur, char *dest, char *src, int width, int h
 			i = 0;					
 			while (i < blur->kernel_size)
 			{
-				blur->save_pixels[i] = *(int *)&src[(y * width + x - centre + i) * blur->rgb_size];
-				colors[0] += rgb_r(blur->save_pixels[i]) * blur->kernel[i];
-				colors[1] += rgb_g(blur->save_pixels[i]) * blur->kernel[i];
-				colors[2] += rgb_b(blur->save_pixels[i]) * blur->kernel[i];
-				colors[3] += rgb_a(blur->save_pixels[i]) * blur->kernel[i];
-				(void)posi;
-				//posi = &src[(y * width + x - centre + i) * blur->rgb_size];
-				//colors[0] += (float)*(posi + 0) * blur->kernel[i];
-				//colors[1] += (float)*(posi + 1) * blur->kernel[i];
-				//colors[2] += (float)*(posi + 2) * blur->kernel[i];
-				//colors[3] += (float)*(posi + 3) * blur->kernel[i];
+				blur->save_pixels[i] = *(int *)&src[(y * width + x - blur->kernel_centre + i) * blur->rgb_size];
+				fill_kernel_colors(blur, colors, i);
 				i++;
 			}
-			*(int *)&dest[blur_index] = rgba((int)colors[0], (int)colors[1], (int)colors[2], (int)colors[3]);
-			//dest[blur_index + 0] = (char)(colors[0]);
-			//dest[blur_index + 1] = (char)(colors[1]);
-			//dest[blur_index + 2] = (char)(colors[2]);
-			//dest[blur_index + 3] = (char)(colors[3]);
+			*(int *)&dest[blur_index] = pack_color_channels((int)colors[0], (int)colors[1], (int)colors[2], (int)colors[3]);
 			x++;
 		}
 		y++;
@@ -122,17 +108,14 @@ static float pause_gaussian(float x, float sigma) {
 // Function to create a Gaussian kernel of size N with standard deviation sigma
 static void pause_setup_kernel(t_pause_blur *blur)
 {
-	int 	centre;
 	int 	i;
 	float 	sum;
 
-	centre = blur->kernel_size / 2;
 	sum = 0;
-
 	i = 0;
 	while (i < blur->kernel_size)
 	{
-        blur->kernel[i] = pause_gaussian(i - centre, sqrt(blur->cur_sigma));
+        blur->kernel[i] = pause_gaussian(i - blur->kernel_centre, sqrt(blur->cur_sigma));
         sum += blur->kernel[i];	
 		i++;	
 	}

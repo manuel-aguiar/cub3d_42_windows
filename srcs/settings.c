@@ -58,6 +58,7 @@ void    apply_all_settings(t_game *game)
     game->win.blur = (t_pause_blur){};
     game->win.blur.max_kernel = BLUR_KERNEL_MAX;
     game->win.blur.kernel_size = BLUR_KERNEL_SIZE;
+    game->win.blur.kernel_centre = game->win.blur.kernel_size / 2;
     game->win.blur.cur_sigma = WIN_MIN_SIGMA;
     game->win.blur.min_sigma = WIN_MIN_SIGMA;
     game->win.blur.max_sigma = WIN_MAX_SIGMA;

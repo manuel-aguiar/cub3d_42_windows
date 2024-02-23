@@ -43,6 +43,9 @@ static int		validate_map_chars(t_parsing *parsing)
 			parsing->found_player = is_player;
 		i++;
 	}
+	if (!parsing->found_player)
+		return (error_msg_int("cub3d: no player starting point\n", \
+			STDERR_FILENO, 0));
 	return (1);
 }
 

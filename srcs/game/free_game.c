@@ -15,11 +15,14 @@
 void	free_game(t_game *game)
 {
 	int i;
+
 	free_win_glfw(&game->win);
 	free_compass(&game->compass);
 	free_map(&game->map);
-	free(game->hori_rays);
-	free(game->verti_rays);
+	if (game->hori_rays)
+		free(game->hori_rays);
+	if (game->verti_rays)
+		free(game->verti_rays);
 	i = 0;
 	while (i < NUM_TEX)
 	{
@@ -28,7 +31,7 @@ void	free_game(t_game *game)
 		i++;
 	}
 	i = 0;
-	while ( i < game->sprite_count)
+	while (i < game->sprite_count)
 	{
 		if (game->sprites[i].data)
 			free(game->sprites[i].data);

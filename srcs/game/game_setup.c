@@ -22,34 +22,17 @@ void	setup_all_angles(t_game *game, float rad)
 	game->compass.sin_rad = -game->player.sin_rad;
 	game->player.dir_vec = (t_vector){game->player.cos_rad, game->player.sin_rad};
 	game->player.plane = vector_multi((t_vector){game->player.sin_rad, -game->player.cos_rad}, game->player.cur_fov);
-	//printf("player rads %.3f, compass rads %.3f\n", game->player.angle, game->compass.angle);
-	//printf("player cos sin (%.3f, %.3f)\n", game->player.cos_rad, game->player.sin_rad);
-	//printf("compas cos sin (%.3f, %.3f)\n", game->compass.cos_rad, game->compass.sin_rad);
-}
-
-int		char_in_set(char c, char *charset)
-{
-	int	i;
-
-	i = 0;
-	while (charset[i])
-	{
-		if (c == charset[i])
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 void		game_starting_angle(t_game *game, char direction)
 {
-	if (direction == 'N')
+	if (direction == MAP_NORTH)
 		setup_all_angles(game, P_MY_PI / 2); 
-	if (direction == 'S')
+	if (direction == MAP_SOUTH)
 		setup_all_angles(game, - P_MY_PI / 2);
-	if (direction == 'E')
+	if (direction == MAP_EAST)
 		setup_all_angles(game, 0);
-	if (direction == 'W')
+	if (direction == MAP_WEST)
 		setup_all_angles(game, P_MY_PI);
 }
 
@@ -61,7 +44,7 @@ void		game_find_player_set_angles(t_game *game)
 	i = 0;
 	while (i < game->map.len)
 	{
-		if (char_in_set(game->map.map[i], VALID_DIR_CHARS))
+		if (char_in_charset(game->map.map[i], VALID_DIR_CHARS))
 			break ;
 		i++;
 	}
@@ -105,7 +88,6 @@ int		game_start(t_game *game, char *game_config)
 	*game = (t_game){};
 	if (!map_parsing(&game->map, game_config))
 		return (0);
-	printf("parsing correct\n");
 	game_find_player_set_angles(game);
 	apply_all_settings(game);
 	compass_setup(&game->compass);

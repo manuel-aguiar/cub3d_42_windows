@@ -67,7 +67,7 @@ int		compass_setup(t_compass *comp)
 	init_template_west(comp);
 	if(!init_template_square(comp)
 	|| !init_inner_circle(comp)
-	|| (comp->blur_on == true && !compass_blur_setup(comp)))
+	|| !compass_blur_setup(comp))
 		return (0);
 	return (1);
 }

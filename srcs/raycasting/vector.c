@@ -53,3 +53,8 @@ float	vector_distance(t_vector start, t_vector end)
 {
 	return (sqrt(fpow_2(end.x - start.x) + sqrt(fpow_2(end.y - start.y))));
 }
+
+t_vector	vector_product(t_vector first, t_vector second)
+{
+	return((t_vector){first.x * second.x, first.y * second.y});
+}
