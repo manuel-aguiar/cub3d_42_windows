@@ -44,6 +44,7 @@ typedef struct s_dda_hor
 	int		side;
 	float 	wall_dist;
 	int		line_h;
+	float	shade_wgt;
 }	t_dda_hor;
 
 typedef struct s_dda_ver
@@ -67,6 +68,28 @@ typedef struct t_wall_line
 	float		shade_wgt;
 	t_xpm_tex 	*tex;
 }	t_wall_line;
+
+typedef struct s_floor_line
+{
+	t_xpm_tex	*tex;
+	int			win_h;
+	int			win_w;
+	t_vector	ray_left;
+	t_vector	ray_right;
+	float		row_z;
+	float		pitch_mod;
+	float		row_dist;
+	float		tile_exact_x;
+	float		tile_exact_y;
+	float		tile_step_x;
+	float		tile_step_y;
+	int			tile_x;
+	int			tile_y;
+	int			tex_pix_x;
+	int			tex_pix_y;
+	int			color;
+	float		shade_wgt;
+}	t_floor_line;
 
 typedef struct s_ray
 {

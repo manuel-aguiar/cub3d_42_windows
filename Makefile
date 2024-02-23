@@ -142,7 +142,7 @@ SRC_RAYCASTING		=	vector.c					\
 						raycasting.c				\
 						wallcast.c					\
 						floorcast.c					\
-						sprite_cast.c				\
+						spritecast.c				\
 						doorcast.c					\
 						shader.c
 
