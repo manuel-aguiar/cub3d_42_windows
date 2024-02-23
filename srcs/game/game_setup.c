@@ -66,10 +66,10 @@ extern char *g_door[];
 int		game_load_textures(t_game *game)
 {
 	ft_memset(game->tex, 0, sizeof(*game->tex) * NUM_TEX);
-	game->tex[NO_TEX] = xpm_to_tex(g_margarida, TEX_TRANSPOSED);
-	game->tex[SO_TEX] = xpm_to_tex(g_margarida, TEX_TRANSPOSED);
-	game->tex[WE_TEX] = xpm_to_tex(g_margarida, TEX_TRANSPOSED);
-	game->tex[EA_TEX] = xpm_to_tex(g_margarida, TEX_TRANSPOSED);
+	game->tex[NO_TEX] = xpm_to_tex(g_north, TEX_TRANSPOSED);
+	game->tex[SO_TEX] = xpm_to_tex(g_south, TEX_TRANSPOSED);
+	game->tex[WE_TEX] = xpm_to_tex(g_west, TEX_TRANSPOSED);
+	game->tex[EA_TEX] = xpm_to_tex(g_east, TEX_TRANSPOSED);
 	game->tex[F_TEX] = xpm_to_tex(g_margarida, TEX_REGULAR);
 	game->tex[C_TEX] = xpm_to_tex(g_margarida, TEX_REGULAR);
 	game->tex[MEDI_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);

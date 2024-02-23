@@ -19,28 +19,6 @@ static inline float	float_ternary(bool cond, float yes, float no)
 	return (no);
 }
 
-typedef struct s_floor_line
-{
-	t_xpm_tex	*tex;
-	int			win_h;
-	int			win_w;
-	t_vector	ray_left;
-	t_vector	ray_right;
-	float		row_z;
-	float		pitch_mod;
-	float		row_dist;
-	float		tile_exact_x;
-	float		tile_exact_y;
-	float		tile_step_x;
-	float		tile_step_y;
-	int			tile_x;
-	int			tile_y;
-	int			tex_pix_x;
-	int			tex_pix_y;
-	int			color;
-	float		shade_wgt;
-}	t_floor_line;
-
 static inline void setup_common_floor_line(t_game *game, t_floor_line *line)
 {
 	t_vector	dir;
@@ -73,7 +51,7 @@ static inline void setup_this_floor_line(t_game *game, t_floor_line *line, int y
 
 	this_pitch = y - line->pitch_mod;
 	line->row_dist = float_ternary(ft_fabs(line->pitch_mod) < 0.0001f, 2000, line->row_z / this_pitch);
-	game->verti_rays[y].row_distance = line->row_dist;
+	//game->verti_rays[y].row_distance = line->row_dist;
 	line->tile_step_x = line->row_dist * (line->ray_right.x - line->ray_left.x) / line->win_w;
 	line->tile_step_y = line->row_dist * (line->ray_right.y - line->ray_left.y) / line->win_w;
 	line->tile_exact_x = game->player.map_posi.x + line->row_dist * line->ray_left.x;
@@ -88,7 +66,7 @@ static inline void setup_this_ceiling_line(t_game *game, t_floor_line *line, int
 
 	this_pitch = y - line->pitch_mod;
 	line->row_dist = float_ternary(ft_fabs(line->pitch_mod) < 0.0001f, 2000, line->row_z / this_pitch);
-	game->verti_rays[y].row_distance = line->row_dist;
+	//game->verti_rays[y].row_distance = line->row_dist;
 	line->tile_step_x = line->row_dist * (line->ray_right.x - line->ray_left.x) / line->win_w;
 	line->tile_step_y = line->row_dist * (line->ray_right.y - line->ray_left.y) / line->win_w;
 	line->tile_exact_x = game->player.map_posi.x + line->row_dist * line->ray_right.x;
@@ -100,15 +78,15 @@ static inline void setup_this_ceiling_line(t_game *game, t_floor_line *line, int
 void	floorcast(t_game *game)
 {
 	t_floor_line	line;
-	t_xpm_tex 		*floor;
+	t_xpm_tex 		*tex;
 	int x;
 	int	y;
 	int end;
 	
-	ft_memset(game->verti_rays, 0, game->win.height);
+	//ft_memset(game->verti_rays, 0, game->win.height);
 	setup_common_floor_line(game, &line);
 	
-	floor = game->tex[F_TEX];
+	tex = game->tex[F_TEX];
 	end = ft_min(game->maxmin_hori, line.win_h - 1);
 	y = 0;
 	while (y < end)
@@ -119,12 +97,20 @@ void	floorcast(t_game *game)
 		{
 			line.tile_x = (int)(line.tile_exact_x);
 			line.tile_y = (int)(line.tile_exact_y);
-			line.tex_pix_x = ft_abs((int)(floor->width * (line.tile_exact_x - line.tile_x)) % floor->width);
-			line.tex_pix_y = ft_abs((int)(floor->height * (line.tile_exact_y - line.tile_y)) % floor->height);
+			line.tex_pix_x = ft_abs((int)(tex->width * (line.tile_exact_x - line.tile_x)) % tex->width);
+			line.tex_pix_y = ft_abs((int)(tex->height * (line.tile_exact_y - line.tile_y)) % tex->height);
 			line.tile_exact_x += line.tile_step_x;
 			line.tile_exact_y += line.tile_step_y;
-			line.color = floor->pixels[floor->width * (floor->height - line.tex_pix_y - 1) + line.tex_pix_x];
+			line.color = tex->pixels[tex->width * (tex->height - line.tex_pix_y - 1) + line.tex_pix_x];
 			line.color = add_shade(line.color, line.shade_wgt);
+			if (((*game->keys) >> BIT_FLOOR_REFL_T) & 1 && y > game->hori_rays[x].min_y - game->hori_rays[x].line_h)
+			{
+				int old_color = game->win.get_pixel(&game->win, x, y);
+				int num = ft_abs((int)(line.row_dist * game->wall_reflection * 100));
+				int den = ft_abs((int)(game->hori_rays[x].wall_dist * 100));
+				num = ft_min(num, den);
+				line.color = avg_colour(old_color, line.color, num, den);
+			}
 			game->win.set_pixel(&game->win, x, y, line.color);
 			x++;
 			while(x < line.win_w && y >= game->hori_rays[x].min_y)
@@ -138,7 +124,7 @@ void	floorcast(t_game *game)
 	}
 	setup_common_ceiling_line(game, &line);
 	y = ft_max(game->minmax_hori + 1, 0);
-	floor = game->tex[C_TEX];
+	tex = game->tex[C_TEX];
 	while (y < line.win_h)
 	{
 		setup_this_ceiling_line(game, &line, y);
@@ -147,12 +133,21 @@ void	floorcast(t_game *game)
 		{
 			line.tile_x = (int)(line.tile_exact_x);
 			line.tile_y = (int)(line.tile_exact_y);
-			line.tex_pix_x = ft_abs((int)(floor->width * (line.tile_exact_x - line.tile_x)) % floor->width);
-			line.tex_pix_y = ft_abs((int)(floor->height * (line.tile_exact_y - line.tile_y)) % floor->height);
+			line.tex_pix_x = ft_abs((int)(tex->width * (line.tile_exact_x - line.tile_x)) % tex->width);
+			line.tex_pix_y = ft_abs((int)(tex->height * (line.tile_exact_y - line.tile_y)) % tex->height);
 			line.tile_exact_x -= line.tile_step_x;
 			line.tile_exact_y -= line.tile_step_y;
-			line.color = floor->pixels[floor->width * line.tex_pix_y + line.tex_pix_x];
+			line.color = tex->pixels[tex->width * line.tex_pix_y + line.tex_pix_x];
 			line.color = add_shade(line.color, line.shade_wgt);
+
+			if (((*game->keys) >> BIT_CEIL_REFL_T) & 1 && y < game->hori_rays[x].max_y + game->hori_rays[x].line_h)
+			{
+				int old_color = game->win.get_pixel(&game->win, x, y);
+				int num = ft_abs((int)(line.row_dist * game->wall_reflection * 100));
+				int den = ft_abs((int)(game->hori_rays[x].wall_dist * 100));
+				num = ft_min(num, den);
+				line.color = avg_colour(old_color, line.color, num, den);
+			}
 			game->win.set_pixel(&game->win, x, y, line.color);
 			x++;
 			while(x < line.win_w && y <= game->hori_rays[x].max_y)

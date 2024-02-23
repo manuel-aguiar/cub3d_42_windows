@@ -96,22 +96,22 @@ void	sprite_cast(t_game *game)
 					//printf("visible\n");
 					for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 					{
-					float d = (y - game->player.pitch + (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + game->sprites[i].height - game->sprites[i].cur_z) * h - h / 2) / transform.y)) - h / 2 + spriteHeight / 2; //256 and 128 factors to avoid floats
-					int texY = ((d * tex->width) / spriteHeight);
+						float d = (y - game->player.pitch + (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + game->sprites[i].height - game->sprites[i].cur_z) * h - h / 2) / transform.y)) - h / 2 + spriteHeight / 2; //256 and 128 factors to avoid floats
+						int texY = ((d * tex->width) / spriteHeight);
 
-					int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)]; //get current color from the texture
-					//if (game->sprites[i].type == MEDIKIT)
-					//{
-					//	printf("x %d y %d, color %d, width %d height %d, index %d len %d\n", 
-					//	texX, texY , color,tex->width, tex->height, texY * tex->width + (tex->width - texX - 1), tex->width* tex->height );
-					//}
-					
-					//int color = rgba(0,0,255,255);
-					if (color != 255)
-					{
-						color = add_shade(color, transform.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-						game->win.set_pixel(&game->win, x, y, color);
-					}
+						int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)]; //get current color from the texture
+						//if (game->sprites[i].type == MEDIKIT)
+						//{
+						//	printf("x %d y %d, color %d, width %d height %d, index %d len %d\n", 
+						//	texX, texY , color,tex->width, tex->height, texY * tex->width + (tex->width - texX - 1), tex->width* tex->height );
+						//}
+						
+						//int color = rgba(0,0,255,255);
+						if (color != 255)
+						{
+							color = add_shade(color, transform.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+							game->win.set_pixel(&game->win, x, y, color);
+						}
 
 					}
 				}

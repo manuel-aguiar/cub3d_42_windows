@@ -140,14 +140,18 @@ void		game_render(t_game *game)
 		//exit(0);
 		//floorcast(game);
 		//wallcast(game);
+
+		
 		game->compass.blur_on = (*(game->keys) >> BIT_BLUR_T) & 1;
 		if (((*game->keys) >> BIT_HUD_T) & 1)
 		{
 			render_compass(&game->win, &game->compass);
 			render_map_inside_compass(game);
 			render_player_inside_compass(game);
+			render_stats_bars(game);
 		}
-		render_stats_bars(game);
+		
+		
 	}
 
 }

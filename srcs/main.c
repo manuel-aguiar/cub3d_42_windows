@@ -12,6 +12,20 @@
 
 #include "game.h"
 
+void    endianess_test(void)
+{
+    char    arr[10];
+    char    *ptr;
+    
+    ptr = arr;
+    *(int *)ptr = 1;
+    if (ptr[0] == 1)
+        printf("little endian\n");
+    else
+        printf("big endian\n");
+    
+}
+
 int main(int ac, char **av)
 {
 	t_game	game;	
