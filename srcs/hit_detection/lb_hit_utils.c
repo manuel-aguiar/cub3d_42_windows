@@ -1,40 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_funcs.c                                        :+:      :+:    :+:   */
+/*   fdf_lb_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/22 20:10:29 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/22 20:10:29 by marvin           ###   ########.fr       */
+/*   Created: 2023/07/21 14:41:20 by marvin            #+#    #+#             */
+/*   Updated: 2023/07/21 14:41:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "hit_detection.h"
 
-int		map_row(t_map *map, int index)
+float	lb_hit_maxi(float arr[], int n)
 {
-	return (index / map->width);
-}	
+	float	m;
+	int		i;
 
-int		map_col(t_map *map, int index)
-{
-	return (index % map->width);
-}
-
-
-void	free_map(t_map *map)
-{
-	int	i;
-
-	free(map->map);
-	free(map->hit);
+	m = 0;
 	i = 0;
-	while (i < NUM_TEX)
+	while (i < n)
 	{
-		if (map->tex_data[i].path)
-			free(map->tex_data[i].path);
+		if (m < arr[i])
+			m = arr[i];
 		i++;
 	}
+	return (m);
 }
 
+float	lb_hit_mini(float arr[], int n)
+{
+	float	m;
+	int		i;
+
+	m = 1;
+	i = 0;
+	while (i < n)
+	{
+		if (m > arr[i])
+			m = arr[i];
+		i++;
+	}
+	return (m);
+}

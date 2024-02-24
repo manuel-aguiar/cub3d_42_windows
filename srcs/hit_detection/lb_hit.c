@@ -1,0 +1,117 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf_lb_clipping.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/14 14:32:18 by marvin            #+#    #+#             */
+/*   Updated: 2023/08/14 14:32:18 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "hit_detection.h"
+
+/*
+
+static void	lb_safety(t_vector low_bot, t_vector hi_top, t_vector *start, t_vector *end)
+{
+	if (start->x > hi_top.x - 1)
+		start->x = hi_top.x - 1;
+	if (start->x < low_bot.x)
+		start->x = low_bot.x;
+	if (start->y > hi_top.y - 1)
+		start->y = hi_top.y - 1;
+	if (start->y < low_bot.y)
+		start->y = low_bot.y;
+	if (end->x > hi_top.x - 1)
+		end->x = hi_top.x - 1;
+	if (end->x < low_bot.x)
+		end->x = low_bot.x;
+	if (end->y > hi_top.y - 1)
+		end->y = hi_top.y - 1;
+	if (end->y < low_bot.y)
+		end->y = low_bot.y;
+}
+
+*/
+
+
+float	lb_hit_maxi(float arr[], int n);
+float	lb_hit_mini(float arr[], int n);
+
+
+
+static void	lb_ratios1(t_lb_hit *lb)
+{
+	if (lb->p1 != 0)
+	{
+		lb->r1 = lb->q1 / lb->p1;
+		lb->r2 = lb->q2 / lb->p2;
+		if (lb->p1 < 0)
+		{
+			lb->negarr[lb->negind++] = lb->r1;
+			lb->posarr[lb->posind++] = lb->r2;
+		}
+		else
+		{
+			lb->negarr[lb->negind++] = lb->r2;
+			lb->posarr[lb->posind++] = lb->r1;
+		}
+	}
+}
+
+static void	lb_ratios2(t_lb_hit *lb)
+{
+	if (lb->p3 != 0)
+	{
+		lb->r3 = lb->q3 / lb->p3;
+		lb->r4 = lb->q4 / lb->p4;
+		if (lb->p3 < 0)
+		{
+			lb->negarr[lb->negind++] = lb->r3;
+			lb->posarr[lb->posind++] = lb->r4;
+		}
+		else
+		{
+			lb->negarr[lb->negind++] = lb->r4;
+			lb->posarr[lb->posind++] = lb->r3;
+		}
+	}
+}
+
+static int	lb_setup(t_vector low_bot, t_vector hi_top, t_lb_hit *lb, t_vector *start, t_vector *end)
+{
+	lb->p1 = -(end->x - start->x);
+	lb->p2 = -lb->p1;
+	lb->p3 = -(end->y - start->y);
+	lb->p4 = -lb->p3;
+	lb->q1 = start->x - low_bot.x;
+	lb->q2 = hi_top.x - start->x;
+	lb->q3 = start->y - low_bot.y;
+	lb->q4 = hi_top.y - start->y;
+	lb->posind = 1;
+	lb->negind = 1;
+	lb->posarr[0] = 1;
+	lb->negarr[0] = 0;
+	if ((lb->p1 == 0 && lb->q1 < 0) || (lb->p2 == 0 && lb->q2 < 0) || \
+		(lb->p3 == 0 && lb->q3 < 0) || (lb->p4 == 0 && lb->q4 < 0))
+		return (0);
+	return (1);
+}
+
+int	liang_barsky_hit(t_vector low_bot, t_vector hi_top, t_vector start, t_vector end)
+{
+	t_lb_hit	lb;
+
+	if (!lb_setup(low_bot, hi_top, &lb, &start, &end))
+		return (0);
+	lb_ratios1(&lb);
+	lb_ratios2(&lb);
+	lb.rn1 = lb_hit_maxi(lb.negarr, lb.negind);
+	lb.rn2 = lb_hit_mini(lb.posarr, lb.posind);
+	if (lb.rn1 > lb.rn2)
+		return (0);
+	return (1);
+}
+

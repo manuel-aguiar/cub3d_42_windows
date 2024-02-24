@@ -49,7 +49,7 @@ static int		validate_map_chars(t_parsing *parsing)
 	return (1);
 }
 
-static void		dump_parsing_to_map(t_map *map, t_parsing *parsing)
+static int		dump_parsing_to_map(t_map *map, t_parsing *parsing)
 {
 	int i;
 	*map = (t_map){};
@@ -62,7 +62,11 @@ static void		dump_parsing_to_map(t_map *map, t_parsing *parsing)
 		map->tex_data[i] = parsing->tex_data[i];
 		i++;
 	}
-	map->len = map->width * map->height;	
+	map->len = map->width * map->height;
+	map->hit = ft_calloc(map->len, sizeof(*map->hit));
+	if (!map->hit)
+		return (perror_msg_int("malloc",0));
+	return (1);
 }
 
 int	map_parsing(t_map *map, char *av_file)
@@ -71,22 +75,19 @@ int	map_parsing(t_map *map, char *av_file)
 
 	parsing = (t_parsing){};
 	parsing.file = av_file;
-	if (!file_to_list(&parsing))
+	if (!file_to_list(&parsing) \
+	|| !separate_textures(&parsing) \
+	|| !get_map_dimensions(&parsing) \
+	|| !list_to_map(&parsing) \
+	|| !validate_map_chars(&parsing) \
+	|| !flood_count_island(&parsing) \
+	|| !analise_textures(&parsing) \
+	|| !dump_parsing_to_map(map, &parsing))
+	{
+		vdmlist_destroy(&parsing.list, free_gnl_len);
 		return (0);
-	if (!separate_textures(&parsing))
-		return (error_msg_int("cub3d: bad input textures\n", 2, 0));
-	if (!get_map_dimensions(&parsing))
-		return (0);
-	if (!list_to_map(&parsing))
-		return (0);
-	if (!validate_map_chars(&parsing))
-		return (0);
-	if (!flood_count_island(&parsing))
-		return (0);
-	if (!analise_textures(&parsing))
-		return (0);
+	}
 	vdmlist_destroy(&parsing.list, free_gnl_len);
-	dump_parsing_to_map(map, &parsing);
 	return (1);
 }
 
