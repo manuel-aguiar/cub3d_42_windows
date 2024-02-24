@@ -132,6 +132,7 @@ typedef struct s_game
 	float		floating;
 	float		float_sense;
 	float		float_sin;
+	float		view_adj;
 	t_door		template_door;
 	t_medi		template_medi;
 	t_ammo		template_ammo;

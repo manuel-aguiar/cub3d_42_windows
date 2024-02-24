@@ -1,4 +1,4 @@
-# **************************************************************************** #
+﻿# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    todolist.txt                                       :+:      :+:    :+:    #
@@ -25,31 +25,11 @@ hud:
 	use sinf calculated for walking
 
 shot mechanics:
-	make a singly linkedlist whose data is a pointer to sprite
-	colliion detection: array of linked lists the size of the map
-		linked lists on the stack
-		each sprite will have their stack nodes, only pointers are moved.
-	sort the sprites back to front.
-
-	when shot is fired updatde map linkedlists. they will old enemy positions.
-		clean all linekd lists, they are on stack, disconnect the head pointer and set length to zero
-		enemieis will be a box (x,y) + unit size (always box against 2d)
-		place the four boxes that result in the linkedlist head
-	as more enemies put theirs and they are closer, they will be checked first for collision detection
-		when placing, if this->data = head->data, square already has the enemy, discard
-
-	shot is fired: ray cast on that direction, check for wall collision, if not check for enemies (list len).
-	get the entry point and exit point
-		adapt liang barsky for vectors instead of pixels, works the same, all geometry
-		liang barsky will return 0 if no collision, 1 if collision with the enemy 2d square space
-			doesn't matter where the intersection is, only it intersected.
-			apply damage to the enemy, end shot
-
-	LATER, after confirming collision with the 2d box, use current z_mod and pitch to determine height at which
-	the enemy was hit, if not hit continue the search for all enemies in that map square
-		if no hits, the ray continues until it finally hits a wall
+	close to done
 
 	
+rendering:
+	adjust heights of doors and scale sprites appropritely
 
 enemies:
 	raycast to check if the enemy sees you from their center position
