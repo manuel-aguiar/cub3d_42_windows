@@ -75,48 +75,33 @@ static inline void move_ray(t_ray *ray)
 	}    
 }
 
-int	shot_hit_enemy(t_game *game, int index, t_vec2d check[2])
-{
-	t_sprite	*sprite;
-	t_hitnode	*node;
-	t_vec2d	box[2];
 
-	node = game->map.hit[index].head;
-	//printf("checking map at %d %d, number of sprites %d\n", 
-	//map_col(&game->map, index), map_row(&game->map, index), 
-	//game->map.hit[index].len);
-	while (node)
-	{
-		sprite = node->sprite;
-		box[0] = (t_vec2d){sprite->posi.x - sprite->unit_size, sprite->posi.y - sprite->unit_size};
-		box[1] = (t_vec2d){sprite->posi.x + sprite->unit_size, sprite->posi.y + sprite->unit_size};
-		//printf("checking collision at %d, %d: ", (int)sprite->posi.x, (int)sprite->posi.y);
-		if (liang_barsky_hit(box[0], box[1], check[0], check[1]))
-		{
-			printf("sprite %d at %.3f, %.3f was hit\n", sprite->type, sprite->posi.x, sprite->posi.y);
-			return (1);
-		}
-		//printf(" didn't hit\n");
-		node = node->next;
-	}
-	return (0);
+
+t_vec2d get_xy_coordinate(t_vec3d point, t_vec3d dir, float z)
+{
+	t_vec2d new;
+    // Check if the direction vector has a non-zero component to avoid division by zero
+
+    // Use the equation of the line to find t that corresponds to the given z-value
+    double t = (z - point.z) / dir.z;
+
+    // Compute the xy-coordinates using the found value of t
+    new.x = point.x + dir.x * t;
+    new.y = point.y + dir.y * t;
+
+    return new;
 }
 
-double get_z_coordinate(t_vec3d point, t_vec3d dir, double x, double y) {
+double get_z_coordinate(t_vec3d point, t_vec3d dir, t_vec2d coords)
+{
     // Check if the direction vector has a non-zero component to avoid division by zero
-    if (dir.x == 0 && dir.y == 0) {
-        printf("Error: The line is parallel to the xy-plane.\n");
-        return 0.0;
-    }
-	printf("player z is %.3f\n", point.z);
     double t;
     // Use one of the parametric equations to solve for t
     if (dir.x != 0) {
-        t = (x - point.x) / dir.x;
+        t = (coords.x - point.x) / dir.x;
     } else {
-        t = (y - point.y) / dir.y;
+        t = (coords.y - point.y) / dir.y;
     }
-
     // Compute the z-coordinate using the found value of t
     double z = point.z + dir.z * t;
 
@@ -128,13 +113,26 @@ static inline void check_wall_hit(t_game *game, t_ray *ray)
 	t_vec2d		wall_hit;
 	float		wall_dist;
 	float		z;
+	t_vec2d		floor_ceil;
 
 	if (ray->side == 0)
 	{
 		wall_dist = (ray->first.x - ray->step.x);
 		wall_hit.y = game->player.map_posi.y + wall_dist * ray->ray_dir.y;
 		wall_hit.x = ray->player_sqr.x + (ray->player_sqr.x <= game->player.map_posi.x);
-		z = get_z_coordinate(game->player.posi_3d, game->player.dir_3d, wall_hit.x, wall_hit.y);
+		z = get_z_coordinate(game->player.posi_3d, game->player.dir_3d, wall_hit);
+		if (z < 0)
+		{
+			floor_ceil = get_xy_coordinate(game->player.posi_3d, game->player.dir_3d, 0);
+			printf("floor hit at %.3f, %.3f\n", floor_ceil.x, floor_ceil.y);
+			return ;
+		}
+		else if (z > 1)
+		{
+			floor_ceil = get_xy_coordinate(game->player.posi_3d, game->player.dir_3d, 1);
+			printf("ceiling hit at %.3f, %.3f\n", floor_ceil.x, floor_ceil.y);
+			return ;
+		}
 		printf("wall hit at %.3f, %.3f %.3f\n", wall_hit.x, wall_hit.y, z);
 		return ;
 	}
@@ -143,10 +141,61 @@ static inline void check_wall_hit(t_game *game, t_ray *ray)
 		wall_dist = (ray->first.y - ray->step.y);
 		wall_hit.x = game->player.map_posi.x + wall_dist * ray->ray_dir.x;
 		wall_hit.y = ray->player_sqr.y + (ray->player_sqr.y <= game->player.map_posi.y);
-		z = get_z_coordinate(game->player.posi_3d, game->player.dir_3d, wall_hit.x, wall_hit.y);
+		z = get_z_coordinate(game->player.posi_3d, game->player.dir_3d, wall_hit);
+		if (z < 0)
+		{
+			floor_ceil = get_xy_coordinate(game->player.posi_3d, game->player.dir_3d, 0);
+			printf("floor hit at %.3f, %.3f\n", floor_ceil.x, floor_ceil.y);
+			return ;
+		}
+		else if (z > 1)
+		{
+			floor_ceil = get_xy_coordinate(game->player.posi_3d, game->player.dir_3d, 1);
+			printf("ceiling hit at %.3f, %.3f\n", floor_ceil.x, floor_ceil.y);
+			return ;
+		}
 		printf("wall hit at %.3f, %.3f %.3f\n", wall_hit.x, wall_hit.y, z);
 		return ;
 	}	
+}
+
+int	shot_hit_enemy(t_game *game, int index, t_vec2d check[2])
+{
+	t_sprite	*sprite;
+	t_hitnode	*node;
+	t_vec2d		box[2];
+	t_vec2d		collision[2];
+	float		z;
+
+	node = game->map.hit[index].head;
+	//printf("checking map at %d %d, number of sprites %d\n", 
+	//map_col(&game->map, index), map_row(&game->map, index), 
+	//game->map.hit[index].len);
+	while (node)
+	{
+		sprite = node->sprite;
+		box[0] = (t_vec2d){sprite->posi.x - sprite->unit_size, sprite->posi.y - sprite->unit_size};
+		box[1] = (t_vec2d){sprite->posi.x + sprite->unit_size, sprite->posi.y + sprite->unit_size};
+		//printf("checking collision at %d, %d: ", (int)sprite->posi.x, (int)sprite->posi.y);
+		if (liang_barsky_hit(box, check, collision))
+		{
+			z = get_z_coordinate(game->player.posi_3d, game->player.dir_3d, collision[0]);
+			if (z >= 0 && z <= sprite->height)
+			{
+				printf("sprite %d at %.3f, %.3f was hit\n", sprite->type, sprite->posi.x, sprite->posi.y);
+				return (1);
+			}
+			z = get_z_coordinate(game->player.posi_3d, game->player.dir_3d, collision[1]);
+			if (z >= 0 && z <= sprite->height)
+			{
+				printf("sprite %d at %.3f, %.3f was hit\n", sprite->type, sprite->posi.x, sprite->posi.y);
+				return (1);
+			}	
+		}
+		//printf(" didn't hit\n");
+		node = node->next;
+	}
+	return (0);
 }
 
 void	shot_raycasting(t_game *game, t_vec2d dir)

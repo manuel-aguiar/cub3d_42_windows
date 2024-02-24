@@ -28,7 +28,7 @@ static inline void setup_common_floor_line(t_game *game, t_floor_line *line)
 	line->win_w = game->win.width;
 	line->ray_left = vector_add(dir, game->player.plane);
 	line->ray_right = vector_sub(dir, game->player.plane);
-	line->row_z = (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * line->win_h;
+	line->row_z = (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * line->win_h * game->view_adj;
 	line->pitch_mod = line->win_h / 2 + game->player.pitch;
 }
 
@@ -41,7 +41,7 @@ static inline void setup_common_ceiling_line(t_game *game, t_floor_line *line)
 	line->win_w = game->win.width;
 	line->ray_left = vector_add(dir, game->player.plane);
 	line->ray_right = vector_sub(dir, game->player.plane);
-	line->row_z = (1 - (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod)) * line->win_h;
+	line->row_z = (1 - (game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod)) * line->win_h * game->view_adj;
 	line->pitch_mod = line->win_h / 2 + game->player.pitch;
 }
 

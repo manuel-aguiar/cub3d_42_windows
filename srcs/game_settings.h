@@ -139,8 +139,8 @@
 //sprite settings
 # define GAME_FLOAT_SENSE 0.003f
 
-# define ENEMY_HGT 1.5f
-# define ENEMY_WDT 1.5f
+# define ENEMY_HGT 0.6f
+# define ENEMY_WDT 0.6f
 # define ENEMY_Z ENEMY_HGT / 2 + ENEMY_HGT - 0.5f
 # define ENEMY_UNIT 0.8f
 # define ENEMY_Z_SENSE 0.005f

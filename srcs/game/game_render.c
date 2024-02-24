@@ -134,7 +134,7 @@ void		game_render(t_game *game)
 	{
 		ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);
 		hori_raycasting(game);
-		//floorcast(game);
+		floorcast(game);
 
 
 		//dda_visible_and_wallcast(game);
@@ -160,5 +160,5 @@ void		game_render(t_game *game)
 		
 		
 	}
-
+	game->win.set_pixel(&game->win, game->win.width / 2, game->win.height / 2, (unsigned int)-1);
 }

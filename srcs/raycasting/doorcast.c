@@ -100,12 +100,12 @@ void	doorcast(t_game *game, t_sprite *sprite)
 		int screen_start_x = (int)((w / 2) * (1 + transform_start.x / transform_start.y));
 		if (transform_start.y < 0)
 			screen_start_x = (int)((w / 2) * (1 - transform_start.x / transform_start.y));
-		int height_start = abs((int)(h * 1.0f / (transform_start.y))); 
+		int height_start = abs((int)(h * 1.0f / (transform_start.y)) * game->view_adj); 
 
 		int screen_end_x = (int)((w / 2) * (1 + transform_end.x / transform_end.y));
 		if (transform_end.y < 0)
 			screen_end_x = (int)((w / 2) * (1 - transform_end.x / transform_end.y));
-		int height_end = abs((int)(h * 1.0f / (transform_end.y))); 
+		int height_end = abs((int)(h * 1.0f / (transform_end.y)) * game->view_adj); 
 		
 		
 		

@@ -100,11 +100,17 @@ static int	lb_setup(t_vec2d low_bot, t_vec2d hi_top, t_lb_hit *lb, t_vec2d *star
 	return (1);
 }
 
-int	liang_barsky_hit(t_vec2d low_bot, t_vec2d hi_top, t_vec2d start, t_vec2d end)
+int	liang_barsky_hit(t_vec2d win[2], t_vec2d draw[2], t_vec2d res[2])
 {
 	t_lb_hit	lb;
+	t_vec2d box[2];
+	t_vec2d line[2];
 
-	if (!lb_setup(low_bot, hi_top, &lb, &start, &end))
+	box[0] = win[0];
+	box[1] = win[1];
+	line[0] = draw[0];
+	line[1] = draw[1];
+	if (!lb_setup(box[0], box[1], &lb, &line[0], &line[1]))
 		return (0);
 	lb_ratios1(&lb);
 	lb_ratios2(&lb);
@@ -112,6 +118,16 @@ int	liang_barsky_hit(t_vec2d low_bot, t_vec2d hi_top, t_vec2d start, t_vec2d end
 	lb.rn2 = lb_hit_mini(lb.posarr, lb.posind);
 	if (lb.rn1 > lb.rn2)
 		return (0);
+	lb.xn1 = line[0].x + lb.p2 * lb.rn1;
+	lb.yn1 = line[0].y + lb.p4 * lb.rn1;
+	lb.xn2 = line[0].x + lb.p2 * lb.rn2;
+	lb.yn2 = line[0].y + lb.p4 * lb.rn2;
+	line[0].x = lb.xn1;
+	line[0].y = lb.yn1;
+	line[1].x = lb.xn2;
+	line[1].y = lb.yn2;
+	res[0] = line[0];
+	res[1] = line[1];
 	return (1);
 }
 

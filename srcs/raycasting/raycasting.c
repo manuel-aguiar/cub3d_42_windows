@@ -88,7 +88,7 @@ void	hori_raycasting(t_game *game)
 		hori.side = ray.side;
 		hori.wall_dist = float_ternary(ray.side == 0, (ray.first.x - ray.step.x), \
 			(ray.first.y - ray.step.y));
-		hori.line_h = (int)(ray.h / hori.wall_dist / ((float)ray.w / (float)ray.h) / (float)(1 / game->player.cur_fov));
+		hori.line_h = (int)((ray.h / hori.wall_dist) * game->view_adj);
 		ray.hgt_mod = ray.pitch_mod - (int)(ray.z_mod / hori.wall_dist);
 		hori.min_y = -hori.line_h / 2 + ray.hgt_mod;
 		hori.max_y = hori.line_h / 2 + ray.hgt_mod;

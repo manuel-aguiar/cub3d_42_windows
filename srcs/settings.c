@@ -143,6 +143,9 @@ void    apply_all_settings(t_game *game)
     game->player.ammo[CTR_MAX] = PLAY_AMMO_MAX;
     game->player.attack = PLAY_BULLET_DAMAGE;
 
+    game->view_adj = (1 /((float)game->win.width / (float)game->win.height)) \
+                    / (float)(1 / game->player.cur_fov);
+    //game->view_adj = 1;
 /*
 typedef struct s_door;
 {
