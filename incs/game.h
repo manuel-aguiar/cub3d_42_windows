@@ -74,8 +74,8 @@ typedef struct s_floor_line
 	t_xpm_tex	*tex;
 	int			win_h;
 	int			win_w;
-	t_vector	ray_left;
-	t_vector	ray_right;
+	t_vec2d	ray_left;
+	t_vec2d	ray_right;
 	float		row_z;
 	float		pitch_mod;
 	float		row_dist;
@@ -96,14 +96,14 @@ typedef struct s_ray
 	int			w;
 	int			h;
 	float 		cam_x;
-	t_vector	dir_vec;
-	t_vector	plane;
-	t_vector	player_sqr;
-	t_vector	start;
-	t_vector	first;
-	t_vector	step;
-	t_vector	axis_move;
-	t_vector	ray_dir;
+	t_vec2d	dir_vec;
+	t_vec2d	plane;
+	t_vec2d	player_sqr;
+	t_vec2d	start;
+	t_vec2d	first;
+	t_vec2d	step;
+	t_vec2d	axis_move;
+	t_vec2d	ray_dir;
 	int			side;
 	int			pitch_mod;
 	float		z_mod;
@@ -160,7 +160,7 @@ void	game_actions(t_game *game);
 int		win_render(t_game *game, t_win *win, void (*win_key_press)());
 
 //player....
-void	handle_collisions(t_game *game, t_vector potencial);
+void	handle_collisions(t_game *game, t_vec2d potencial);
 
 void	render_map_outside_compass(t_game *game);
 void	render_player_outside_compass(t_game *game);
@@ -206,7 +206,7 @@ void	sprite_calc_dist(t_game *game);
 void    clean_hitmap(t_game *game);
 void    setup_hitmap(t_game *game);
 void	sprite_place_hitmap(t_game *game, t_sprite *sprite);
-void	shot_raycasting(t_game *game, t_vector dir);
+void	shot_raycasting(t_game *game, t_vec2d dir);
 
 //game_render_hud.c
 void	render_stats_bars(t_game *game);

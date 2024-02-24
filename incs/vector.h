@@ -18,19 +18,26 @@
 # include "generic_utils.h"
 # include "pixel_point.h"
 
-typedef struct s_vector
+typedef struct s_vec2d
 {
 	float x;
 	float y;
-}	t_vector;
+}	t_vec2d;
 
-t_vector	vector_add(t_vector	first, t_vector second);
-t_vector	vector_sub(t_vector plus, t_vector minus);
-t_vector	vector_multi(t_vector target, float multiplier);
-float		vector_len(t_vector vector);
-t_vector	vector_norm(t_vector target, float vector_len);
-t_vector	vector_swap_coords(t_vector target);
-float		vector_distance(t_vector start, t_vector end);
-t_vector	vector_product(t_vector first, t_vector second);
+typedef struct s_vec3d
+{
+	float x;
+	float y;
+	float z;
+}	t_vec3d;
+
+t_vec2d	vector_add(t_vec2d	first, t_vec2d second);
+t_vec2d	vector_sub(t_vec2d plus, t_vec2d minus);
+t_vec2d	vector_multi(t_vec2d target, float multiplier);
+float		vector_len(t_vec2d vector);
+t_vec2d	vector_norm(t_vec2d target, float vector_len);
+t_vec2d	vector_swap_coords(t_vec2d target);
+float		vector_distance(t_vec2d start, t_vec2d end);
+t_vec2d	vector_product(t_vec2d first, t_vec2d second);
 
 #endif

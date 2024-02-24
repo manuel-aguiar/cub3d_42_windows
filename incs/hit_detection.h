@@ -60,7 +60,7 @@ typedef struct s_lb_hit
 	float	    rn2;
 }	t_lb_hit;
 
-int	    liang_barsky_hit(t_vector low_bot, t_vector hi_top, t_vector start, t_vector end);
+int	    liang_barsky_hit(t_vec2d low_bot, t_vec2d hi_top, t_vec2d start, t_vec2d end);
 
 void	hitlist_in_head(t_hitlist *list, t_hitnode *insert);
 void	hitlist_in_tail(t_hitlist *list, t_hitnode *insert);

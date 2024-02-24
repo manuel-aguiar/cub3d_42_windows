@@ -61,10 +61,12 @@ enum e_height_state
 
 typedef struct s_player
 {
-	t_vector		map_posi;
-	t_vector		dir_vec;
-	t_vector		plane;
+	t_vec2d			map_posi;
+	t_vec2d			dir_vec;
+	t_vec2d			plane;
 
+	t_vec3d			posi_3d;
+	t_vec3d			dir_3d;
 	int				health[CTR_SIZE];
 	int				ammo[CTR_SIZE];
 	int				attack;
@@ -77,6 +79,8 @@ typedef struct s_player
 	float			verti_min;
 	float			verti_max;
 	float			verti_tan;
+	float			verti_sin;
+	float			verti_cos;
 	float			verti_sense;
 
 
@@ -142,7 +146,7 @@ typedef struct s_player
 	float			crouch_radius;
 	float			prone_radius;
 
-	t_vector		(*move[16])(t_player *);
+	t_vec2d		(*move[16])(t_player *);
 
 	t_clock 		timer[CLOCK_SIZE];
 }   t_player;
@@ -161,14 +165,14 @@ void	player_rotate(t_player *player);
 void	player_get_timer(t_player *player, e_clocks timer);
 void	player_start_timers(t_player *player);
 
-t_vector	move_player_default(t_player *player);
-t_vector    move_player_back_left(t_player *player);
-t_vector    move_player_back_right(t_player *player);
-t_vector    move_player_for_left(t_player *player);
-t_vector    move_player_for_right(t_player *player);
-t_vector    move_player_left(t_player *player);
-t_vector    move_player_right(t_player *player);
-t_vector    move_player_backward(t_player *player);
-t_vector    move_player_forward(t_player *player);
+t_vec2d	move_player_default(t_player *player);
+t_vec2d    move_player_back_left(t_player *player);
+t_vec2d    move_player_back_right(t_player *player);
+t_vec2d    move_player_for_left(t_player *player);
+t_vec2d    move_player_for_right(t_player *player);
+t_vec2d    move_player_left(t_player *player);
+t_vec2d    move_player_right(t_player *player);
+t_vec2d    move_player_backward(t_player *player);
+t_vec2d    move_player_forward(t_player *player);
 
 #endif

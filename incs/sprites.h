@@ -56,7 +56,7 @@ typedef enum
 
 typedef struct s_door
 {
-	t_vector			base_position;
+	t_vec2d			base_position;
 	e_door_dir			orient;
 	float				move_sense;
 	float				dist_sense;
@@ -107,7 +107,7 @@ typedef struct s_sprite
 {
 	e_sprite_type		type;
 	e_sprite_status		status;
-	t_vector			posi;
+	t_vec2d			posi;
 	float				cur_z;
 	float				dist;
 	float				height;
