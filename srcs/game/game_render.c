@@ -73,6 +73,8 @@ void		update_door(t_game *game, t_sprite *sprite)
 void		update_sprites(t_game *game)
 {
 	int i;
+
+	clean_hitmap(game);
 	sprite_calc_dist(game);
 	sprite_qs_distance(game->sprites, game->sprite_count, sprite_qs_comp);
 
@@ -86,12 +88,17 @@ void		update_sprites(t_game *game)
 	{
 		if (game->sprites[i].status == GONE && game->sprites[i].data)
 			ft_free_set_null(&game->sprites[i].data);
-		if (game->sprites[i].type == DOOR)
-			update_door(game, &game->sprites[i]);
-		if (game->sprites[i].type == ENEMY)
-			update_enemy(game, &game->sprites[i]);
-		if (game->sprites[i].type == MEDIKIT)
-			update_medikit(game, &game->sprites[i]);
+		else
+		{
+			sprite_place_hitmap(game, &game->sprites[i]);
+			if (game->sprites[i].type == DOOR)
+				update_door(game, &game->sprites[i]);
+			if (game->sprites[i].type == ENEMY)
+				update_enemy(game, &game->sprites[i]);
+			if (game->sprites[i].type == MEDIKIT)
+				update_medikit(game, &game->sprites[i]);			
+		}
+
 		i++;
 	}
 
@@ -104,10 +111,10 @@ void		game_actions(t_game *game)
 	player_get_timer(&game->player, CLOCK_AIM);
 	if ((*(game->keys) >> BIT_PAUSE_T) & 1 || (!((*(game->keys) >> BIT_PAUSE_T) & 1) && game->win.blur.elapsed > 0))
 		return ;
+	update_sprites(game);
 	game_key_manager(game);
 	game_mouse_manager(game);
 	player_actions(game);
-	update_sprites(game);
 }
 
 void	dda_visible_and_wallcast(t_game *game);
@@ -127,7 +134,7 @@ void		game_render(t_game *game)
 	{
 		ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);
 		hori_raycasting(game);
-		floorcast(game);
+		//floorcast(game);
 
 
 		//dda_visible_and_wallcast(game);
@@ -135,7 +142,7 @@ void		game_render(t_game *game)
 		//super_debug_print(game);
 		//floorcast_dda_visible(game);
 		//wallcast_reflection(game);
-		//sprite_cast(game);
+		sprite_cast(game);
 
 		//exit(0);
 		//floorcast(game);

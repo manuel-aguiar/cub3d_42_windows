@@ -18,6 +18,7 @@ int			extract_door(t_game *game, t_map *map, int place, int map_index)
 	t_sprite 	*sprite;
 
 	sprite = &game->sprites[place];
+	sprite->my_hit.sprite = sprite;
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (perror_msg_int("malloc", 0));
@@ -55,6 +56,7 @@ int			extract_exit(t_game *game, t_map *map, int place, int map_index)
 	t_sprite 	*sprite;
 
 	sprite = &game->sprites[place];
+	sprite->my_hit.sprite = sprite;
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (perror_msg_int("malloc", 0));
@@ -79,6 +81,7 @@ int			extract_enemy(t_game *game, t_map *map, int place, int map_index)
 	t_sprite 	*sprite;
 
 	sprite = &game->sprites[place];
+	sprite->my_hit.sprite = sprite;
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (perror_msg_int("malloc", 0));
@@ -103,6 +106,7 @@ int			extract_ammo(t_game *game, t_map *map, int place, int map_index)
 	t_sprite 	*sprite;
 
 	sprite = &game->sprites[place];
+	sprite->my_hit.sprite = sprite;
 	data = malloc(sizeof(*data));
 	if (!data)
 		return (perror_msg_int("malloc", 0));

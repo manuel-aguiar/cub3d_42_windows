@@ -14,8 +14,11 @@
 
 void	game_mouse_manager(t_game *game)
 {
-	int buttons;
-
-	buttons = game->mouse->buttons;
-	game->player.is_aiming = ((buttons >> BIT_AIM) & 1);
+	game->player.is_aiming = ((game->mouse->buttons >> BIT_AIM) & 1);
+	if (((game->mouse->buttons >> BIT_SHOOT) & 1))
+	{
+		printf("shot fired:   ");
+		shot_raycasting(game, game->player.dir_vec);
+		game->mouse->buttons &= ~(1 << BIT_SHOOT);
+	}
 }

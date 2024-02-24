@@ -12,21 +12,6 @@
 
 # include "game.h"
 
-void	sprite_calc_dist(t_game *game)
-{
-	int i;
-
-	i = 0;
-	while (i < game->sprite_count)
-	{
-		if (game->sprites[i].status == GONE)
-			game->sprites[i].dist = FLT_MAX;
-		else
-			game->sprites[i].dist = fpow_2(game->player.map_posi.x - game->sprites[i].posi.x) \
-								 + fpow_2(game->player.map_posi.y - game->sprites[i].posi.y);
-		i++;
-	}
-}
 
 void	print_sorted_sprites(t_game *game)
 {

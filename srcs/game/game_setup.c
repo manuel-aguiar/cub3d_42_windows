@@ -95,6 +95,7 @@ int		game_start(t_game *game, char *game_config)
 
 	
 	setup_sprites(game);
+	setup_hitmap(game);
 	
 	game_setup_keys(game);
 	game->hori_rays = malloc(sizeof(*game->hori_rays) * game->win.width);
