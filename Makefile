@@ -40,6 +40,7 @@ DIR_SPRITES			=	sprites
 DIR_PIXEL_POINT		=	pixel_point
 DIR_RAYCASTING		=	raycasting
 DIR_XPM_PARSER		=	xpm_parser
+DIR_HIT_DETECTION	=	hit_detection
 
 ## SOURCE FILES ##
 
@@ -54,7 +55,8 @@ INC_FILES		=		game.h				\
 						compass.h			\
 						user_inputs.h		\
 						xpm_parser.h		\
-						generic_utils.h
+						generic_utils.h		\
+						hit_detection.h
 
 SRC_MAIN			=	main.c				\
 						game_settings.h		\
@@ -149,6 +151,10 @@ SRC_RAYCASTING		=	vector.c					\
 SRC_SPRITES			=	sprites.c					\
 						sprite_quicksort.c
 
+SRC_HIT_DETECTION	=	lb_hit.c					\
+						lb_hit_utils.c				\
+						hit_list.c					
+
 ## AGGREGATING FILES ##
 
 INCS		:=		$(addprefix $(INC_PATH)/, $(INC_FILES))
@@ -165,7 +171,8 @@ SRCS 		:=		$(addprefix $(SRC_PATH)/, $(SRC_MAIN))									\
 					$(addprefix $(SRC_PATH)/$(DIR_RAYCASTING)/, $(SRC_RAYCASTING))					\
 					$(addprefix $(SRC_PATH)/$(DIR_XPM_PARSER)/, $(SRC_XPM_PARSER))					\
 					$(addprefix $(SRC_PATH)/$(DIR_PIXEL_POINT)/, $(SRC_PIXEL_POINT))				\
-					$(addprefix $(SRC_PATH)/$(DIR_SPRITES)/, $(SRC_SPRITES))				
+					$(addprefix $(SRC_PATH)/$(DIR_SPRITES)/, $(SRC_SPRITES))						\
+					$(addprefix $(SRC_PATH)/$(DIR_HIT_DETECTION)/, $(SRC_HIT_DETECTION))			
 					
 
 OBJS 		:=		$(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRCS))

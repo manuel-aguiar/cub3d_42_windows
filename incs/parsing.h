@@ -21,6 +21,7 @@
 # include "render_windows.h"
 # include "vector.h"
 # include "pixel_point.h"
+# include "hit_detection.h"
 
 # define TOTAL_TEXTURES 6
 
@@ -104,6 +105,7 @@ typedef struct s_parsing
 typedef struct s_map
 {
 	char		*map;
+	t_hitlist	*hit;
 	int			width;
 	int			height;
 	int			len;

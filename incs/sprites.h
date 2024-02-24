@@ -19,6 +19,7 @@
 # include "vector.h"
 # include "parsing.h"
 # include "render_windows.h"
+# include "hit_detection.h"
 # include <float.h>
 
 
@@ -116,6 +117,7 @@ typedef struct s_sprite
 	e_textures			tex;
 	void				*data;
 	bool				inverted;
+	t_hitnode			my_hit;
 }	t_sprite;
 
 int		sprite_qs_comp(float first_dist, float second_dist);
