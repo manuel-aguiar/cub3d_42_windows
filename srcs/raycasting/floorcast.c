@@ -21,7 +21,7 @@ static inline float	float_ternary(bool cond, float yes, float no)
 
 static inline void setup_common_floor_line(t_game *game, t_floor_line *line)
 {
-	t_vector	dir;
+	t_vec2d	dir;
 
 	dir = vector_multi(vector_multi(game->player.dir_vec, game->player.cur_dir_len), -1);
 	line->win_h = game->win.height;
@@ -34,7 +34,7 @@ static inline void setup_common_floor_line(t_game *game, t_floor_line *line)
 
 static inline void setup_common_ceiling_line(t_game *game, t_floor_line *line)
 {
-	t_vector	dir;
+	t_vec2d	dir;
 
 	dir = vector_multi(vector_multi(game->player.dir_vec, game->player.cur_dir_len), 1);
 	line->win_h = game->win.height;

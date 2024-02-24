@@ -26,5 +26,5 @@ void	player_change_aim(t_player *player)
 	{
 		player->cur_dir_len = float_clamp(player->cur_dir_len - (float)(player->aim_sense * player->timer[CLOCK_AIM].elapsed), player->base_dir_len, player->aim_dir_len);
 	}
-	player->plane = vector_multi((t_vector){player->sin_rad, -player->cos_rad}, player->cur_fov);
+	player->plane = vector_multi((t_vec2d){player->sin_rad, -player->cos_rad}, player->cur_fov);
 }

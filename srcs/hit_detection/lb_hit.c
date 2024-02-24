@@ -14,7 +14,7 @@
 
 /*
 
-static void	lb_safety(t_vector low_bot, t_vector hi_top, t_vector *start, t_vector *end)
+static void	lb_safety(t_vec2d low_bot, t_vec2d hi_top, t_vec2d *start, t_vec2d *end)
 {
 	if (start->x > hi_top.x - 1)
 		start->x = hi_top.x - 1;
@@ -80,7 +80,7 @@ static void	lb_ratios2(t_lb_hit *lb)
 	}
 }
 
-static int	lb_setup(t_vector low_bot, t_vector hi_top, t_lb_hit *lb, t_vector *start, t_vector *end)
+static int	lb_setup(t_vec2d low_bot, t_vec2d hi_top, t_lb_hit *lb, t_vec2d *start, t_vec2d *end)
 {
 	lb->p1 = -(end->x - start->x);
 	lb->p2 = -lb->p1;
@@ -100,7 +100,7 @@ static int	lb_setup(t_vector low_bot, t_vector hi_top, t_lb_hit *lb, t_vector *s
 	return (1);
 }
 
-int	liang_barsky_hit(t_vector low_bot, t_vector hi_top, t_vector start, t_vector end)
+int	liang_barsky_hit(t_vec2d low_bot, t_vec2d hi_top, t_vec2d start, t_vec2d end)
 {
 	t_lb_hit	lb;
 

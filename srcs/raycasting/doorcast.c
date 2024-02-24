@@ -35,9 +35,9 @@ void	float_swap(float *first, float *second)
 	*second = swap;
 }
 
-void	vector_swap(t_vector *first, t_vector *second)
+void	vector_swap(t_vec2d *first, t_vec2d *second)
 {
-	t_vector swap;
+	t_vec2d swap;
 
 	swap = *first;
 	*first = *second;
@@ -50,27 +50,27 @@ void	doorcast(t_game *game, t_sprite *sprite)
 	int h = game->win.height;
 	t_door		*door;
 	t_xpm_tex 	*tex;
-	t_vector	door_start;
-	t_vector	door_end;
-	t_vector	rel_start;
-	t_vector	rel_end;
-	t_vector	transform_start;
-	t_vector	transform_end;
-	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
+	t_vec2d	door_start;
+	t_vec2d	door_end;
+	t_vec2d	rel_start;
+	t_vec2d	rel_end;
+	t_vec2d	transform_start;
+	t_vec2d	transform_end;
+	t_vec2d	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
 
 	bool inverted;
 	door = (t_door *)sprite->data;
 	if (door->orient == NS)
 	{
 		inverted = false;
-		door_start = (t_vector){sprite->posi.x - 0.5f, sprite->posi.y};
-		door_end = (t_vector){sprite->posi.x + 0.5f, sprite->posi.y};
+		door_start = (t_vec2d){sprite->posi.x - 0.5f, sprite->posi.y};
+		door_end = (t_vec2d){sprite->posi.x + 0.5f, sprite->posi.y};
 	}
 	else
 	{
 		inverted = true;
-		door_start = (t_vector){sprite->posi.x, sprite->posi.y - 0.5f};
-		door_end = (t_vector){sprite->posi.x, sprite->posi.y + 0.5f};
+		door_start = (t_vec2d){sprite->posi.x, sprite->posi.y - 0.5f};
+		door_end = (t_vec2d){sprite->posi.x, sprite->posi.y + 0.5f};
 	}
 	if ((door->orient == NS && game->player.map_posi.y > door_start.y) \
 	|| (door->orient == WE && game->player.map_posi.x > door_start.x))

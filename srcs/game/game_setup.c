@@ -20,8 +20,8 @@ void	setup_all_angles(t_game *game, float rad)
 	game->player.sin_rad = sinf(game->player.angle);
 	game->compass.cos_rad = game->player.cos_rad;
 	game->compass.sin_rad = -game->player.sin_rad;
-	game->player.dir_vec = (t_vector){game->player.cos_rad, game->player.sin_rad};
-	game->player.plane = vector_multi((t_vector){game->player.sin_rad, -game->player.cos_rad}, game->player.cur_fov);
+	game->player.dir_vec = (t_vec2d){game->player.cos_rad, game->player.sin_rad};
+	game->player.plane = vector_multi((t_vec2d){game->player.sin_rad, -game->player.cos_rad}, game->player.cur_fov);
 }
 
 void		game_starting_angle(t_game *game, char direction)

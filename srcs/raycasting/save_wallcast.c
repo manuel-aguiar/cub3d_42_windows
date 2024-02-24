@@ -17,18 +17,18 @@ void	wallcast_reflection(t_game *game)
 	float cameraX;
 	int w = game->win.width;
 	int h = game->win.height;
-	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);	//for zooming, increase direction vector
-	t_vector 	plane = game->player.plane;
+	t_vec2d	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);	//for zooming, increase direction vector
+	t_vec2d 	plane = game->player.plane;
 	int		x;
 
 
-	t_vector direction;
+	t_vec2d direction;
 	t_xpm_tex *tex;
 	x = 0;
 	while (x < w)
 	{
 		cameraX = 2 * x / (float)w - 1;
-		direction = (t_vector){dir.x + plane.x * cameraX, dir.y + plane.y * cameraX};
+		direction = (t_vec2d){dir.x + plane.x * cameraX, dir.y + plane.y * cameraX};
 		//printf("perpwalldist %.3f\n", perpWallDist);
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(h / game->hori_rays[x].wall_dist);

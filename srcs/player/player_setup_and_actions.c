@@ -17,7 +17,7 @@ void    player_setup(t_player *player)
 	player->is_aiming = false;
 	player->is_sprinting = false;
 	player->is_walking = false;
-	player->plane = vector_multi((t_vector){player->sin_rad, -player->cos_rad}, player->cur_fov);
+	player->plane = vector_multi((t_vec2d){player->sin_rad, -player->cos_rad}, player->cur_fov);
 	player->move[0] = move_player_default;
 	player->move[1] = move_player_right;
 	player->move[2] = move_player_left;

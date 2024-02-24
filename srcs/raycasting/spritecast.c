@@ -32,9 +32,9 @@ void	sprite_cast(t_game *game)
 	int w = game->win.width;
 	int h = game->win.height;
 	t_xpm_tex 	*tex;
-	t_vector	sprite_rel;
-	t_vector	transform;
-	t_vector	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
+	t_vec2d	sprite_rel;
+	t_vec2d	transform;
+	t_vec2d	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
 
 	i = 0;
 	while (i < game->sprite_count)

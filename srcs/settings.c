@@ -126,6 +126,8 @@ void    apply_all_settings(t_game *game)
 
     game->player.verti_angle = PITCH_ANGLE_BASE;
     game->player.verti_tan = 0;
+    game->player.verti_cos = cosf(game->player.verti_angle);
+    game->player.verti_sin = sinf(game->player.verti_angle);
     game->player.verti_min = PITCH_ANGLE_MIN;
     game->player.verti_max = PITCH_ANGLE_MAX;
     game->player.verti_sense = VERTI_SENSE;
@@ -144,8 +146,8 @@ void    apply_all_settings(t_game *game)
 /*
 typedef struct s_door;
 {
-	t_vector			start;
-	t_vector			end;
+	t_vec2d			start;
+	t_vec2d			end;
 	float				unit_size;
 	float				height;
 	float				width;	

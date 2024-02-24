@@ -16,7 +16,7 @@
 https://github.com/OneLoneCoder/Javidx9/blob/master/PixelGameEngine/SmallerProjects/OneLoneCoder_PGE_CircleVsRect.cpp
 */
 
-void	handle_collisions(t_game *game, t_vector potencial)
+void	handle_collisions(t_game *game, t_vec2d potencial)
 {
 	t_player	*player;
 	t_map		*map;
@@ -50,7 +50,7 @@ void	handle_collisions(t_game *game, t_vector potencial)
 	//check left
 	int i;
 
-	t_vector	add;
+	t_vec2d	add;
 
 	add = vector_multi(potencial, (1 / (float)divide_potential));
 	i = 0;
@@ -67,8 +67,8 @@ void	handle_collisions(t_game *game, t_vector potencial)
 			player->map_posi.y = ft_fmax(player->map_posi.y, fixed_y + (player->unit_size));
 
 
-		t_vector nearest;
-		t_vector ray_to_nearest;
+		t_vec2d nearest;
+		t_vec2d ray_to_nearest;
 		float	ray_length;
 		float	overlap;
 		
@@ -158,8 +158,8 @@ void	handle_collisions(t_game *game, t_vector potencial)
 /*
 
 	//printf("player in %d, %d\n", fixed_x, fixed_y);
-	//t_vector nearest;
-	//t_vector ray_to_nearest;
+	//t_vec2d nearest;
+	//t_vec2d ray_to_nearest;
 	//float	ray_length;
 	//float	overlap;
 	//int			x;

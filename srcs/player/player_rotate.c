@@ -23,13 +23,18 @@ void	player_rotate_and_pitch(t_game *game)
 		rotate_aim_multi = game->player.aim_rot_multi;
 
 	rotate = game->win.width / 2 - game->mouse->cur_x;
-	game_rotate_view_angle(game, rotate * game->player.rot_sense * rotate_aim_multi * game->player.timer[CLOCK_MOVE].elapsed);
-
-
 	pitch = ((game->mouse->cur_y - game->win.height / 2) * game->player.verti_sense * rotate_aim_multi * game->player.timer[CLOCK_MOVE].elapsed);
 
 	game->player.verti_angle = float_clamp(game->player.verti_angle + pitch, game->player.verti_min, game->player.verti_max);
 	game->player.verti_tan = tanf(game->player.verti_angle);
+	game->player.verti_cos = cosf(game->player.verti_angle);
+	game->player.verti_sin = sinf(game->player.verti_angle);
 	game->player.pitch = (int)(game->player.cur_dir_len / game->player.base_dir_len * game->player.verti_tan * game->win.height / 2);
+	game_rotate_view_angle(game, rotate * game->player.rot_sense * rotate_aim_multi * game->player.timer[CLOCK_MOVE].elapsed);
+	game->player.posi_3d = (t_vec3d){game->player.map_posi.x, game->player.map_posi.y, \
+		(game->player.cur_z + game->player.jump_z_mod + \
+		game->player.walk_z_mod)};
+	game->player.dir_3d = (t_vec3d){game->player.cos_rad, \
+	game->player.sin_rad, -game->player.verti_tan};
 
 }

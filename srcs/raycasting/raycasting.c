@@ -22,11 +22,11 @@ static inline float	float_ternary(bool cond, float yes, float no)
 static inline void setup_this_ray(t_ray *ray, int win_x)
 {
 	ray->cam_x = 2 * win_x / (float)ray->w - 1;
-	ray->ray_dir = (t_vector){ray->dir_vec.x + ray->plane.x \
+	ray->ray_dir = (t_vec2d){ray->dir_vec.x + ray->plane.x \
 		* ray->cam_x, ray->dir_vec.y + ray->plane.y * ray->cam_x};
 	ray->step.x = float_ternary(ray->ray_dir.x == 0, FLT_MAX , ft_fabs(1.0f / ray->ray_dir.x));
 	ray->step.y = float_ternary(ray->ray_dir.y == 0, FLT_MAX , ft_fabs(1.0f / ray->ray_dir.y));
-	ray->player_sqr = (t_vector){(float)((int)ray->start.x), (float)((int)ray->start.y)};
+	ray->player_sqr = (t_vec2d){(float)((int)ray->start.x), (float)((int)ray->start.y)};
 	ray->first.x = float_ternary(ray->ray_dir.x < 0, (ray->start.x - ray->player_sqr.x), \
 				((ray->player_sqr.x + 1) - ray->start.x));
 	ray->first.y = float_ternary(ray->ray_dir.y < 0, (ray->start.y - ray->player_sqr.y), \
@@ -88,7 +88,7 @@ void	hori_raycasting(t_game *game)
 		hori.side = ray.side;
 		hori.wall_dist = float_ternary(ray.side == 0, (ray.first.x - ray.step.x), \
 			(ray.first.y - ray.step.y));
-		hori.line_h = (int)(ray.h / hori.wall_dist);
+		hori.line_h = (int)(ray.h / hori.wall_dist / ((float)ray.w / (float)ray.h) / (float)(1 / game->player.cur_fov));
 		ray.hgt_mod = ray.pitch_mod - (int)(ray.z_mod / hori.wall_dist);
 		hori.min_y = -hori.line_h / 2 + ray.hgt_mod;
 		hori.max_y = hori.line_h / 2 + ray.hgt_mod;

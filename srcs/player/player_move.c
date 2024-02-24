@@ -16,15 +16,15 @@
 
 
 
-t_vector	move_player_default(t_player *player)
+t_vec2d	move_player_default(t_player *player)
 {
 	(void)player;
-	return((t_vector){0, 0});
+	return((t_vec2d){0, 0});
 }
 
-t_vector    move_player_back_left(t_player *player)
+t_vec2d    move_player_back_left(t_player *player)
 {
-	t_vector diagonal;
+	t_vec2d diagonal;
 	float		speed;
 
 	speed = player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
@@ -33,9 +33,9 @@ t_vector    move_player_back_left(t_player *player)
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-t_vector    move_player_back_right(t_player *player)
+t_vec2d    move_player_back_right(t_player *player)
 {
-	t_vector diagonal;
+	t_vec2d diagonal;
 	float		speed;
 
 	speed = player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
@@ -47,9 +47,9 @@ t_vector    move_player_back_right(t_player *player)
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-t_vector    move_player_for_left(t_player *player)
+t_vec2d    move_player_for_left(t_player *player)
 {
-	t_vector diagonal;
+	t_vec2d diagonal;
 	float		speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
@@ -58,9 +58,9 @@ t_vector    move_player_for_left(t_player *player)
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-t_vector    move_player_for_right(t_player *player)
+t_vec2d    move_player_for_right(t_player *player)
 {
-	t_vector	diagonal;
+	t_vec2d	diagonal;
 	float		speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
@@ -70,29 +70,29 @@ t_vector    move_player_for_right(t_player *player)
 	return(vector_multi(vector_swap_coords(diagonal), speed));
 }
 
-t_vector    move_player_left(t_player *player)
+t_vec2d    move_player_left(t_player *player)
 {
 	float	speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	return (vector_multi((t_vector){-player->dir_vec.y, +player->dir_vec.x}, speed));
+	return (vector_multi((t_vec2d){-player->dir_vec.y, +player->dir_vec.x}, speed));
 }
 
-t_vector    move_player_right(t_player *player)
+t_vec2d    move_player_right(t_player *player)
 {
 	float	speed;
 
 	speed = player->side_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed;
-	return (vector_multi((t_vector){+player->dir_vec.y, -player->dir_vec.x}, speed));
+	return (vector_multi((t_vec2d){+player->dir_vec.y, -player->dir_vec.x}, speed));
 }
 
 
-t_vector    move_player_backward(t_player *player)
+t_vec2d    move_player_backward(t_player *player)
 {
 	return (vector_multi(vector_multi(player->dir_vec, player->back_move * player->cur_move_multi * player->timer[CLOCK_MOVE].elapsed), -1));
 }
 
-t_vector    move_player_forward(t_player *player)
+t_vec2d    move_player_forward(t_player *player)
 {
 	float speed;
 
@@ -106,7 +106,7 @@ t_vector    move_player_forward(t_player *player)
 void    move_player(t_game *game, int keys)
 {
 	t_player 	*player;
-	t_vector	potencial;
+	t_vec2d	potencial;
 
 	player = &game->player;
 	player->cur_move_multi = player->move_multi[player->hgt_state];
