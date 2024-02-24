@@ -123,5 +123,6 @@ typedef struct s_sprite
 int		sprite_qs_comp(float first_dist, float second_dist);
 void	sprite_qs_distance(t_sprite *sprites, int sprite_count, int (*cmp)(float , float));
 
+
 #endif
 

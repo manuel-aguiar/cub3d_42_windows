@@ -24,11 +24,13 @@ typedef struct s_hitnode
 {
 	t_sprite	*sprite;
 	t_hitnode	*next;
+    t_hitnode   *prev;
 }	t_hitnode;
 
 typedef struct s_hitlist
 {
 	t_hitnode	*head;
+    t_hitnode   *tail;
 	size_t		len;
 }	t_hitlist;
 
@@ -59,6 +61,12 @@ typedef struct s_lb_hit
 }	t_lb_hit;
 
 int	    liang_barsky_hit(t_vector low_bot, t_vector hi_top, t_vector start, t_vector end);
+
 void	hitlist_in_head(t_hitlist *list, t_hitnode *insert);
+void	hitlist_in_tail(t_hitlist *list, t_hitnode *insert);
+void	hitlist_del_head(t_hitlist *list);
+void	hitlist_del_tail(t_hitlist *list);
+
+
 
 #endif

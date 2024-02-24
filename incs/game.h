@@ -203,8 +203,12 @@ void	super_debug_print(t_game *game);
 //sprites
 int		setup_sprites(t_game *game);
 void	sprite_calc_dist(t_game *game);
+void    clean_hitmap(t_game *game);
+void    setup_hitmap(t_game *game);
+void	sprite_place_hitmap(t_game *game, t_sprite *sprite);
 
 
+//game_render_hud.c
 void	render_stats_bars(t_game *game);
 
 
