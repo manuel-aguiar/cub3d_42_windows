@@ -23,13 +23,9 @@ hud:
 	weapon tex_regular, render line by line depending on position
 	weapon swing up and down and horizontally
 	use sinf calculated for walking
-
-shot mechanics:
-	close to done
-
 	
-rendering:
-	adjust heights of doors and scale sprites appropritely
+sprite rendering:
+	height is correct but must implement steps as in wall/floor cast
 
 enemies:
 	raycast to check if the enemy sees you from their center position
