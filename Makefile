@@ -228,5 +228,7 @@ $(LIBFT):
 run: $(NAME)
 	@./$(NAME)
 
+git: fclean
+	git add * && git commit -m "commiting" && git push
 
 .PHONY: clean fclean message bonus
