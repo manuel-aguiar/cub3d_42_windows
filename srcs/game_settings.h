@@ -139,10 +139,10 @@
 //sprite settings
 # define GAME_FLOAT_SENSE 0.003f
 
-# define ENEMY_HGT 0.6f
-# define ENEMY_WDT 0.6f
-# define ENEMY_Z 0
-# define ENEMY_UNIT 0.2f
+# define ENEMY_HGT 0.5f
+# define ENEMY_WDT 3.0f
+# define ENEMY_Z 0.1f
+# define ENEMY_UNIT 0.5f
 # define ENEMY_Z_SENSE 0.005f
 # define ENEMY_MS_SWAP 300
 
@@ -155,14 +155,14 @@
 
 # define EXIT_HGT 0.2f
 # define EXIT_WDT 0.3f
-# define EXIT_Z EXIT_HGT / 2 - EXIT_HGT + 0.5f
+# define EXIT_Z 0.2f
 # define EXIT_UNIT 0.2f
 # define EXIT_Z_SENSE 0.005f
 # define EXIT_RESOURCE 50
 
 # define MEDI_HGT 0.5f
 # define MEDI_WDT 0.5f
-# define MEDI_Z MEDI_HGT / 2 + MEDI_HGT  -0.2f
+# define MEDI_Z 0.2f
 # define MEDI_UNIT 0.2f
 # define MEDI_Z_SENSE 100
 # define MEDI_RESOURCE 50
@@ -170,7 +170,7 @@
 
 # define AMMO_HGT 0.3f
 # define AMMO_WDT 0.8f
-# define AMMO_Z AMMO_HGT / 2 + AMMO_HGT - 0.5f
+# define AMMO_Z 0.2f
 # define AMMO_UNIT 0.2f
 # define AMMO_Z_SENSE 0.005f
 # define AMMO_RESOURCE 50

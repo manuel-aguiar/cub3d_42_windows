@@ -137,16 +137,7 @@ void		game_render(t_game *game)
 		floorcast(game);
 
 
-		//dda_visible_and_wallcast(game);
-
-		//super_debug_print(game);
-		//floorcast_dda_visible(game);
-		//wallcast_reflection(game);
 		sprite_cast(game);
-
-		//exit(0);
-		//floorcast(game);
-		//wallcast(game);
 
 		
 		game->compass.blur_on = (*(game->keys) >> BIT_BLUR_T) & 1;

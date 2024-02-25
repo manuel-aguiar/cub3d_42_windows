@@ -47,25 +47,28 @@ void	sprite_cast(t_game *game)
 		
 			tex = game->tex[game->sprites[i].tex];
 			sprite_rel = vector_sub(game->sprites[i].posi, game->player.map_posi);
-			transform.x = (dir.y * sprite_rel.x - dir.x * sprite_rel.y);
-			transform.y = (-game->player.plane.y * sprite_rel.x + game->player.plane.x * sprite_rel.y);
+			transform.x = (dir.y * sprite_rel.x - dir.x * sprite_rel.y) / game->view_adj;
+			transform.y = (-game->player.plane.y * sprite_rel.x + game->player.plane.x * sprite_rel.y) / game->view_adj;
 			transform = vector_multi(transform, invDet);
 			int spriteScreenX = (int)((w / 2) * (1 + transform.x / transform.y));
 			//calculate height of the sprite on screen
 			int spriteHeight = abs((int)(h * game->sprites[i].height / (transform.y))); //using 'transformY' instead of the real distance prevents fisheye
 			//calculate lowest and highest pixel to fill in current stripe
-			int drawStartY = -spriteHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + game->sprites[i].height - game->sprites[i].cur_z) * h - h / 2) / transform.y);
+			int drawStartY = -spriteHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + 0.5f - game->sprites[i].height / 2 - game->sprites[i].cur_z) * h - h / 2) / transform.y);
 			if(drawStartY < 0) drawStartY = 0;
-			int drawEndY = spriteHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + game->sprites[i].height - game->sprites[i].cur_z) * h - h / 2) / transform.y);
+			int drawEndY = spriteHeight / 2 + h / 2 + game->player.pitch - (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + 0.5f - game->sprites[i].height / 2- game->sprites[i].cur_z) * h - h / 2) / transform.y);
 			if(drawEndY >= h) drawEndY = h - 1;
 
 			//calculate width of the sprite
-			int spriteWidth = abs( (int) (w * game->sprites[i].unit_size * 2 / (transform.y)));
+			int spriteWidth = abs( (int) (w * game->sprites[i].unit_size * 2 / (transform.y)) );
 			int drawStartX = -spriteWidth / 2 + spriteScreenX;
 			if(drawStartX < 0) drawStartX = 0;
 			int drawEndX = spriteWidth / 2 + spriteScreenX;
 			if(drawEndX >= w) drawEndX = w - 1;
 			//printf("first stripe let's go\n");
+
+			
+
 			for(int x = drawStartX; x < drawEndX; x++)
 			{
 				int texX = (int)((x - (-spriteWidth / 2 + spriteScreenX)) * tex->height / spriteWidth);
@@ -81,9 +84,8 @@ void	sprite_cast(t_game *game)
 					//printf("visible\n");
 					for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 					{
-						float d = (y - game->player.pitch + (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod + game->sprites[i].height - game->sprites[i].cur_z) * h - h / 2) / transform.y)) - h / 2 + spriteHeight / 2; //256 and 128 factors to avoid floats
+						float d = (y - game->player.pitch + (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod - game->sprites[i].height + game->sprites[i].cur_z) * h - h / 2) / transform.y)) - h / 2 + spriteHeight / 2; //256 and 128 factors to avoid floats
 						int texY = ((d * tex->width) / spriteHeight);
-
 						int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)]; //get current color from the texture
 						//if (game->sprites[i].type == MEDIKIT)
 						//{
@@ -97,7 +99,8 @@ void	sprite_cast(t_game *game)
 							color = add_shade(color, transform.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
 							game->win.set_pixel(&game->win, x, y, color);
 						}
-
+						else
+							game->win.set_pixel(&game->win, x, y, 0);
 					}
 				}
 				//else
