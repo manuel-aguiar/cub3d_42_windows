@@ -141,8 +141,8 @@
 
 # define ENEMY_HGT 0.6f
 # define ENEMY_WDT 0.6f
-# define ENEMY_Z ENEMY_HGT / 2 + ENEMY_HGT - 0.5f
-# define ENEMY_UNIT 0.8f
+# define ENEMY_Z 0
+# define ENEMY_UNIT 0.2f
 # define ENEMY_Z_SENSE 0.005f
 # define ENEMY_MS_SWAP 300
 

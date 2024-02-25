@@ -89,7 +89,7 @@ void	hori_raycasting(t_game *game)
 		hori.wall_dist = float_ternary(ray.side == 0, (ray.first.x - ray.step.x), \
 			(ray.first.y - ray.step.y));
 		hori.line_h = (int)((ray.h / hori.wall_dist) * game->view_adj);
-		ray.hgt_mod = ray.pitch_mod - (int)(ray.z_mod / hori.wall_dist);
+		ray.hgt_mod = ray.pitch_mod - (int)(ray.z_mod / hori.wall_dist * game->view_adj);
 		hori.min_y = -hori.line_h / 2 + ray.hgt_mod;
 		hori.max_y = hori.line_h / 2 + ray.hgt_mod;
 		// multithread mutex here

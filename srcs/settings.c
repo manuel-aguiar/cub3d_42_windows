@@ -143,7 +143,7 @@ void    apply_all_settings(t_game *game)
     game->player.ammo[CTR_MAX] = PLAY_AMMO_MAX;
     game->player.attack = PLAY_BULLET_DAMAGE;
 
-    game->view_adj = (1 /((float)game->win.width / (float)game->win.height)) \
+    game->view_adj = (1 /((float)game->win.width / (float)game->win.height))
                     / (float)(1 / game->player.cur_fov);
     //game->view_adj = 1;
 /*
@@ -183,14 +183,14 @@ typedef struct s_exit
     game->template_ammo.unit_size = AMMO_UNIT;
     game->template_ammo.height = AMMO_HGT;
     game->template_ammo.width = AMMO_WDT;
-    game->template_ammo.base_z = AMMO_HGT / 2 + AMMO_HGT - 0.5f;
+    game->template_ammo.base_z = AMMO_Z;
     game->template_ammo.z_sense = AMMO_Z_SENSE;
 
     game->template_enemy = (t_enemy){};
     game->template_enemy.unit_size = ENEMY_UNIT;
     game->template_enemy.height = ENEMY_HGT;
     game->template_enemy.width = ENEMY_WDT;
-    game->template_enemy.base_z = ENEMY_HGT / 2 + ENEMY_HGT - 0.5f;
+    game->template_enemy.base_z = ENEMY_Z;
     game->template_enemy.z_sense = ENEMY_Z_SENSE;
     game->template_enemy.ms_to_swap = ENEMY_MS_SWAP;
     game->template_enemy.elapsed = 0;
@@ -199,7 +199,7 @@ typedef struct s_exit
     game->template_exit.unit_size = EXIT_UNIT;
     game->template_exit.height = EXIT_HGT;
     game->template_exit.width = EXIT_WDT;
-    game->template_exit.base_z = EXIT_HGT / 2 + EXIT_HGT - 0.5f;
+    game->template_exit.base_z = EXIT_Z;
     game->template_exit.z_sense = EXIT_Z_SENSE;
 
     game->template_medi = (t_medi){};
