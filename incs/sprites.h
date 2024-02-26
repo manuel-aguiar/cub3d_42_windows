@@ -70,6 +70,7 @@ typedef struct s_ammo
 	float				unit_size;
 	float				height;
 	float				width;
+	float				float_radius;
 }	t_ammo;
 
 typedef struct s_medi
@@ -92,6 +93,10 @@ typedef struct s_enemy
 	float				unit_size;
 	float				height;
 	float				width;
+	int					attack_val;
+	int					health;
+	int					attack_time;
+	int					attack_elapsed;
 }	t_enemy;
 
 typedef struct s_exit

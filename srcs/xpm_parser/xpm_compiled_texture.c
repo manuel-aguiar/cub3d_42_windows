@@ -105,12 +105,44 @@ static int	rgb_to_rgba(int rgb)
 	return ((rgb << 8) | 0xFF);
 }
 
+void	tex_int_swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+	//*a = *a ^ *b;
+	//*b = *a ^ *b;
+	//*a = *a ^ *b;
+}
+
+void	transposed_swap_coords(t_xpm_parser *parse)
+{
+	int	row;
+	int	col;
+
+	row = 0;
+	while (row < parse->tex->height)
+	{
+		col = 0;
+		while (col < parse->tex->width / 2)
+		{
+			tex_int_swap(&parse->tex->pixels[row * parse->tex->width + col],
+			&parse->tex->pixels[(row + 1) * parse->tex->width - col - 1]);
+			col++;
+		}
+		row++;
+	}
+}
+
 void	*xpm_set_pixel_transposed(t_xpm_parser *parse)
 {
 	int swap;
 	int offset = 1 + parse->color_count;
 	int row = 0;
 	int col;
+	int index;
 	//row + col * tex->height
 	offset = 1 + parse->color_count;
 	row = 0;
@@ -130,20 +162,27 @@ void	*xpm_set_pixel_transposed(t_xpm_parser *parse)
 				free_xpm_pair(&parse->id_color, parse->color_count);
 				return (free_xpm_tex(&parse->tex));
 			}
-			parse->tex->pixels[row + col * parse->tex->height] = color_at_target(parse->id_color, parse->color_count, &parse->xpm[row + offset][col * parse->id_len], parse->id_len);
+			index = row + col * parse->tex->height;
+			//if (index % parse->tex->width < parse->tex->width / 2)
+			//	index += parse->tex->width / 2;
+			//else if (index % parse->tex->width > parse->tex->width / 2)
+			//	index -= parse->tex->width / 2;
+			//index = index - index % parse->tex->width + (parse->tex->width - index % parse->tex->width);
+			parse->tex->pixels[index] = color_at_target(parse->id_color, parse->color_count, &parse->xpm[row + offset][col * parse->id_len], parse->id_len);
 			//printf("at index %d, color is %d\n", index, tex->pixels[index]);
-			if (parse->tex->pixels[row + col * parse->tex->height] == -1)
+			if (parse->tex->pixels[index] == -1)
 			{
 				free_xpm_pair(&parse->id_color, parse->color_count);
 				return (free_xpm_tex(&parse->tex));
 			}
 			//printf(" rgb %d ", tex->pixels[index]);
-			parse->tex->pixels[row + col * parse->tex->height] = rgb_to_rgba(parse->tex->pixels[row + col * parse->tex->height]);
+			parse->tex->pixels[index] = rgb_to_rgba(parse->tex->pixels[index]);
 			//printf(" rgb   A   %d ", tex->pixels[index]);
 			col++;
 		}
 		row++;
 	}
+	//transposed_swap_coords(parse);
 	swap = parse->tex->width;
 	parse->tex->width = parse->tex->height;
 	parse->tex->height = swap;

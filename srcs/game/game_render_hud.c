@@ -12,6 +12,12 @@
 
 # include "game.h"
 
+void	render_gun(t_game *game)
+{
+	xpm_to_window(&game->win, game->tex[GUN_TEX], (t_pixel){300, 0, 0}, 300, 200);
+}
+
+
 void	render_stats_bars(t_game *game)
 {
 	t_pixel health_start;
@@ -27,7 +33,7 @@ void	render_stats_bars(t_game *game)
 
 	int separator;
 	int y;
-
+	render_gun(game);
 	if(!((*game->keys) >> BIT_HUD_T) & 1)
 		return ;
 	health_start = (t_pixel){550, 60, 0};

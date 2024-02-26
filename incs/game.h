@@ -208,6 +208,7 @@ void    clean_hitmap(t_game *game);
 void    setup_hitmap(t_game *game);
 void	sprite_place_hitmap(t_game *game, t_sprite *sprite);
 void	shot_raycasting(t_game *game, t_vec2d dir);
+float	vertical_coefficient(t_game *game);
 
 //game_render_hud.c
 void	render_stats_bars(t_game *game);

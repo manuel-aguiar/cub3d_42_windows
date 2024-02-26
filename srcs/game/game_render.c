@@ -27,12 +27,36 @@
 		}
 */
 
+void		update_ammokit(t_game *game, t_sprite *sprite)
+{
+	t_ammo *ammo;
+
+	ammo = (t_ammo *)sprite->data;
+	sprite->cur_z = ammo->base_z - game->float_sin * ammo->float_radius;
+	if (sprite->dist <= game->player.unit_size \
+	&& game->player.ammo[CTR_CUR] < game->player.ammo[CTR_MAX])
+	{
+		game->player.ammo[CTR_CUR] = ft_min(game->player.ammo[CTR_CUR] \
+		+ ammo->ammopoints, game->player.ammo[CTR_MAX]);
+		sprite->status = GONE;
+	}
+
+}
+
 void		update_medikit(t_game *game, t_sprite *sprite)
 {
 	t_medi *medi;
 
 	medi = (t_medi *)sprite->data;
 	sprite->cur_z = medi->base_z - game->float_sin * medi->float_radius;
+	if (sprite->dist <= game->player.unit_size \
+	&& game->player.health[CTR_CUR] < game->player.health[CTR_MAX])
+	{
+		game->player.health[CTR_CUR] = ft_min(game->player.health[CTR_CUR] \
+		+ medi->lifepoints, game->player.health[CTR_MAX]);
+		sprite->status = GONE;
+	}
+
 }
 
 void		update_enemy(t_game *game, t_sprite *sprite)
@@ -40,10 +64,27 @@ void		update_enemy(t_game *game, t_sprite *sprite)
 	t_enemy *enemy;
 
 	enemy = (t_enemy *)sprite->data;
+	if (enemy->health <= 0)
+	{
+		sprite->status = GONE;
+		return ;
+	}
 	enemy->elapsed += game->player.timer[CLOCK_MOVE].elapsed;
 	if (enemy->elapsed >= enemy->ms_to_swap)
 		sprite->inverted = !sprite->inverted;
 	enemy->elapsed %= enemy->ms_to_swap;
+	if (enemy->attack_elapsed != -1)
+		enemy->attack_elapsed += game->player.timer[CLOCK_MOVE].elapsed;
+	if (enemy->attack_elapsed >= enemy->attack_time)
+		enemy->attack_elapsed = -1;
+	if (sprite->dist <= game->player.unit_size + sprite->unit_size)
+	{
+		if (enemy->attack_elapsed == -1)
+		{
+			game->player.health[CTR_CUR] = ft_max(game->player.health[CTR_CUR] - enemy->attack_val, 0);
+			enemy->attack_elapsed = 0;
+		}
+	}
 }
 
 void		update_door(t_game *game, t_sprite *sprite)
@@ -82,26 +123,33 @@ void		update_sprites(t_game *game)
 	game->float_sin = sinf(game->floating);
 	if (game->floating > 2 * MY_PI)
 		game->floating -= 2 * MY_PI;
-
+	//count_gone = 0;
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		if (game->sprites[i].status == GONE && game->sprites[i].data)
+		if (game->sprites[i].status == GONE)
+		{
 			ft_free_set_null(&game->sprites[i].data);
+			//count_gone++;
+		}
 		else
 		{
-			sprite_place_hitmap(game, &game->sprites[i]);
+			
 			if (game->sprites[i].type == DOOR)
 				update_door(game, &game->sprites[i]);
 			if (game->sprites[i].type == ENEMY)
 				update_enemy(game, &game->sprites[i]);
 			if (game->sprites[i].type == MEDIKIT)
-				update_medikit(game, &game->sprites[i]);			
+				update_medikit(game, &game->sprites[i]);
+			if (game->sprites[i].type == AMMOKIT)
+				update_ammokit(game, &game->sprites[i]);
+			if (game->sprites[i].status != GONE)
+				sprite_place_hitmap(game, &game->sprites[i]);			
 		}
 
 		i++;
 	}
-
+	//game->sprite_count -= count_gone;
 }
 
 void		game_actions(t_game *game)
@@ -115,6 +163,7 @@ void		game_actions(t_game *game)
 	game_key_manager(game);
 	game_mouse_manager(game);
 	player_actions(game);
+	
 }
 
 void	dda_visible_and_wallcast(t_game *game);

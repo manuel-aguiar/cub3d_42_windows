@@ -82,7 +82,7 @@ typedef struct s_player
 	float			verti_sin;
 	float			verti_cos;
 	float			verti_sense;
-
+	float			vertical_correction;
 
 	float			cos_rad;
 	float			sin_rad;

@@ -125,7 +125,7 @@ void    apply_all_settings(t_game *game)
     game->player.walk_sway_mod = 0;
 
     game->player.verti_angle = PITCH_ANGLE_BASE;
-    game->player.verti_tan = 0;
+    game->player.verti_tan = tanf(game->player.verti_angle);
     game->player.verti_cos = cosf(game->player.verti_angle);
     game->player.verti_sin = sinf(game->player.verti_angle);
     game->player.verti_min = PITCH_ANGLE_MIN;
@@ -143,37 +143,9 @@ void    apply_all_settings(t_game *game)
     game->player.ammo[CTR_MAX] = PLAY_AMMO_MAX;
     game->player.attack = PLAY_BULLET_DAMAGE;
 
-    game->view_adj = (1 /((float)game->win.width / (float)game->win.height))
-                    / (float)(1 / game->player.cur_fov);
-    //game->view_adj = 1;
-/*
-typedef struct s_door;
-{
-	t_vec2d			start;
-	t_vec2d			end;
-	float				unit_size;
-	float				height;
-	float				width;	
-}	t_door;
+    //game->view_adj = (1 /((float)game->win.width / (float)game->win.height));
+    game->view_adj = 1;
 
-
-
-typedef struct s_enemy
-{
-	float				base_z;
-	float				unit_size;
-	float				height;
-	float				width;
-}	t_enemy;
-
-typedef struct s_exit
-{
-	float				base_z;
-	float				unit_size;
-	float				height;
-	float				width;
-}	t_exit;
-*/
     game->template_door = (t_door){};
     game->template_door.move_sense = DOOR_MOVE_SENSE;
     game->template_door.dist_sense = fpow_2(DOOR_DIST_SENSE);
@@ -182,6 +154,7 @@ typedef struct s_exit
     game->template_ammo.ammopoints = AMMO_RESOURCE;
     game->template_ammo.unit_size = AMMO_UNIT;
     game->template_ammo.height = AMMO_HGT;
+    game->template_ammo.float_radius = AMMO_FLOAT_RADIUS;
     game->template_ammo.width = AMMO_WDT;
     game->template_ammo.base_z = AMMO_Z;
     game->template_ammo.z_sense = AMMO_Z_SENSE;
@@ -194,6 +167,10 @@ typedef struct s_exit
     game->template_enemy.z_sense = ENEMY_Z_SENSE;
     game->template_enemy.ms_to_swap = ENEMY_MS_SWAP;
     game->template_enemy.elapsed = 0;
+    game->template_enemy.attack_val = ENEMY_ATTACK;
+    game->template_enemy.health = ENEMY_HEALTH;
+    game->template_enemy.attack_time = ENEMY_TIME_ATTACK;
+    game->template_enemy.attack_elapsed = 0;
 
     game->template_exit = (t_exit){};
     game->template_exit.unit_size = EXIT_UNIT;

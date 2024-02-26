@@ -92,7 +92,7 @@
 # define PLAY_AIM_DIR_LEN 1.5f
 # define PLAY_AIM_SENSE 0.003f
 
-# define PLAY_BASE_FOV 0.9f
+# define PLAY_BASE_FOV 0.66f
 # define PLAY_AIM_FOV 0.8f
 
 
@@ -128,10 +128,10 @@
 
 # define PLAY_HEALTH_MIN 0
 # define PLAY_HEALTH_MAX 100
-# define PLAY_HEALTH_START 100
+# define PLAY_HEALTH_START 70
 # define PLAY_AMMO_MIN 0
 # define PLAY_AMMO_MAX 100
-# define PLAY_AMMO_START 100
+# define PLAY_AMMO_START 50
 # define PLAY_BULLET_DAMAGE 10
 
 
@@ -141,10 +141,13 @@
 
 # define ENEMY_HGT 0.5f
 # define ENEMY_WDT 3.0f
-# define ENEMY_Z 0.1f
-# define ENEMY_UNIT 0.5f
+# define ENEMY_Z 0.0f
+# define ENEMY_UNIT 0.2f
 # define ENEMY_Z_SENSE 0.005f
 # define ENEMY_MS_SWAP 300
+# define ENEMY_ATTACK 20
+# define ENEMY_HEALTH 50
+# define ENEMY_TIME_ATTACK 1000
 
 # define DOOR_HGT 0.2f
 # define DOOR_WDT 0.3f
@@ -165,7 +168,7 @@
 # define MEDI_Z 0.2f
 # define MEDI_UNIT 0.2f
 # define MEDI_Z_SENSE 100
-# define MEDI_RESOURCE 50
+# define MEDI_RESOURCE 20
 # define MEDI_FLOAT_RADIUS 0.1f
 
 # define AMMO_HGT 0.3f
@@ -173,7 +176,8 @@
 # define AMMO_Z 0.2f
 # define AMMO_UNIT 0.2f
 # define AMMO_Z_SENSE 0.005f
-# define AMMO_RESOURCE 50
+# define AMMO_RESOURCE 20
+# define AMMO_FLOAT_RADIUS 0.1f
 
 # define BLUR_KERNEL_MAX 31
 # define BLUR_KERNEL_SIZE 17

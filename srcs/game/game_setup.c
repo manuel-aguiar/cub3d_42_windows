@@ -62,6 +62,7 @@ extern char *g_cenas[];
 extern char *g_dementor[];
 extern char *g_margarida[];
 extern char *g_door[];
+extern char *g_gun[];
 
 int		game_load_textures(t_game *game)
 {
@@ -73,10 +74,10 @@ int		game_load_textures(t_game *game)
 	game->tex[F_TEX] = xpm_to_tex(g_margarida, TEX_REGULAR);
 	game->tex[C_TEX] = xpm_to_tex(g_margarida, TEX_REGULAR);
 	game->tex[MEDI_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
-	game->tex[AMMO_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
+	game->tex[AMMO_TEX] = xpm_to_tex(g_dementor, TEX_TRANSPOSED);
 	game->tex[ENEMY_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
 	game->tex[BULLET_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
-	game->tex[GUN_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
+	game->tex[GUN_TEX] = xpm_to_tex(g_gun, TEX_REGULAR);
 	game->tex[EXIT_TEX] = xpm_to_tex(g_south, TEX_TRANSPOSED);
 	game->tex[DOOR_TEX] = xpm_to_tex(g_door, TEX_TRANSPOSED);
 	return (1); // check for failures
@@ -92,7 +93,7 @@ int		game_start(t_game *game, char *game_config)
 	apply_all_settings(game);
 	compass_setup(&game->compass);
 	player_setup(&game->player);
-
+	
 	
 	setup_sprites(game);
 	setup_hitmap(game);
@@ -104,6 +105,7 @@ int		game_start(t_game *game, char *game_config)
 		return (0);
 	if(!win_init_window(&game->win))
 		return (0);
+	game->player.vertical_correction = vertical_coefficient(game);
 	return (1);
 }
 

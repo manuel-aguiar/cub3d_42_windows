@@ -180,6 +180,16 @@ t_vec2d get_wall_hit(t_game *game, t_ray *ray)
 	return (wall_hit);
 }
 
+void	enemy_take_hit(t_game *game, t_sprite *sprite)
+{
+	t_enemy *enemy;
+
+	if (sprite->type != ENEMY)
+		return ;
+	enemy = (t_enemy *)sprite->data;
+	enemy->health -= game->player.attack;
+}
+
 int	shot_hit_enemy(t_game *game, int index, t_vec2d check[2])
 {
 	t_sprite	*sprite;
@@ -217,6 +227,7 @@ int	shot_hit_enemy(t_game *game, int index, t_vec2d check[2])
 			if (z >= sprite->cur_z && z <= sprite->height)
 			{
 				printf("sprite %d at %.3f, %.3f was hit\n", sprite->type, sprite->posi.x, sprite->posi.y);
+				enemy_take_hit(game, sprite);
 				return (1);
 			}
 			z = get_z_coordinate(game->player.posi_3d, game->player.dir_3d, collision[1]);
@@ -224,6 +235,7 @@ int	shot_hit_enemy(t_game *game, int index, t_vec2d check[2])
 			if (z >= sprite->cur_z && z <= sprite->height)
 			{
 				printf("sprite %d at %.3f, %.3f was hit\n", sprite->type, sprite->posi.x, sprite->posi.y);
+				enemy_take_hit(game, sprite);
 				return (1);
 			}	
 		}

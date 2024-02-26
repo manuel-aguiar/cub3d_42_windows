@@ -151,7 +151,8 @@ SRC_RAYCASTING		=	vector.c					\
 SRC_SPRITES			=	sprites.c					\
 						sprite_quicksort.c			\
 						sprites_hitmap.c			\
-						shot_raycasting.c
+						shot_raycasting.c			\
+						vertical_correction.c
 
 SRC_HIT_DETECTION	=	lb_hit.c					\
 						lb_hit_utils.c				\

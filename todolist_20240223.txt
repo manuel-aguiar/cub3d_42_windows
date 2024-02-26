@@ -10,6 +10,26 @@
 #                                                                              #
 # **************************************************************************** #
 
+GAME ITSELF
+
+	player fires, put timer to limit
+		reset when trigger is released
+		if maintained, continue shooting
+		jump mechanics for bullet jumps
+		stance radians, random horizontal and vertical shots
+			horizontal moves plane
+			vertical moves pitch z
+		add a pitch z_mod for shots, like jumps but it overflows and jumping continues
+		place a z_mod cap
+	enemies must check collisions like the player as they move
+
+
+SPEED_UP_RENDERING AS SPRITES go out
+	set distance to FLT_MAX if gone, free, reduce sprite count
+	that will reduce sorting and make it faster
+
+RENDERING, walls/sprites are being rendered backwards, try to make it render forward to improve caching
+
 parsing:
 	check doors on parsing, put sprites on parsing
 
@@ -23,16 +43,10 @@ hud:
 	weapon tex_regular, render line by line depending on position
 	weapon swing up and down and horizontally
 	use sinf calculated for walking
-	
-sprite rendering:
-	height is correct but must implement steps as in wall/floor cast
 
 enemies:
 	raycast to check if the enemy sees you from their center position
 	make it simple, enemies chase you if they have direct line of sight
-
-	enemy hit: distance less than (player radius + enemy radius)
-	use an overflow timer to limit the number of attacks per second, per sprite
 
 mlx:
 	change everything to mlx
@@ -40,5 +54,6 @@ mlx:
 extras:
 	revise doors, store z_buffer
 	check door collisions
+	pathfinding A*, ui....
 	bullet holes
 	iluminação
