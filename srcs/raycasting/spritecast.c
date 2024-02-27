@@ -138,9 +138,9 @@ void	sprite_cast(t_game *game)
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		if (game->sprites[i].type == DOOR)
+		if (game->sorted[i]->type == DOOR)
 			doorcast(game, game->sorted[i]);
-		else if (game->sorted[i]->status != GONE)
+		if (game->sorted[i]->status != GONE)
 		{
 			setup_this_spritecast(game, &cast, i);
 

@@ -237,7 +237,7 @@ int	shot_hit_enemy(t_game *game, int index, t_vec2d check[2])
 				printf("sprite %d at %.3f, %.3f was hit\n", sprite->type, sprite->posi.x, sprite->posi.y);
 				enemy_take_hit(game, sprite);
 				return (1);
-			}	
+			}
 		}
 		node = node->next;
 	}

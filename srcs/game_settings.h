@@ -145,7 +145,7 @@
 # define ENEMY_Z 0.0f
 # define ENEMY_UNIT 0.2f
 # define ENEMY_Z_SENSE 0.005f
-# define ENEMY_MOVE_SENSE 0.003f
+# define ENEMY_MOVE_SENSE 0.0003f
 # define ENEMY_MS_SWAP 300
 # define ENEMY_ATTACK 20
 # define ENEMY_HEALTH 50
@@ -195,6 +195,7 @@
 # define BULLET_HGT 0.1f
 # define BULLET_UNIT_SIZE 0.1f
 # define BULLET_ATTACK_VAL PLAYER_ATTACK_VAL
+# define BULLET_BASE_Z 0.0f
 
 
 

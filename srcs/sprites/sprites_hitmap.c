@@ -28,10 +28,42 @@ void	sprite_calc_dist(t_game *game)
 	}
 }
 
+void	clean_hitnodes_and_map(t_game *game, t_sprite *sprite)
+{
+	int map_index;
+
+	//map_index = (int)(sprite->posi.x) + (int)(sprite->posi.y) * game->map.width;
+	//if (game->map.hit[map_index].len != 0)
+	//	ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
+	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	if (game->map.hit[map_index].len != 0)
+		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
+	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	if (game->map.hit[map_index].len != 0)
+		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
+	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	if (game->map.hit[map_index].len != 0)
+		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
+	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	if (game->map.hit[map_index].len != 0)
+		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
+	sprite->my_hit[0].sprite = sprite;
+	sprite->my_hit[0].next = NULL;
+	sprite->my_hit[0].prev = NULL;
+	sprite->my_hit[1].sprite = sprite;
+	sprite->my_hit[1].next = NULL;
+	sprite->my_hit[1].prev = NULL;
+	sprite->my_hit[2].sprite = sprite;
+	sprite->my_hit[2].next = NULL;
+	sprite->my_hit[2].prev = NULL;
+	sprite->my_hit[3].sprite = sprite;
+	sprite->my_hit[3].next = NULL;
+	sprite->my_hit[3].prev = NULL;
+}
+
 void    clean_hitmap(t_game *game)
 {
 	int         i;
-	int         map_index;
 	t_sprite    *sprite;
 
 	//ft_memset(&game->map.hit[0], 0, sizeof(t_hitlist) * game->map.len);
@@ -39,32 +71,8 @@ void    clean_hitmap(t_game *game)
 	while (i < game->sprite_count)
 	{
 		sprite = game->sorted[i];
-		map_index = (int)sprite->posi.x
-		+ (int)sprite->posi.y * game->map.width;
-		if (game->map.hit[map_index].len != 0)
-			ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
-			//hitlist_del_tail(&game->map.hit[map_index]);
-		sprite->my_hit.next = NULL;
-		sprite->my_hit.prev = NULL;
-		i++;
-	}
-}
-
-void    setup_hitmap(t_game *game)
-{
-	int         i;
-	int         map_index;
-	t_sprite    *sprite;
-
-	sprite_calc_dist(game);
-	sprite_qs_distance(game->sorted, game->sprite_count, sprite_qs_comp);
-	i = 0;
-	while (i < game->sprite_count)
-	{
-		sprite = game->sorted[i];
-		map_index = (int)sprite->posi.x \
-		+ (int)sprite->posi.y * game->map.width;
-		hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit);
+		if (sprite->type == ENEMY)
+			clean_hitnodes_and_map(game, sprite);
 		i++;
 	}
 }
@@ -73,31 +81,35 @@ void	sprite_place_hitmap(t_game *game, t_sprite *sprite)
 {
 	int         map_index;
 
-	//sprite->my_hit.sprite = sprite;
-	map_index = (int)sprite->posi.x \
-		+ (int)sprite->posi.y * game->map.width;
-
-	
-	//if (map_index == 21 + 10 * game->map.width)
-	//{
-	//	printf("list len %d, head empty? %d, sprite %d, %d, map %d, %d\n",
-	//	 game->map.hit[map_index].head == NULL,
-	//	game->map.hit[map_index].len,
-	//	(int)sprite->posi.x, 
-	//	(int)sprite->posi.y, map_col(&game->map, map_index), map_row(&game->map, map_index));
-	//	if (game->map.hit[map_index].len != 0)
-	//		printf("BEFORE 21 10 head posi is %d %d\n",(int)game->map.hit[map_index].head->sprite->posi.x 
-	//	,(int)game->map.hit[map_index].head->sprite->posi.y);
-	//}
-	
-	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit);
-	//if (map_index == 21 + 10 * game->map.width)
-	//{
-	//	printf("list len nowis %d  ", game->map.hit[map_index].len);
-	//
-	//	printf("AFTER 21 10 head posi is %d %d",(int)game->map.hit[map_index].head->sprite->posi.x 
-	//	,(int)game->map.hit[map_index].head->sprite->posi.y);
-	//	printf ("vs sprite posi %d %d\n\n", (int)sprite->posi.x, 
-	//	(int)sprite->posi.y);
-	//}
+	if (sprite->type != ENEMY)
+		return ;
+	//map_index = (int)(sprite->posi.x) + (int)(sprite->posi.y) * game->map.width;
+	//hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[0]);
+	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[0]);
+	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[1]);
+	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[2]);
+	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[3]);
 }
+
+void    setup_hitmap(t_game *game)
+{
+	int         i;
+	t_sprite    *sprite;
+
+	sprite_calc_dist(game);
+	sprite_qs_distance(game->sorted, game->sprite_count, sprite_qs_comp);
+	i = 0;
+	while (i < game->sprite_count)
+	{
+		sprite = game->sorted[i];
+		if (sprite->type == ENEMY)
+			sprite_place_hitmap(game, sprite);
+		i++;
+	}
+	printf("hitmap done\n");
+}
+

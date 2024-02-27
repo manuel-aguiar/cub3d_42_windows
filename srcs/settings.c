@@ -201,13 +201,14 @@ void    apply_all_settings(t_game *game)
     game->template_bullet.move_sense = BULLET_MOVE_SENSE;
     game->template_bullet.height = BULLET_HGT;
     game->template_bullet.attack_val = BULLET_ATTACK_VAL;
+    game->template_bullet.base_z = BULLET_BASE_Z;
 
 
     
     game->max_bullets = 0;
-    //game->max_bullets = MAX_BULLETS;
+    game->max_bullets = MAX_BULLETS;
 
-    
+
     game->live_bullets = 0;
 
 

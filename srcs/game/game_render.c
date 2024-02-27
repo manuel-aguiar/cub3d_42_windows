@@ -112,6 +112,15 @@ void		update_door(t_game *game, t_sprite *sprite)
 	}
 } 
 
+float	vector3d_len(t_vec3d vec)
+{
+	return (sqrt(fpow_2(vec.x) + fpow_2(vec.y) +fpow_2(vec.y)));
+}
+
+t_vec3d	vector3d_sub(t_vec3d first, t_vec3d second)
+{
+	return ((t_vec3d){second.x - first.x, second.y - first.y, second.z - first.z});
+}
 
 void		update_bullet(t_game *game, t_sprite *sprite)
 {
@@ -132,6 +141,7 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 		if (target->type == ENEMY && vector_distance(sprite->posi, target->posi) < sprite->unit_size + target->unit_size \
 		&& sprite->cur_z > target->cur_z && sprite->cur_z < target->cur_z + target->height)
 		{
+			printf("hit target\n");
 			sprite->status = GONE;
 			enemy = (t_enemy *)target->data;
 			enemy->health -= bullet->attack_val;
@@ -141,15 +151,14 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 		}
 		node = node->next;
 	}
-	t_vec2d save;
-	t_vec2d potential;
-	save = sprite->posi;
-	potential.x = bullet->dir.x * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
-	potential.y = bullet->dir.y * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	sprite->posi.x += bullet->dir.x * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	sprite->posi.y += bullet->dir.y * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
 	sprite->cur_z += bullet->dir.z * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
-	handle_collisions(game, &sprite->posi, potential, bullet->unit_size);
-	if (save.x != sprite->posi.x || save.y != sprite->posi.y)
-		bullet->state = BULL_WALL;
+	bullet->posi = (t_vec3d){sprite->posi.x, sprite->posi.y, sprite->cur_z};
+	if (vector3d_len(vector3d_sub(bullet->posi, bullet->hole)) < 0.01f)
+	{
+		sprite->status = GONE;
+	}
 }
 
 void		update_sprites(t_game *game)
@@ -167,12 +176,7 @@ void		update_sprites(t_game *game)
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		if (game->sorted[i]->status == GONE)
-		{
-			ft_free_set_null(game->sorted[i]->data);
-			//count_gone++;
-		}
-		else
+		if (game->sorted[i]->status != GONE)
 		{
 			if (game->sorted[i]->type == DOOR)
 				update_door(game, game->sorted[i]);
