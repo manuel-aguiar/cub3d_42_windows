@@ -37,5 +37,8 @@ void	free_game(t_game *game)
 			free(game->sprites[i].data);
 		i++;
 	}
-	free(game->sprites);
+	if (game->sprites)
+		free(game->sprites);
+	if (game->sorted)
+		free(game->sorted);
 }

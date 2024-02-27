@@ -102,7 +102,7 @@ void	setup_common_spritecast(t_game *game, t_sp_cast *cast)
 
 void	setup_this_spritecast(t_game *game, t_sp_cast *cast, int i)
 {
-	cast->sprite = &game->sprites[i];
+	cast->sprite = game->sorted[i];
 	cast->tex = game->tex[cast->sprite->tex];
 	cast->relative = vector_sub(cast->sprite->posi, cast->play_posi);
 	cast->trans.x = (cast->play_dir.y * cast->relative.x - cast->play_dir.x * cast->relative.y) / game->view_adj;
@@ -139,8 +139,8 @@ void	sprite_cast(t_game *game)
 	while (i < game->sprite_count)
 	{
 		if (game->sprites[i].type == DOOR)
-			doorcast(game, &game->sprites[i]);
-		else if (game->sprites[i].status != GONE)
+			doorcast(game, game->sorted[i]);
+		else if (game->sorted[i]->status != GONE)
 		{
 			setup_this_spritecast(game, &cast, i);
 

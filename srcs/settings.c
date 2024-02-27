@@ -197,6 +197,20 @@ void    apply_all_settings(t_game *game)
     game->template_medi.base_z = MEDI_Z;
     game->template_medi.z_sense = MEDI_Z_SENSE;
 
+    game->template_bullet.unit_size = BULLET_UNIT_SIZE;
+    game->template_bullet.move_sense = BULLET_MOVE_SENSE;
+    game->template_bullet.height = BULLET_HGT;
+    game->template_bullet.attack_val = BULLET_ATTACK_VAL;
+
+
+    
+    game->max_bullets = 0;
+    //game->max_bullets = MAX_BULLETS;
+
+    
+    game->live_bullets = 0;
+
+
 /*
 	//game->floating += 0.015f * game->player.timer[CLOCK_MOVE].elapsed;
 	//game->float_sin = sinf(game->floating);

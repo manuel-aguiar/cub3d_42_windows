@@ -38,7 +38,7 @@ void    clean_hitmap(t_game *game)
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		sprite = &game->sprites[i];
+		sprite = game->sorted[i];
 		map_index = (int)sprite->posi.x
 		+ (int)sprite->posi.y * game->map.width;
 		if (game->map.hit[map_index].len != 0)
@@ -57,11 +57,11 @@ void    setup_hitmap(t_game *game)
 	t_sprite    *sprite;
 
 	sprite_calc_dist(game);
-	sprite_qs_distance(game->sprites, game->sprite_count, sprite_qs_comp);
+	sprite_qs_distance(game->sorted, game->sprite_count, sprite_qs_comp);
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		sprite = &game->sprites[i];
+		sprite = game->sorted[i];
 		map_index = (int)sprite->posi.x \
 		+ (int)sprite->posi.y * game->map.width;
 		hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit);
@@ -73,7 +73,7 @@ void	sprite_place_hitmap(t_game *game, t_sprite *sprite)
 {
 	int         map_index;
 
-	sprite->my_hit.sprite = sprite;
+	//sprite->my_hit.sprite = sprite;
 	map_index = (int)sprite->posi.x \
 		+ (int)sprite->posi.y * game->map.width;
 

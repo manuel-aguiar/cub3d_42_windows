@@ -173,6 +173,54 @@ int		extract_sprites(t_game *game, t_map *map)
 	return (1);
 }
 
+int	place_bullet(t_game *game, int place)
+{
+	t_bullet	*data;
+	t_sprite	*sprite;
+
+	sprite = &game->sprites[place];
+	sprite->my_hit.sprite = sprite;
+	data = malloc(sizeof(*data));
+	if (!data)
+		return (perror_msg_int("malloc", 0));
+	ft_memcpy(data, &game->template_bullet, sizeof(*data));
+	sprite->data = data;
+	sprite->type = BULLET;
+	sprite->status = NOT_VIS;
+	sprite->cur_z = data->base_z;
+	sprite->height = data->height;
+	sprite->unit_size = data->unit_size;
+	sprite->dist = FLT_MAX;
+	sprite->tex = BULLET_TEX;
+	return (1);
+}
+
+int	fill_with_bullets(t_game *game)
+{
+	int i;
+
+	i = 0;
+	while (i < game->max_bullets)
+	{
+		if (place_bullet(game, game->sprite_count + i))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+
+void	fill_sorted_pointers(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->sprite_count)
+	{
+		game->sorted[i] = &game->sprites[i];
+		i++;
+	}
+}
 
 
 int		setup_sprites(t_game *game)
@@ -191,6 +239,7 @@ int		setup_sprites(t_game *game)
 			count++;
 		i++;
 	}
+	//sprite = malloc(sizeof(*sprite) * count + game->max_bullets);
 	sprite = malloc(sizeof(*sprite) * count);
 	if (!sprite)
 		return (perror_msg_int("malloc", 0));
@@ -198,5 +247,13 @@ int		setup_sprites(t_game *game)
 	game->sprite_count = count;
 	if (!extract_sprites(game, map))
 		return (0);
+	//if (!fill_with_bullets(game))
+	//	return (0);
+	game->sorted = malloc(sizeof(*game->sorted) * count);
+	
+	if (!game->sorted)
+		return (perror_msg_int("malloc", 0));
+	//game->sprite_count += game->max_bullets;
+	fill_sorted_pointers(game);
 	return (1);
 }

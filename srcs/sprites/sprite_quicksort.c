@@ -12,14 +12,14 @@
 
 # include "sprites.h"
 
-int	sprite_qs_comp(float first_dist, float second_dist)
+int	sprite_qs_comp(t_sprite *first, t_sprite *second)
 {
-	return (first_dist < second_dist);
+	return (first->dist < second->dist);
 }
 
-static void	swap(t_sprite *first, t_sprite *second)
+static void	swap(t_sprite **first, t_sprite **second)
 {
-	t_sprite	temp;
+	t_sprite	*temp;
 
 	temp = *first;
 	*first = *second;
@@ -27,22 +27,22 @@ static void	swap(t_sprite *first, t_sprite *second)
 }
 
 
-static int	partition(t_sprite *sprites, int low, int high, int (*cmp)(float , float))
+static int	partition(t_sprite **sprites, int low, int high, int (*cmp)(t_sprite *, t_sprite *))
 {
-	float pivot;
+	t_sprite *pivot;
 	int		i;
 	int		j;
 
-	pivot = sprites[low].dist;
+	pivot = sprites[low];
 	i = low - 1;
 	j = high + 1;
 	while (1)
 	{
 		i++;
-		while (cmp(pivot, sprites[i].dist))
+		while (cmp(pivot, sprites[i]))
 			i++;
 		j--;
-		while (cmp(sprites[j].dist, pivot))
+		while (cmp(sprites[j], pivot))
 			j--;
 		if (i >= j)
 			return (j);
@@ -50,7 +50,7 @@ static int	partition(t_sprite *sprites, int low, int high, int (*cmp)(float , fl
 	}
 }
 
-static void	qs_recursion(t_sprite *sprites, int low, int high, int (*cmp)(float , float))
+static void	qs_recursion(t_sprite **sprites, int low, int high, int (*cmp)(t_sprite * , t_sprite *))
 {
 	int			part;
 
@@ -62,7 +62,7 @@ static void	qs_recursion(t_sprite *sprites, int low, int high, int (*cmp)(float 
 	}
 }
 
-void	sprite_qs_distance(t_sprite *sprites, int sprite_count, int (*cmp)(float , float))
+void	sprite_qs_distance(t_sprite **sprites, int sprite_count, int (*cmp)(t_sprite * , t_sprite *))
 {
 	qs_recursion(sprites, 0, sprite_count - 1, cmp);
 }

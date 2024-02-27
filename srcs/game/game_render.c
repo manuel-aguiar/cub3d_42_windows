@@ -112,14 +112,53 @@ void		update_door(t_game *game, t_sprite *sprite)
 	}
 } 
 
+
+void		update_bullet(t_game *game, t_sprite *sprite)
+{
+	t_bullet	*bullet;
+	t_enemy		*enemy;
+	t_sprite 	*target;
+	t_vec2d		map_square;
+	t_hitnode	*node;
+	int			index;
+
+	bullet = (t_bullet *)sprite->data;
+	map_square = (t_vec2d){(int)sprite->posi.x, (int)sprite->posi.y};
+	index = map_square.x + map_square.y * game->map.width;
+	node = game->map.hit[index].head;
+	while (node)
+	{
+		target = node->sprite;
+		if (target->type == ENEMY && vector_distance(sprite->posi, target->posi) < sprite->unit_size + target->unit_size \
+		&& sprite->cur_z > target->cur_z && sprite->cur_z < target->cur_z + target->height)
+		{
+			sprite->status = GONE;
+			enemy = (t_enemy *)target->data;
+			enemy->health -= bullet->attack_val;
+			if (enemy->health <= 0)
+				target->status = GONE;
+			return ;
+		}
+		node = node->next;
+	}
+	t_vec2d save;
+	t_vec2d potential;
+	save = sprite->posi;
+	potential.x = bullet->dir.x * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	potential.y = bullet->dir.y * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	sprite->cur_z += bullet->dir.z * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	handle_collisions(game, &sprite->posi, potential, bullet->unit_size);
+	if (save.x != sprite->posi.x || save.y != sprite->posi.y)
+		bullet->state = BULL_WALL;
+}
+
 void		update_sprites(t_game *game)
 {
 	int i;
 
 	clean_hitmap(game);
 	sprite_calc_dist(game);
-	sprite_qs_distance(game->sprites, game->sprite_count, sprite_qs_comp);
-
+	sprite_qs_distance(game->sorted, game->sprite_count, sprite_qs_comp);
 	game->floating += game->float_sense * game->player.timer[CLOCK_MOVE].elapsed;
 	game->float_sin = sinf(game->floating);
 	if (game->floating > 2 * MY_PI)
@@ -128,24 +167,25 @@ void		update_sprites(t_game *game)
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		if (game->sprites[i].status == GONE)
+		if (game->sorted[i]->status == GONE)
 		{
-			ft_free_set_null(&game->sprites[i].data);
+			ft_free_set_null(game->sorted[i]->data);
 			//count_gone++;
 		}
 		else
 		{
-			
-			if (game->sprites[i].type == DOOR)
-				update_door(game, &game->sprites[i]);
-			if (game->sprites[i].type == ENEMY)
-				update_enemy(game, &game->sprites[i]);
-			if (game->sprites[i].type == MEDIKIT)
-				update_medikit(game, &game->sprites[i]);
-			if (game->sprites[i].type == AMMOKIT)
-				update_ammokit(game, &game->sprites[i]);
-			if (game->sprites[i].status != GONE)
-				sprite_place_hitmap(game, &game->sprites[i]);			
+			if (game->sorted[i]->type == DOOR)
+				update_door(game, game->sorted[i]);
+			if (game->sorted[i]->type == ENEMY)
+				update_enemy(game, game->sorted[i]);
+			if (game->sorted[i]->type == MEDIKIT)
+				update_medikit(game, game->sorted[i]);
+			if (game->sorted[i]->type == AMMOKIT)
+				update_ammokit(game, game->sorted[i]);
+			if (game->sorted[i]->type == BULLET)
+				update_bullet(game, game->sorted[i]);
+			if (game->sorted[i]->status != GONE)
+				sprite_place_hitmap(game, game->sorted[i]);			
 		}
 
 		i++;

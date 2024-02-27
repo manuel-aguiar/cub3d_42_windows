@@ -55,7 +55,7 @@ void		game_find_player_set_angles(t_game *game)
 // GLOBALS NEEDED BY GLFW
 
 
-
+extern char *g_f_bullet[];
 extern char *g_coisas[];
 extern char *g_yayaya[];
 extern char *g_cenas[];
@@ -76,7 +76,7 @@ int		game_load_textures(t_game *game)
 	game->tex[MEDI_TEX] = xpm_to_tex(g_medikit, TEX_TRANSPOSED);
 	game->tex[AMMO_TEX] = xpm_to_tex(g_dementor, TEX_TRANSPOSED);
 	game->tex[ENEMY_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
-	game->tex[BULLET_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
+	game->tex[BULLET_TEX] = xpm_to_tex(g_f_bullet, TEX_TRANSPOSED);
 	game->tex[GUN_TEX] = xpm_to_tex(g_gun, TEX_REGULAR);
 	game->tex[EXIT_TEX] = xpm_to_tex(g_south, TEX_TRANSPOSED);
 	game->tex[DOOR_TEX] = xpm_to_tex(g_door, TEX_TRANSPOSED);
