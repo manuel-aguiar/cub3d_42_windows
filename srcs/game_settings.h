@@ -134,7 +134,8 @@
 # define PLAY_AMMO_START 50
 # define PLAY_BULLET_DAMAGE 10
 
-
+# define PLAY_SHOT_INIT 0.0022f
+# define PLAY_SHOT_GRAVITY 0.00003f
 
 //sprite settings
 # define GAME_FLOAT_SENSE 0.003f
@@ -144,6 +145,7 @@
 # define ENEMY_Z 0.0f
 # define ENEMY_UNIT 0.2f
 # define ENEMY_Z_SENSE 0.005f
+# define ENEMY_MOVE_SENSE 0.003f
 # define ENEMY_MS_SWAP 300
 # define ENEMY_ATTACK 20
 # define ENEMY_HEALTH 50

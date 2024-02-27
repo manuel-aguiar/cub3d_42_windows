@@ -42,6 +42,7 @@ void	player_jump_gravity(t_player *player)
 }
 
 
+
 /*
 https://jsfiddle.net/LyM87/
 */

@@ -85,6 +85,7 @@ void		update_enemy(t_game *game, t_sprite *sprite)
 			enemy->attack_elapsed = 0;
 		}
 	}
+	enemy_movement(game, sprite, enemy);
 }
 
 void		update_door(t_game *game, t_sprite *sprite)

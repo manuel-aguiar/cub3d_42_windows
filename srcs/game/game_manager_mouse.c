@@ -21,6 +21,7 @@ void	game_mouse_manager(t_game *game)
 		{
 			shot_raycasting(game, game->player.dir_vec);
 			game->player.ammo[CTR_CUR]--;
+			game->player.cur_shot_sense = game->player.shot_init;
 		}
 		game->mouse->buttons &= ~(1 << BIT_SHOOT);
 	}

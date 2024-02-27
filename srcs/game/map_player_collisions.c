@@ -16,9 +16,8 @@
 https://github.com/OneLoneCoder/Javidx9/blob/master/PixelGameEngine/SmallerProjects/OneLoneCoder_PGE_CircleVsRect.cpp
 */
 
-void	handle_collisions(t_game *game, t_vec2d potencial)
+void	handle_collisions(t_game *game, t_vec2d *posi, t_vec2d potencial, float unit_size)
 {
-	t_player	*player;
 	t_map		*map;
 	int			fixed_x;
 	int			fixed_y;
@@ -27,26 +26,25 @@ void	handle_collisions(t_game *game, t_vec2d potencial)
 	//float		float_y;
 
 	
-	player = &game->player;
 	map = &game->map;
-	fixed_x = (int)player->map_posi.x;
-	fixed_y = (int)player->map_posi.y;
+	fixed_x = (int)posi->x;
+	fixed_y = (int)posi->y;
 	
 	float potential_len;
 
 	int divide_potential;
 
 	potential_len = vector_len(potencial);
-	divide_potential = 1 + (int)(potential_len / player->unit_size);
+	divide_potential = 1 + (int)(potential_len / unit_size);
 
 	
 
 
 	
-	//float_x = player->map_posi.x - fixed_x;
-	//float_y = player->map_posi.y - fixed_y;
+	//float_x = posi->x - fixed_x;
+	//float_y = posi->y - fixed_y;
 
-	//printf("i am at (%.3f, %.3f), my square is %c\n", player->map_posi.x, player->map_posi.y, map->map[fixed_x + fixed_y * map->width]);
+	//printf("i am at (%.3f, %.3f), my square is %c\n", posi->x, posi->y, map->map[fixed_x + fixed_y * map->width]);
 	//check left
 	int i;
 
@@ -56,15 +54,15 @@ void	handle_collisions(t_game *game, t_vec2d potencial)
 	i = 0;
 	while (i < divide_potential)
 	{
-		player->map_posi = vector_add(player->map_posi, add);
+		*posi = vector_add(*posi, add);
 		if (map->map[(fixed_x - 1) + fixed_y * map->width] == MAP_WALL)
-			player->map_posi.x = ft_fmax(player->map_posi.x, fixed_x + (player->unit_size));
+			posi->x = ft_fmax(posi->x, fixed_x + (unit_size));
 		if (map->map[(fixed_x + 1) + fixed_y * map->width] == MAP_WALL)
-			player->map_posi.x = ft_fmin(player->map_posi.x, fixed_x + 1 - (player->unit_size));
+			posi->x = ft_fmin(posi->x, fixed_x + 1 - (unit_size));
 		if (map->map[fixed_x + (fixed_y + 1) * map->width] == MAP_WALL)
-			player->map_posi.y = ft_fmin(player->map_posi.y, fixed_y + 1 - (player->unit_size));
+			posi->y = ft_fmin(posi->y, fixed_y + 1 - (unit_size));
 		if (map->map[fixed_x + (fixed_y - 1) * map->width] == MAP_WALL)
-			player->map_posi.y = ft_fmax(player->map_posi.y, fixed_y + (player->unit_size));
+			posi->y = ft_fmax(posi->y, fixed_y + (unit_size));
 
 
 		t_vec2d nearest;
@@ -77,79 +75,79 @@ void	handle_collisions(t_game *game, t_vec2d potencial)
 		//printf("fixed x %d, fixed y %d, index top left %d\n", fixed_x, fixed_y,(fixed_x - 1) + (fixed_y + 1) * map->width);
 		if (map->map[(fixed_x - 1) + (fixed_y + 1) * map->width] == MAP_WALL)
 		{
-			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
-			nearest.x = ft_fmin(player->map_posi.x, (float)fixed_x);
-			nearest.y = ft_fmax(player->map_posi.y, (float)(fixed_y + 1));
-			ray_to_nearest = vector_sub(nearest,  player->map_posi);
+			//printf("posi start (%.3f, %.3f)\n", posi->x, posi->y);
+			nearest.x = ft_fmin(posi->x, (float)fixed_x);
+			nearest.y = ft_fmax(posi->y, (float)(fixed_y + 1));
+			ray_to_nearest = vector_sub(nearest,  *posi);
 			ray_length = vector_len(ray_to_nearest);
 
-			overlap = player->unit_size - ray_length;
+			overlap = unit_size - ray_length;
 			if (overlap > 0)
 			{
 				ray_to_nearest = vector_norm(ray_to_nearest, ray_length);
-				player->map_posi = vector_sub(player->map_posi, vector_multi(ray_to_nearest, overlap));
+				*posi = vector_sub(*posi, vector_multi(ray_to_nearest, overlap));
 			}
-			//printf("posi end (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
+			//printf("posi end (%.3f, %.3f)\n", posi->x, posi->y);
 		}
 		//top right
 		if (map->map[(fixed_x + 1) + (fixed_y + 1) * map->width] == MAP_WALL)
 		{
-			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
-			nearest.x = ft_fmax(player->map_posi.x, (float)(fixed_x + 1));
-			nearest.y = ft_fmax(player->map_posi.y, (float)(fixed_y + 1));
-			ray_to_nearest = vector_sub(nearest,  player->map_posi);
+			//printf("posi start (%.3f, %.3f)\n", posi->x, posi->y);
+			nearest.x = ft_fmax(posi->x, (float)(fixed_x + 1));
+			nearest.y = ft_fmax(posi->y, (float)(fixed_y + 1));
+			ray_to_nearest = vector_sub(nearest,  *posi);
 			ray_length = vector_len(ray_to_nearest);
 
-			overlap = player->unit_size - ray_length;
+			overlap = unit_size - ray_length;
 			if (overlap > 0)
 			{
 				ray_to_nearest = vector_norm(ray_to_nearest, ray_length);
-				player->map_posi = vector_sub(player->map_posi, vector_multi(ray_to_nearest, overlap));
+				*posi = vector_sub(*posi, vector_multi(ray_to_nearest, overlap));
 			}
 		}
 
 		//bot left
 		if (map->map[(fixed_x - 1) + (fixed_y - 1) * map->width] == MAP_WALL)
 		{
-			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
-			nearest.x = ft_fmin(player->map_posi.x, (float)(fixed_x));
-			nearest.y = ft_fmin(player->map_posi.y, (float)(fixed_y));
-			ray_to_nearest = vector_sub(nearest,  player->map_posi);
+			//printf("posi start (%.3f, %.3f)\n", posi->x, posi->y);
+			nearest.x = ft_fmin(posi->x, (float)(fixed_x));
+			nearest.y = ft_fmin(posi->y, (float)(fixed_y));
+			ray_to_nearest = vector_sub(nearest,  *posi);
 			ray_length = vector_len(ray_to_nearest);
 
-			overlap = player->unit_size - ray_length;
+			overlap = unit_size - ray_length;
 			if (overlap > 0)
 			{
 				ray_to_nearest = vector_norm(ray_to_nearest, ray_length);
-				player->map_posi = vector_sub(player->map_posi, vector_multi(ray_to_nearest, overlap));
+				*posi = vector_sub(*posi, vector_multi(ray_to_nearest, overlap));
 			}
 		}
 
 		//bot right
 		if (map->map[(fixed_x + 1) + (fixed_y - 1) * map->width] == MAP_WALL)
 		{
-			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
-			nearest.x = ft_fmax(player->map_posi.x, (float)(fixed_x + 1));
-			nearest.y = ft_fmin(player->map_posi.y, (float)(fixed_y));
-			ray_to_nearest = vector_sub(nearest, player->map_posi);
+			//printf("posi start (%.3f, %.3f)\n", posi->x, posi->y);
+			nearest.x = ft_fmax(posi->x, (float)(fixed_x + 1));
+			nearest.y = ft_fmin(posi->y, (float)(fixed_y));
+			ray_to_nearest = vector_sub(nearest, *posi);
 			ray_length = vector_len(ray_to_nearest);
 
-			overlap = player->unit_size - ray_length;
+			overlap = unit_size - ray_length;
 			if (overlap > 0)
 			{
 				ray_to_nearest = vector_norm(ray_to_nearest, ray_length);
-				player->map_posi = vector_sub(player->map_posi, vector_multi(ray_to_nearest, overlap));
+				*posi = vector_sub(*posi, vector_multi(ray_to_nearest, overlap));
 			}
 		}
 		i++;
 	}
-		//player->map_posi = vector_add(player->map_posi, potencial);
+		//*posi = vector_add(*posi, potencial);
 
 
 
 
 
-	//printf("player->map_posi (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
+	//printf("*posi (%.3f, %.3f)\n", posi->x, posi->y);
 
 
 	
@@ -173,7 +171,7 @@ void	handle_collisions(t_game *game, t_vec2d potencial)
 	//		//printf("checking point %d, %d\n", (fixed_x + x), (fixed_y + y));
 	//		if (map->map[(fixed_x + x) + (fixed_y + y) * map->width] == '1')
 	//		{
-	//			//printf("posi start (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y);
+	//			//printf("posi start (%.3f, %.3f)\n", posi->x, posi->y);
 	//			nearest.x = ft_fmax(fixed_x + x, ft_fmin(potencial_posi.x, fixed_x + x + 1));
 //
 	//			nearest.y = ft_fmax(fixed_y + y, ft_fmin(potencial_posi.y, fixed_y + y + 1));
@@ -182,12 +180,12 @@ void	handle_collisions(t_game *game, t_vec2d potencial)
 	//			ray_to_nearest = vector_sub(nearest, potencial_posi);
 	//			ray_length = vector_len(ray_to_nearest);
 //
-	//			overlap = player->unit_size - ray_length;
+	//			overlap = unit_size - ray_length;
 	//			if (overlap > 0)
 	//			{
 	//				
 	//				printf("player at %d, %d, collision registered at %d, %d\n", fixed_x, fixed_y, (fixed_x + x), (fixed_y + y));
-	//				printf("player is (%.3f, %.3f), radius (%.3f), wants to be (%.3f, %.3f)\n", player->map_posi.x, player->map_posi.y, player->unit_size, potencial_posi.x, potencial_posi.y);
+	//				printf("player is (%.3f, %.3f), radius (%.3f), wants to be (%.3f, %.3f)\n", posi->x, posi->y, unit_size, potencial_posi.x, potencial_posi.y);
 	//				printf("nearest (%.3f, %.3f), ray_to_nearest (%.3f, %.3f) ray_len (%.3f)\n", nearest.x, nearest.y, ray_to_nearest.x, ray_to_nearest.y, ray_length);
 	//				
 	//				potencial_posi = vector_sub(potencial_posi, vector_multi(vector_norm(ray_to_nearest, ray_length), overlap));

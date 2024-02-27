@@ -106,7 +106,7 @@ t_vec2d    move_player_forward(t_player *player)
 void    move_player(t_game *game, int keys)
 {
 	t_player 	*player;
-	t_vec2d	potencial;
+	t_vec2d		potential;
 
 	player = &game->player;
 	player->cur_move_multi = player->move_multi[player->hgt_state];
@@ -122,7 +122,7 @@ void    move_player(t_game *game, int keys)
 		player->cur_walk_sense = 0;
 	}
 	player->is_walking = true;
-	potencial = player->move[keys](player);
+	potential = player->move[keys](player);
 	//player->map_posi = vector_add(player->map_posi, potencial);
-	handle_collisions(game, potencial);
+	handle_collisions(game, &player->map_posi, potential, player->unit_size);
 }

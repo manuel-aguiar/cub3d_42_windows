@@ -143,6 +143,14 @@ void    apply_all_settings(t_game *game)
     game->player.ammo[CTR_MAX] = PLAY_AMMO_MAX;
     game->player.attack = PLAY_BULLET_DAMAGE;
 
+
+
+	game->player.shot_pitch_mod = 0;
+    game->player.shot_init = PLAY_SHOT_INIT;
+	game->player.shot_gravity = PLAY_SHOT_GRAVITY;
+	game->player.cur_shot_sense = 0;
+
+
     //game->view_adj = (1 /((float)game->win.width / (float)game->win.height));
     game->view_adj = 1;
 
@@ -165,6 +173,7 @@ void    apply_all_settings(t_game *game)
     game->template_enemy.width = ENEMY_WDT;
     game->template_enemy.base_z = ENEMY_Z;
     game->template_enemy.z_sense = ENEMY_Z_SENSE;
+    game->template_enemy.move_sense = ENEMY_MOVE_SENSE;
     game->template_enemy.ms_to_swap = ENEMY_MS_SWAP;
     game->template_enemy.elapsed = 0;
     game->template_enemy.attack_val = ENEMY_ATTACK;

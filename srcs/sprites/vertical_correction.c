@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:11:11 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/26 14:11:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/27 15:14:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,11 @@ float	vertical_coefficient(t_game *game)
 	wall_3d = (t_vec3d){wall_hit.x, wall_hit.y, 1};
 	diff = (t_vec3d){wall_3d.x - play_3d.x, wall_3d.y - play_3d.y, wall_3d.z - play_3d.z};
 	//printf("diff %.3f, %.3f , %.3f, player dir vec %.3f %.3f\n", diff.x, diff.y, diff.z, game->player.dir_vec.x, game->player.dir_vec.y);
-	float t = diff.x / game->player.dir_vec.x;
+	float t;
+	if (game->player.dir_vec.x == 0)
+		t = diff.y / game->player.dir_vec.y;
+	else
+		t = diff.x / game->player.dir_vec.x;
 	//printf("t : %.3f  ", t);
 	float dir_z = diff.z / t;
 	//printf("dir_z : %.3f  ", dir_z);
