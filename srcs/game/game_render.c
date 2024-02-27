@@ -112,7 +112,18 @@ void		update_door(t_game *game, t_sprite *sprite)
 	}
 } 
 
+void	take_hit(t_game *game, t_sprite *sprite)
+{
+	t_enemy *enemy;
 
+	if (sprite->type != ENEMY)
+		return ;
+	enemy = (t_enemy *)sprite->data;
+	enemy->health -= game->player.attack;
+}
+
+double get_z_coordinate(t_vec3d point, t_vec3d dir, t_vec2d coords);
+t_vec2d get_xy_coordinate(t_vec3d point, t_vec3d dir, float z);
 
 void		update_bullet(t_game *game, t_sprite *sprite)
 {
@@ -121,32 +132,69 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 	t_sprite 	*target;
 	t_vec2d		map_square;
 	t_hitnode	*node;
+	t_vec2d		check[2];
+	t_vec2d		box[2];
+	t_vec2d		collision[2];
+	float		z;
 	int			index;
 
 	bullet = (t_bullet *)sprite->data;
 	map_square = (t_vec2d){(int)sprite->posi.x, (int)sprite->posi.y};
 	index = map_square.x + map_square.y * game->map.width;
 	node = game->map.hit[index].head;
-	while (node)
-	{
-		target = node->sprite;
-		if (target->type == ENEMY && vector_distance(sprite->posi, target->posi) < sprite->unit_size + target->unit_size \
-		&& sprite->cur_z > target->cur_z && sprite->cur_z < target->cur_z + target->height)
-		{
-			printf("hit target\n");
-			sprite->status = GONE;
-			enemy = (t_enemy *)target->data;
-			enemy->health -= bullet->attack_val;
-			if (enemy->health <= 0)
-				target->status = GONE;
-			return ;
-		}
-		node = node->next;
-	}
+	check[0] = (t_vec2d){sprite->posi.x, sprite->posi.y};
 	sprite->posi.x += bullet->dir.x * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
 	sprite->posi.y += bullet->dir.y * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
 	sprite->cur_z += bullet->dir.z * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
 	bullet->posi = (t_vec3d){sprite->posi.x, sprite->posi.y, sprite->cur_z};
+	check[1] = (t_vec2d){sprite->posi.x, sprite->posi.y};
+	while (node)
+	{
+		target = node->sprite;
+		box[0] = (t_vec2d){target->posi.x - target->unit_size, target->posi.y - target->unit_size};
+		box[1] = (t_vec2d){target->posi.x + target->unit_size, target->posi.y + target->unit_size};
+		enemy = (t_enemy *)target->data;
+		//printf("checking collision at %d, %d, box (%.3f, %.3f) to (%.3f, %.3f): 
+		//ray (%.3f, %.3f to %.3f %.3f)\n", (int)sprite->posi.x, (int)sprite->posi.y,
+		//box[0].x,
+		//box[0].y,
+		//box[1].x,
+		//box[1].y,
+		//check[0].x,
+		//check[0].y,
+		//check[1].x,
+		//check[1].y
+		//
+		//);
+		if (liang_barsky_hit(box, check, collision))
+		{
+			z = get_z_coordinate(bullet->posi, bullet->dir, collision[0]);
+			if (z >= target->cur_z && z <= target->cur_z + target->height)
+			{
+				sprite->status = GONE;
+				enemy->health -= bullet->attack_val;
+				if (enemy->health <= 0)
+					target->status = GONE;
+				printf("hit!!\n");
+				return ;
+			}
+			z = get_z_coordinate(bullet->posi, bullet->dir, collision[1]);
+			if (z >= target->cur_z && z <= target->cur_z + target->height)
+			{
+				sprite->status = GONE;
+				enemy->health -= bullet->attack_val;
+				if (enemy->health <= 0)
+					target->status = GONE;
+				printf("hit!!\n");
+				return ;
+			}
+			else
+				printf("missed on z\n");
+		}
+		else
+			printf("missed on liang\n");
+		node = node->next;
+	}
 
 //replace with dot product of the diff and the direction, if positive, same, if negative, opposite
 	

@@ -108,7 +108,7 @@ void	setup_this_spritecast(t_game *game, t_sp_cast *cast, int i)
 	cast->trans.x = (cast->play_dir.y * cast->relative.x - cast->play_dir.x * cast->relative.y) / game->view_adj;
 	cast->trans.y = (-cast->play_plane.y * cast->relative.x + cast->play_plane.x * cast->relative.y) / game->view_adj;
 	cast->trans = vector_multi(cast->trans, cast->inv_camera);
-	cast->sp_z_mod = (0.5f - cast->sprite->height / 2 - cast->sprite->cur_z);
+	cast->sp_z_mod = (0.5f - cast->sprite->height / 2 - cast->sprite->cur_z + cast->sprite->height / 2 * (cast->sprite->type == BULLET));
 	cast->centre_pix_x = (int)((cast->win_w / 2) * (1 + cast->trans.x / cast->trans.y));
 	cast->sp_pix_h = ft_abs((int)(cast->win_h * cast->sprite->height / cast->trans.y));
 	cast->sp_pix_w = ft_abs((int)(cast->win_w * cast->sprite->unit_size * 2 / cast->trans.y));
