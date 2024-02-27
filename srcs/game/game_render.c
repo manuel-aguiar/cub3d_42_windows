@@ -149,12 +149,17 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 	bullet->posi = (t_vec3d){sprite->posi.x, sprite->posi.y, sprite->cur_z};
 
 //replace with dot product of the diff and the direction, if positive, same, if negative, opposite
+	
 	//WRONG
-	//if (vector3d_len(vector3d_sub(bullet->posi, bullet->hole)) < bullet->dir_len)
-	//{
-	//	sprite->status = GONE;
-	//	//printf("bullet gone\n");
-	//}
+	t_vec3d sub = vector3d_sub(bullet->posi, bullet->hole);
+	float dot = sub.x * bullet->dir.x + sub.y * bullet->dir.y + sub.z * bullet->dir.z;
+
+	if (dot <= 0)
+	{
+		sprite->status = GONE;
+		//printf("bullet gone\n");
+	}
+
 	//else
 	//{
 	//	printf("bullet %.3f %.3f %.3f, hole %.3f %.3f %.3f\n", bullet->posi.x, bullet->posi.y,bullet->posi.z,

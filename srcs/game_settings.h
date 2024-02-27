@@ -189,7 +189,7 @@
 
 # define GAME_WALL_REFLECTION 0.7f
 
-# define MAX_BULLETS 2
+# define MAX_BULLETS 100
 
 # define BULLET_MOVE_SENSE 0.005f
 # define BULLET_HGT 0.1f
