@@ -40,4 +40,7 @@ t_vec2d	vector_swap_coords(t_vec2d target);
 float		vector_distance(t_vec2d start, t_vec2d end);
 t_vec2d	vector_product(t_vec2d first, t_vec2d second);
 
+float	vector3d_len(t_vec3d vec);
+t_vec3d	vector3d_sub(t_vec3d first, t_vec3d second);
+
 #endif

@@ -111,6 +111,7 @@ typedef struct s_bullet
 {
 	e_bullet_state		state;
 	t_vec3d				dir;
+	float				dir_len;
 	t_vec3d				posi;
 	float				base_z;
 	float				move_sense;
