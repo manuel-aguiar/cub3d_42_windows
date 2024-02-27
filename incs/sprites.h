@@ -111,6 +111,7 @@ typedef struct s_bullet
 {
 	e_bullet_state		state;
 	t_vec3d				dir;
+	t_vec3d				posi;
 	float				base_z;
 	float				move_sense;
 	float				unit_size;
@@ -143,7 +144,7 @@ typedef struct s_sprite
 	e_textures			tex;
 	void				*data;
 	bool				inverted;
-	t_hitnode			my_hit;
+	t_hitnode			my_hit[4];
 }	t_sprite;
 
 int	sprite_qs_comp(t_sprite *first, t_sprite *second);

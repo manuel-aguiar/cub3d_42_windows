@@ -220,4 +220,6 @@ void	render_stats_bars(t_game *game);
 
 void	enemy_movement(t_game *game, t_sprite *sprite, t_enemy *enemy);
 
+t_vec3d bullet_rest(t_game *game, t_bullet *bullet);
+
 #endif

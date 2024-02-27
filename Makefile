@@ -75,7 +75,8 @@ SRC_GAME			=	win_render_loop.c		\
 						xpm_to_window.c				\
 						super_debug_print.c			\
 						game_render_hud.c			\
-						enemy_movement.c
+						enemy_movement.c			\
+						bullet_rest.c
 						
 
 SRC_PLAYER			=	player_setup_and_actions.c	\
