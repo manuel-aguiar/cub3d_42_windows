@@ -108,6 +108,7 @@ typedef struct s_ray
 	int			pitch_mod;
 	float		z_mod;
 	int			hgt_mod;
+	float		wall_dist;
 }	t_ray;
 
 typedef struct s_game
@@ -161,7 +162,7 @@ void	game_actions(t_game *game);
 int		win_render(t_game *game, t_win *win, void (*win_key_press)());
 
 //player....
-void	handle_collisions(t_game *game, t_vec2d potencial);
+void	handle_collisions(t_game *game, t_vec2d *posi, t_vec2d potencial, float unit_size);
 
 void	render_map_outside_compass(t_game *game);
 void	render_player_outside_compass(t_game *game);
@@ -213,5 +214,7 @@ float	vertical_coefficient(t_game *game);
 //game_render_hud.c
 void	render_stats_bars(t_game *game);
 
+
+void	enemy_movement(t_game *game, t_sprite *sprite, t_enemy *enemy);
 
 #endif

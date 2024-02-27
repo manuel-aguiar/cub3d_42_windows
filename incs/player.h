@@ -76,6 +76,7 @@ typedef struct s_player
 	float			angle;
 
 	float			verti_angle;
+	float			shot_angle;
 	float			verti_min;
 	float			verti_max;
 	float			verti_tan;
@@ -125,6 +126,11 @@ typedef struct s_player
 	float			jump_press_cap;
 	float			jump_release_cap;
 	float			jump_z_mod;
+
+	float			shot_pitch_mod;
+	float			shot_init;
+	float			shot_gravity;
+	float			cur_shot_sense;
 
 	float			cur_move_multi;
 	float			move_multi[HGT_STATES];

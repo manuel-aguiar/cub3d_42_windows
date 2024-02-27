@@ -90,6 +90,7 @@ typedef struct s_enemy
 	int					elapsed;
 	float				base_z;
 	float				z_sense;
+	float				move_sense;
 	float				unit_size;
 	float				height;
 	float				width;
