@@ -24,10 +24,6 @@ GAME ITSELF
 	enemies must check collisions like the player as they move
 
 
-SPEED_UP_RENDERING AS SPRITES go out
-	set distance to FLT_MAX if gone, free, reduce sprite count
-	that will reduce sorting and make it faster
-
 RENDERING, walls/sprites are being rendered backwards, try to make it render forward to improve caching
 
 parsing:
