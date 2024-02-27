@@ -58,3 +58,14 @@ t_vec2d	vector_product(t_vec2d first, t_vec2d second)
 {
 	return((t_vec2d){first.x * second.x, first.y * second.y});
 }
+
+float	vector3d_len(t_vec3d vec)
+{
+	return (sqrt(fpow_2(vec.x) + fpow_2(vec.y) +fpow_2(vec.y)));
+}
+
+t_vec3d	vector3d_sub(t_vec3d first, t_vec3d second)
+{
+	return ((t_vec3d){second.x - first.x, second.y - first.y, second.z - first.z});
+}
+

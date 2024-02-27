@@ -112,15 +112,7 @@ void		update_door(t_game *game, t_sprite *sprite)
 	}
 } 
 
-float	vector3d_len(t_vec3d vec)
-{
-	return (sqrt(fpow_2(vec.x) + fpow_2(vec.y) +fpow_2(vec.y)));
-}
 
-t_vec3d	vector3d_sub(t_vec3d first, t_vec3d second)
-{
-	return ((t_vec3d){second.x - first.x, second.y - first.y, second.z - first.z});
-}
 
 void		update_bullet(t_game *game, t_sprite *sprite)
 {
@@ -155,10 +147,21 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 	sprite->posi.y += bullet->dir.y * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
 	sprite->cur_z += bullet->dir.z * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
 	bullet->posi = (t_vec3d){sprite->posi.x, sprite->posi.y, sprite->cur_z};
-	if (vector3d_len(vector3d_sub(bullet->posi, bullet->hole)) < 0.01f)
-	{
-		sprite->status = GONE;
-	}
+
+//replace with dot product of the diff and the direction, if positive, same, if negative, opposite
+	//WRONG
+	//if (vector3d_len(vector3d_sub(bullet->posi, bullet->hole)) < bullet->dir_len)
+	//{
+	//	sprite->status = GONE;
+	//	//printf("bullet gone\n");
+	//}
+	//else
+	//{
+	//	printf("bullet %.3f %.3f %.3f, hole %.3f %.3f %.3f\n", bullet->posi.x, bullet->posi.y,bullet->posi.z,
+	//	bullet->hole.x, bullet->hole.y,bullet->hole.z
+	//	
+	//	);
+	//}
 }
 
 void		update_sprites(t_game *game)
@@ -178,6 +181,8 @@ void		update_sprites(t_game *game)
 	{
 		if (game->sorted[i]->status != GONE)
 		{
+			if (game->sorted[i]->type == BULLET)
+				update_bullet(game, game->sorted[i]);
 			if (game->sorted[i]->type == DOOR)
 				update_door(game, game->sorted[i]);
 			if (game->sorted[i]->type == ENEMY)
@@ -186,8 +191,6 @@ void		update_sprites(t_game *game)
 				update_medikit(game, game->sorted[i]);
 			if (game->sorted[i]->type == AMMOKIT)
 				update_ammokit(game, game->sorted[i]);
-			if (game->sorted[i]->type == BULLET)
-				update_bullet(game, game->sorted[i]);
 			if (game->sorted[i]->status != GONE)
 				sprite_place_hitmap(game, game->sorted[i]);			
 		}

@@ -19,11 +19,11 @@ void	sprite_calc_dist(t_game *game)
 	i = 0;
 	while (i < game->sprite_count)
 	{
-		if (game->sprites[i].status == GONE)
-			game->sprites[i].dist = FLT_MAX;
+		if (game->sorted[i]->status == GONE)
+			game->sorted[i]->dist = FLT_MAX;
 		else
-			game->sprites[i].dist = fpow_2(game->player.map_posi.x - game->sprites[i].posi.x) \
-								 + fpow_2(game->player.map_posi.y - game->sprites[i].posi.y);
+			game->sorted[i]->dist = fpow_2(game->player.map_posi.x - game->sorted[i]->posi.x) \
+								 + fpow_2(game->player.map_posi.y - game->sorted[i]->posi.y);
 		i++;
 	}
 }
