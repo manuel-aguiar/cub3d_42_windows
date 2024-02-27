@@ -15,7 +15,7 @@ GAME ITSELF
 	player fires, put timer to limit
 		reset when trigger is released
 		if maintained, continue shooting
-		jump mechanics for bullet jumps
+
 		stance radians, random horizontal and vertical shots
 			horizontal moves plane
 			vertical moves pitch z
