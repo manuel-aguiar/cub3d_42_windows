@@ -104,7 +104,8 @@ SRC_XPM_PARSER		=	xpm_compiled_texture.c		\
 						xpm_items.c					\
 						xpm_gun.c					\
 						xpm_door.c					\
-						xpm_free.c
+						xpm_free.c					\
+						xpm_flying_bullet.c
 
 SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 						clamp.c							\

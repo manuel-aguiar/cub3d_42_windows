@@ -129,16 +129,20 @@ typedef struct s_game
 	float		wall_reflection;
 	t_xpm_tex	*tex[NUM_TEX];
 	t_sprite	*sprites;
+	t_sprite	**sorted;
 	int			sprite_count;
 	float		floating;
 	float		float_sense;
 	float		float_sin;
 	float		view_adj;
+	int			max_bullets;
+	int			live_bullets;
 	t_door		template_door;
 	t_medi		template_medi;
 	t_ammo		template_ammo;
 	t_exit		template_exit;
 	t_enemy		template_enemy;
+	t_bullet	template_bullet;
 }	t_game;
 
 //settings.c
@@ -213,7 +217,6 @@ float	vertical_coefficient(t_game *game);
 
 //game_render_hud.c
 void	render_stats_bars(t_game *game);
-
 
 void	enemy_movement(t_game *game, t_sprite *sprite, t_enemy *enemy);
 

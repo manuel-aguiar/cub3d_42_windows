@@ -33,13 +33,14 @@ typedef enum
 	ENEMY,
 	EXIT,
 	DOOR,
+	BULLET,
 }	e_sprite_type;
 
 typedef enum
 {
+	GONE,
 	VISIBLE,
 	NOT_VIS,
-	GONE,
 }	e_sprite_status;
 
 typedef enum
@@ -56,7 +57,7 @@ typedef enum
 
 typedef struct s_door
 {
-	t_vec2d			base_position;
+	t_vec2d				base_position;
 	e_door_dir			orient;
 	float				move_sense;
 	float				dist_sense;
@@ -100,6 +101,25 @@ typedef struct s_enemy
 	int					attack_elapsed;
 }	t_enemy;
 
+typedef enum
+{
+	BULL_FLYING,
+	BULL_WALL,
+}	e_bullet_state;
+
+typedef struct s_bullet
+{
+	e_bullet_state		state;
+	t_vec3d				dir;
+	float				base_z;
+	float				move_sense;
+	float				unit_size;
+	float				height;
+	int					attack_val;
+	t_vec3d				hole;
+}	t_bullet;
+
+
 typedef struct s_exit
 {
 	float				base_z;
@@ -113,7 +133,7 @@ typedef struct s_sprite
 {
 	e_sprite_type		type;
 	e_sprite_status		status;
-	t_vec2d			posi;
+	t_vec2d				posi;
 	float				cur_z;
 	float				dist;
 	float				height;
@@ -126,8 +146,8 @@ typedef struct s_sprite
 	t_hitnode			my_hit;
 }	t_sprite;
 
-int		sprite_qs_comp(float first_dist, float second_dist);
-void	sprite_qs_distance(t_sprite *sprites, int sprite_count, int (*cmp)(float , float));
+int	sprite_qs_comp(t_sprite *first, t_sprite *second);
+void	sprite_qs_distance(t_sprite **sprites, int sprite_count, int (*cmp)(t_sprite * , t_sprite *));
 
 
 #endif
