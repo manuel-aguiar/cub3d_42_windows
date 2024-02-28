@@ -73,6 +73,7 @@ void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 {
 	t_door 		*door;
 	t_dda_hor	hori;
+	t_vec2d wall_hit;
 	float 		wallll;
 	t_ray		save;
 	float		hit;
@@ -84,15 +85,21 @@ void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 	{
 		hori.wall_dist = save.first.x - save.step.x;
 		wallll = game->player.map_posi.y + hori.wall_dist * save.ray_dir.y;
+		wall_hit.y = game->player.map_posi.y + hori.wall_dist * ray->ray_dir.y;
+		wall_hit.x = ray->player_sqr.x + (ray->player_sqr.x <= game->player.map_posi.x);
+		hit = ft_fabs((wallll - (int)(wallll)));
 	}
 		
 	else
 	{
 		hori.wall_dist = save.first.y - save.step.y;
+		wall_hit.x = game->player.map_posi.x + hori.wall_dist * ray->ray_dir.x;
+		wall_hit.y = ray->player_sqr.y + (ray->player_sqr.y <= game->player.map_posi.y);
 		wallll = game->player.map_posi.x + hori.wall_dist * save.ray_dir.x;
+		hit = ft_fabs((wallll - (int)(wallll)));
 	}
-		
-	hit = ft_fabs((wallll - (int)(wallll)));
+	printf("hit %.3f side %d wall hit x  %.3f y %.3f\n", hit, save.side, wall_hit.x, wall_hit.y);	
+	
 	if (door->orient == NS && ((save.side == 1)))
 	{
 		save = *ray;
@@ -115,8 +122,8 @@ void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 		}
 		door->visible = true;	
 	}
-	else
-		printf("hit is %.3f, side %d\n", hit, save.side);
+	//else
+	//	printf("hit is %.3f, side %d\n", hit, save.side);
 }
 
 static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
