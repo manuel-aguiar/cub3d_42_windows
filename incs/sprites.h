@@ -26,6 +26,24 @@
 
 # define SPRITES "MAZXD"
 
+
+typedef struct s_dda_hor
+{
+	int 	min_y;
+	int 	max_y;
+	int		side;
+	float 	wall_dist;
+	int		line_h;
+	float	shade_wgt;
+	int		reflect_num;
+	int		reflect_den;
+}	t_dda_hor;
+
+typedef struct s_dda_ver
+{
+	float row_distance;
+}	t_dda_ver;
+
 typedef enum
 {
 	MEDIKIT,
@@ -59,6 +77,10 @@ typedef struct s_door
 {
 	t_vec2d				base_position;
 	e_door_dir			orient;
+	t_dda_hor			start;
+	t_dda_hor			end;
+	int					start_x;
+	int					end_x;				
 	float				move_sense;
 	float				dist_sense;
 }	t_door;

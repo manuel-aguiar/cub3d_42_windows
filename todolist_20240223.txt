@@ -35,6 +35,10 @@ parsing:
 	check doors on parsing, put sprites on parsing
 
 doors: 
+	map will have an array of sprite *the size of the map, to store doors where they are
+	we need the door state to make decisions on raycasting, collision and enemy vision
+	can't afford to loop through all doors to see which one is it, on parsing, store the door pointer
+	on the map
         when raycasting, if door, advance the ray by half given the next side
         calculate wall_hit based on current door position
         if first value is empty, fill it, keep updating the last value

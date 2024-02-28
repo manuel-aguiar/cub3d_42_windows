@@ -50,6 +50,8 @@
 # define MAX_COLOR 255
 # define MIN_COLOR 0
 
+typedef struct s_sprite t_sprite;
+
 typedef	enum
 {
 	NO_TEX,
@@ -106,6 +108,7 @@ typedef struct s_map
 {
 	char		*map;
 	t_hitlist	*hit;
+	t_sprite	**doors;
 	int			width;
 	int			height;
 	int			len;
