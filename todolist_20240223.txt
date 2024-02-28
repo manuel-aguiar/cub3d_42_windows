@@ -29,23 +29,8 @@ enemy collisions:
     enemy collide with each other
     get direction vector of their movement and check the collision map, liang barsky
 
-RENDERING, walls/sprites are being rendered backwards, try to make it render forward to improve caching
-
-parsing:
-	check doors on parsing, put sprites on parsing
-
-doors: 
-	map will have an array of sprite *the size of the map, to store doors where they are
-	we need the door state to make decisions on raycasting, collision and enemy vision
-	can't afford to loop through all doors to see which one is it, on parsing, store the door pointer
-	on the map
-        when raycasting, if door, advance the ray by half given the next side
-        calculate wall_hit based on current door position
-        if first value is empty, fill it, keep updating the last value
-        when rendering, do linear interpolation of wall hit beginning until last, as it was done before
-        collision is the same, if square is door, advance half, check door position
-        it is a square the ends where the door ends, resolve as a map wall
-        generalize collision resolution to take into account any of the squares, that way we can use it for enemies as well
+rendering:
+        just swap coorinates vertically around the center row
 
 high enemies: make then spawn with rand() z height between the floor and celling - sprite-height
 
@@ -64,17 +49,8 @@ enemies:
         NOT ACTIVE until they see you, when they see, they save your position and moves towards it; every x milisecs they check again, if they see you, they update course, if not, keep moving to where you were
        enemies cannot get any closer than player unit size + sprite-size, decrease the final position by that ammount so they don t get too close
 
-lights:
-        floor and ceiiling can check the collision map to see lights that are near, light = pow max light distance / pow 3dvec coords, no need for square root in this case
-		implies a shit ton of calculations for every single pixel.....
-
+doors:
+        minmax collision when player/enemy enters door square
 
 mlx:
 	change everything to mlx
-
-extras:
-	revise doors, store z_buffer
-	check door collisions
-	pathfinding A*, ui....
-	bullet holes
-	iluminação
