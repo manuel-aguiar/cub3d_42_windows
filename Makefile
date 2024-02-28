@@ -3,7 +3,7 @@
 
 NAME 		=		cub3d
 
-COMP 		= 		gcc -g -O3
+COMP 		= 		gcc -O3
 
 FLAGS 		= 		-Wall -Werror -Wextra
 ADD_LIB 	= 		-L./$(LIB_PATH) -lft

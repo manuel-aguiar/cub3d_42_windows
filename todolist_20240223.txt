@@ -23,8 +23,6 @@ GAME ITSELF
 		place a z_mod cap
 	enemies must check collisions like the player as they move
 
-shader:
-    weighted average denominator is (row dist + wall_dist)
 
 enemy collisions:
     make enemy colide with player
@@ -64,7 +62,7 @@ enemies:
 
 lights:
         floor and ceiiling can check the collision map to see lights that are near, light = pow max light distance / pow 3dvec coords, no need for square root in this case
-implies a shit ton of calculations for every single pixel.....
+		implies a shit ton of calculations for every single pixel.....
 
 
 mlx:
