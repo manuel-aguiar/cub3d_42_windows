@@ -44,7 +44,78 @@ void	vector_swap(t_vec2d *first, t_vec2d *second)
 	*second = swap;
 }
 
+typedef struct s_door_cast
+{
+	int		start_x;
+	int		end_x;
+	int		width;
+	int		min_start_y;
+	int		max_start_y;
+	int 	min_end_y;
+	int 	max_end_y;
+	float	delta_min_y;
+	float	delta_max_y;
+	float	exact_min_y;
+	float	exact_max_y;
+	int		this_min_y;
+	int		this_max_y;
+}	t_door_cast;
+
+void	setup_doorcast(t_game *game, t_door *door, t_door_cast *cast)
+{
+	(void)game;
+	cast->min_start_y = door->start.min_y;
+	cast->max_start_y = door->start.max_y;
+	cast->min_end_y = door->end.min_y;
+	cast->max_end_y = door->end.max_y;
+	cast->start_x = door->start_x;
+	cast->end_x = door->end_x;
+	cast->width = cast->end_x - cast->start_x;
+	cast->delta_min_y = (float)(cast->min_end_y - cast->min_start_y) / (float)cast->width;
+	cast->delta_max_y = (float)(cast->max_end_y - cast->max_start_y) / (float)cast->width;
+	cast->exact_min_y = cast->min_start_y;
+	cast->exact_max_y = cast->max_start_y;
+}
+
 void	doorcast(t_game *game, t_sprite *sprite)
+{
+	int			x;
+	int			y;
+	t_door 		*door;
+	t_door_cast	cast;
+	
+	door = (t_door *)sprite->data;
+	if (!door->visible)
+		return ;
+	setup_doorcast(game, door, &cast);
+	printf("door: start x %d end x %d, start y %d %d, end y %d %d\n",
+	cast.start_x, cast.end_x, cast.min_start_y, cast.max_start_y, cast.min_end_y, cast.max_end_y
+	
+	
+	);
+
+	
+
+	x = cast.start_x;
+	while (x < cast.end_x)
+	{
+		cast.this_min_y = (int)(cast.exact_min_y);
+		cast.this_max_y = (int)(cast.exact_max_y);
+		cast.exact_min_y += cast.delta_min_y;
+		cast.exact_max_y += cast.delta_max_y;
+		y = cast.this_min_y;
+		while (y < cast.this_max_y)
+		{
+			game->win.set_pixel(&game->win, x, y, 0);
+			y++;
+		}
+		x++;
+	}
+	door->start_x = -1;
+	door->visible = false;
+}
+
+void	new_doorcast(t_game *game, t_sprite *sprite)
 {
 	int w = game->win.width;
 	int h = game->win.height;
@@ -247,58 +318,9 @@ void	doorcast(t_game *game, t_sprite *sprite)
 					start_y++;
 				}
 			}
-			//else
-			//{
-			//	printf("x %d, st y %d, end t %d , min hori %d, max hori %d\n",x, start_y, end_y, game->hori_rays[x].min_y, game->hori_rays[x].max_y);
-			//}
 			min_y += delta_min_y;
 			max_y += delta_max_y;
 			x++;
 		}
-		//printf("min max start %d %d, min max end %d %d\n", min_startY, max_startY, min_endY, max_endY);
-		
-		
-		
-		
 
-		
-
-		
-		(void)tex;
-
-
-
-		/*
-		printf("min st %d, max st %d, min end %d max end %d\n", min_startY, max_startY, min_endY, max_endY);
-		float delta_min_y = (float)(min_endY - min_startY) / x_width;
-		float delta_max_y = (float)(max_endY - max_startY) / x_width;
-		printf("cheguei aqui?\n");
-		for(int x = drawStartX; x < drawEndX; x++)
-		{
-			int texX = (int)((x - (-x_width + screen_start_x)) * tex->width / x_width);
-			if(x > 0 && x < w && min_startY > game->hori_rays[x].min_y && max_startY < game->hori_rays[x].max_y)
-			{
-
-				for(int y = min_startY; y < max_startY; y++) //for every pixel of the current stripe
-				{
-					float d = (y - game->player.pitch + (int)(((game->player.cur_z + game->player.jump_z_mod + game->player.walk_z_mod) * h - h / 2) / transform_start.y)) - h / 2 + height_start / 2; //256 and 128 factors to avoid floats
-					int texY = ((d * tex->height) / height_start);
-					//(void)texX;
-					//(void)texY;
-					//(void)tex;
-
-					int color = tex->pixels[(tex->height - texY - 1) * tex->width + texX]; //get current color from the texture
-
-					if (color != 255)
-					{
-						color = add_shade(color, transform_start.y / game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
-						game->win.set_pixel(&game->win, x, y, color);
-					}
-
-				}
-			}
-			min_startY += (int)((float)min_startY + delta_min_y);
-			max_startY += (int)((float)max_startY + delta_max_y);
-      	}
-		*/
 }

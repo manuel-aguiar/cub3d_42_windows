@@ -49,57 +49,74 @@ static inline void setup_common_ray(t_game *game, t_ray *ray)
 		game->player.walk_z_mod) * ray->h - ray->h / 2;
 }
 
+void	move_this_ray(t_ray *ray, float perc, float *wall_dist_place)
+{
+	if (ray->first.x < ray->first.y)
+	{
+		ray->player_sqr.x += ray->axis_move.x * perc;
+		ray->first.x += ray->step.x * perc;
+		ray->side = 0;
+		if (wall_dist_place)
+			*wall_dist_place = ray->first.x - ray->step.x;
+	}
+	else
+	{
+		ray->player_sqr.y += ray->axis_move.y * perc;
+		ray->first.y += ray->step.y * perc;
+		ray->side = 1;
+		if (wall_dist_place)
+			*wall_dist_place = ray->first.y - ray->step.y;
+	}
+}
+
 void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 {
 	t_door 		*door;
 	t_dda_hor	hori;
-	t_vec2d		wall_hit;
+	float 		wallll;
+	t_ray		save;
+	float		hit;
 
+	save = *ray;
 	door = (t_door*)game->map.doors[map_index]->data;
-	if (ray->first.x < ray->first.y)
+	move_this_ray(&save, 1.0f, NULL);
+	if (save.first.x < save.first.y)
 	{
-		ray->player_sqr.x += ray->axis_move.x / 2;
-		ray->first.x += ray->step.x / 2;
-		ray->side = 0;
-		hori.wall_dist = ray->first.x - ray->step.x;
-		wall_hit.y = game->player.map_posi.y + hori.wall_dist * ray->ray_dir.y;
-		wall_hit.x = ray->player_sqr.x + (ray->player_sqr.x <= game->player.map_posi.x);
+		hori.wall_dist = save.first.x - save.step.x;
+		wallll = game->player.map_posi.y + hori.wall_dist * save.ray_dir.y;
 	}
+		
 	else
 	{
-		ray->player_sqr.y += ray->axis_move.y / 2;
-		ray->first.y += ray->step.y / 2;
-		ray->side = 1;
-		hori.wall_dist = ray->first.y - ray->step.y;
-		wall_hit.x = game->player.map_posi.x + hori.wall_dist * ray->ray_dir.x;
-		wall_hit.y = ray->player_sqr.y + (ray->player_sqr.y <= game->player.map_posi.y);
+		hori.wall_dist = save.first.y - save.step.y;
+		wallll = game->player.map_posi.x + hori.wall_dist * save.ray_dir.x;
 	}
-	(void)wall_hit;
-	hori.line_h = (int)((ray->h / hori.wall_dist) * game->view_adj);
-	ray->hgt_mod = ray->pitch_mod - (int)(ray->z_mod / hori.wall_dist * game->view_adj);
-	hori.min_y = -hori.line_h / 2 + ray->hgt_mod;
-	hori.max_y = hori.line_h / 2 + ray->hgt_mod;
-	hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));
-	hori.reflect_num = int_clamp(-hori.reflect_den + (int)((game->max_vis_dist / game->player.cur_dir_len * game->player.base_dir_len) * 100), 0, (int)(hori.wall_dist * 100 * game->wall_reflection));
-	door->end = hori;
-	door->end_x = x;
-	if (door->start_x == -1)
+		
+	hit = ft_fabs((wallll - (int)(wallll)));
+	if (door->orient == NS && ((save.side == 1)))
 	{
-		door->start = door->end;
-		door->start_x = door->end_x;
-	}
-	if (ray->first.x < ray->first.y)
-	{
-		ray->player_sqr.x -= ray->axis_move.x / 2;
-		ray->first.x -= ray->step.x / 2;
-		ray->side = 0;
+		save = *ray;
+		move_this_ray(&save, 0.5f, &hori.wall_dist);
+		hori.line_h = (int)((save.h / hori.wall_dist) * game->view_adj);
+		save.hgt_mod = save.pitch_mod - (int)(save.z_mod / hori.wall_dist * game->view_adj);
+		hori.min_y = -hori.line_h / 2 + save.hgt_mod;
+		hori.max_y = hori.line_h / 2 + save.hgt_mod;
+		hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));
+		hori.reflect_num = int_clamp(-hori.reflect_den + (int)((game->max_vis_dist / game->player.cur_dir_len * game->player.base_dir_len) * 100), 0, (int)(hori.wall_dist * 100 * game->wall_reflection));
+		door->end = hori;
+		printf("x %d: min y %d max %d\n", x, door->end.min_y, door->end.max_y);
+		door->end_x = x;
+		door->wall_end = wallll;
+		if (door->start_x == -1)
+		{
+			door->start = door->end;
+			door->start_x = door->end_x;
+			door->wall_start = door->wall_end;
+		}
+		door->visible = true;	
 	}
 	else
-	{
-		ray->player_sqr.y -= ray->axis_move.y / 2;
-		ray->first.y -= ray->step.y / 2;
-		ray->side = 1;
-	}
+		printf("hit is %.3f, side %d\n", hit, save.side);
 }
 
 static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
@@ -108,12 +125,6 @@ static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
 
 	while (1)
 	{
-		map_index = (int)ray->player_sqr.x \
-		+ (int)ray->player_sqr.y * game->map.width;
-		if (game->map.map[map_index] == MAP_WALL)
-			break ;
-		else if (game->map.map[map_index] == MAP_DOOR)
-			update_ray_door(game, ray, map_index, x);
 		if (ray->first.x < ray->first.y)
 		{
 			ray->player_sqr.x += ray->axis_move.x;
@@ -126,7 +137,12 @@ static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
 			ray->first.y += ray->step.y;
 			ray->side = 1;
 		}
-
+		map_index = (int)ray->player_sqr.x \
+		+ (int)ray->player_sqr.y * game->map.width;
+		if (game->map.map[map_index] == MAP_WALL)
+			break ;
+		else if (game->map.map[map_index] == MAP_DOOR)
+			update_ray_door(game, ray, map_index, x);
 	}
 }
 

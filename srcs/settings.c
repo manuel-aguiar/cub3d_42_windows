@@ -156,6 +156,7 @@ void    apply_all_settings(t_game *game)
 
     game->template_door = (t_door){};
     game->template_door.start_x = -1;
+    game->template_door.visible = false;
     game->template_door.move_sense = DOOR_MOVE_SENSE;
     game->template_door.dist_sense = fpow_2(DOOR_DIST_SENSE);
 
