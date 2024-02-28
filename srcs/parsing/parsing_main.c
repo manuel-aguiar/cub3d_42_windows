@@ -66,6 +66,9 @@ static int		dump_parsing_to_map(t_map *map, t_parsing *parsing)
 	map->hit = ft_calloc(map->len, sizeof(*map->hit));
 	if (!map->hit)
 		return (perror_msg_int("malloc",0));
+	map->doors = ft_calloc(map->len, sizeof(*map->doors));
+	if (!map->doors)
+		return (perror_msg_int("malloc",0));
 	return (1);
 }
 

@@ -49,10 +49,71 @@ static inline void setup_common_ray(t_game *game, t_ray *ray)
 		game->player.walk_z_mod) * ray->h - ray->h / 2;
 }
 
-static inline void cast_this_ray(t_game *game, t_ray *ray)
+void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 {
+	t_door 		*door;
+	t_dda_hor	hori;
+	t_vec2d		wall_hit;
+
+	door = (t_door*)game->map.doors[map_index]->data;
+	if (ray->first.x < ray->first.y)
+	{
+		ray->player_sqr.x += ray->axis_move.x / 2;
+		ray->first.x += ray->step.x / 2;
+		ray->side = 0;
+		hori.wall_dist = ray->first.x - ray->step.x;
+		wall_hit.y = game->player.map_posi.y + hori.wall_dist * ray->ray_dir.y;
+		wall_hit.x = ray->player_sqr.x + (ray->player_sqr.x <= game->player.map_posi.x);
+	}
+	else
+	{
+		ray->player_sqr.y += ray->axis_move.y / 2;
+		ray->first.y += ray->step.y / 2;
+		ray->side = 1;
+		hori.wall_dist = ray->first.y - ray->step.y;
+		wall_hit.x = game->player.map_posi.x + hori.wall_dist * ray->ray_dir.x;
+		wall_hit.y = ray->player_sqr.y + (ray->player_sqr.y <= game->player.map_posi.y);
+	}
+	(void)wall_hit;
+	hori.line_h = (int)((ray->h / hori.wall_dist) * game->view_adj);
+	ray->hgt_mod = ray->pitch_mod - (int)(ray->z_mod / hori.wall_dist * game->view_adj);
+	hori.min_y = -hori.line_h / 2 + ray->hgt_mod;
+	hori.max_y = hori.line_h / 2 + ray->hgt_mod;
+	hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));
+	hori.reflect_num = int_clamp(-hori.reflect_den + (int)((game->max_vis_dist / game->player.cur_dir_len * game->player.base_dir_len) * 100), 0, (int)(hori.wall_dist * 100 * game->wall_reflection));
+	door->end = hori;
+	door->end_x = x;
+	if (door->start_x == -1)
+	{
+		door->start = door->end;
+		door->start_x = door->end_x;
+	}
+	if (ray->first.x < ray->first.y)
+	{
+		ray->player_sqr.x -= ray->axis_move.x / 2;
+		ray->first.x -= ray->step.x / 2;
+		ray->side = 0;
+	}
+	else
+	{
+		ray->player_sqr.y -= ray->axis_move.y / 2;
+		ray->first.y -= ray->step.y / 2;
+		ray->side = 1;
+	}
+}
+
+static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
+{
+	int map_index;
+
 	while (1)
 	{
+		map_index = (int)ray->player_sqr.x \
+		+ (int)ray->player_sqr.y * game->map.width;
+		if (game->map.map[map_index] == MAP_WALL)
+			break ;
+		else if (game->map.map[map_index] == MAP_DOOR)
+			update_ray_door(game, ray, map_index, x);
 		if (ray->first.x < ray->first.y)
 		{
 			ray->player_sqr.x += ray->axis_move.x;
@@ -65,9 +126,7 @@ static inline void cast_this_ray(t_game *game, t_ray *ray)
 			ray->first.y += ray->step.y;
 			ray->side = 1;
 		}
-		if (game->map.map[(int)ray->player_sqr.x \
-		+ (int)ray->player_sqr.y * game->map.width] == MAP_WALL)
-			break ;
+
 	}
 }
 
@@ -84,7 +143,7 @@ void	hori_raycasting(t_game *game)
 	while (x < ray.w)
 	{
 		setup_this_ray(&ray, x);
-		cast_this_ray(game, &ray);
+		cast_this_ray(game, &ray, x);
 		hori.side = ray.side;
 		hori.wall_dist = float_ternary(ray.side == 0, (ray.first.x - ray.step.x), \
 			(ray.first.y - ray.step.y));

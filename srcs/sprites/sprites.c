@@ -31,7 +31,7 @@ int			extract_door(t_game *game, t_map *map, int place, int map_index)
 	sprite->status = NOT_VIS;
 	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
 	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
-	
+	map->doors[map_index] = sprite;
 	sprite->cur_z = 0;
 	sprite->height = 0;
 	sprite->width = 0;

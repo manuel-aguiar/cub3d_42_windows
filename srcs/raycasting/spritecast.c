@@ -26,38 +26,7 @@ void	print_sorted_sprites(t_game *game)
 	}
 }
 
-typedef struct s_sp_cast
-{
-	int			win_w;
-	int			win_h;
-	t_vec2d		play_posi;
-	t_vec2d		play_dir;
-	t_vec2d		play_plane;
-	float		inv_camera;
-	float		pitch_mod;
-	float		play_z_mod;
-	t_sprite	*sprite;
-	t_vec2d		relative;
-	t_vec2d		trans;
-	float		sp_z_mod;
-	int			total_z_mod;
-	int			centre_pix_x;
-	int			sp_pix_h;
-	int			sp_pix_w;
-	int			bot_pix_y;
-	int			top_pix_y;
-	int			left_pix_x;
-	int			right_pix_x;
-	float		tex_exact_x;
-	float		tex_exact_y;
-	float		tex_step_x;
-	float		tex_step_y;
-	float		shade_wgt;
-	int			tex_pix_x;
-	int			tex_pix_y;
-	t_xpm_tex 	*tex;
-	int			color;
-}	t_sp_cast;
+
 
 void	setup_common_spritecast(t_game *game, t_sp_cast *cast)
 {
