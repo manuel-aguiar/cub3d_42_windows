@@ -123,7 +123,7 @@ void	setup_this_spritecast(t_game *game, t_sp_cast *cast, int i)
 	cast->tex_step_y = cast->tex->width / (float)cast->sp_pix_h;
 	cast->tex_exact_x = 0;
 	cast->tex_exact_y = 0;
-	cast->shade_wgt = cast->trans.y / (game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len);
+	cast->shade_wgt = cast->trans.y / (game->max_vis_dist / game->player.cur_dir_len * game->player.base_dir_len);
 }
 
 

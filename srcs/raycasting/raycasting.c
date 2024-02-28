@@ -92,6 +92,8 @@ void	hori_raycasting(t_game *game)
 		ray.hgt_mod = ray.pitch_mod - (int)(ray.z_mod / hori.wall_dist * game->view_adj);
 		hori.min_y = -hori.line_h / 2 + ray.hgt_mod;
 		hori.max_y = hori.line_h / 2 + ray.hgt_mod;
+		hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));
+		hori.reflect_num = int_clamp(-hori.reflect_den + (int)((game->max_vis_dist / game->player.cur_dir_len * game->player.base_dir_len) * 100), 0, (int)(hori.wall_dist * 100 * game->wall_reflection));
 		// multithread mutex here
 		game->maxmin_hori = ft_max(hori.min_y, game->maxmin_hori);
 		game->minmax_hori = ft_min(hori.max_y, game->minmax_hori);
