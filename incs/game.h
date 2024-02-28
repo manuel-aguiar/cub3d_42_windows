@@ -45,6 +45,8 @@ typedef struct s_dda_hor
 	float 	wall_dist;
 	int		line_h;
 	float	shade_wgt;
+	int		reflect_num;
+	int		reflect_den;
 }	t_dda_hor;
 
 typedef struct s_dda_ver
