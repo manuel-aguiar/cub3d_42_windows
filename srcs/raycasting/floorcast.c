@@ -106,9 +106,9 @@ void	floorcast(t_game *game)
 			if (((*game->keys) >> BIT_FLOOR_REFL_T) & 1 && y > game->hori_rays[x].min_y - game->hori_rays[x].line_h)
 			{
 				int old_color = game->win.get_pixel(&game->win, x, y);
-				int num = ft_abs((int)(line.row_dist * game->wall_reflection * 100));
+				//int num = ft_abs((int)(line.row_dist * game->wall_reflection * 100));
 				int den = ft_abs((int)(game->hori_rays[x].wall_dist * 100));
-				num = ft_min(num, den);
+				int num = int_clamp(-den + (int)((game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len) * 100), 0, (int)(game->hori_rays[x].wall_dist * 100 * game->wall_reflection));
 				line.color = avg_colour(old_color, line.color, num, den);
 			}
 			game->win.set_pixel(&game->win, x, y, line.color);
@@ -143,9 +143,9 @@ void	floorcast(t_game *game)
 			if (((*game->keys) >> BIT_CEIL_REFL_T) & 1 && y < game->hori_rays[x].max_y + game->hori_rays[x].line_h)
 			{
 				int old_color = game->win.get_pixel(&game->win, x, y);
-				int num = ft_abs((int)(line.row_dist * game->wall_reflection * 100));
 				int den = ft_abs((int)(game->hori_rays[x].wall_dist * 100));
-				num = ft_min(num, den);
+				int num = int_clamp(-den + (int)((game->max_vis_dist * game->player.cur_dir_len / game->player.base_dir_len) * 100), 0, (int)(game->hori_rays[x].wall_dist * 100 * game->wall_reflection));
+				
 				line.color = avg_colour(old_color, line.color, num, den);
 			}
 			game->win.set_pixel(&game->win, x, y, line.color);
