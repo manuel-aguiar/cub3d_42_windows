@@ -23,11 +23,29 @@ GAME ITSELF
 		place a z_mod cap
 	enemies must check collisions like the player as they move
 
+shader:
+    weighted average denominator is (row dist + wall_dist)
+
+enemy collisions:
+    make enemy colide with player
+    enemy collide with each other
+    get direction vector of their movement and check the collision map, liang barsky
 
 RENDERING, walls/sprites are being rendered backwards, try to make it render forward to improve caching
 
 parsing:
 	check doors on parsing, put sprites on parsing
+
+doors: 
+        when raycasting, if door, advance the ray by half given the next side
+        calculate wall_hit based on current door position
+        if first value is empty, fill it, keep updating the last value
+        when rendering, do linear interpolation of wall hit beginning until last, as it was done before
+        collision is the same, if square is door, advance half, check door position
+        it is a square the ends where the door ends, resolve as a map wall
+        generalize collision resolution to take into account any of the squares, that way we can use it for enemies as well
+
+high enemies: make then spawn with rand() z height between the floor and celling - sprite-height
 
 compass:
 	print a couple of dda lines
@@ -41,8 +59,8 @@ hud:
 	use sinf calculated for walking
 
 enemies:
-	raycast to check if the enemy sees you from their center position
-	make it simple, enemies chase you if they have direct line of sight
+        NOT ACTIVE until they see you, when they see, they save your position and moves towards it; every x milisecs they check again, if they see you, they update course, if not, keep moving to where you were
+       enemies cannot get any closer than player unit size + sprite-size, decrease the final position by that ammount so they don t get too close
 
 mlx:
 	change everything to mlx
