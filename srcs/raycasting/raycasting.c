@@ -31,7 +31,7 @@ static inline void setup_this_ray(t_ray *ray, int win_x)
 				((ray->player_sqr.x + 1) - ray->start.x));
 	ray->first.y = float_ternary(ray->ray_dir.y < 0, (ray->start.y - ray->player_sqr.y), \
 				((ray->player_sqr.y + 1) - ray->start.y));
-	ray->first = vector_product(ray->first, ray->step);
+	ray->first = vec2d_product(ray->first, ray->step);
 	ray->axis_move.x = ft_ternary(ray->ray_dir.x < 0, -1, 1);
 	ray->axis_move.y = ft_ternary(ray->ray_dir.y < 0, -1, 1);
 }
@@ -40,7 +40,7 @@ static inline void setup_common_ray(t_game *game, t_ray *ray)
 {
 	ray->w = game->win.width;
 	ray->h = game->win.height;
-	ray->dir_vec = vector_multi(game->player.dir_vec, \
+	ray->dir_vec = vec2d_multi(game->player.dir_vec, \
 		game->player.cur_dir_len);
 	ray->plane = game->player.plane;
 	ray->start = game->player.map_posi;
@@ -105,8 +105,8 @@ void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 	{
 		save = *ray;
 		move_this_ray(&save, 0.5f, &hori.wall_dist);
-		hori.line_h = (int)((save.h / hori.wall_dist) * game->view_adj);
-		save.hgt_mod = save.pitch_mod - (int)(save.z_mod / hori.wall_dist * game->view_adj);
+		hori.line_h = (int)((save.h / hori.wall_dist));
+		save.hgt_mod = save.pitch_mod - (int)(save.z_mod / hori.wall_dist);
 		hori.min_y = -hori.line_h / 2 + save.hgt_mod;
 		hori.max_y = hori.line_h / 2 + save.hgt_mod;
 		hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));
@@ -198,8 +198,8 @@ void	hori_raycasting(t_game *game)
 		hori.side = ray.side;
 		hori.wall_dist = float_ternary(ray.side == 0, (ray.first.x - ray.step.x), \
 			(ray.first.y - ray.step.y));
-		hori.line_h = (int)((ray.h / hori.wall_dist) * game->view_adj);
-		ray.hgt_mod = ray.pitch_mod - (int)(ray.z_mod / hori.wall_dist * game->view_adj);
+		hori.line_h = (int)((ray.h / hori.wall_dist));
+		ray.hgt_mod = ray.pitch_mod - (int)(ray.z_mod / hori.wall_dist);
 		hori.min_y = -hori.line_h / 2 + ray.hgt_mod;
 		hori.max_y = hori.line_h / 2 + ray.hgt_mod;
 		hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));

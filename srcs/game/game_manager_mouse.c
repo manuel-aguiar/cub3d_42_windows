@@ -22,7 +22,7 @@ void	start_new_bullet(t_game *game)
 	sprite = &game->sprites[game->sprite_count - game->max_bullets + game->live_bullets];
 	bullet = (t_bullet *)sprite->data;
 	bullet->dir = game->player.dir_3d;
-	sprite->posi = vector_add(game->player.map_posi, vector_multi(game->player.dir_vec, game->player.unit_size * 2));
+	sprite->posi = vec2d_add(game->player.map_posi, vec2d_multi(game->player.dir_vec, game->player.unit_size * 2));
 	sprite->cur_z = (game->player.cur_z + game->player.jump_z_mod + \
 		game->player.walk_z_mod + bullet->base_z) + bullet->dir.z * game->player.unit_size * 2;
 	sprite->status = VISIBLE;

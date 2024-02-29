@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_timer.c                                     :+:      :+:    :+:   */
+/*   vector_2d_part2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 19:14:18 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/09 19:14:18 by marvin           ###   ########.fr       */
+/*   Created: 2024/02/29 13:25:50 by marvin            #+#    #+#             */
+/*   Updated: 2024/02/29 13:25:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "player.h"
+# include "vector.h"
 
-void	start_clock(t_clock *clock)
+t_vec2d	vec2d_swap_coords(t_vec2d target)
 {
-	ftime(&clock->start);
+	float	swap;
+
+	swap = target.x;
+	target.x = target.y;
+	target.y = swap;
+	return (target);
 }
 
-void	update_clock(t_clock *clock)
+float	vec2d_distance(t_vec2d start, t_vec2d end)
 {
-	ftime(&clock->end);
-	clock->elapsed = (size_t) (1000.0 * (clock->end.time - clock->start.time)
-	+ (clock->end.millitm - clock->start.millitm));
-	clock->start = clock->end;
+	return (sqrt(fpow_2(end.x - start.x) + sqrt(fpow_2(end.y - start.y))));
+}
+
+t_vec2d	vec2d_product(t_vec2d first, t_vec2d second)
+{
+	return((t_vec2d){first.x * second.x, first.y * second.y});
 }

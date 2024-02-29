@@ -20,8 +20,6 @@ static inline int get_texture_index_2(char *cmp)
 		return (BULLET_TEX);
 	if (!ft_strncmp(cmp, "GUN", 4))
 		return (GUN_TEX);
-	if (!ft_strncmp(cmp, "EXIT", 5))
-		return (EXIT_TEX);
 	if (!ft_strncmp(cmp, "DOOR", 5))
 		return (DOOR_TEX);
 	return (-1);

@@ -53,34 +53,6 @@ int			extract_door(t_game *game, t_map *map, int place, int map_index)
 	return (1);
 }
 
-int			extract_exit(t_game *game, t_map *map, int place, int map_index)
-{
-	t_exit 		*data;
-	t_sprite 	*sprite;
-
-	sprite = &game->sprites[place];
-	sprite->my_hit[0].sprite = sprite;
-	sprite->my_hit[1].sprite = sprite;
-	sprite->my_hit[2].sprite = sprite;
-	sprite->my_hit[3].sprite = sprite;
-	data = malloc(sizeof(*data));
-	if (!data)
-		return (perror_msg_int("malloc", 0));
-	ft_memcpy(data, &game->template_exit, sizeof(*data));
-	sprite->data = data;
-	sprite->type = EXIT;
-	sprite->status = NOT_VIS;
-	sprite->posi.x = (float)map_col(map, map_index) + 0.5f;
-	sprite->posi.y = (float)map_row(map, map_index) + 0.5f;
-	sprite->cur_z = data->base_z;
-	sprite->height = data->height;
-	sprite->width = data->width;
-	sprite->unit_size = data->unit_size;
-	sprite->dist = FLT_MAX;
-	sprite->tex = EXIT_TEX;
-	return (1);
-}
-
 int			extract_enemy(t_game *game, t_map *map, int place, int map_index)
 {
 	t_enemy 		*data;
@@ -178,7 +150,6 @@ int		extract_sprites(t_game *game, t_map *map)
 			i++;
 		if ((map->map[i] == MAP_MEDI && !extract_medi(game, map, cur, i)) \
 		|| (map->map[i] == MAP_AMMO && !extract_ammo(game, map, cur, i)) \
-		|| (map->map[i] == MAP_EXIT && !extract_exit(game, map, cur, i)) \
 		|| (map->map[i] == MAP_DOOR && !extract_door(game, map, cur, i)) \
 		|| (map->map[i] == MAP_ENEMY && !extract_enemy(game, map, cur, i)))
 			return (0);

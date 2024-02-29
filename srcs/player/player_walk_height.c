@@ -22,7 +22,7 @@ void	player_walk_height(t_player *player)
 		speed = player->cur_move_multi;
 		if (player->is_sprinting && player->hgt_state == HGT_NORMAL && (g_keys >> BIT_FRONT) & 1)
 			speed *= player->sprint_move_multi;
-		player->cur_walk_sense += 0.015f * speed * player->timer[CLOCK_MOVE].elapsed;
+		player->cur_walk_sense += 0.015f * speed * player->clock->elapsed;
 		//printf("walk sense %.3f\n", player->cur_walk_sense);
 		radius = player->walk_radius;
 		if (player->hgt_state == HGT_CROUCH)
@@ -40,9 +40,9 @@ void	player_walk_height(t_player *player)
 	else
 	{
 		if (player->walk_z_mod > 0)
-			player->walk_z_mod = float_clamp(player->walk_z_mod - 0.0005f * player->timer[CLOCK_MOVE].elapsed, 0,  player->walk_z_mod);
+			player->walk_z_mod = float_clamp(player->walk_z_mod - 0.0005f * player->clock->elapsed, 0,  player->walk_z_mod);
 		else if (player->walk_z_mod < 0)
-			player->walk_z_mod = float_clamp(player->walk_z_mod + 0.0005f * player->timer[CLOCK_MOVE].elapsed, player->walk_z_mod, 0);
+			player->walk_z_mod = float_clamp(player->walk_z_mod + 0.0005f * player->clock->elapsed, player->walk_z_mod, 0);
 		player->cur_walk_sense = 0;
 	}
 		

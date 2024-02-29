@@ -24,45 +24,40 @@ void	draw_vertical_line(t_win *win, int start_y, int end_y, int x, int color)
 		win->set_pixel(win, x, start_y++, color);
 }
 
+static inline void
+bersenham_line_setup(t_bh_line *bh, t_pixel start, t_pixel end)
+{
+	bh->x1 = start.x;
+	bh->y1 = start.y;
+	bh->x2 = end.x;
+	bh->y2 = end.y;
+	bh->dx = ft_abs(bh->x2 - bh->x1);
+	bh->dy = ft_abs(bh->y2 - bh->y1);
+	bh->sx = ft_ternary(bh->x1 < bh->x2, 1, -1);
+	bh->sy = ft_ternary(bh->y1 < bh->y2, 1, -1);
+	bh->err = bh->dx - bh->dy;
+}
+
 void bersenham_line(t_win *win, t_pixel start, t_pixel end, int color)
 {
-	int x1;
-	int x2;
-	int y1;
-	int y2;
+	t_bh_line	bh;
 
-	x1 = start.x;
-	y1 = start.y;
-	x2 = end.x;
-	y2 = end.y;
-
-
-	int dx = ft_abs(x2 - x1);
-	int dy = ft_abs(y2 - y1);
-	int sx = ft_ternary(x1 < x2, 1, -1);
-	int sy = ft_ternary(y1 < y2, 1, -1);
-
-	int err = dx - dy;
-
+	bersenham_line_setup(&bh, start, end);
 	while (1)
 	{
-		win->set_pixel(win, x1, y1, color);
-
-		if (x1 == x2 && y1 == y2)
+		win->set_pixel(win, bh.x1, bh.y1, color);
+		if (bh.x1 == bh.x2 && bh.y1 == bh.y2)
 			break;
-
-		int e2 = 2 * err;
-
-		if (e2 > -dy)
+		bh.err_2 = 2 * bh.err;
+		if (bh.err_2 > -bh.dy)
 		{
-			err -= dy;
-			x1 += sx;
+			bh.err -= bh.dy;
+			bh.x1 += bh.sx;
 		}
-
-		if (e2 < dx)
+		if (bh.err_2 < bh.dx)
 		{
-			err += dx;
-			y1 += sy;
+			bh.err += bh.dx;
+			bh.y1 += bh.sy;
 		}
 	}
 }

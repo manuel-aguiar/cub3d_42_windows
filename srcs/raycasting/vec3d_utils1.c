@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_timer.c                                     :+:      :+:    :+:   */
+/*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 19:14:18 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/09 19:14:18 by marvin           ###   ########.fr       */
+/*   Created: 2024/01/26 13:07:43 by marvin            #+#    #+#             */
+/*   Updated: 2024/01/26 13:07:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "player.h"
+# include "vector.h"
 
-void	start_clock(t_clock *clock)
+float	vec3d_len(t_vec3d vec)
 {
-	ftime(&clock->start);
+	return (sqrt(fpow_2(vec.x) + fpow_2(vec.y) + fpow_2(vec.z)));
 }
 
-void	update_clock(t_clock *clock)
+t_vec3d	vec3d_sub(t_vec3d first, t_vec3d second)
 {
-	ftime(&clock->end);
-	clock->elapsed = (size_t) (1000.0 * (clock->end.time - clock->start.time)
-	+ (clock->end.millitm - clock->start.millitm));
-	clock->start = clock->end;
+	return ((t_vec3d){second.x - first.x, second.y - first.y, second.z - first.z});
 }

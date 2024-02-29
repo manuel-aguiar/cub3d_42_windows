@@ -12,7 +12,8 @@
 
 # include "compass.h"
 
-void	bersenham_line_setup(t_bh_line *bh, t_pixel start, t_pixel end)
+static inline void
+bersenham_line_setup(t_bh_line *bh, t_pixel start, t_pixel end)
 {
 	bh->x1 = start.x;
 	bh->y1 = start.y;
@@ -24,7 +25,6 @@ void	bersenham_line_setup(t_bh_line *bh, t_pixel start, t_pixel end)
 	bh->sy = ft_ternary(bh->y1 < bh->y2, 1, -1);
 	bh->err = bh->dx - bh->dy;
 }
-
 
 void bersenham_sqr_x_lim(t_compass *comp, t_square *sqr, \
 						t_pixel start, t_pixel end)

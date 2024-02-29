@@ -14,7 +14,11 @@
 
 # define GAME_SETTINGS_H
 
+# include "game.h"
+
 # include <GLFW/glfw3.h>
+
+
 
 /* window settings */
 # define MAX_WIN_WIDTH 1900
@@ -159,13 +163,6 @@
 # define DOOR_MOVE_SENSE 0.002f
 # define DOOR_DIST_SENSE 1.5f
 
-# define EXIT_HGT 0.2f
-# define EXIT_WDT 0.3f
-# define EXIT_Z 0.2f
-# define EXIT_UNIT 0.2f
-# define EXIT_Z_SENSE 0.005f
-# define EXIT_RESOURCE 50
-
 # define MEDI_HGT 0.5f
 # define MEDI_WDT 0.5f
 # define MEDI_Z 0.2f
@@ -192,12 +189,18 @@
 
 # define MAX_BULLETS 100
 
-# define BULLET_MOVE_SENSE 0.01f
+# define BULLET_MOVE_SENSE 0.001f
 # define BULLET_HGT 0.1f
 # define BULLET_UNIT_SIZE 0.1f
 # define BULLET_ATTACK_VAL PLAYER_ATTACK_VAL
 # define BULLET_BASE_Z 0.0f
 
+void	settings_template_door(t_door *door);
+void	settings_template_ammo(t_ammo *ammo);
+void	settings_template_enemy(t_enemy *enemy);
+void	settings_template_medi(t_medi *medi);
+void	settings_template_bullet(t_bullet *bullet);
 
+void	settings_player(t_player *player);
 
 #endif

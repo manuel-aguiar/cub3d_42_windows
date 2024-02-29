@@ -54,7 +54,7 @@ static inline void setup_hit_ray(t_game *game, t_ray *ray, t_vec2d dir)
 				((ray->player_sqr.x + 1) - ray->start.x));
 	ray->first.y = float_ternary(ray->ray_dir.y < 0, (ray->start.y - ray->player_sqr.y), \
 				((ray->player_sqr.y + 1) - ray->start.y));
-	ray->first = vector_product(ray->first, ray->step);
+	ray->first = vec2d_product(ray->first, ray->step);
 	ray->side = !(ray->first.x < ray->first.y);
 	ray->axis_move.x = ft_ternary(ray->ray_dir.x < 0, -1, 1);
 	ray->axis_move.y = ft_ternary(ray->ray_dir.y < 0, -1, 1);

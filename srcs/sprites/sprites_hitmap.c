@@ -32,33 +32,27 @@ void	clean_hitnodes_and_map(t_game *game, t_sprite *sprite)
 {
 	int map_index;
 
-	//map_index = (int)(sprite->posi.x) + (int)(sprite->posi.y) * game->map.width;
-	//if (game->map.hit[map_index].len != 0)
-	//	ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
-	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x - sprite->unit_size) \
+	+ (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
 	if (game->map.hit[map_index].len != 0)
 		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
-	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x + sprite->unit_size) \
+	+ (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
 	if (game->map.hit[map_index].len != 0)
 		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
-	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x - sprite->unit_size) \
+	+ (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
 	if (game->map.hit[map_index].len != 0)
 		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
-	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x + sprite->unit_size) \
+	+ (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
 	if (game->map.hit[map_index].len != 0)
 		ft_memset(&game->map.hit[map_index], 0, sizeof(t_hitlist));
+	ft_memset(&sprite->my_hit[0], 0, sizeof(sprite->my_hit));
 	sprite->my_hit[0].sprite = sprite;
-	sprite->my_hit[0].next = NULL;
-	sprite->my_hit[0].prev = NULL;
 	sprite->my_hit[1].sprite = sprite;
-	sprite->my_hit[1].next = NULL;
-	sprite->my_hit[1].prev = NULL;
 	sprite->my_hit[2].sprite = sprite;
-	sprite->my_hit[2].next = NULL;
-	sprite->my_hit[2].prev = NULL;
 	sprite->my_hit[3].sprite = sprite;
-	sprite->my_hit[3].next = NULL;
-	sprite->my_hit[3].prev = NULL;
 }
 
 void    clean_hitmap(t_game *game)

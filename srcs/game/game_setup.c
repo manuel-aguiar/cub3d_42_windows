@@ -21,7 +21,7 @@ void	setup_all_angles(t_game *game, float rad)
 	game->compass.cos_rad = game->player.cos_rad;
 	game->compass.sin_rad = -game->player.sin_rad;
 	game->player.dir_vec = (t_vec2d){game->player.cos_rad, game->player.sin_rad};
-	game->player.plane = vector_multi((t_vec2d){game->player.sin_rad, -game->player.cos_rad}, game->player.cur_fov);
+	game->player.plane = vec2d_multi((t_vec2d){game->player.sin_rad, -game->player.cos_rad}, game->player.cur_fov);
 }
 
 void		game_starting_angle(t_game *game, char direction)
@@ -78,7 +78,6 @@ int		game_load_textures(t_game *game)
 	game->tex[ENEMY_TEX] = xpm_to_tex(g_mario, TEX_TRANSPOSED);
 	game->tex[BULLET_TEX] = xpm_to_tex(g_f_bullet, TEX_TRANSPOSED);
 	game->tex[GUN_TEX] = xpm_to_tex(g_gun, TEX_REGULAR);
-	game->tex[EXIT_TEX] = xpm_to_tex(g_south, TEX_TRANSPOSED);
 	game->tex[DOOR_TEX] = xpm_to_tex(g_door, TEX_TRANSPOSED);
 	return (1); // check for failures
 }
@@ -93,7 +92,7 @@ int		game_start(t_game *game, char *game_config)
 	apply_all_settings(game);
 	compass_setup(&game->compass);
 	player_setup(&game->player);
-	
+	game->player.clock = &game->clock;
 	
 	setup_sprites(game);
 	setup_hitmap(game);

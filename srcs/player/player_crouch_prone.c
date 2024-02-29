@@ -26,7 +26,7 @@ void    player_change_stance(t_player *player)
         up_down = -1;
     else
         up_down = 1;
-    player->cur_z += up_down * player->hgt_sense * player->timer[CLOCK_MOVE].elapsed;
+    player->cur_z += up_down * player->hgt_sense * player->clock->elapsed;
     if ((up_down == -1 && player->cur_z <= target) || (up_down == 1 && player->cur_z >= target))
         player->cur_z = target;
 }

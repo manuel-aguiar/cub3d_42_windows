@@ -19,8 +19,8 @@ void	player_shot_pitch(t_game *game)
 	player = &game->player;
 	if (player->cur_shot_sense != 0)
 	{
-		player->shot_pitch_mod += player->cur_shot_sense * player->timer[CLOCK_MOVE].elapsed;
-		player->cur_shot_sense -= player->shot_gravity * player->timer[CLOCK_MOVE].elapsed;
+		player->shot_pitch_mod += player->cur_shot_sense * player->clock->elapsed;
+		player->cur_shot_sense -= player->shot_gravity * player->clock->elapsed;
 	}
 	if (player->shot_pitch_mod <= 0)
 	{
@@ -41,12 +41,12 @@ void	player_rotate_and_pitch(t_game *game)
 		rotate_aim_multi = game->player.aim_rot_multi;
 
 	rotate = game->win.width / 2 - game->mouse->cur_x;
-	pitch = ((game->mouse->cur_y - game->win.height / 2) * game->player.verti_sense * rotate_aim_multi * game->player.timer[CLOCK_MOVE].elapsed);
+	pitch = ((game->mouse->cur_y - game->win.height / 2) * game->player.verti_sense * rotate_aim_multi * game->player.clock->elapsed);
 	player_shot_pitch(game);
 	game->player.verti_angle = float_clamp(game->player.verti_angle + pitch, game->player.verti_min, game->player.verti_max);
 	game->player.verti_tan = tanf(float_clamp(game->player.verti_angle - game->player.shot_pitch_mod, game->player.verti_min, game->player.verti_max));
 	game->player.pitch = (int)(game->player.cur_dir_len / game->player.base_dir_len * game->player.verti_tan * game->win.height / 2);
-	game_rotate_view_angle(game, rotate * game->player.rot_sense * rotate_aim_multi * game->player.timer[CLOCK_MOVE].elapsed);
+	game_rotate_view_angle(game, rotate * game->player.rot_sense * rotate_aim_multi * game->player.clock->elapsed);
 	game->player.posi_3d = (t_vec3d){game->player.map_posi.x, game->player.map_posi.y, \
 		(game->player.cur_z + game->player.jump_z_mod + \
 		game->player.walk_z_mod)};

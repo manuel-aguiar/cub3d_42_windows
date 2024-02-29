@@ -16,7 +16,7 @@
 		speed = player->cur_move_multi;
 		if (player->is_sprinting && player->hgt_state == HGT_NORMAL && (g_keys >> BIT_FRONT) & 1)
 			speed *= player->sprint_move_multi;
-		player->cur_walk_sense += 0.015f * speed * player->timer[CLOCK_MOVE].elapsed;
+		player->cur_walk_sense += 0.015f * speed * player->clock->elapsed;
 		//printf("walk sense %.3f\n", player->cur_walk_sense);
 		player->walk_z_mod += - sinf(player->cur_walk_sense) / (150 * ( 1 / speed));
 
@@ -69,12 +69,12 @@ void		update_enemy(t_game *game, t_sprite *sprite)
 		sprite->status = GONE;
 		return ;
 	}
-	enemy->elapsed += game->player.timer[CLOCK_MOVE].elapsed;
+	enemy->elapsed += game->player.clock->elapsed;
 	if (enemy->elapsed >= enemy->ms_to_swap)
 		sprite->inverted = !sprite->inverted;
 	enemy->elapsed %= enemy->ms_to_swap;
 	if (enemy->attack_elapsed != -1)
-		enemy->attack_elapsed += game->player.timer[CLOCK_MOVE].elapsed;
+		enemy->attack_elapsed += game->player.clock->elapsed;
 	if (enemy->attack_elapsed >= enemy->attack_time)
 		enemy->attack_elapsed = -1;
 	if (sprite->dist <= game->player.unit_size + sprite->unit_size)
@@ -98,19 +98,20 @@ void		update_door(t_game *game, t_sprite *sprite)
 								 + fpow_2(game->player.map_posi.y - door->base_position.y);
 	
 	door->state = DOOR_CLOSED;
+	dist = 3.0f;
 	if (dist < door->dist_sense)
 	{
 		if (door->orient == NS)
-			sprite->posi.x = float_clamp(sprite->posi.x - door->move_sense * game->player.timer[CLOCK_MOVE].elapsed, door->base_position.x - 1.0f, door->base_position.x);
+			sprite->posi.x = float_clamp(sprite->posi.x - door->move_sense * game->player.clock->elapsed, door->base_position.x - 1.0f, door->base_position.x);
 		else
-			sprite->posi.y = float_clamp(sprite->posi.y - door->move_sense * game->player.timer[CLOCK_MOVE].elapsed, door->base_position.y - 1.0f, door->base_position.y);
+			sprite->posi.y = float_clamp(sprite->posi.y - door->move_sense * game->player.clock->elapsed, door->base_position.y - 1.0f, door->base_position.y);
 	}
 	else
 	{
 		if (door->orient == NS)
-			sprite->posi.x = float_clamp(sprite->posi.x + door->move_sense * game->player.timer[CLOCK_MOVE].elapsed, door->base_position.x - 1.0f, door->base_position.x);
+			sprite->posi.x = float_clamp(sprite->posi.x + door->move_sense * game->player.clock->elapsed, door->base_position.x - 1.0f, door->base_position.x);
 		else
-			sprite->posi.y = float_clamp(sprite->posi.y + door->move_sense * game->player.timer[CLOCK_MOVE].elapsed, door->base_position.y - 1.0f, door->base_position.y);
+			sprite->posi.y = float_clamp(sprite->posi.y + door->move_sense * game->player.clock->elapsed, door->base_position.y - 1.0f, door->base_position.y);
 	}
 	if (door->orient == NS && door->base_position.x - sprite->posi.x == 1.0f)
 	{
@@ -157,9 +158,9 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 	index = map_square.x + map_square.y * game->map.width;
 	node = game->map.hit[index].head;
 	check[0] = (t_vec2d){sprite->posi.x, sprite->posi.y};
-	sprite->posi.x += bullet->dir.x * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
-	sprite->posi.y += bullet->dir.y * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
-	sprite->cur_z += bullet->dir.z * bullet->move_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	sprite->posi.x += bullet->dir.x * bullet->move_sense * game->player.clock->elapsed;
+	sprite->posi.y += bullet->dir.y * bullet->move_sense * game->player.clock->elapsed;
+	sprite->cur_z += bullet->dir.z * bullet->move_sense * game->player.clock->elapsed;
 	bullet->posi = (t_vec3d){sprite->posi.x, sprite->posi.y, sprite->cur_z};
 	check[1] = (t_vec2d){sprite->posi.x, sprite->posi.y};
 	while (node)
@@ -213,7 +214,7 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 //replace with dot product of the diff and the direction, if positive, same, if negative, opposite
 	
 	//WRONG
-	t_vec3d sub = vector3d_sub(bullet->posi, bullet->hole);
+	t_vec3d sub = vec3d_sub(bullet->posi, bullet->hole);
 	float dot = sub.x * bullet->dir.x + sub.y * bullet->dir.y + sub.z * bullet->dir.z;
 
 	if (dot <= 0)
@@ -238,7 +239,7 @@ void		update_sprites(t_game *game)
 	clean_hitmap(game);
 	sprite_calc_dist(game);
 	sprite_qs_distance(game->sorted, game->sprite_count, sprite_qs_comp);
-	game->floating += game->float_sense * game->player.timer[CLOCK_MOVE].elapsed;
+	game->floating += game->float_sense * game->player.clock->elapsed;
 	game->float_sin = sinf(game->floating);
 	if (game->floating > 2 * MY_PI)
 		game->floating -= 2 * MY_PI;
@@ -270,8 +271,7 @@ void		update_sprites(t_game *game)
 void		game_actions(t_game *game)
 {
 	//ft_memset(win->front_buf, 0, win->width * win->height * win->rgb_size * sizeof(*(win->front_buf)));
-	player_get_timer(&game->player, CLOCK_MOVE);
-	player_get_timer(&game->player, CLOCK_AIM);
+	update_clock(&game->clock);
 	if ((*(game->keys) >> BIT_PAUSE_T) & 1 || (!((*(game->keys) >> BIT_PAUSE_T) & 1) && game->win.blur.elapsed > 0))
 		return ;
 	update_sprites(game);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:11:11 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/27 15:14:57 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/29 13:22:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static inline void setup_correction_ray(t_game *game, t_ray *ray)
 {
 	ray->w = game->win.width;
 	ray->h = game->win.height;
-	ray->dir_vec = vector_multi(game->player.dir_vec, \
+	ray->dir_vec = vec2d_multi(game->player.dir_vec, \
 		game->player.cur_dir_len);
 	ray->plane = game->player.plane;
 	ray->start = game->player.map_posi;
@@ -40,7 +40,7 @@ static inline void setup_correction_ray(t_game *game, t_ray *ray)
 				((ray->player_sqr.x + 1) - ray->start.x));
 	ray->first.y = float_ternary(ray->ray_dir.y < 0, (ray->start.y - ray->player_sqr.y), \
 				((ray->player_sqr.y + 1) - ray->start.y));
-	ray->first = vector_product(ray->first, ray->step);
+	ray->first = vec2d_product(ray->first, ray->step);
 	ray->axis_move.x = ft_ternary(ray->ray_dir.x < 0, -1, 1);
 	ray->axis_move.y = ft_ternary(ray->ray_dir.y < 0, -1, 1);
 }

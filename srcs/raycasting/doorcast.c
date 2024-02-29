@@ -35,7 +35,7 @@ void	float_swap(float *first, float *second)
 	*second = swap;
 }
 
-void	vector_swap(t_vec2d *first, t_vec2d *second)
+void	vec2d_swap(t_vec2d *first, t_vec2d *second)
 {
 	t_vec2d swap;
 
@@ -127,7 +127,7 @@ void	doorcast(t_game *game, t_sprite *sprite)
 	t_vec2d	rel_end;
 	t_vec2d	transform_start;
 	t_vec2d	transform_end;
-	t_vec2d	dir = vector_multi(game->player.dir_vec, game->player.cur_dir_len);
+	t_vec2d	dir = vec2d_multi(game->player.dir_vec, game->player.cur_dir_len);
 
 	bool inverted;
 	door = (t_door *)sprite->data;
@@ -146,7 +146,7 @@ void	doorcast(t_game *game, t_sprite *sprite)
 	if ((door->orient == NS && game->player.map_posi.y > door_start.y) \
 	|| (door->orient == WE && game->player.map_posi.x > door_start.x))
 	{
-		vector_swap(&door_start, &door_end);
+		vec2d_swap(&door_start, &door_end);
 		inverted = !inverted;
 	}
 	//print_sorted_sprites(game);
@@ -155,15 +155,15 @@ void	doorcast(t_game *game, t_sprite *sprite)
 
 	float invDet = 1.0 / (game->player.plane.x * dir.y - game->player.plane.y * dir.x);
 
-		rel_start = vector_sub(door_start, game->player.map_posi);
+		rel_start = vec2d_sub(door_start, game->player.map_posi);
 		transform_start.x = (dir.y * rel_start.x - dir.x * rel_start.y);
 		transform_start.y = (-game->player.plane.y * rel_start.x + game->player.plane.x * rel_start.y);
-		transform_start = vector_multi(transform_start, invDet);
+		transform_start = vec2d_multi(transform_start, invDet);
 
-		rel_end = vector_sub(door_end, game->player.map_posi);
+		rel_end = vec2d_sub(door_end, game->player.map_posi);
 		transform_end.x = (dir.y * rel_end.x - dir.x * rel_end.y);
 		transform_end.y = (-game->player.plane.y * rel_end.x + game->player.plane.x * rel_end.y);
-		transform_end = vector_multi(transform_end, invDet);
+		transform_end = vec2d_multi(transform_end, invDet);
 
 		if (transform_end.y < 0 && transform_start.y < 0)
 			return ;
@@ -171,12 +171,12 @@ void	doorcast(t_game *game, t_sprite *sprite)
 		int screen_start_x = (int)((w / 2) * (1 + transform_start.x / transform_start.y));
 		if (transform_start.y < 0)
 			screen_start_x = (int)((w / 2) * (1 - transform_start.x / transform_start.y));
-		int height_start = abs((int)(h * 1.0f / (transform_start.y)) * game->view_adj); 
+		int height_start = abs((int)(h * 1.0f / (transform_start.y))); 
 
 		int screen_end_x = (int)((w / 2) * (1 + transform_end.x / transform_end.y));
 		if (transform_end.y < 0)
 			screen_end_x = (int)((w / 2) * (1 - transform_end.x / transform_end.y));
-		int height_end = abs((int)(h * 1.0f / (transform_end.y)) * game->view_adj); 
+		int height_end = abs((int)(h * 1.0f / (transform_end.y))); 
 		
 		
 		
@@ -197,7 +197,7 @@ void	doorcast(t_game *game, t_sprite *sprite)
 			int_swap(&height_start, &height_end);
 			int_swap(&min_startY, &min_endY);
 			int_swap(&max_startY, &max_endY);
-			vector_swap(&transform_start, &transform_end);
+			vec2d_swap(&transform_start, &transform_end);
 		}
 		//screen_end_x = int_clamp(screen_end_x, (int)(-w * 0.5f), (int)(w * 1.5f));
 		//screen_start_x = int_clamp(screen_start_x, (int)(-w * 0.5f), (int)(w * 1.5f));

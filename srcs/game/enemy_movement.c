@@ -31,7 +31,7 @@ static inline void setup_hit_ray(t_game *game, t_ray *ray, t_vec2d dir)
 				((ray->player_sqr.x + 1) - ray->start.x));
 	ray->first.y = float_ternary(ray->ray_dir.y < 0, (ray->start.y - ray->player_sqr.y), \
 				((ray->player_sqr.y + 1) - ray->start.y));
-	ray->first = vector_product(ray->first, ray->step);
+	ray->first = vec2d_product(ray->first, ray->step);
 	ray->side = !(ray->first.x < ray->first.y);
 	ray->axis_move.x = ft_ternary(ray->ray_dir.x < 0, -1, 1);
 	ray->axis_move.y = ft_ternary(ray->ray_dir.y < 0, -1, 1);
@@ -97,12 +97,16 @@ int	enemy_sees_player(t_game *game, t_sprite *sprite, t_vec2d dir)
 void	enemy_movement(t_game *game, t_sprite *sprite, t_enemy *enemy)
 {
 	t_vec2d dir;
+	float	dir_len;
 	//(void)dir; (void)potential; (void)enemy;
 	dir = (t_vec2d){sprite->posi.x - game->player.map_posi.x, sprite->posi.y - game->player.map_posi.y};
-	dir = vector_norm(dir, vector_len(dir));
+	dir_len = vec2d_len(dir);
+	if (dir_len < sprite->unit_size + game->player.unit_size)
+		return ;
+	dir = vec2d_norm(dir, dir_len);
 	if (enemy_sees_player(game, sprite, dir))
 	{
-		dir = vector_multi(vector_multi(dir, enemy->move_sense * game->player.timer[CLOCK_MOVE].elapsed), -1);
+		dir = vec2d_multi(vec2d_multi(dir, enemy->move_sense * game->player.clock->elapsed), -1);
 		handle_collisions(game, &sprite->posi, dir, sprite->unit_size);
 		//printf("sees\n");
 	}
