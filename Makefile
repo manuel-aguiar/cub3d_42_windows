@@ -75,7 +75,6 @@ SRC_GAME			=	win_render_loop.c		\
 						render_inside_compass.c		\
 						map_player_collisions.c		\
 						xpm_to_window.c				\
-						super_debug_print.c			\
 						game_render_hud.c			\
 						enemy_movement.c			\
 						bullet_rest.c
@@ -116,13 +115,16 @@ SRC_GENERIC_UTILS 	= 	ft_split_count_replenish.c		\
 						fpow_2.c						\
 						ft_fabs.c						\
 						radian_truncate.c				\
-						cubed_string_funcs.c
+						cubed_string_funcs.c			\
+						ft_ternary.c					\
+						ft_swap.c
 
 SRC_REN_WIN			=	win_init_window.c		\
 						win_pixels.c			\
 						win_callback_keys.c		\
 						win_callback_mouse.c	\
-						win_pause_blur.c	
+						win_pause_blur_1.c		\
+						win_pause_blur_2.c	
 
 
 SRC_COMPASS			=	compass_setup_render.c		\

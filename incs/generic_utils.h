@@ -38,4 +38,12 @@ float	ft_fabs(float number);
 int		char_in_charset(char c, char *charset);
 int		is_only_spaces(char *str);
 
+//ft_ternary.c
+float	float_ternary(bool cond, float yes, float no);
+void	*ptr_ternary(bool cond, void *yes, void *no);
+
+
+void	int_swap(int *first, int *second);
+void	float_swap(float *first, float *second);
+
 #endif
