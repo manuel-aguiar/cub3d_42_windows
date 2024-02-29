@@ -169,21 +169,16 @@ void    apply_all_settings(t_game *game);
 //game_setup.c
 int		game_start(t_game *game, char *game_config);
 void	free_game(t_game *game);
-void	setup_all_angles(t_game *game, float rad);
 void	game_setup_keys(t_game *game);
-
-//game_key_funcs.c
-void	game_rotate_view_angle(t_game *game, float diff);
 
 //game_render.c
 void	game_render(t_game *game);
-
 void	game_actions(t_game *game);
 
 
 int		win_render(t_game *game, t_win *win, void (*win_key_press)());
 
-//player....
+//handle_collisions.c
 void	handle_collisions(t_game *game, t_vec2d *posi, t_vec2d potencial, float unit_size);
 
 //
@@ -196,46 +191,48 @@ void	game_key_manager(t_game *game);
 //game_manager_mouse.c
 void	game_mouse_manager(t_game *game);
 
-void	floorcast(t_game *game);
 
 void	xpm_to_window(t_win *win, t_xpm_tex *tex, t_pixel corner, int pixel_wid, int pixel_hgt);
-void	xpm_tex_translate(t_xpm_tex *tex);
 
 void	player_actions(t_game *game);
 void	player_rotate_and_pitch(t_game *game);
 
 void    move_player(t_game *game, int keys);
 
-//shader.c
+
+
+//////////////////////////////////////
+//////        RAYCASTING          ////
+//////////////////////////////////////
 int		add_shade(int color, float perc);
 void	hori_raycasting(t_game *game);
-
 void	sprite_cast(t_game *game);
 void	doorcast(t_game *game, t_sprite *sprite);
-
 void	floorcast(t_game *game);
 void	wallcast(t_game *game, t_ray *ray, t_dda_hor *hori, int x);
 
-//super_debug_print.c
-void	super_debug_print(t_game *game);
-
-//sprites
+//////////////////////////////////////
+//////        SPRITES             ////
+//////////////////////////////////////
 int		setup_sprites(t_game *game);
 void	sprite_calc_dist(t_game *game);
 void    clean_hitmap(t_game *game);
 void    setup_hitmap(t_game *game);
 void	sprite_place_hitmap(t_game *game, t_sprite *sprite);
-void	shot_raycasting(t_game *game, t_vec2d dir);
 float	vertical_coefficient(t_game *game);
 
 //game_render_hud.c
 void	render_stats_bars(t_game *game);
 
-void	enemy_movement(t_game *game, t_sprite *sprite, t_enemy *enemy);
+
 
 t_vec3d bullet_rest(t_game *game, t_bullet *bullet);
 
-
+//game_rotate.c
+void	setup_all_angles(t_game *game, float rad);
+void	game_starting_angle(t_game *game, char direction);
+void	game_find_player_set_angles(t_game *game);
+void	game_rotate_view_angle(t_game *game, float diff);
 
 //update_medi_ammo.c
 void		update_medikit(t_game *game, t_sprite *sprite);
@@ -246,8 +243,13 @@ void		update_bullet(t_game *game, t_sprite *sprite);
 
 //update_enemy_move.c
 void		update_enemy(t_game *game, t_sprite *sprite);
+void		enemy_movement(t_game *game, t_sprite *sprite, t_enemy *enemy);
 
 //update_door.c
 void		update_door(t_game *game, t_sprite *sprite);
+int			extract_enemy(t_game *game, t_map *map, int place, int map_index);
+int			extract_ammo(t_game *game, t_map *map, int place, int map_index);
+int			extract_medi(t_game *game, t_map *map, int place, int map_index);
+int			extract_door(t_game *game, t_map *map, int place, int map_index);
 
 #endif
