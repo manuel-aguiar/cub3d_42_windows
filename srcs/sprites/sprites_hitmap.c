@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "game.h"
+#include "game.h"
 
 void	sprite_calc_dist(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < game->sprite_count)
@@ -31,7 +31,7 @@ void	sprite_calc_dist(t_game *game)
 
 void	clean_hitnodes_and_map(t_game *game, t_sprite *sprite)
 {
-	int map_index;
+	int	map_index;
 
 	map_index = (int)(sprite->posi.x - sprite->unit_size) \
 	+ (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
@@ -56,10 +56,10 @@ void	clean_hitnodes_and_map(t_game *game, t_sprite *sprite)
 	sprite->my_hit[3].sprite = sprite;
 }
 
-void    clean_hitmap(t_game *game)
+void	clean_hitmap(t_game *game)
 {
-	int         i;
-	t_sprite    *sprite;
+	int			i;
+	t_sprite	*sprite;
 
 	i = 0;
 	while (i < game->sprite_count)
@@ -73,7 +73,7 @@ void    clean_hitmap(t_game *game)
 
 void	sprite_place_hitmap(t_game *game, t_sprite *sprite)
 {
-	int         map_index;
+	int	map_index;
 
 	if (sprite->type != ENEMY)
 		return ;
@@ -91,10 +91,10 @@ void	sprite_place_hitmap(t_game *game, t_sprite *sprite)
 	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[3]);
 }
 
-void    setup_hitmap(t_game *game)
+void	setup_hitmap(t_game *game)
 {
-	int         i;
-	t_sprite    *sprite;
+	int			i;
+	t_sprite	*sprite;
 
 	sprite_calc_dist(game);
 	sprite_qs_distance(game->sorted, game->sprite_count, sprite_qs_comp);
@@ -107,4 +107,3 @@ void    setup_hitmap(t_game *game)
 		i++;
 	}
 }
-

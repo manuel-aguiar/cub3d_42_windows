@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "game.h"
+#include "game.h"
 
-int		extract_sprites(t_game *game, t_map *map)
+int	extract_sprites(t_game *game, t_map *map)
 {
 	int	i;
 	int	cur;
@@ -61,7 +61,7 @@ int	place_bullet(t_game *game, int place)
 
 int	fill_with_bullets(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < game->max_bullets)
@@ -85,10 +85,10 @@ void	fill_sorted_pointers(t_game *game)
 	}
 }
 
-int		setup_sprites(t_game *game)
+int	setup_sprites(t_game *game)
 {
 	t_sprite	*sprite;
-	t_map 		*map;
+	t_map		*map;
 	int			count;
 	int			i;
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "sprites.h"
+#include "sprites.h"
 
 int	sprite_qs_comp(t_sprite *first, t_sprite *second)
 {
@@ -26,13 +26,12 @@ static void	swap(t_sprite **first, t_sprite **second)
 	*second = temp;
 }
 
-
 static int	partition(t_sprite **sprites, int low, int high, \
 	int (*cmp)(t_sprite *, t_sprite *))
 {
-	t_sprite *pivot;
-	int		i;
-	int		j;
+	t_sprite	*pivot;
+	int			i;
+	int			j;
 
 	pivot = sprites[low];
 	i = low - 1;
@@ -52,9 +51,9 @@ static int	partition(t_sprite **sprites, int low, int high, \
 }
 
 static void	qs_recursion(t_sprite **sprites, int low, int high, \
-	int (*cmp)(t_sprite * , t_sprite *))
+	int (*cmp)(t_sprite *, t_sprite *))
 {
-	int			part;
+	int	part;
 
 	if (low < high)
 	{
@@ -65,7 +64,7 @@ static void	qs_recursion(t_sprite **sprites, int low, int high, \
 }
 
 void	sprite_qs_distance(t_sprite **sprites, int sprite_count, \
-	int (*cmp)(t_sprite * , t_sprite *))
+	int (*cmp)(t_sprite *, t_sprite *))
 {
 	qs_recursion(sprites, 0, sprite_count - 1, cmp);
 }

@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "game.h"
+#include "game.h"
 
-int			extract_enemy(t_game *game, t_map *map, int place, int map_index)
+int	extract_enemy(t_game *game, t_map *map, int place, int map_index)
 {
-	t_enemy 		*data;
-	t_sprite 	*sprite;
+	t_enemy		*data;
+	t_sprite	*sprite;
 
 	sprite = &game->sprites[place];
 	sprite->my_hit[0].sprite = sprite;
@@ -40,10 +40,10 @@ int			extract_enemy(t_game *game, t_map *map, int place, int map_index)
 	return (1);
 }
 
-int			extract_ammo(t_game *game, t_map *map, int place, int map_index)
+int	extract_ammo(t_game *game, t_map *map, int place, int map_index)
 {
-	t_ammo 		*data;
-	t_sprite 	*sprite;
+	t_ammo		*data;
+	t_sprite	*sprite;
 
 	sprite = &game->sprites[place];
 	sprite->my_hit[0].sprite = sprite;
@@ -68,10 +68,10 @@ int			extract_ammo(t_game *game, t_map *map, int place, int map_index)
 	return (1);
 }
 
-int			extract_medi(t_game *game, t_map *map, int place, int map_index)
+int	extract_medi(t_game *game, t_map *map, int place, int map_index)
 {
-	t_medi 		*data;
-	t_sprite 	*sprite;
+	t_medi		*data;
+	t_sprite	*sprite;
 
 	sprite = &game->sprites[place];
 	sprite->my_hit[0].sprite = sprite;
@@ -96,7 +96,7 @@ int			extract_medi(t_game *game, t_map *map, int place, int map_index)
 	return (1);
 }
 
-int		check_door_orient(t_map *map, t_door *door, \
+int	check_door_orient(t_map *map, t_door *door, \
 	t_sprite *sprite, int map_index)
 {
 	map->doors[map_index] = sprite;
@@ -117,10 +117,10 @@ int		check_door_orient(t_map *map, t_door *door, \
 	return (1);
 }
 
-int			extract_door(t_game *game, t_map *map, int place, int map_index)
+int	extract_door(t_game *game, t_map *map, int place, int map_index)
 {
-	t_door 		*data;
-	t_sprite 	*sprite;
+	t_door		*data;
+	t_sprite	*sprite;
 
 	sprite = &game->sprites[place];
 	sprite->my_hit[0].sprite = sprite;
@@ -141,7 +141,7 @@ int			extract_door(t_game *game, t_map *map, int place, int map_index)
 	sprite->width = 0;
 	sprite->dist = FLT_MAX;
 	sprite->tex = DOOR_TEX;
-	if(!check_door_orient(map, data, sprite, map_index))
+	if (!check_door_orient(map, data, sprite, map_index))
 		return (0);
 	return (1);
 }
