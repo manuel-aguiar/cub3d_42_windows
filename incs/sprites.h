@@ -73,12 +73,22 @@ typedef enum
 	INVERTED,
 }	e_rendir;
 
+typedef enum
+{
+	DOOR_OPEN,
+	DOOR_CLOSED,
+}	e_door_state;
+
 typedef struct s_door
 {
 	t_vec2d				base_position;
+	e_door_state		state;
 	e_door_dir			orient;
 	t_dda_hor			start;
 	t_dda_hor			end;
+	bool				visible;
+	float				wall_start;
+	float				wall_end;
 	int					start_x;
 	int					end_x;				
 	float				move_sense;

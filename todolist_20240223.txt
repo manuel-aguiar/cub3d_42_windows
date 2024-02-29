@@ -29,8 +29,6 @@ enemy collisions:
     enemy collide with each other
     get direction vector of their movement and check the collision map, liang barsky
 
-rendering:
-        just swap coorinates vertically around the center row
 
 high enemies: make then spawn with rand() z height between the floor and celling - sprite-height
 
@@ -49,8 +47,6 @@ enemies:
         NOT ACTIVE until they see you, when they see, they save your position and moves towards it; every x milisecs they check again, if they see you, they update course, if not, keep moving to where you were
        enemies cannot get any closer than player unit size + sprite-size, decrease the final position by that ammount so they don t get too close
 
-doors:
-        minmax collision when player/enemy enters door square
 
 mlx:
 	change everything to mlx
