@@ -16,6 +16,8 @@
 https://github.com/OneLoneCoder/Javidx9/blob/master/PixelGameEngine/SmallerProjects/OneLoneCoder_PGE_CircleVsRect.cpp
 */
 
+
+
 void	handle_collisions(t_game *game, t_vec2d *posi, t_vec2d potencial, float unit_size)
 {
 	t_map		*map;
@@ -39,7 +41,8 @@ void	handle_collisions(t_game *game, t_vec2d *posi, t_vec2d potencial, float uni
 
 	
 
-
+	t_sprite 	*sprite;
+	t_door 		*door;
 	
 	//float_x = posi->x - fixed_x;
 	//float_y = posi->y - fixed_y;
@@ -49,12 +52,43 @@ void	handle_collisions(t_game *game, t_vec2d *posi, t_vec2d potencial, float uni
 	int i;
 
 	t_vec2d	add;
+	t_vec2d player;
 
+	
 	add = vector_multi(potencial, (1 / (float)divide_potential));
 	i = 0;
 	while (i < divide_potential)
 	{
+
+		player = *posi;
 		*posi = vector_add(*posi, add);
+		if (map->map[fixed_x + fixed_y * map->width] == MAP_DOOR)
+		{
+			sprite = map->doors[fixed_x + fixed_y * map->width];
+			door = (t_door *)sprite->data;
+			if (door->state == DOOR_CLOSED)
+			{
+				if (door->orient == NS)
+				{
+					if (player.y < sprite->posi.y)
+						posi->y = ft_fmin(posi->y, sprite->posi.y - (unit_size));
+					else
+						posi->y = ft_fmax(posi->y, sprite->posi.y + (unit_size));
+				}
+				else
+				{
+					if (player.x < sprite->posi.x)
+						posi->x = ft_fmin(posi->x, sprite->posi.x - (unit_size));
+					else
+						posi->x = ft_fmax(posi->x, sprite->posi.x + (unit_size));					
+				}
+			}
+		}
+
+
+
+
+		
 		if (map->map[(fixed_x - 1) + fixed_y * map->width] == MAP_WALL)
 			posi->x = ft_fmax(posi->x, fixed_x + (unit_size));
 		if (map->map[(fixed_x + 1) + fixed_y * map->width] == MAP_WALL)
@@ -67,8 +101,8 @@ void	handle_collisions(t_game *game, t_vec2d *posi, t_vec2d potencial, float uni
 
 		t_vec2d nearest;
 		t_vec2d ray_to_nearest;
-		float	ray_length;
-		float	overlap;
+		float ray_length;
+		float overlap;
 		
 
 		//check topo left

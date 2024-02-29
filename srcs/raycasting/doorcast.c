@@ -77,7 +77,7 @@ void	setup_doorcast(t_game *game, t_door *door, t_door_cast *cast)
 	cast->exact_max_y = cast->max_start_y;
 }
 
-void	doorcast(t_game *game, t_sprite *sprite)
+void	new_doorcast(t_game *game, t_sprite *sprite)
 {
 	int			x;
 	int			y;
@@ -115,7 +115,7 @@ void	doorcast(t_game *game, t_sprite *sprite)
 	door->visible = false;
 }
 
-void	new_doorcast(t_game *game, t_sprite *sprite)
+void	doorcast(t_game *game, t_sprite *sprite)
 {
 	int w = game->win.width;
 	int h = game->win.height;
@@ -308,7 +308,7 @@ void	new_doorcast(t_game *game, t_sprite *sprite)
 					int texY = (int)tex_position_y;
 					tex_position_y += step_y;
 
-					int color = tex->pixels[texX * tex->width + (tex->width - texY - 1)];
+					int color = tex->pixels[texX * tex->width + texY];
 					if (color != 255)
 					{
 						color = add_shade(color, shade);

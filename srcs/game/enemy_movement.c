@@ -60,7 +60,7 @@ int	enemy_sees_player(t_game *game, t_sprite *sprite, t_vec2d dir)
 {
 	t_ray	ray;
 	int		map_index;
-
+	t_door *door;
 	
 	setup_hit_ray(game, &ray, dir);
 	while(1)
@@ -68,12 +68,28 @@ int	enemy_sees_player(t_game *game, t_sprite *sprite, t_vec2d dir)
 		move_ray(&ray);
 		map_index = (int)ray.player_sqr.x \
 		+ (int)ray.player_sqr.y * game->map.width;
-		//printf("current square %d, %d\n", (int)ray.player_sqr.x, (int)ray.player_sqr.y);
 		if (game->map.map[map_index] == MAP_WALL)
 			return (0);
+		if (game->map.map[map_index] == MAP_DOOR)
+		{
+			door = ((t_door *)(game->map.doors[map_index]->data));
+			if(door->state == DOOR_CLOSED)
+			{
+				if (door->orient == NS && 
+				((sprite->posi.y > door->base_position.y && door->base_position.y > game->player.map_posi.y) ||
+				(sprite->posi.y < door->base_position.y && door->base_position.y < game->player.map_posi.y)))
+					return (0);
+				if (door->orient == WE && 
+				((sprite->posi.x > door->base_position.x && door->base_position.x > game->player.map_posi.x) ||
+				(sprite->posi.x < door->base_position.x && door->base_position.x < game->player.map_posi.x)))
+					return (0);
+			}
+				
+		}
 		if ((int)ray.player_sqr.x == (int)sprite->posi.x
-		|| (int)ray.player_sqr.y == (int)sprite->posi.y)
+		&& (int)ray.player_sqr.y == (int)sprite->posi.y)
 			return (1);
+
 	}
 	return (1);
 }

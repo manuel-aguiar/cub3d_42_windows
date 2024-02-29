@@ -96,6 +96,8 @@ void		update_door(t_game *game, t_sprite *sprite)
 	door = (t_door *)sprite->data;
 	dist = fpow_2(game->player.map_posi.x - door->base_position.x) \
 								 + fpow_2(game->player.map_posi.y - door->base_position.y);
+	
+	door->state = DOOR_CLOSED;
 	if (dist < door->dist_sense)
 	{
 		if (door->orient == NS)
@@ -110,6 +112,18 @@ void		update_door(t_game *game, t_sprite *sprite)
 		else
 			sprite->posi.y = float_clamp(sprite->posi.y + door->move_sense * game->player.timer[CLOCK_MOVE].elapsed, door->base_position.y - 1.0f, door->base_position.y);
 	}
+	if (door->orient == NS && door->base_position.x - sprite->posi.x == 1.0f)
+	{
+		door->state = DOOR_OPEN;
+	}
+	//printf("base y %.3f spirte y %.3f", door->base_position.y, sprite->posi.y)	;
+	if (door->orient == WE && door->base_position.y - sprite->posi.y == 1.0f)
+	{
+		door->state = DOOR_OPEN;
+		//printf("setting door open\n");
+	}
+	//printf("door remains closed\n");
+		
 } 
 
 void	take_hit(t_game *game, t_sprite *sprite)

@@ -98,9 +98,10 @@ void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 		wallll = game->player.map_posi.x + hori.wall_dist * save.ray_dir.x;
 		hit = ft_fabs((wallll - (int)(wallll)));
 	}
-	printf("hit %.3f side %d wall hit x  %.3f y %.3f\n", hit, save.side, wall_hit.x, wall_hit.y);	
-	
-	if (door->orient == NS && ((save.side == 1)))
+	//printf("hit %.3f side %d wall hit x  %.3f y %.3f\n", hit, save.side, wall_hit.x, wall_hit.y);	
+	(void)hit;
+	(void)wall_hit;
+	if (save.side == ray->side)
 	{
 		save = *ray;
 		move_this_ray(&save, 0.5f, &hori.wall_dist);
@@ -122,11 +123,38 @@ void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
 		}
 		door->visible = true;	
 	}
+	else
+	{
+		if (save.first.x < save.first.y)
+		{
+			hori.wall_dist = save.first.x - save.step.x;
+			wallll = game->player.map_posi.y + hori.wall_dist * save.ray_dir.y;
+			if (wallll - (int)wallll < 0.5f)
+			{
+				printf("x %d there could be a pixel %.3f\n", x, wallll);
+			}
+			else
+				printf("x %d keep going to wall %.3f\n", x, wallll);
+		}
+			
+		else
+		{
+			hori.wall_dist = save.first.y - save.step.y;
+			wallll = game->player.map_posi.x + hori.wall_dist * save.ray_dir.x;
+			if (wallll - (int)wallll < 0.5f)
+			{
+				printf("x %d there could be a pixel %.3f\n", x, wallll);
+			}
+			else
+				printf("x %d keep going to wall  %.3f\n", x, wallll);
+		}
+	}
 	//else
 	//	printf("hit is %.3f, side %d\n", hit, save.side);
 }
 
-static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
+//static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
+static inline void cast_this_ray(t_game *game, t_ray *ray)
 {
 	int map_index;
 
@@ -148,8 +176,8 @@ static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
 		+ (int)ray->player_sqr.y * game->map.width;
 		if (game->map.map[map_index] == MAP_WALL)
 			break ;
-		else if (game->map.map[map_index] == MAP_DOOR)
-			update_ray_door(game, ray, map_index, x);
+		//else if (game->map.map[map_index] == MAP_DOOR)
+		//	update_ray_door(game, ray, map_index, x);
 	}
 }
 
@@ -166,7 +194,7 @@ void	hori_raycasting(t_game *game)
 	while (x < ray.w)
 	{
 		setup_this_ray(&ray, x);
-		cast_this_ray(game, &ray, x);
+		cast_this_ray(game, &ray);
 		hori.side = ray.side;
 		hori.wall_dist = float_ternary(ray.side == 0, (ray.first.x - ray.step.x), \
 			(ray.first.y - ray.step.y));
@@ -184,4 +212,3 @@ void	hori_raycasting(t_game *game)
 		x++;
 	}
 }
-

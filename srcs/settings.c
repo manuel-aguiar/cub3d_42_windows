@@ -159,6 +159,7 @@ void    apply_all_settings(t_game *game)
     game->template_door.visible = false;
     game->template_door.move_sense = DOOR_MOVE_SENSE;
     game->template_door.dist_sense = fpow_2(DOOR_DIST_SENSE);
+    game->template_door.state = DOOR_CLOSED;
 
     game->template_ammo = (t_ammo){};
     game->template_ammo.ammopoints = AMMO_RESOURCE;

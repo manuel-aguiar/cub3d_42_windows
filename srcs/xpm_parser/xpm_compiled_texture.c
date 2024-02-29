@@ -182,10 +182,11 @@ void	*xpm_set_pixel_transposed(t_xpm_parser *parse)
 		}
 		row++;
 	}
-	//transposed_swap_coords(parse);
+	
 	swap = parse->tex->width;
 	parse->tex->width = parse->tex->height;
 	parse->tex->height = swap;
+	transposed_swap_coords(parse);
 	return ((void *)1);
 }
 
