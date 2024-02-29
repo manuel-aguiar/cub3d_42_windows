@@ -13,14 +13,6 @@
 #include "game.h"
 
 
-
-static inline float	float_ternary(bool cond, float yes, float no)
-{
-	if (cond)
-		return (yes);
-	return (no);
-}
-
 static inline void setup_bullet_ray(t_ray *ray, t_bullet *bullet)
 {
 	ray->start = (t_vec2d){bullet->posi.x, bullet->posi.y};
@@ -57,7 +49,7 @@ static inline void move_ray(t_ray *ray)
 
 
 
-t_vec2d bullet_get_xy_coordinate(t_vec3d point, t_vec3d dir, float z)
+t_vec2d bullet_vec3d_get_xy_from_z(t_vec3d point, t_vec3d dir, float z)
 {
 	t_vec2d new;
     // Check if the direction vector has a non-zero component to avoid division by zero
@@ -72,7 +64,7 @@ t_vec2d bullet_get_xy_coordinate(t_vec3d point, t_vec3d dir, float z)
     return new;
 }
 
-double bullet_get_z_coordinate(t_vec3d point, t_vec3d dir, t_vec2d coords)
+double bullet_vec3d_get_z_from_xy(t_vec3d point, t_vec3d dir, t_vec2d coords)
 {
     // Check if the direction vector has a non-zero component to avoid division by zero
     double t;
@@ -101,16 +93,16 @@ static inline t_vec3d bullet_check_wall_hit(t_ray *ray, t_bullet *bullet)
 		wall_dist = (ray->first.x - ray->step.x);
 		wall_hit.y = bullet->posi.y + wall_dist * ray->ray_dir.y;
 		wall_hit.x = ray->player_sqr.x + (ray->player_sqr.x <= bullet->posi.x);
-		z = bullet_get_z_coordinate(bullet->posi, bullet->dir, wall_hit);
+		z = bullet_vec3d_get_z_from_xy(bullet->posi, bullet->dir, wall_hit);
 		if (z < 0)
 		{
-			floor_ceil = bullet_get_xy_coordinate(bullet->posi, bullet->dir, 0);
+			floor_ceil = bullet_vec3d_get_xy_from_z(bullet->posi, bullet->dir, 0);
 			res = (t_vec3d){floor_ceil.x, floor_ceil.y, 0};
 			return (res);
 		}
 		else if (z > 1)
 		{
-			floor_ceil = bullet_get_xy_coordinate(bullet->posi, bullet->dir, 1);
+			floor_ceil = bullet_vec3d_get_xy_from_z(bullet->posi, bullet->dir, 1);
 			res = (t_vec3d){floor_ceil.x, floor_ceil.y, 1};
 			return (res);
 		}
@@ -122,16 +114,16 @@ static inline t_vec3d bullet_check_wall_hit(t_ray *ray, t_bullet *bullet)
 		wall_dist = (ray->first.y - ray->step.y);
 		wall_hit.x = bullet->posi.x + wall_dist * ray->ray_dir.x;
 		wall_hit.y = ray->player_sqr.y + (ray->player_sqr.y <= bullet->posi.y);
-		z = bullet_get_z_coordinate(bullet->posi, bullet->dir, wall_hit);
+		z = bullet_vec3d_get_z_from_xy(bullet->posi, bullet->dir, wall_hit);
 		if (z < 0)
 		{
-			floor_ceil = bullet_get_xy_coordinate(bullet->posi, bullet->dir, 0);
+			floor_ceil = bullet_vec3d_get_xy_from_z(bullet->posi, bullet->dir, 0);
 			res = (t_vec3d){floor_ceil.x, floor_ceil.y, 0};
 			return (res);
 		}
 		else if (z > 1)
 		{
-			floor_ceil = bullet_get_xy_coordinate(bullet->posi, bullet->dir, 1);
+			floor_ceil = bullet_vec3d_get_xy_from_z(bullet->posi, bullet->dir, 1);
 			res = (t_vec3d){floor_ceil.x, floor_ceil.y, 1};
 			return (res);
 		}

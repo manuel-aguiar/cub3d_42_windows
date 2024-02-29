@@ -17,32 +17,6 @@
 
 # include "game.h"
 
-void	int_swap(int *first, int *second)
-{
-	int swap;
-
-	swap = *first;
-	*first = *second;
-	*second = swap;
-}
-
-void	float_swap(float *first, float *second)
-{
-	float swap;
-
-	swap = *first;
-	*first = *second;
-	*second = swap;
-}
-
-void	vec2d_swap(t_vec2d *first, t_vec2d *second)
-{
-	t_vec2d swap;
-
-	swap = *first;
-	*first = *second;
-	*second = swap;
-}
 
 typedef struct s_door_cast
 {
@@ -77,43 +51,6 @@ void	setup_doorcast(t_game *game, t_door *door, t_door_cast *cast)
 	cast->exact_max_y = cast->max_start_y;
 }
 
-void	new_doorcast(t_game *game, t_sprite *sprite)
-{
-	int			x;
-	int			y;
-	t_door 		*door;
-	t_door_cast	cast;
-	
-	door = (t_door *)sprite->data;
-	if (!door->visible)
-		return ;
-	setup_doorcast(game, door, &cast);
-	printf("door: start x %d end x %d, start y %d %d, end y %d %d\n",
-	cast.start_x, cast.end_x, cast.min_start_y, cast.max_start_y, cast.min_end_y, cast.max_end_y
-	
-	
-	);
-
-	
-
-	x = cast.start_x;
-	while (x < cast.end_x)
-	{
-		cast.this_min_y = (int)(cast.exact_min_y);
-		cast.this_max_y = (int)(cast.exact_max_y);
-		cast.exact_min_y += cast.delta_min_y;
-		cast.exact_max_y += cast.delta_max_y;
-		y = cast.this_min_y;
-		while (y < cast.this_max_y)
-		{
-			game->win.set_pixel(&game->win, x, y, 0);
-			y++;
-		}
-		x++;
-	}
-	door->start_x = -1;
-	door->visible = false;
-}
 
 void	doorcast(t_game *game, t_sprite *sprite)
 {

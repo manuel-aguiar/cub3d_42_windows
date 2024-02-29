@@ -22,8 +22,9 @@ void	sprite_calc_dist(t_game *game)
 		if (game->sorted[i]->status == GONE)
 			game->sorted[i]->dist = FLT_MAX;
 		else
-			game->sorted[i]->dist = fpow_2(game->player.map_posi.x - game->sorted[i]->posi.x) \
-								 + fpow_2(game->player.map_posi.y - game->sorted[i]->posi.y);
+			game->sorted[i]->dist \
+			= fpow_2(game->player.map_posi.x - game->sorted[i]->posi.x) \
+			+ fpow_2(game->player.map_posi.y - game->sorted[i]->posi.y);
 		i++;
 	}
 }
@@ -60,7 +61,6 @@ void    clean_hitmap(t_game *game)
 	int         i;
 	t_sprite    *sprite;
 
-	//ft_memset(&game->map.hit[0], 0, sizeof(t_hitlist) * game->map.len);
 	i = 0;
 	while (i < game->sprite_count)
 	{
@@ -77,15 +77,17 @@ void	sprite_place_hitmap(t_game *game, t_sprite *sprite)
 
 	if (sprite->type != ENEMY)
 		return ;
-	//map_index = (int)(sprite->posi.x) + (int)(sprite->posi.y) * game->map.width;
-	//hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[0]);
-	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x - sprite->unit_size) \
+		+ (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
 	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[0]);
-	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x + sprite->unit_size) \
+		+ (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
 	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[1]);
-	map_index = (int)(sprite->posi.x - sprite->unit_size) + (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x - sprite->unit_size) \
+		+ (int)(sprite->posi.y + sprite->unit_size) * game->map.width;
 	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[2]);
-	map_index = (int)(sprite->posi.x + sprite->unit_size) + (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
+	map_index = (int)(sprite->posi.x + sprite->unit_size) \
+		+ (int)(sprite->posi.y - sprite->unit_size) * game->map.width;
 	hitlist_in_head(&game->map.hit[map_index], &sprite->my_hit[3]);
 }
 
@@ -104,6 +106,5 @@ void    setup_hitmap(t_game *game)
 			sprite_place_hitmap(game, sprite);
 		i++;
 	}
-	printf("hitmap done\n");
 }
 

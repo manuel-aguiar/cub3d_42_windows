@@ -27,7 +27,8 @@ static void	swap(t_sprite **first, t_sprite **second)
 }
 
 
-static int	partition(t_sprite **sprites, int low, int high, int (*cmp)(t_sprite *, t_sprite *))
+static int	partition(t_sprite **sprites, int low, int high, \
+	int (*cmp)(t_sprite *, t_sprite *))
 {
 	t_sprite *pivot;
 	int		i;
@@ -50,7 +51,8 @@ static int	partition(t_sprite **sprites, int low, int high, int (*cmp)(t_sprite 
 	}
 }
 
-static void	qs_recursion(t_sprite **sprites, int low, int high, int (*cmp)(t_sprite * , t_sprite *))
+static void	qs_recursion(t_sprite **sprites, int low, int high, \
+	int (*cmp)(t_sprite * , t_sprite *))
 {
 	int			part;
 
@@ -62,7 +64,8 @@ static void	qs_recursion(t_sprite **sprites, int low, int high, int (*cmp)(t_spr
 	}
 }
 
-void	sprite_qs_distance(t_sprite **sprites, int sprite_count, int (*cmp)(t_sprite * , t_sprite *))
+void	sprite_qs_distance(t_sprite **sprites, int sprite_count, \
+	int (*cmp)(t_sprite * , t_sprite *))
 {
 	qs_recursion(sprites, 0, sprite_count - 1, cmp);
 }

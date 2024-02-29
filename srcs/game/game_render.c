@@ -98,7 +98,6 @@ void		update_door(t_game *game, t_sprite *sprite)
 								 + fpow_2(game->player.map_posi.y - door->base_position.y);
 	
 	door->state = DOOR_CLOSED;
-	dist = 3.0f;
 	if (dist < door->dist_sense)
 	{
 		if (door->orient == NS)
@@ -114,16 +113,9 @@ void		update_door(t_game *game, t_sprite *sprite)
 			sprite->posi.y = float_clamp(sprite->posi.y + door->move_sense * game->player.clock->elapsed, door->base_position.y - 1.0f, door->base_position.y);
 	}
 	if (door->orient == NS && door->base_position.x - sprite->posi.x == 1.0f)
-	{
 		door->state = DOOR_OPEN;
-	}
-	//printf("base y %.3f spirte y %.3f", door->base_position.y, sprite->posi.y)	;
 	if (door->orient == WE && door->base_position.y - sprite->posi.y == 1.0f)
-	{
 		door->state = DOOR_OPEN;
-		//printf("setting door open\n");
-	}
-	//printf("door remains closed\n");
 		
 } 
 
@@ -136,9 +128,6 @@ void	take_hit(t_game *game, t_sprite *sprite)
 	enemy = (t_enemy *)sprite->data;
 	enemy->health -= game->player.attack;
 }
-
-double get_z_coordinate(t_vec3d point, t_vec3d dir, t_vec2d coords);
-t_vec2d get_xy_coordinate(t_vec3d point, t_vec3d dir, float z);
 
 void		update_bullet(t_game *game, t_sprite *sprite)
 {
@@ -183,7 +172,7 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 		//);
 		if (liang_barsky_hit(box, check, collision))
 		{
-			z = get_z_coordinate(bullet->posi, bullet->dir, collision[0]);
+			z = vec3d_get_z_from_xy(bullet->posi, bullet->dir, collision[0]);
 			if (z >= target->cur_z && z <= target->cur_z + target->height)
 			{
 				sprite->status = GONE;
@@ -193,7 +182,7 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 				printf("hit!!\n");
 				return ;
 			}
-			z = get_z_coordinate(bullet->posi, bullet->dir, collision[1]);
+			z = vec3d_get_z_from_xy(bullet->posi, bullet->dir, collision[1]);
 			if (z >= target->cur_z && z <= target->cur_z + target->height)
 			{
 				sprite->status = GONE;
@@ -211,9 +200,6 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 		node = node->next;
 	}
 
-//replace with dot product of the diff and the direction, if positive, same, if negative, opposite
-	
-	//WRONG
 	t_vec3d sub = vec3d_sub(bullet->posi, bullet->hole);
 	float dot = sub.x * bullet->dir.x + sub.y * bullet->dir.y + sub.z * bullet->dir.z;
 
@@ -222,14 +208,6 @@ void		update_bullet(t_game *game, t_sprite *sprite)
 		sprite->status = GONE;
 		//printf("bullet gone\n");
 	}
-
-	//else
-	//{
-	//	printf("bullet %.3f %.3f %.3f, hole %.3f %.3f %.3f\n", bullet->posi.x, bullet->posi.y,bullet->posi.z,
-	//	bullet->hole.x, bullet->hole.y,bullet->hole.z
-	//	
-	//	);
-	//}
 }
 
 void		update_sprites(t_game *game)
@@ -243,7 +221,6 @@ void		update_sprites(t_game *game)
 	game->float_sin = sinf(game->floating);
 	if (game->floating > 2 * MY_PI)
 		game->floating -= 2 * MY_PI;
-	//count_gone = 0;
 	i = 0;
 	while (i < game->sprite_count)
 	{
@@ -262,10 +239,8 @@ void		update_sprites(t_game *game)
 			if (game->sorted[i]->status != GONE)
 				sprite_place_hitmap(game, game->sorted[i]);			
 		}
-
 		i++;
 	}
-	//game->sprite_count -= count_gone;
 }
 
 void		game_actions(t_game *game)
@@ -281,22 +256,15 @@ void		game_actions(t_game *game)
 	
 }
 
-void	dda_visible_and_wallcast(t_game *game);
-
 void		game_render(t_game *game)
 {
-	//t_pixel first = {300, 300, rgba(0, 0, 255, 255)};
-
-	//player_start_timers(&game->player);
-	//xpm_to_window(&game->win, game->tex[NO_TEX], first, game->tex[NO_TEX]->width, game->tex[NO_TEX]->height);
-	//printf("dda visible next\n");
 	if ((*(game->keys) >> BIT_PAUSE_T) & 0xff)
 		window_pause_manager(&game->win, PAUSE_ON, (*(game->keys) >> BIT_BLUR_T) & 1);
 	else if (game->win.blur.elapsed > 0)
 		window_pause_manager(&game->win, PAUSE_OFF, (*(game->keys) >> BIT_BLUR_T) & 1);
 	else
 	{
-		ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);
+		//ft_memset(game->win.front_buf, 0, game->win.height * game->win.width * game->win.rgb_size);
 		hori_raycasting(game);
 		floorcast(game);
 

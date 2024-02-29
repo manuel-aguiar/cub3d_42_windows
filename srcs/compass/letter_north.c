@@ -14,10 +14,14 @@
 
 void	init_template_north(t_compass *comp)
 {
-	comp->north[N_BOT_LEFT] = (t_pixel){-(comp->letter_width / 2 + 1), -(comp->letter_height / 2 + 1), comp->letter_color};
-	comp->north[N_BOT_RIGHT] = (t_pixel){+(comp->letter_width / 2 + 1), -(comp->letter_height / 2 + 1), comp->letter_color};
-	comp->north[N_TOP_LEFT] = (t_pixel){-(comp->letter_width / 2 + 1), +(comp->letter_height / 2 + 1), comp->letter_color};
-	comp->north[N_TOP_RIGHT] = (t_pixel){+(comp->letter_width / 2 + 1), +(comp->letter_height / 2 + 1), comp->letter_color};
+	comp->north[N_BOT_LEFT] = (t_pixel){-(comp->letter_width / 2 + 1), \
+		-(comp->letter_height / 2 + 1), comp->letter_color};
+	comp->north[N_BOT_RIGHT] = (t_pixel){+(comp->letter_width / 2 + 1), \
+		-(comp->letter_height / 2 + 1), comp->letter_color};
+	comp->north[N_TOP_LEFT] = (t_pixel){-(comp->letter_width / 2 + 1), \
+		+(comp->letter_height / 2 + 1), comp->letter_color};
+	comp->north[N_TOP_RIGHT] = (t_pixel){+(comp->letter_width / 2 + 1), \
+		+(comp->letter_height / 2 + 1), comp->letter_color};
 }
 
 void	render_north_letter(t_win *win, t_compass *comp)

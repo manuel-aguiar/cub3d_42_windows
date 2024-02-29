@@ -12,13 +12,6 @@
 
 # include "game.h"
 
-static inline float	float_ternary(bool cond, float yes, float no)
-{
-	if (cond)
-		return (yes);
-	return (no);
-}
-
 static inline void setup_hit_ray(t_game *game, t_ray *ray, t_vec2d dir)
 {
 	ray->start = game->player.map_posi;

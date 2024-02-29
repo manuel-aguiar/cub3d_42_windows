@@ -37,8 +37,6 @@ float inverse_gamma22_pow(float x)
 	return ((1.138f / sqrt(x) - 0.138f) * x);
 }
 
-
-
 int gamma_average(int start, int end, int num, int den)
 {
 	t_gamma_avg	g;

@@ -235,15 +235,12 @@ int		setup_sprites(t_game *game)
 	game->sprite_count = count;
 	if (!extract_sprites(game, map))
 		return (0);
-	printf("extracted tex\n");
 	if (!fill_with_bullets(game))
 		return (0);
 	game->sprite_count += game->max_bullets;
-	printf("filled with bullets\n");
 	game->sorted = malloc(sizeof(*game->sorted) * game->sprite_count);
 	if (!game->sorted)
 		return (perror_msg_int("malloc", 0));
 	fill_sorted_pointers(game);
-	printf("done\n");
 	return (1);
 }

@@ -12,13 +12,6 @@
 
 # include "game.h"
 
-static inline float	float_ternary(bool cond, float yes, float no)
-{
-	if (cond)
-		return (yes);
-	return (no);
-}
-
 static inline void setup_this_ray(t_ray *ray, int win_x)
 {
 	ray->cam_x = 2 * win_x / (float)ray->w - 1;
@@ -49,111 +42,6 @@ static inline void setup_common_ray(t_game *game, t_ray *ray)
 		game->player.walk_z_mod) * ray->h - ray->h / 2;
 }
 
-void	move_this_ray(t_ray *ray, float perc, float *wall_dist_place)
-{
-	if (ray->first.x < ray->first.y)
-	{
-		ray->player_sqr.x += ray->axis_move.x * perc;
-		ray->first.x += ray->step.x * perc;
-		ray->side = 0;
-		if (wall_dist_place)
-			*wall_dist_place = ray->first.x - ray->step.x;
-	}
-	else
-	{
-		ray->player_sqr.y += ray->axis_move.y * perc;
-		ray->first.y += ray->step.y * perc;
-		ray->side = 1;
-		if (wall_dist_place)
-			*wall_dist_place = ray->first.y - ray->step.y;
-	}
-}
-
-void	update_ray_door(t_game *game, t_ray *ray, int map_index, int x)
-{
-	t_door 		*door;
-	t_dda_hor	hori;
-	t_vec2d wall_hit;
-	float 		wallll;
-	t_ray		save;
-	float		hit;
-
-	save = *ray;
-	door = (t_door*)game->map.doors[map_index]->data;
-	move_this_ray(&save, 1.0f, NULL);
-	if (save.first.x < save.first.y)
-	{
-		hori.wall_dist = save.first.x - save.step.x;
-		wallll = game->player.map_posi.y + hori.wall_dist * save.ray_dir.y;
-		wall_hit.y = game->player.map_posi.y + hori.wall_dist * ray->ray_dir.y;
-		wall_hit.x = ray->player_sqr.x + (ray->player_sqr.x <= game->player.map_posi.x);
-		hit = ft_fabs((wallll - (int)(wallll)));
-	}
-		
-	else
-	{
-		hori.wall_dist = save.first.y - save.step.y;
-		wall_hit.x = game->player.map_posi.x + hori.wall_dist * ray->ray_dir.x;
-		wall_hit.y = ray->player_sqr.y + (ray->player_sqr.y <= game->player.map_posi.y);
-		wallll = game->player.map_posi.x + hori.wall_dist * save.ray_dir.x;
-		hit = ft_fabs((wallll - (int)(wallll)));
-	}
-	//printf("hit %.3f side %d wall hit x  %.3f y %.3f\n", hit, save.side, wall_hit.x, wall_hit.y);	
-	(void)hit;
-	(void)wall_hit;
-	if (save.side == ray->side)
-	{
-		save = *ray;
-		move_this_ray(&save, 0.5f, &hori.wall_dist);
-		hori.line_h = (int)((save.h / hori.wall_dist));
-		save.hgt_mod = save.pitch_mod - (int)(save.z_mod / hori.wall_dist);
-		hori.min_y = -hori.line_h / 2 + save.hgt_mod;
-		hori.max_y = hori.line_h / 2 + save.hgt_mod;
-		hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));
-		hori.reflect_num = int_clamp(-hori.reflect_den + (int)((game->max_vis_dist / game->player.cur_dir_len * game->player.base_dir_len) * 100), 0, (int)(hori.wall_dist * 100 * game->wall_reflection));
-		door->end = hori;
-		printf("x %d: min y %d max %d\n", x, door->end.min_y, door->end.max_y);
-		door->end_x = x;
-		door->wall_end = wallll;
-		if (door->start_x == -1)
-		{
-			door->start = door->end;
-			door->start_x = door->end_x;
-			door->wall_start = door->wall_end;
-		}
-		door->visible = true;	
-	}
-	else
-	{
-		if (save.first.x < save.first.y)
-		{
-			hori.wall_dist = save.first.x - save.step.x;
-			wallll = game->player.map_posi.y + hori.wall_dist * save.ray_dir.y;
-			if (wallll - (int)wallll < 0.5f)
-			{
-				printf("x %d there could be a pixel %.3f\n", x, wallll);
-			}
-			else
-				printf("x %d keep going to wall %.3f\n", x, wallll);
-		}
-			
-		else
-		{
-			hori.wall_dist = save.first.y - save.step.y;
-			wallll = game->player.map_posi.x + hori.wall_dist * save.ray_dir.x;
-			if (wallll - (int)wallll < 0.5f)
-			{
-				printf("x %d there could be a pixel %.3f\n", x, wallll);
-			}
-			else
-				printf("x %d keep going to wall  %.3f\n", x, wallll);
-		}
-	}
-	//else
-	//	printf("hit is %.3f, side %d\n", hit, save.side);
-}
-
-//static inline void cast_this_ray(t_game *game, t_ray *ray, int x)
 static inline void cast_this_ray(t_game *game, t_ray *ray)
 {
 	int map_index;
@@ -176,8 +64,6 @@ static inline void cast_this_ray(t_game *game, t_ray *ray)
 		+ (int)ray->player_sqr.y * game->map.width;
 		if (game->map.map[map_index] == MAP_WALL)
 			break ;
-		//else if (game->map.map[map_index] == MAP_DOOR)
-		//	update_ray_door(game, ray, map_index, x);
 	}
 }
 
@@ -204,7 +90,6 @@ void	hori_raycasting(t_game *game)
 		hori.max_y = hori.line_h / 2 + ray.hgt_mod;
 		hori.reflect_den = ft_abs((int)(hori.wall_dist * 100));
 		hori.reflect_num = int_clamp(-hori.reflect_den + (int)((game->max_vis_dist / game->player.cur_dir_len * game->player.base_dir_len) * 100), 0, (int)(hori.wall_dist * 100 * game->wall_reflection));
-		// multithread mutex here
 		game->maxmin_hori = ft_max(hori.min_y, game->maxmin_hori);
 		game->minmax_hori = ft_min(hori.max_y, game->minmax_hori);
 		game->hori_rays[x] = hori;

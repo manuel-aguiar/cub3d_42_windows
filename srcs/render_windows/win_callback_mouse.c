@@ -12,7 +12,8 @@
 
 # include "render_windows.h"
 
-void win_mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset) 
+void win_mouse_scroll_callback(GLFWwindow* window, \
+	double xoffset, double yoffset) 
 {
     (void)window;
 	(void)xoffset;
@@ -38,7 +39,8 @@ void    mouse_press(int keycode)
 		g_mouse.buttons |= (1 << BIT_SHOOT); 
 }
 
-void win_mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+void win_mouse_button_callback(GLFWwindow* window, int button, \
+	int action, int mods)
 {
     (void)mods;
 	(void)window;

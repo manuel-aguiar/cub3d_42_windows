@@ -12,13 +12,6 @@
 
 # include "game.h"
 
-static inline float	float_ternary(bool cond, float yes, float no)
-{
-	if (cond)
-		return (yes);
-	return (no);
-}
-
 static inline void setup_common_floor_line(t_game *game, t_floor_line *line)
 {
 	t_vec2d	dir;

@@ -12,21 +12,6 @@
 
 # include "game.h"
 
-
-static inline float	float_ternary(bool cond, float yes, float no)
-{
-	if (cond)
-		return (yes);
-	return (no);
-}
-
-static inline void *ptr_ternary(bool cond, void *yes, void *no)
-{
-	if (cond)
-		return (yes);
-	return (no);
-}
-
 static inline void	setup_wall_line(t_game *game, t_ray *ray, t_dda_hor *hori, t_wall_line *line)
 {
 	line->line_start = hori->min_y;

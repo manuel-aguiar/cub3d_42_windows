@@ -6,18 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 14:11:11 by marvin            #+#    #+#             */
-/*   Updated: 2024/02/29 13:22:55 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:38:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-static inline float	float_ternary(bool cond, float yes, float no)
-{
-	if (cond)
-		return (yes);
-	return (no);
-}
 
 static inline void setup_correction_ray(t_game *game, t_ray *ray)
 {
@@ -87,15 +80,7 @@ static t_vec2d get_wall_hit_vertical(t_game *game, t_ray *ray)
 	return (wall_hit);
 }
 
-t_vec3d	direction_vector(t_vec3d from, t_vec3d to)
-{
-	t_vec3d direction;
 
-	direction.x = to.x - from.x;
-	direction.y = to.y - from.y;
-	direction.z = to.z - from.z;
-	return (direction);
-}
 
 float	vertical_coefficient(t_game *game)
 {
@@ -107,8 +92,9 @@ float	vertical_coefficient(t_game *game)
 	t_vec3d		play_3d;
 	t_vec3d		wall_3d;
 	t_vec3d		diff;
-
-// game->player.pitch = (int)(game->player.cur_dir_len / game->player.base_dir_len * game->player.verti_tan * game->win.height / 2);
+	float 		times;
+	float 		dir_z;
+	float coefficient;
 
 	setup_correction_ray(game, &ray);
 	cast_this_ray(game, &ray);
@@ -119,21 +105,12 @@ float	vertical_coefficient(t_game *game)
 	hori.line_h = (int)((ray.h / hori.wall_dist));
 	new_pitch = hori.line_h / 2;
 	new_tan = new_pitch * 2 / (float)game->win.height * (float)game->player.base_dir_len / (float)game->player.cur_dir_len;
-	//printf("new_tan : %.3f  ", new_tan);
 	play_3d = (t_vec3d){game->player.map_posi.x, game->player.map_posi.y, (game->player.cur_z + game->player.jump_z_mod + \
 		game->player.walk_z_mod)};
 	wall_3d = (t_vec3d){wall_hit.x, wall_hit.y, 1};
 	diff = (t_vec3d){wall_3d.x - play_3d.x, wall_3d.y - play_3d.y, wall_3d.z - play_3d.z};
-	//printf("diff %.3f, %.3f , %.3f, player dir vec %.3f %.3f\n", diff.x, diff.y, diff.z, game->player.dir_vec.x, game->player.dir_vec.y);
-	float t;
-	if (game->player.dir_vec.x == 0)
-		t = diff.y / game->player.dir_vec.y;
-	else
-		t = diff.x / game->player.dir_vec.x;
-	//printf("t : %.3f  ", t);
-	float dir_z = diff.z / t;
-	//printf("dir_z : %.3f  ", dir_z);
-	float coefficient = dir_z / new_tan;
-	//printf("new coefficient %.3f\n", coefficient);
+	times = float_ternary(game->player.dir_vec.x == 0, diff.y / game->player.dir_vec.y, diff.x / game->player.dir_vec.x);
+	dir_z = diff.z / times;
+	coefficient = dir_z / new_tan;
 	return (coefficient);
 }
