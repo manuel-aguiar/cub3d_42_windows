@@ -33,15 +33,6 @@ used on defining character movement
 
 typedef struct s_player t_player;
 
-typedef enum 
-{
-	CLOCK_MOVE,
-	CLOCK_AIM,
-	CLOCK_JUMP,
-	CLOCK_CROUCH,
-	CLOCK_SIZE,
-}	e_clocks;
-
 enum e_controls
 {
 	CTR_CUR,
@@ -152,15 +143,14 @@ typedef struct s_player
 	float			crouch_radius;
 	float			prone_radius;
 
-	t_vec2d		(*move[16])(t_player *);
+	t_vec2d			(*move[16])(t_player *);
 
-	t_clock 		timer[CLOCK_SIZE];
+	t_clock 		*clock;
 }   t_player;
 
 
 void    player_setup(t_player *player);
 void	render_player(t_win *win, t_player *player);
-
 
 void	player_change_aim(t_player *player);
 void    player_change_stance(t_player *player);
@@ -168,17 +158,14 @@ void	player_jump_gravity(t_player *player);
 void	player_walk_height(t_player *player);
 void	player_rotate(t_player *player);
 
-void	player_get_timer(t_player *player, e_clocks timer);
-void	player_start_timers(t_player *player);
-
 t_vec2d	move_player_default(t_player *player);
-t_vec2d    move_player_back_left(t_player *player);
-t_vec2d    move_player_back_right(t_player *player);
-t_vec2d    move_player_for_left(t_player *player);
-t_vec2d    move_player_for_right(t_player *player);
-t_vec2d    move_player_left(t_player *player);
-t_vec2d    move_player_right(t_player *player);
-t_vec2d    move_player_backward(t_player *player);
-t_vec2d    move_player_forward(t_player *player);
+t_vec2d	move_player_back_left(t_player *player);
+t_vec2d	move_player_back_right(t_player *player);
+t_vec2d	move_player_for_left(t_player *player);
+t_vec2d	move_player_for_right(t_player *player);
+t_vec2d	move_player_left(t_player *player);
+t_vec2d	move_player_right(t_player *player);
+t_vec2d	move_player_backward(t_player *player);
+t_vec2d	move_player_forward(t_player *player);
 
 #endif

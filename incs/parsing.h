@@ -65,7 +65,6 @@ typedef	enum
 	ENEMY_TEX,
 	BULLET_TEX,
 	GUN_TEX,
-	EXIT_TEX,
 	DOOR_TEX,
 	NUM_TEX,
 }	e_textures;

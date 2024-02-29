@@ -19,10 +19,11 @@ GAME ITSELF
 		stance radians, random horizontal and vertical shots
 			horizontal moves plane
 			vertical moves pitch z
-		add a pitch z_mod for shots, like jumps but it overflows and jumping continues
 		place a z_mod cap
-	enemies must check collisions like the player as they move
 
+
+shot:
+	door collision
 
 enemy collisions:
     make enemy colide with player
@@ -32,20 +33,12 @@ enemy collisions:
 
 high enemies: make then spawn with rand() z height between the floor and celling - sprite-height
 
-compass:
-	print a couple of dda lines
-
 hud:
-	find a weapon
 	when zooming, scale the weapon but do not change weapon position
 	introduce weapon sway, do not rotate weapon, bad performance
 	weapon tex_regular, render line by line depending on position
 	weapon swing up and down and horizontally
 	use sinf calculated for walking
-
-enemies:
-        NOT ACTIVE until they see you, when they see, they save your position and moves towards it; every x milisecs they check again, if they see you, they update course, if not, keep moving to where you were
-       enemies cannot get any closer than player unit size + sprite-size, decrease the final position by that ammount so they don t get too close
 
 
 mlx:

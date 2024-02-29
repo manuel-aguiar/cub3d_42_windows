@@ -60,7 +60,9 @@ INC_FILES		=		game.h				\
 
 SRC_MAIN			=	main.c				\
 						game_settings.h		\
-						settings.c
+						settings.c			\
+						settings_template.c	\
+						settings_player.c
 
 SRC_GAME			=	win_render_loop.c		\
 						game_setup.c			\
@@ -81,7 +83,8 @@ SRC_GAME			=	win_render_loop.c		\
 
 SRC_PLAYER			=	player_setup_and_actions.c	\
 						player_aim.c				\
-						player_move.c				\
+						player_move_1.c				\
+						player_move_2.c				\
 						player_crouch_prone.c		\
 						player_walk_height.c		\
 						player_rotate.c				\
@@ -143,7 +146,9 @@ SRC_PIXEL_POINT		=	gamma_correction.c				\
 						pixels.c						\
 						translate_rotate.c
 
-SRC_RAYCASTING		=	vector.c					\
+SRC_RAYCASTING		=	vec2d_utils1.c					\
+						vec2d_utils2.c					\
+						vec3d_utils1.c					\
 						raycasting.c				\
 						wallcast.c					\
 						floorcast.c					\

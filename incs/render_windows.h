@@ -49,23 +49,23 @@ typedef struct s_clock
 
 typedef struct s_pause_blur
 {
-	float	kernel[31];
-	int		save_pixels[31];
-	int		kernel_size;
-	int		kernel_centre;
-	int		max_kernel;
-	int		cur_sigma;
-	int		min_sigma;
-	int		max_sigma;
-	int		pause_time;
-	t_clock	clock;
-	long int		elapsed;
-	char	*first;
-	char	*second;
-	char	*save_front;
-	int		rgb_size;
-	int		height;
-	int		width;
+	float		kernel[31];
+	int			save_pixels[31];
+	int			kernel_size;
+	int			kernel_centre;
+	int			max_kernel;
+	int			cur_sigma;
+	int			min_sigma;
+	int			max_sigma;
+	int			pause_time;
+	t_clock		clock;
+	long int	elapsed;
+	char		*first;
+	char		*second;
+	char		*save_front;
+	int			rgb_size;
+	int			height;
+	int			width;
 }	t_pause_blur;
 
 typedef enum
@@ -82,7 +82,6 @@ struct s_win
 	int				height;
 	int				rgb_size;
 	char			name[6];
-	t_clock			fps;
 	t_pause_blur	blur;
 	void			(*set_pixel)(t_win *win, int x, int y, int color);
 	int				(*get_pixel)(t_win *win, int x, int y);
@@ -118,6 +117,7 @@ void    fps_calc_print(t_fps_counter *fps);
 
 void	window_pause_manager(t_win *win, e_pause_state state, bool blur_on);
 
-
+void	start_clock(t_clock *clock);
+void	update_clock(t_clock *clock);
 
 #endif

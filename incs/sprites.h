@@ -49,7 +49,6 @@ typedef enum
 	MEDIKIT,
 	AMMOKIT,
 	ENEMY,
-	EXIT,
 	DOOR,
 	BULLET,
 }	e_sprite_type;

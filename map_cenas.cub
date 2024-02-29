@@ -10,9 +10,8 @@ MEDI ./cenas
 AMMO ./tretas
 ENEMY ./coisas
 BULLET ./bro
-GUN ./ya
+GUN ./yas
 DOOR ./tretas
-EXIT ./cenas
 
         1111111111111111111111111
         1000000000110MMM00Z000001

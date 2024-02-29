@@ -82,14 +82,14 @@ typedef struct s_ray
 	int			w;
 	int			h;
 	float 		cam_x;
-	t_vec2d	dir_vec;
-	t_vec2d	plane;
-	t_vec2d	player_sqr;
-	t_vec2d	start;
-	t_vec2d	first;
-	t_vec2d	step;
-	t_vec2d	axis_move;
-	t_vec2d	ray_dir;
+	t_vec2d		dir_vec;
+	t_vec2d		plane;
+	t_vec2d		player_sqr;
+	t_vec2d		start;
+	t_vec2d		first;
+	t_vec2d		step;
+	t_vec2d		axis_move;
+	t_vec2d		ray_dir;
 	int			side;
 	int			pitch_mod;
 	float		z_mod;
@@ -153,15 +153,14 @@ typedef struct s_game
 	float		floating;
 	float		float_sense;
 	float		float_sin;
-	float		view_adj;
 	int			max_bullets;
 	int			live_bullets;
 	t_door		template_door;
 	t_medi		template_medi;
 	t_ammo		template_ammo;
-	t_exit		template_exit;
 	t_enemy		template_enemy;
 	t_bullet	template_bullet;
+	t_clock		clock;
 }	t_game;
 
 //settings.c
