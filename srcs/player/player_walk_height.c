@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "player.h"
+#include "player.h"
 
 void	player_walk_height(t_player *player)
 {
-	float speed;
+	float	speed;
 	float	radius;
 
 	if ((player->is_walking && player->hgt_state != HGT_JUMP))
@@ -29,7 +29,7 @@ void	player_walk_height(t_player *player)
 			radius = player->crouch_radius;
 		if (player->hgt_state == HGT_PRONE)
 			radius = player->prone_radius;
-		player->walk_z_mod = - sinf(player->cur_walk_sense) \
+		player->walk_z_mod = -sinf(player->cur_walk_sense) \
 			/ (speed) * radius;
 		if (player->cur_walk_sense > 2 * MY_PI)
 		{
@@ -40,9 +40,11 @@ void	player_walk_height(t_player *player)
 	else
 	{
 		if (player->walk_z_mod > 0)
-			player->walk_z_mod = float_clamp(player->walk_z_mod - 0.0005f * player->clock->elapsed, 0,  player->walk_z_mod);
+			player->walk_z_mod = float_clamp(player->walk_z_mod \
+			- 0.0005f * player->clock->elapsed, 0, player->walk_z_mod);
 		else if (player->walk_z_mod < 0)
-			player->walk_z_mod = float_clamp(player->walk_z_mod + 0.0005f * player->clock->elapsed, player->walk_z_mod, 0);
+			player->walk_z_mod = float_clamp(player->walk_z_mod \
+			+ 0.0005f * player->clock->elapsed, player->walk_z_mod, 0);
 		player->cur_walk_sense = 0;
 	}
 }

@@ -10,24 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "player.h"
+#include "player.h"
 
-void    player_change_stance(t_player *player)
+void	player_change_stance(t_player *player)
 {
-    float target;
-    int   up_down;
+	float	target;
+	int		up_down;
 
-    target = player->stance_z[HGT_NORMAL];
-    if (player->hgt_state == HGT_PRONE)
-        target = player->stance_z[HGT_PRONE];
-    if (player->hgt_state == HGT_CROUCH)
-        target = player->stance_z[HGT_CROUCH];
-    if (player->cur_z >= target)
-        up_down = -1;
-    else
-        up_down = 1;
-    player->cur_z += up_down * player->hgt_sense * player->clock->elapsed;
-    if ((up_down == -1 && player->cur_z <= target) \
-    || (up_down == 1 && player->cur_z >= target))
-        player->cur_z = target;
+	target = player->stance_z[HGT_NORMAL];
+	if (player->hgt_state == HGT_PRONE)
+		target = player->stance_z[HGT_PRONE];
+	if (player->hgt_state == HGT_CROUCH)
+		target = player->stance_z[HGT_CROUCH];
+	if (player->cur_z >= target)
+		up_down = -1;
+	else
+		up_down = 1;
+	player->cur_z += up_down * player->hgt_sense * player->clock->elapsed;
+	if ((up_down == -1 && player->cur_z <= target) \
+	|| (up_down == 1 && player->cur_z >= target))
+		player->cur_z = target;
 }

@@ -12,7 +12,7 @@
 
 #include "game.h"
 
-t_vec2d    move_player_left(t_player *player)
+t_vec2d	move_player_left(t_player *player)
 {
 	float	speed;
 
@@ -22,7 +22,7 @@ t_vec2d    move_player_left(t_player *player)
 		+ player->dir_vec.x}, speed));
 }
 
-t_vec2d    move_player_right(t_player *player)
+t_vec2d	move_player_right(t_player *player)
 {
 	float	speed;
 
@@ -32,16 +32,15 @@ t_vec2d    move_player_right(t_player *player)
 		- player->dir_vec.x}, speed));
 }
 
-
-t_vec2d    move_player_backward(t_player *player)
+t_vec2d	move_player_backward(t_player *player)
 {
 	return (vec2d_multi(vec2d_multi(player->dir_vec, player->back_move \
 		* player->cur_move_multi * player->clock->elapsed), -1));
 }
 
-t_vec2d    move_player_forward(t_player *player)
+t_vec2d	move_player_forward(t_player *player)
 {
-	float speed;
+	float	speed;
 
 	speed = player->forward_move * player->cur_move_multi;
 	if (player->is_sprinting \
@@ -51,8 +50,7 @@ t_vec2d    move_player_forward(t_player *player)
 		* player->clock->elapsed));
 }
 
-
-void    move_player(t_game *game, int keys)
+void	move_player(t_game *game, int keys)
 {
 	t_player	*player;
 	t_vec2d		potential;
@@ -61,7 +59,7 @@ void    move_player(t_game *game, int keys)
 	player->cur_move_multi = player->move_multi[player->hgt_state];
 	if (player->is_aiming)
 		player->cur_move_multi *= player->aim_move_multi;
-	if (!keys || keys ==3 || keys == 12 || keys == 15)
+	if (!keys || keys == 3 || keys == 12 || keys == 15)
 	{
 		player->is_walking = false;
 		return ;

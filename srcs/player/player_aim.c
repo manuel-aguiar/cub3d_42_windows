@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "player.h"
+#include "player.h"
 
-// player aim changes the length of the direction vector
-// must also slow movement speed and move rotation sensibilities
-// all parameters can be arrays of floats, cur / min / max
+/*
+	player aim changes the length of the direction vector
+	must also slow movement speed and move rotation sensibilities
+	all parameters can be arrays of floats, cur / min / max
+*/
 
 void	player_change_aim(t_player *player)
 {

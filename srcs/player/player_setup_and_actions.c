@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "game.h"
+#include "game.h"
 
-void    player_setup(t_player *player)
+void	player_setup(t_player *player)
 {
 	player->is_aiming = false;
 	player->is_sprinting = false;
@@ -39,7 +39,7 @@ void    player_setup(t_player *player)
 
 void	player_actions(t_game *game)
 {
-	t_player *player;
+	t_player	*player;
 
 	player = &game->player;
 	player_change_aim(player);

@@ -15,10 +15,10 @@
 t_vec2d	move_player_default(t_player *player)
 {
 	(void)player;
-	return((t_vec2d){0, 0});
+	return ((t_vec2d){0, 0});
 }
 
-t_vec2d    move_player_back_left(t_player *player)
+t_vec2d	move_player_back_left(t_player *player)
 {
 	t_vec2d	diagonal;
 	float	speed;
@@ -29,10 +29,10 @@ t_vec2d    move_player_back_left(t_player *player)
 		* player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
 	diagonal.y = -1 * (P_SQRT_OF_TWO_OVER_TWO \
 		* player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
-	return(vec2d_multi(vec2d_swap_coords(diagonal), speed));
+	return (vec2d_multi(vec2d_swap_coords(diagonal), speed));
 }
 
-t_vec2d    move_player_back_right(t_player *player)
+t_vec2d	move_player_back_right(t_player *player)
 {
 	t_vec2d	diagonal;
 	float	speed;
@@ -43,11 +43,10 @@ t_vec2d    move_player_back_right(t_player *player)
 		* player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
 	diagonal.y = 1 * (P_SQRT_OF_TWO_OVER_TWO \
 		* player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
-
-	return(vec2d_multi(vec2d_swap_coords(diagonal), speed));
+	return (vec2d_multi(vec2d_swap_coords(diagonal), speed));
 }
 
-t_vec2d    move_player_for_left(t_player *player)
+t_vec2d	move_player_for_left(t_player *player)
 {
 	t_vec2d	diagonal;
 	float	speed;
@@ -58,10 +57,10 @@ t_vec2d    move_player_for_left(t_player *player)
 		* player->cos_rad + P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
 	diagonal.y = -1 * (P_SQRT_OF_TWO_OVER_TWO \
 		* player->sin_rad - P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
-	return(vec2d_multi(vec2d_swap_coords(diagonal), speed));
+	return (vec2d_multi(vec2d_swap_coords(diagonal), speed));
 }
 
-t_vec2d    move_player_for_right(t_player *player)
+t_vec2d	move_player_for_right(t_player *player)
 {
 	t_vec2d	diagonal;
 	float	speed;
@@ -72,5 +71,5 @@ t_vec2d    move_player_for_right(t_player *player)
 		* player->cos_rad - P_SQRT_OF_TWO_OVER_TWO * player->sin_rad);
 	diagonal.y = 1 * (P_SQRT_OF_TWO_OVER_TWO \
 		* player->sin_rad + P_SQRT_OF_TWO_OVER_TWO * player->cos_rad);
-	return(vec2d_multi(vec2d_swap_coords(diagonal), speed));
+	return (vec2d_multi(vec2d_swap_coords(diagonal), speed));
 }
