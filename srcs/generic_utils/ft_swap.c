@@ -14,7 +14,7 @@
 
 void	int_swap(int *first, int *second)
 {
-	int swap;
+	int	swap;
 
 	swap = *first;
 	*first = *second;
@@ -23,7 +23,7 @@ void	int_swap(int *first, int *second)
 
 void	float_swap(float *first, float *second)
 {
-	float swap;
+	float	swap;
 
 	swap = *first;
 	*first = *second;

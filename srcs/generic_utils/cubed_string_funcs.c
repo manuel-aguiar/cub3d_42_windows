@@ -12,9 +12,9 @@
 
 #include "generic_utils.h"
 
-int		char_in_charset(char c, char *charset)
+int	char_in_charset(char c, char *charset)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (charset[i])
@@ -28,7 +28,7 @@ int		char_in_charset(char c, char *charset)
 
 int	is_only_spaces(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ft_isspace(str[i]))
