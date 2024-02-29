@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "parsing.h"
+#include "parsing.h"
 
 static int	color_atoi(char *str, int *place_res)
 {
-	int res;
+	int	res;
+
 	if (!ft_isdigit(*str))
 		return (0);
 	res = 0;
@@ -26,11 +27,11 @@ static int	color_atoi(char *str, int *place_res)
 	}
 	if (*str)
 		return (0);
-	*place_res = res;	
+	*place_res = res;
 	return (1);
 }
 
-static int		extract_color(t_tex	*tex)
+static int	extract_color(t_tex	*tex)
 {
 	char	**split;
 	int		count;
@@ -55,9 +56,9 @@ static int		extract_color(t_tex	*tex)
 	return (1);
 }
 
-int		analise_textures(t_parsing *parsing)
+int	analise_textures(t_parsing *parsing)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < NUM_TEX)

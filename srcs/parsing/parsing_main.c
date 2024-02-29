@@ -22,11 +22,11 @@ static inline bool	char_is_player(char c)
 	return (false);
 }
 
-static int		validate_map_chars(t_parsing *parsing)
+static int	validate_map_chars(t_parsing *parsing)
 {
 	int		i;
-	int 	len;
-	bool 	is_player;
+	int		len;
+	bool	is_player;
 
 	len = parsing->map_height * parsing->map_width;
 	i = 0;
@@ -49,9 +49,10 @@ static int		validate_map_chars(t_parsing *parsing)
 	return (1);
 }
 
-static int		dump_parsing_to_map(t_map *map, t_parsing *parsing)
+static int	dump_parsing_to_map(t_map *map, t_parsing *parsing)
 {
-	int i;
+	int	i;
+
 	*map = (t_map){};
 	map->map = parsing->map;
 	map->height = parsing->map_height;
@@ -65,10 +66,10 @@ static int		dump_parsing_to_map(t_map *map, t_parsing *parsing)
 	map->len = map->width * map->height;
 	map->hit = ft_calloc(map->len, sizeof(*map->hit));
 	if (!map->hit)
-		return (perror_msg_int("malloc",0));
+		return (perror_msg_int("malloc", 0));
 	map->doors = ft_calloc(map->len, sizeof(*map->doors));
 	if (!map->doors)
-		return (perror_msg_int("malloc",0));
+		return (perror_msg_int("malloc", 0));
 	return (1);
 }
 
@@ -93,6 +94,3 @@ int	map_parsing(t_map *map, char *av_file)
 	vdmlist_destroy(&parsing.list, free_gnl_len);
 	return (1);
 }
-
-
-

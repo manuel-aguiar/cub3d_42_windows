@@ -12,8 +12,8 @@
 
 #include "drawing_algos.h"
 
-
-static void	lb_safety(t_pixel low_bot, t_pixel hi_top, t_pixel *start, t_pixel *end)
+static void	lb_safety(t_pixel low_bot, t_pixel hi_top, \
+	t_pixel *start, t_pixel *end)
 {
 	if (start->x > hi_top.x - 1)
 		start->x = hi_top.x - 1;
@@ -71,7 +71,8 @@ static void	lb_ratios2(t_lbclip *lb)
 	}
 }
 
-static int	lb_setup(t_pixel low_bot, t_pixel hi_top, t_lbclip *lb, t_pixel *start, t_pixel *end)
+static int	lb_setup(t_pixel low_bot, t_pixel hi_top, \
+	t_lbclip *lb, t_pixel *start, t_pixel *end)
 {
 	lb->p1 = -(end->x - start->x);
 	lb->p2 = -lb->p1;
@@ -91,7 +92,8 @@ static int	lb_setup(t_pixel low_bot, t_pixel hi_top, t_lbclip *lb, t_pixel *star
 	return (1);
 }
 
-int	liang_barsky_clipper(t_pixel low_bot, t_pixel hi_top, t_pixel start, t_pixel end, t_pixel new[])
+int	liang_barsky_clipper(t_pixel low_bot, t_pixel hi_top, \
+	t_pixel start, t_pixel end, t_pixel new[])
 {
 	t_lbclip	lb;
 

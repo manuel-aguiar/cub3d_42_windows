@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "parsing.h"
-# include "pixel_point.h"
+#include "parsing.h"
+#include "pixel_point.h"
 
 void	print_tex_data(t_parsing *parsing)
 {
 	int	i;
-	int color;
+	int	color;
 
 	i = 0;
 	while (i < NUM_TEX)
@@ -29,12 +29,12 @@ void	print_tex_data(t_parsing *parsing)
 			printf("(%d, %d, %d)\n", rgb_r(color), rgb_g(color), rgb_b(color));
 		}
 		i++;
-	}	
+	}
 }
 
 void	gnl_len_print_line(void	*str)
 {
-	t_gnl_len *new;
+	t_gnl_len	*new;
 
 	new = (t_gnl_len *)str;
 	if (new->line)
@@ -43,8 +43,8 @@ void	gnl_len_print_line(void	*str)
 
 void	print_map(t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = map->len - map->width;
 	while (i >= 0)
@@ -63,8 +63,8 @@ void	print_map(t_map *map)
 
 void	print_flood_fill(char *map, int height, int width)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = height * width - width;
 	while (i >= 0)
@@ -80,5 +80,3 @@ void	print_flood_fill(char *map, int height, int width)
 	}
 	printf("\n");
 }
-
-

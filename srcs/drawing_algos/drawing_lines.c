@@ -25,7 +25,7 @@ void	draw_vertical_line(t_win *win, int start_y, int end_y, int x, int color)
 }
 
 static inline void
-bersenham_line_setup(t_bh_line *bh, t_pixel start, t_pixel end)
+	bersenham_line_setup(t_bh_line *bh, t_pixel start, t_pixel end)
 {
 	bh->x1 = start.x;
 	bh->y1 = start.y;
@@ -38,7 +38,7 @@ bersenham_line_setup(t_bh_line *bh, t_pixel start, t_pixel end)
 	bh->err = bh->dx - bh->dy;
 }
 
-void bersenham_line(t_win *win, t_pixel start, t_pixel end, int color)
+void	bersenham_line(t_win *win, t_pixel start, t_pixel end, int color)
 {
 	t_bh_line	bh;
 
@@ -47,7 +47,7 @@ void bersenham_line(t_win *win, t_pixel start, t_pixel end, int color)
 	{
 		win->set_pixel(win, bh.x1, bh.y1, color);
 		if (bh.x1 == bh.x2 && bh.y1 == bh.y2)
-			break;
+			break ;
 		bh.err_2 = 2 * bh.err;
 		if (bh.err_2 > -bh.dy)
 		{

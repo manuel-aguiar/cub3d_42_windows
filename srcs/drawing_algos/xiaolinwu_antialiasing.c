@@ -12,10 +12,10 @@
 
 #include "drawing_algos.h"
 
-int gamma_average(int start, int end, int num, int den);
-
-extern int	xiaolin_x_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data);
-extern int	xiaolin_y_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data);
+extern int	xiaolin_x_major(t_win *win, t_pixel *start, \
+	t_pixel *end, t_xldata *data);
+extern int	xiaolin_y_major(t_win *win, t_pixel *start, \
+	t_pixel *end, t_xldata *data);
 
 static int	xiaolin_diagonal(t_win *win, t_pixel *start, \
 t_pixel *end, t_xldata *data)

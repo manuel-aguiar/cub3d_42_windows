@@ -12,12 +12,12 @@
 
 #include "parsing.h"
 
-int		map_row(t_map *map, int index)
+int	map_row(t_map *map, int index)
 {
 	return (index / map->width);
-}	
+}
 
-int		map_col(t_map *map, int index)
+int	map_col(t_map *map, int index)
 {
 	return (index % map->width);
 }
@@ -25,6 +25,7 @@ int		map_col(t_map *map, int index)
 void	free_map(t_map *map)
 {
 	int	i;
+
 	if (map->map)
 		free(map->map);
 	if (map->hit)

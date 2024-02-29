@@ -14,7 +14,7 @@
 
 void	flood_fill(t_parsing *parse, int row, int col, char caller)
 {
-	char 	me;
+	char	me;
 	bool	within_bounds;
 
 	within_bounds = (row >= 0 && row < parse->map_height \
@@ -28,7 +28,7 @@ void	flood_fill(t_parsing *parse, int row, int col, char caller)
 		parse->ff_found = true;
 		return ;
 	}
-	if(!within_bounds || me == MAP_EMPTY)
+	if (!within_bounds || me == MAP_EMPTY)
 		return ;
 	parse->map_copy[row * parse->map_width + col] = FLOOD_CHAR;
 	flood_fill(parse, row - 1, col - 1, me);
@@ -41,7 +41,7 @@ void	flood_fill(t_parsing *parse, int row, int col, char caller)
 	flood_fill(parse, row + 1, col + 1, me);
 }
 
-int		flood_count_island(t_parsing *parse)
+int	flood_count_island(t_parsing *parse)
 {
 	int	i;
 
@@ -60,7 +60,6 @@ int		flood_count_island(t_parsing *parse)
 		free(parse->map_copy);
 		return (error_msg_int("cub3d: bad map: not surrounded by walls\n", STDERR_FILENO, 0));
 	}
-	//print_flood_fill(parse->map_copy, parse->map_height, parse->map_width);
 	if (parse->ff_found == true)
 	{
 		free(parse->map_copy);

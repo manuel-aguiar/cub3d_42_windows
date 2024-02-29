@@ -12,8 +12,6 @@
 
 #include "drawing_algos.h"
 
-int gamma_average(int start, int end, int num, int den);
-
 int	xiaolin_x_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data)
 {
 	data->err_adj = ((t_ulong)data->dy << 16) / (t_ulong)data->dx;
@@ -27,11 +25,13 @@ int	xiaolin_x_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data)
 		start->x += data->slope;
 		data->colour = avg_colour(start->colour, end->colour, \
 					data->dx, data->save);
-		win->set_pixel(win, start->x, start->y, gamma_average(win->get_pixel(win, start->x, \
-					start->y), data->colour, data->err_acc, USHRT_MAX));
-		win->set_pixel(win, start->x, start->y + 1, gamma_average(win->get_pixel(win, \
-					start->x, start->y + 1), data->colour, USHRT_MAX \
-					- data->err_acc, USHRT_MAX));
+		win->set_pixel(win, start->x, start->y, \
+			gamma_average(win->get_pixel(win, start->x, \
+			start->y), data->colour, data->err_acc, USHRT_MAX));
+		win->set_pixel(win, start->x, start->y + 1, \
+			gamma_average(win->get_pixel(win, \
+			start->x, start->y + 1), data->colour, USHRT_MAX \
+			- data->err_acc, USHRT_MAX));
 	}
 	win->set_pixel(win, end->x, end->y, end->colour);
 	return (1);
@@ -50,8 +50,9 @@ int	xiaolin_y_major(t_win *win, t_pixel *start, t_pixel *end, t_xldata *data)
 		start->y++;
 		data->colour = avg_colour(start->colour, end->colour, \
 					data->dy, data->save);
-		win->set_pixel(win, start->x, start->y, gamma_average(win->get_pixel(win, start->x, \
-					start->y), data->colour, data->err_acc, USHRT_MAX));
+		win->set_pixel(win, start->x, start->y, \
+			gamma_average(win->get_pixel(win, start->x, \
+			start->y), data->colour, data->err_acc, USHRT_MAX));
 		win->set_pixel(win, start->x + data->slope, start->y, gamma_average \
 					(win->get_pixel(win, start->x + data->slope, start->y), \
 					data->colour, USHRT_MAX - data->err_acc, USHRT_MAX));

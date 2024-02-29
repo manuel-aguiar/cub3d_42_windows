@@ -28,7 +28,7 @@ static inline int	open_file_prep_parsing(t_parsing *parsing)
 	return (1);
 }
 
-int file_to_list(t_parsing *parsing)
+int	file_to_list(t_parsing *parsing)
 {
 	if (!open_file_prep_parsing(parsing))
 		return (0);

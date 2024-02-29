@@ -12,8 +12,8 @@
 
 #include "parsing.h"
 
-static int trim_end_space(t_parsing *parsing, t_gnl_len *gnl)
-{	
+static int	trim_end_space(t_parsing *parsing, t_gnl_len *gnl)
+{
 	int		len;
 	char	*str;
 
@@ -26,11 +26,12 @@ static int trim_end_space(t_parsing *parsing, t_gnl_len *gnl)
 	if (!len)
 		return (0);
 	gnl->len = len;
-	parsing->map_width += (len - parsing->map_width) * (len > parsing->map_width);
+	parsing->map_width += (len - parsing->map_width) \
+		* (len > parsing->map_width);
 	return (1);
 }
 
-static inline t_vdmnode *iterate_remove_empty(t_parsing *parsing, \
+static inline t_vdmnode	*iterate_remove_empty(t_parsing *parsing, \
 	t_vdmnode *node)
 {
 	t_vdmnode	*save;
@@ -56,7 +57,8 @@ int	get_map_dimensions(t_parsing *parsing)
 		node = node->next;
 	node = iterate_remove_empty(parsing, node);
 	if (node)
-		return (error_msg_int("cub3d: file must end on map\n", STDERR_FILENO, 0));
+		return (error_msg_int("cub3d: file must end on map\n", \
+			STDERR_FILENO, 0));
 	parsing->map_height = parsing->list->len;
 	return (1);
 }
