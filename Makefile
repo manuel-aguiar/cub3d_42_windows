@@ -73,11 +73,14 @@ SRC_GAME			=	win_render_loop.c		\
 						game_rotate.c			\
 						game_render.c			\
 						render_inside_compass.c		\
-						map_player_collisions.c		\
+						handle_collisions.c		\
 						xpm_to_window.c				\
 						game_render_hud.c			\
-						enemy_movement.c			\
-						bullet_rest.c
+						bullet_rest.c				\
+						update_medi_ammo.c			\
+						update_enemy_move.c			\
+						update_bullet.c				\
+						update_door.c
 						
 
 SRC_PLAYER			=	player_setup_and_actions.c	\
@@ -88,7 +91,6 @@ SRC_PLAYER			=	player_setup_and_actions.c	\
 						player_walk_height.c		\
 						player_rotate.c				\
 						player_jump.c				\
-						player_timer.c
 
 SRC_PARSING			=	parsing_main.c						\
 						parsing_textures_get.c				\
@@ -123,6 +125,7 @@ SRC_REN_WIN			=	win_init_window.c		\
 						win_pixels.c			\
 						win_callback_keys.c		\
 						win_callback_mouse.c	\
+						win_clock.c				\
 						win_pause_blur_1.c		\
 						win_pause_blur_2.c	
 
@@ -158,10 +161,10 @@ SRC_RAYCASTING		=	vec2d_utils1.c					\
 						doorcast.c					\
 						shader.c
 
-SRC_SPRITES			=	sprites.c					\
+SRC_SPRITES			=	sprite_setup.c				\
 						sprite_quicksort.c			\
 						sprites_hitmap.c			\
-						shot_raycasting.c			\
+						sprites_extract.c			\
 						vertical_correction.c
 
 SRC_HIT_DETECTION	=	lb_hit.c					\
